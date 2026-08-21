@@ -19,9 +19,11 @@ install OpenCascade to parse a JSON file.
 
 from irinspec.assertions import (
     Assertion,
+    BoltCircle,
     Bounds,
     ClashCount,
     Distance,
+    HoleCount,
     EdgeCount,
     FaceCount,
     NoInterference,
@@ -38,9 +40,11 @@ from irinspec.tolerance import Tolerance
 
 __all__ = [
     "Assertion",
+    "BoltCircle",
     "Bounds",
     "ClashCount",
     "Distance",
+    "HoleCount",
     "EdgeCount",
     "FaceCount",
     "NoInterference",

@@ -15,11 +15,14 @@ inspection once rather than once per assertion:
     facts       ->  inspect refs --facts
     interfere   ->  inspect interfere
     measure     ->  inspect measure
+    features    ->  inspect features
 
-Not yet expressible, and intentionally absent until the measurement exists:
-hole count and diameter, bolt-circle geometry, fillet and chamfer presence,
-wall thickness, and feature-level identity in general. Those need feature
-recognition over the B-rep, which is real work, not a schema entry.
+Hole count, hole size and bolt-circle geometry became expressible once
+``irincad.features`` could recognise cylindrical features, which is what that
+paragraph used to say was missing.
+
+Still absent, for the same reason as before: fillet and chamfer presence, wall
+thickness, and feature-level identity in general.
 """
 
 from __future__ import annotations
@@ -366,6 +369,140 @@ class ClashCount(Assertion):
 
 
 @dataclass(frozen=True)
+class HoleCount(Assertion):
+    """How many holes there are, optionally of one size and one kind.
+
+    This is the assertion most engineering prompts are actually made of. "Four
+    8 mm through-holes" is checkable as ``value=4, diameter=8.0, through=True``,
+    and until this existed a spec for that part could only check its outline.
+
+    The filters narrow which holes count rather than adding separate claims, so
+    "four 8 mm holes and two 5 mm holes" is two assertions that each say
+    something exact, instead of one that says six holes and means nothing about
+    their sizes.
+    """
+
+    kind: ClassVar[str] = "hole_count"
+    source: ClassVar[str] = "features"
+
+    value: int = 0
+    #: Restrict the count to holes of this diameter. None counts every hole.
+    diameter: float | None = None
+    tolerance: Tolerance = field(default_factory=lambda: Tolerance.symmetric(0.05))
+    #: Restrict to through holes (True) or blind ones (False). None counts both.
+    through: bool | None = None
+
+    def __post_init__(self) -> None:
+        if self.diameter is not None and self.diameter <= 0:
+            raise SpecError(f"hole_count.diameter: must be positive, got {self.diameter}")
+
+    def to_dict(self) -> dict[str, Any]:
+        out: dict[str, Any] = {"kind": self.kind, "value": self.value}
+        if self.diameter is not None:
+            out["diameter"] = self.diameter
+            out["tolerance"] = self.tolerance.to_dict()
+        if self.through is not None:
+            out["through"] = self.through
+        return out
+
+    def describe(self) -> str:
+        bits = f"exactly {self.value} hole{'' if self.value == 1 else 's'}"
+        if self.diameter is not None:
+            bits += f" of {self.diameter:g} mm"
+        if self.through is True:
+            bits += ", through"
+        elif self.through is False:
+            bits += ", blind"
+        return bits
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any], path: str) -> "HoleCount":
+        if "value" not in data:
+            raise SpecError(f"{path}.value: required for hole_count")
+        through = data.get("through")
+        if through is not None:
+            through = _require_bool(through, f"{path}.through")
+        diameter = data.get("diameter")
+        return cls(
+            value=_require_positive_int(data["value"], f"{path}.value"),
+            diameter=None if diameter is None else _require_number(diameter, f"{path}.diameter"),
+            tolerance=Tolerance.from_value(data.get("tolerance", 0.05), path=f"{path}.tolerance"),
+            through=through,
+        )
+
+
+@dataclass(frozen=True)
+class BoltCircle(Assertion):
+    """Holes of one size, evenly spaced on a circle of a given diameter.
+
+    The canonical mechanical interface, and the reason a flange drawing is one
+    line of text. Checking it needs three facts together: the pitch circle
+    diameter, how many holes sit on it, and that they are evenly spaced.
+
+    Even spacing is not decoration. Four holes at the corners of a rectangle are
+    all equidistant from its centre, so a circle fits them perfectly and calling
+    that a bolt circle would be a confident wrong answer. An assertion of this
+    kind is satisfied only by a pattern the inspection reports as uniform.
+    """
+
+    kind: ClassVar[str] = "bolt_circle"
+    source: ClassVar[str] = "features"
+
+    diameter: float = 0.0
+    count: int = 0
+    tolerance: Tolerance = field(default_factory=lambda: Tolerance.symmetric(0.2))
+    #: Optionally pin the size of the holes on the circle as well.
+    hole_diameter: float | None = None
+    hole_tolerance: Tolerance = field(default_factory=lambda: Tolerance.symmetric(0.05))
+
+    def __post_init__(self) -> None:
+        if self.diameter <= 0:
+            raise SpecError(f"bolt_circle.diameter: must be positive, got {self.diameter}")
+        if self.count < 3:
+            raise SpecError(
+                f"bolt_circle.count: needs at least 3 holes, got {self.count}. "
+                "Any two points lie on infinitely many circles, so a pair cannot "
+                "establish a pitch circle."
+            )
+
+    def to_dict(self) -> dict[str, Any]:
+        out: dict[str, Any] = {
+            "kind": self.kind,
+            "diameter": self.diameter,
+            "count": self.count,
+            "tolerance": self.tolerance.to_dict(),
+        }
+        if self.hole_diameter is not None:
+            out["hole_diameter"] = self.hole_diameter
+            out["hole_tolerance"] = self.hole_tolerance.to_dict()
+        return out
+
+    def describe(self) -> str:
+        bits = f"{self.count} holes on a {self.diameter:g} mm bolt circle"
+        if self.hole_diameter is not None:
+            bits += f", each {self.hole_diameter:g} mm"
+        return bits
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any], path: str) -> "BoltCircle":
+        for required in ("diameter", "count"):
+            if required not in data:
+                raise SpecError(f"{path}.{required}: required for bolt_circle")
+        hole_diameter = data.get("hole_diameter")
+        return cls(
+            diameter=_require_number(data["diameter"], f"{path}.diameter"),
+            count=_require_positive_int(data["count"], f"{path}.count"),
+            tolerance=Tolerance.from_value(data.get("tolerance", 0.2), path=f"{path}.tolerance"),
+            hole_diameter=None
+            if hole_diameter is None
+            else _require_number(hole_diameter, f"{path}.hole_diameter"),
+            hole_tolerance=Tolerance.from_value(
+                data.get("hole_tolerance", 0.05), path=f"{path}.hole_tolerance"
+            ),
+        )
+
+
+@dataclass(frozen=True)
 class Distance(Assertion):
     """A measured distance between two selector refs along one axis.
 
@@ -430,6 +567,8 @@ _KINDS: tuple[type[Assertion], ...] = (
     EdgeCount,
     NoInterference,
     ClashCount,
+    HoleCount,
+    BoltCircle,
     Distance,
 )
 
@@ -437,7 +576,7 @@ REGISTRY: dict[str, type[Assertion]] = {cls.kind: cls for cls in _KINDS}
 
 SUPPORTED_KINDS: tuple[str, ...] = tuple(sorted(REGISTRY))
 
-SOURCES: tuple[str, ...] = ("validate", "facts", "interfere", "measure")
+SOURCES: tuple[str, ...] = ("validate", "facts", "interfere", "measure", "features")
 
 
 def assertion_from_dict(data: object, path: str) -> Assertion:

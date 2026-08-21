@@ -1,10 +1,13 @@
 import unittest
 
 from irinspec import (
+    BoltCircle,
     Bounds,
+    ClashCount,
     Distance,
     EdgeCount,
     FaceCount,
+    HoleCount,
     NoInterference,
     Size,
     PartCount,
@@ -31,15 +34,22 @@ class RegistryTests(unittest.TestCase):
 
     def test_an_unknown_kind_is_refused_and_lists_what_is_supported(self):
         with self.assertRaises(SpecError) as ctx:
-            assertion_from_dict({"kind": "hole_count", "value": 6}, "assertions[0]")
+            assertion_from_dict({"kind": "fillet_radius", "value": 2.0}, "assertions[0]")
         message = str(ctx.exception)
-        self.assertIn("hole_count", message)
+        self.assertIn("fillet_radius", message)
         self.assertIn("valid_solid", message)
         # The reason matters: a silently accepted kind is a false green.
         self.assertIn("appears to check something nothing measures", message)
 
-    def test_hole_and_feature_kinds_are_absent_until_they_can_be_measured(self):
-        for unmeasurable in ("hole_count", "bolt_circle", "fillet_radius", "wall_thickness"):
+    def test_kinds_exist_exactly_when_their_measurement_does(self):
+        # hole_count and bolt_circle were on the absent list until
+        # irincad.features could recognise cylindrical features. They are here
+        # now because that measurement is, and for no other reason.
+        for measurable in ("hole_count", "bolt_circle"):
+            self.assertIn(measurable, SUPPORTED_KINDS)
+
+        # Still absent, and still for the original reason: nothing measures them.
+        for unmeasurable in ("fillet_radius", "chamfer_size", "wall_thickness"):
             self.assertNotIn(unmeasurable, SUPPORTED_KINDS)
 
 
@@ -175,6 +185,58 @@ class DistanceTests(unittest.TestCase):
                 {"kind": "distance", "from": "o1.1", "to": "#b", "axis": "x", "value": 1.0}, "a[0]"
             )
         self.assertIn("start with '#'", str(ctx.exception))
+
+
+class HoleCountTests(unittest.TestCase):
+    def test_the_common_engineering_sentence_round_trips(self):
+        # "four 8 mm through-holes", which is what most prompts are made of.
+        assertion = HoleCount(value=4, diameter=8.0, through=True)
+        self.assertEqual(assertion_from_dict(assertion.to_dict(), "a[0]"), assertion)
+        self.assertEqual(assertion.describe(), "exactly 4 holes of 8 mm, through")
+
+    def test_a_bare_count_needs_no_diameter(self):
+        assertion = HoleCount(value=6)
+        self.assertEqual(assertion.to_dict(), {"kind": "hole_count", "value": 6})
+        self.assertEqual(assertion.describe(), "exactly 6 holes")
+
+    def test_blind_and_through_are_distinguishable(self):
+        self.assertIn("blind", HoleCount(value=2, through=False).describe())
+        self.assertIn("through", HoleCount(value=2, through=True).describe())
+
+    def test_a_non_positive_diameter_is_refused(self):
+        with self.assertRaises(SpecError):
+            HoleCount(value=1, diameter=0.0)
+
+    def test_value_is_required(self):
+        with self.assertRaises(SpecError) as ctx:
+            assertion_from_dict({"kind": "hole_count", "diameter": 8.0}, "a[0]")
+        self.assertIn("a[0].value", str(ctx.exception))
+
+
+class BoltCircleTests(unittest.TestCase):
+    def test_the_canonical_flange_requirement_round_trips(self):
+        assertion = BoltCircle(diameter=60.0, count=6, hole_diameter=6.6)
+        self.assertEqual(assertion_from_dict(assertion.to_dict(), "a[0]"), assertion)
+        self.assertEqual(assertion.describe(), "6 holes on a 60 mm bolt circle, each 6.6 mm")
+
+    def test_fewer_than_three_holes_cannot_establish_a_circle(self):
+        # Any two points lie on infinitely many circles, so a pair cannot
+        # establish a pitch circle no matter how precisely it is measured.
+        with self.assertRaises(SpecError) as ctx:
+            BoltCircle(diameter=60.0, count=2)
+        self.assertIn("infinitely many circles", str(ctx.exception))
+
+    def test_a_non_positive_pitch_circle_is_refused(self):
+        with self.assertRaises(SpecError):
+            BoltCircle(diameter=0.0, count=4)
+
+    def test_diameter_and_count_are_both_required(self):
+        for payload in (
+            {"kind": "bolt_circle", "count": 4},
+            {"kind": "bolt_circle", "diameter": 60.0},
+        ):
+            with self.assertRaises(SpecError):
+                assertion_from_dict(payload, "a[0]")
 
 
 if __name__ == "__main__":

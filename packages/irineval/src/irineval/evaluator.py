@@ -26,8 +26,10 @@ from typing import Any, Sequence
 
 from irinspec import (
     Assertion,
+    BoltCircle,
     Bounds,
     ClashCount,
+    HoleCount,
     Distance,
     EdgeCount,
     FaceCount,
@@ -62,6 +64,14 @@ def inspect_argv(assertion: Assertion, entry: str) -> tuple[str, ...]:
 
     if isinstance(assertion, (NoInterference, ClashCount)):
         return ("interfere", entry, "--tolerance", _number(assertion.volume_tolerance))
+
+    if isinstance(assertion, (HoleCount, BoltCircle)):
+        # Deliberately unfiltered. Every feature assertion in a spec resolves to
+        # this one argv and therefore one inspection; the filtering happens in
+        # Python against the full feature list. Encoding --kind or --min-diameter
+        # here would split one recognition pass into several, and cylindrical
+        # recognition walks every face in the solid.
+        return ("features", entry)
 
     if isinstance(assertion, Distance):
         return (
@@ -381,6 +391,111 @@ def _eval_clash_count(assertion: ClashCount, response: InspectResponse) -> Asser
     )
 
 
+def _matching_holes(assertion: HoleCount, response: InspectResponse) -> list[dict[str, Any]]:
+    holes = [
+        feature
+        for feature in (response.result.get("features") or [])
+        if feature.get("kind") == "hole"
+    ]
+    if assertion.through is not None:
+        holes = [hole for hole in holes if bool(hole.get("through")) is assertion.through]
+    if assertion.diameter is not None:
+        holes = [
+            hole
+            for hole in holes
+            if assertion.tolerance.contains(assertion.diameter, float(hole.get("diameter", 0.0)))
+        ]
+    return holes
+
+
+def _eval_hole_count(assertion: HoleCount, response: InspectResponse) -> AssertionResult:
+    matching = _matching_holes(assertion, response)
+    actual = len(matching)
+    expected = int(assertion.value)
+    passed = actual == expected
+
+    detail = ""
+    if not passed:
+        detail = f"expected {expected}, found {actual}"
+        # Naming what IS there turns "found 0" into a number to change, which is
+        # the difference between a failure and a fix. Reported whether or not a
+        # diameter filter was given: a part with no holes at all is worth saying
+        # plainly either way.
+        present = sorted(
+            {
+                round(float(f.get("diameter", 0.0)), 3)
+                for f in (response.result.get("features") or [])
+                if f.get("kind") == "hole"
+            }
+        )
+        if not present:
+            detail += "; the part has no holes at all"
+        elif assertion.diameter is not None and actual == 0:
+            detail += f"; hole diameters present: {present}"
+
+    return AssertionResult(
+        kind=assertion.kind,
+        description=assertion.describe(),
+        passed=passed,
+        code=None if passed else FailureCode.COUNT_MISMATCH,
+        detail=detail,
+        expected=expected,
+        actual=actual,
+        deviation=float(actual - expected),
+    )
+
+
+def _eval_bolt_circle(assertion: BoltCircle, response: InspectResponse) -> AssertionResult:
+    patterns = response.result.get("patterns") or []
+
+    def matches(pattern: dict[str, Any]) -> bool:
+        if not pattern.get("uniform"):
+            return False
+        if int(pattern.get("count", 0)) != assertion.count:
+            return False
+        if not assertion.tolerance.contains(
+            assertion.diameter, float(pattern.get("circleDiameter", 0.0))
+        ):
+            return False
+        if assertion.hole_diameter is not None and not assertion.hole_tolerance.contains(
+            assertion.hole_diameter, float(pattern.get("holeDiameter", 0.0))
+        ):
+            return False
+        return True
+
+    found = next((pattern for pattern in patterns if matches(pattern)), None)
+    passed = found is not None
+
+    detail = ""
+    actual: Any = None
+    if passed:
+        actual = round(float(found.get("circleDiameter", 0.0)), 4)
+    else:
+        # Say which part of the claim failed. A bolt circle is three facts at
+        # once, and "no match" alone leaves the reader to guess which.
+        if not patterns:
+            detail = "no circular hole pattern found"
+        else:
+            described = []
+            for pattern in patterns[:4]:
+                shape = "uniform" if pattern.get("uniform") else "not evenly spaced"
+                described.append(
+                    f"{pattern.get('count')} x d={pattern.get('holeDiameter')} on "
+                    f"{pattern.get('circleDiameter')} mm ({shape})"
+                )
+            detail = "found instead: " + "; ".join(described)
+
+    return AssertionResult(
+        kind=assertion.kind,
+        description=assertion.describe(),
+        passed=passed,
+        code=None if passed else FailureCode.COUNT_MISMATCH,
+        detail=detail,
+        expected=assertion.diameter,
+        actual=actual,
+    )
+
+
 _EVALUATORS = {
     "valid_solid": _eval_valid_solid,
     "size": _eval_size,
@@ -390,6 +505,8 @@ _EVALUATORS = {
     "edge_count": _eval_count,
     "no_interference": _eval_no_interference,
     "clash_count": _eval_clash_count,
+    "hole_count": _eval_hole_count,
+    "bolt_circle": _eval_bolt_circle,
     "distance": _eval_distance,
 }
 

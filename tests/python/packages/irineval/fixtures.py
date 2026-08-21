@@ -197,3 +197,88 @@ INSPECTION_CRASHED = {
     "ok": False,
     "errors": [{"message": "generation failed: ValueError: bad radius"}],
 }
+
+
+# `inspect features models/step/parts/rectangular_calibration_block.step.py`
+# Four 8 mm through-holes at the corners of a rectangle. The pattern fits a
+# circle perfectly and is NOT evenly spaced, which is why `uniform` exists.
+BLOCK_FEATURES = {
+    "ok": True,
+    "entry": "models/step/parts/rectangular_calibration_block",
+    "occurrenceCount": 1,
+    "holeCount": 4,
+    "bossCount": 0,
+    "features": [
+        {
+            "ref": "o1",
+            "name": "rectangular_calibration_block",
+            "kind": "hole",
+            "diameter": 8.0,
+            "radius": 4.0,
+            "axis": [0.0, 0.0, 1.0],
+            "position": [x, y, 0.0],
+            "depth": 20.0,
+            "through": True,
+            "complete": True,
+            "faceCount": 1,
+        }
+        for x, y in ((-35.0, -20.0), (-35.0, 20.0), (35.0, -20.0), (35.0, 20.0))
+    ],
+    "patterns": [
+        {
+            "holeDiameter": 8.0,
+            "count": 4,
+            "circleDiameter": 80.622577,
+            "center": [0.0, 0.0, 0.0],
+            "axis": [0.0, 0.0, 1.0],
+            "uniform": False,
+            "maxRadiusDeviation": 0.0,
+        }
+    ],
+    "errors": [],
+}
+
+# `inspect features models/step/parts/keyed_shaft_hub.step.py`
+# A hub: one external cylinder (boss), a keyed bore reported as an incomplete
+# cylinder, and four M5 clearance holes on a genuine 39 mm bolt circle.
+HUB_FEATURES = {
+    "ok": True,
+    "entry": "models/step/parts/keyed_shaft_hub",
+    "occurrenceCount": 1,
+    "holeCount": 5,
+    "bossCount": 1,
+    "features": [
+        {
+            "ref": "o1", "name": "hub", "kind": "boss", "diameter": 54.0, "radius": 27.0,
+            "axis": [0.0, 0.0, 1.0], "position": [0.0, 0.0, 0.7], "depth": 20.6,
+            "through": False, "complete": True, "faceCount": 1,
+        },
+        {
+            "ref": "o1", "name": "hub", "kind": "hole", "diameter": 20.0, "radius": 10.0,
+            "axis": [0.0, 0.0, 1.0], "position": [0.0, 0.0, 0.7], "depth": 20.6,
+            "through": True, "complete": False, "faceCount": 1,
+        },
+    ] + [
+        {
+            "ref": "o1", "name": "hub", "kind": "hole", "diameter": 5.5, "radius": 2.75,
+            "axis": [0.0, 0.0, 1.0], "position": [x, y, 0.7], "depth": 20.6,
+            "through": True, "complete": True, "faceCount": 1,
+        }
+        for x, y in (
+            (-13.788582, -13.788582), (-13.788582, 13.788582),
+            (13.788582, -13.788582), (13.788582, 13.788582),
+        )
+    ],
+    "patterns": [
+        {
+            "holeDiameter": 5.5,
+            "count": 4,
+            "circleDiameter": 39.0,
+            "center": [0.0, 0.0, 0.7],
+            "axis": [0.0, 0.0, 1.0],
+            "uniform": True,
+            "maxRadiusDeviation": 0.0,
+        }
+    ],
+    "errors": [],
+}

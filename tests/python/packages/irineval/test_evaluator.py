@@ -2,8 +2,10 @@ import unittest
 
 import fixtures
 from irinspec import (
+    BoltCircle,
     Bounds,
     ClashCount,
+    HoleCount,
     Distance,
     EdgeCount,
     FaceCount,
@@ -92,6 +94,8 @@ class PlanningTests(unittest.TestCase):
             "edge_count": EdgeCount(value=1),
             "no_interference": NoInterference(),
             "clash_count": ClashCount(value=0),
+            "hole_count": HoleCount(value=1),
+            "bolt_circle": BoltCircle(diameter=60.0, count=6),
             "distance": Distance(from_ref="#a", to_ref="#b", axis="x", value=1.0),
         }
         self.assertEqual(set(samples), set(REGISTRY))
@@ -253,6 +257,88 @@ class AssemblyTests(unittest.TestCase):
         )
         result = evaluate(spec, GEARS, runner)
         self.assertTrue(result.ok, result.failures())
+
+
+class FeatureAssertionTests(unittest.TestCase):
+    """The assertions engineering prompts are actually made of."""
+
+    def _runner(self, payload=None):
+        return RecordedRunner(
+            responses_from_pairs(
+                {("features", BLOCK): payload or fixtures.BLOCK_FEATURES}.items()
+            )
+        )
+
+    def test_four_eight_millimetre_through_holes_pass(self):
+        spec = spec_with(HoleCount(value=4, diameter=8.0, through=True))
+        self.assertTrue(evaluate(spec, BLOCK, self._runner()).ok)
+
+    def test_every_feature_assertion_shares_one_inspection(self):
+        # Feature recognition walks every face in the solid, so paying for it
+        # once per spec rather than once per claim is the whole design.
+        runner = self._runner()
+        spec = spec_with(
+            HoleCount(value=4, diameter=8.0),
+            HoleCount(value=4),
+            BoltCircle(diameter=80.622577, count=4),
+        )
+        evaluate(spec, BLOCK, runner)
+        self.assertEqual(runner.call_count("features"), 1)
+
+    def test_a_wrong_diameter_names_the_diameters_that_are_present(self):
+        # "found 0" alone leaves the reader guessing. The sizes actually in the
+        # part are what turn a failure into a number to change.
+        spec = spec_with(HoleCount(value=4, diameter=6.6))
+        failure = evaluate(spec, BLOCK, self._runner()).failures()[0]
+        self.assertEqual(failure.code, FailureCode.COUNT_MISMATCH)
+        self.assertIn("hole diameters present: [8.0]", failure.detail)
+
+    def test_a_part_with_no_holes_says_so_plainly(self):
+        empty = dict(fixtures.BLOCK_FEATURES, features=[], patterns=[], holeCount=0)
+        failure = evaluate(spec_with(HoleCount(value=2)), BLOCK, self._runner(empty)).failures()[0]
+        self.assertIn("no holes at all", failure.detail)
+
+    def test_the_through_filter_excludes_blind_holes(self):
+        blind = dict(
+            fixtures.BLOCK_FEATURES,
+            features=[dict(f, through=False) for f in fixtures.BLOCK_FEATURES["features"]],
+        )
+        runner = self._runner(blind)
+        self.assertTrue(evaluate(spec_with(HoleCount(value=4, through=False)), BLOCK, runner).ok)
+        self.assertFalse(evaluate(spec_with(HoleCount(value=4, through=True)), BLOCK, runner).ok)
+
+    def test_a_rectangular_pattern_is_refused_as_a_bolt_circle(self):
+        # The pattern in this fixture has exactly the asserted count and pitch
+        # circle. It still must not pass, because it is not evenly spaced, and
+        # a naive circle fit would have called it a bolt circle.
+        spec = spec_with(BoltCircle(diameter=80.622577, count=4, hole_diameter=8.0))
+        result = evaluate(spec, BLOCK, self._runner())
+        self.assertFalse(result.ok)
+        self.assertIn("not evenly spaced", result.failures()[0].detail)
+
+    def test_a_real_bolt_circle_passes(self):
+        runner = RecordedRunner(
+            responses_from_pairs({("features", GEARS): fixtures.HUB_FEATURES}.items())
+        )
+        spec = Spec(
+            id="hub",
+            prompt="four M5 clearance holes on a 39 mm bolt circle",
+            assertions=(BoltCircle(diameter=39.0, count=4, hole_diameter=5.5),),
+        )
+        self.assertTrue(evaluate(spec, GEARS, runner).ok, "a uniform pattern must pass")
+
+    def test_a_boss_is_not_counted_as_a_hole(self):
+        runner = RecordedRunner(
+            responses_from_pairs({("features", GEARS): fixtures.HUB_FEATURES}.items())
+        )
+        spec = Spec(id="hub", prompt="hub", assertions=(HoleCount(value=5),))
+        self.assertTrue(evaluate(spec, GEARS, runner).ok, "the 54 mm boss must not count")
+
+    def test_a_missing_pattern_says_so_rather_than_listing_nothing(self):
+        empty = dict(fixtures.BLOCK_FEATURES, patterns=[])
+        spec = spec_with(BoltCircle(diameter=60.0, count=6))
+        failure = evaluate(spec, BLOCK, self._runner(empty)).failures()[0]
+        self.assertIn("no circular hole pattern found", failure.detail)
 
 
 class ReportingTests(unittest.TestCase):

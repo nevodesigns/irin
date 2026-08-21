@@ -56,22 +56,27 @@ evaluator can pay for each inspection once per spec rather than once per claim.
 | `face_count` | `facts` | Exact face count, as a regression signal |
 | `edge_count` | `facts` | Exact edge count, as a regression signal |
 | `no_interference` | `interfere` | No part overlaps another beyond a volume floor |
+| `clash_count` | `interfere` | Exactly this many known overlaps, as a measured baseline |
+| `hole_count` | `features` | How many holes, optionally of one diameter and through or blind |
+| `bolt_circle` | `features` | Holes evenly spaced on a pitch circle of a given diameter |
 | `distance` | `measure` | Distance between two selector refs along one axis |
 
 ## What is deliberately missing
 
-Hole count and diameter, bolt-circle geometry, fillet and chamfer presence, and
-wall thickness are not here. Neither is `solid_count`: the only figure the
-inspection exposes counts leaf occurrences, which does not catch a failed
-boolean leaving two disjoint bodies inside one part, so `part_count` is named
-for what it actually measures. They need feature recognition over the B-rep, which
-does not exist yet.
+Fillet and chamfer presence, and wall thickness, are not here. Nor is
+`solid_count`: the only figure the inspection exposes counts leaf occurrences,
+which does not catch a failed boolean leaving two disjoint bodies inside one
+part, so `part_count` is named for what it actually measures.
 
-A schema that accepted `{"kind": "hole_count", "value": 6}` while nothing could
-count holes would produce specs that look rigorous and silently check nothing.
-That is worse than having no spec, because it converts an unknown into a false
-green. Kinds arrive when their evaluator does, and an unknown kind is a hard
-error naming the supported set.
+Hole count and bolt-circle geometry used to be on this list. They left it when
+`irincad.features` learned to recognise cylindrical features, which is the only
+way anything joins the table above.
+
+A schema that accepted `{"kind": "fillet_radius", "value": 2.0}` while nothing
+could measure a fillet would produce specs that look rigorous and silently check
+nothing. That is worse than having no spec, because it converts an unknown into
+a false green. Kinds arrive when their evaluator does, and an unknown kind is a
+hard error naming the supported set.
 
 ## Tolerances
 

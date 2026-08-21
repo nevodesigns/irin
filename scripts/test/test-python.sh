@@ -34,6 +34,9 @@ export IRINCAD_STRICT_LOCKS=1
 
 run_suite "irincad package Python tests" "tests/python/packages/irincad" "packages/irincad/src"
 run_suite "irinspec package Python tests" "tests/python/packages/irinspec" "packages/irinspec/src"
+# irineval drives the CAD inspect CLI as a subprocess, so its integration tests need the
+# skill scripts on the path as well as both packages.
+run_suite "irineval package Python tests" "tests/python/packages/irineval" "packages/irineval/src" "packages/irinspec/src" "tests/python/packages/irineval" "skills/cad/scripts/inspect"
 
 while IFS= read -r skill; do
   test_dir="tests/python/skills/$skill"

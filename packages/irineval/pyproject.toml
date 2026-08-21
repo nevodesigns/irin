@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "irineval"
+version = "0.4.20"
+description = "Geometry evaluation for IRIN: score CAD artifacts against declared engineering assertions."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{ name = "nevodesigns" }]
+keywords = ["cad", "step", "evaluation", "benchmark", "geometry", "agent-skills"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Manufacturing",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+]
+# irinspec only. The CAD kernel is reached through the inspect CLI in a separate
+# process, which keeps a crash inside OpenCascade from taking the run with it
+# and lets a report generator import this without installing build123d.
+dependencies = ["irinspec"]
+
+[project.urls]
+Homepage = "https://github.com/nevodesigns/irin"
+Repository = "https://github.com/nevodesigns/irin"
+Issues = "https://github.com/nevodesigns/irin/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["irineval*"]
+
+[tool.setuptools.package-data]
+irineval = ["py.typed"]

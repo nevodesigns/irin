@@ -1,0 +1,41 @@
+{
+  "id": "square-mounting-block",
+  "prompt": "A square mounting block 48 mm by 48 mm and 28 mm tall, with a 12 mm bore through it and two 5.5 mm cross-drilled holes for M5 fixings.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "x": 48.0,
+      "y": 48.0,
+      "z": 28.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 12.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    },
+    {
+      "kind": "hole_count",
+      "value": 2,
+      "diameter": 5.5,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    }
+  ]
+}

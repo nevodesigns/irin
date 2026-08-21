@@ -1,0 +1,57 @@
+{
+  "id": "open-top-electronics-enclosure",
+  "prompt": "An open-top electronics enclosure, 100 mm by 70 mm on the outside and 30 mm tall, sitting on the XY plane. Put four 3 mm board-mounting holes in the floor and four 4 mm lid-fixing holes in the corner posts. None of them break through the outside.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "x": 100.0,
+      "y": 70.0,
+      "z": 30.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -50.0,
+        -35.0,
+        0.0
+      ],
+      "max": [
+        50.0,
+        35.0,
+        30.0
+      ],
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 4,
+      "diameter": 3.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": false
+    },
+    {
+      "kind": "hole_count",
+      "value": 4,
+      "diameter": 4.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": false
+    }
+  ]
+}

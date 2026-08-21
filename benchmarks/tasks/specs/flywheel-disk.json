@@ -1,0 +1,50 @@
+{
+  "id": "flywheel-disk",
+  "prompt": "A flywheel disk 90 mm in outside diameter and 12 mm thick, bored 18 mm through the centre. Lighten it with six 10 mm holes evenly spaced on a 50 mm bolt circle, and relieve the web with a large central pocket.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "boss_count",
+      "value": 1,
+      "diameter": 90.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "size",
+      "z": 12.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 18.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    },
+    {
+      "kind": "bolt_circle",
+      "diameter": 50.0,
+      "count": 6,
+      "tolerance": {
+        "symmetric": 0.2
+      },
+      "hole_diameter": 10.0,
+      "hole_tolerance": {
+        "symmetric": 0.05
+      }
+    }
+  ]
+}

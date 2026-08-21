@@ -1,0 +1,38 @@
+{
+  "id": "spur-gear-blank",
+  "prompt": "A spur gear blank 16 mm thick with an 18 mm bore through the centre. Relieve the 34 mm hub on both faces, which leaves a hub ring standing proud on each side.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "z": 16.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "boss_count",
+      "value": 2,
+      "diameter": 34.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 18.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    }
+  ]
+}

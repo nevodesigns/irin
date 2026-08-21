@@ -13,12 +13,13 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from irineval import WorkerRunner
+from irineval import WorkerRunner, default_inspect_launcher
 
-from irinbench.corpus import Corpus, CorpusError, discover_generators
+from irinbench.corpus import KIND_TASK, Corpus, CorpusError, discover_generators
 from irinbench.derive import DEFAULT_TOLERANCE_MM, derive_corpus
 from irinbench.report import format_report, format_taxonomy
-from irinbench.run import run_corpus
+from irinbench.verify import format_verification, verify_corpus
+from irinbench.run import run_corpus, run_task_corpus
 
 DEFAULT_ENTRY_ROOTS = ("models/step/parts", "models/step/assemblies")
 
@@ -27,10 +28,18 @@ def _log(message: str) -> None:
     print(message, file=sys.stderr, flush=True)
 
 
-def _runner(args: argparse.Namespace) -> WorkerRunner:
+def _runner(args: argparse.Namespace, *, cwd: str | Path | None = None) -> WorkerRunner:
+    """A worker rooted at the workspace that owns the artifacts being inspected.
+
+    For a task run that is the submission directory, not the repository: the CAD
+    CLI resolves targets against its own working directory and refuses absolute
+    paths outside it, so a submission living anywhere else would be unreadable.
+    The launcher is resolved from the repository either way, since that is where
+    the skill lives.
+    """
     return WorkerRunner(
-        cwd=args.repo_root,
-        inspect_launcher=args.inspect_launcher,
+        cwd=cwd or args.repo_root,
+        inspect_launcher=args.inspect_launcher or default_inspect_launcher(args.repo_root),
         python_executable=args.python,
         timeout_s=args.timeout,
     )
@@ -81,6 +90,29 @@ def cmd_derive(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_verify(args: argparse.Namespace) -> int:
+    try:
+        corpus = Corpus.load(Path(args.repo_root) / args.corpus)
+    except CorpusError as exc:
+        _log(f"[irinbench] {exc}")
+        return 2
+
+    _log(f"[irinbench] verifying {len(corpus.specs)} task(s) against their references")
+
+    def progress(result) -> None:
+        _log(f"[irinbench]   {result.summary_line()}")
+
+    try:
+        with _runner(args) as runner:
+            result = verify_corpus(corpus, runner, on_result=progress)
+    except CorpusError as exc:
+        _log(f"[irinbench] {exc}")
+        return 2
+
+    print(format_verification(result))
+    return 0 if result.ok else 1
+
+
 def cmd_run(args: argparse.Namespace) -> int:
     try:
         corpus = Corpus.load(Path(args.repo_root) / args.corpus)
@@ -88,13 +120,36 @@ def cmd_run(args: argparse.Namespace) -> int:
         _log(f"[irinbench] {exc}")
         return 2
 
+    if corpus.kind == KIND_TASK and not args.artifacts:
+        # No default, deliberately. The only paths a task corpus knows are its
+        # references, and scoring those would grade the answer key: every task
+        # would pass and the run would report a perfect result measuring nothing.
+        _log(
+            f"[irinbench] {corpus.name!r} is a task corpus, so --artifacts is required.\n"
+            "[irinbench] Point it at the directory holding what an agent produced, "
+            "one file per task id.\n"
+            "[irinbench] Use `irinbench verify` to check the tasks themselves against "
+            "their references."
+        )
+        return 2
+
     _log(f"[irinbench] running {len(corpus.specs)} spec(s) from {corpus.name}")
 
     def progress(result) -> None:
         _log(f"[irinbench]   {result.summary_line()}")
 
-    with _runner(args) as runner:
-        run = run_corpus(corpus, runner, repo_root=args.repo_root, on_result=progress)
+    artifacts_dir = (Path(args.repo_root) / args.artifacts).resolve() if args.artifacts else None
+    with _runner(args, cwd=artifacts_dir if corpus.kind == KIND_TASK else None) as runner:
+        if corpus.kind == KIND_TASK:
+            run = run_task_corpus(
+                corpus,
+                artifacts_dir,
+                runner,
+                repo_root=args.repo_root,
+                on_result=progress,
+            )
+        else:
+            run = run_corpus(corpus, runner, repo_root=args.repo_root, on_result=progress)
 
     out = Path(args.repo_root) / (
         args.out or f"benchmarks/results/{corpus.name}-{run.started_at.replace(':', '')}.json"
@@ -138,15 +193,19 @@ def build_parser() -> argparse.ArgumentParser:
         prog="irinbench",
         description="Derive, run and report IRIN benchmark corpora.",
     )
-    parser.add_argument("--repo-root", default=".", help="Workspace that owns the models.")
-    parser.add_argument("--corpus", default="benchmarks/regression", help="Corpus directory.")
-    parser.add_argument("--inspect-launcher", default=None, help="Path to the CAD inspect launcher.")
-    parser.add_argument("--python", default=None, help="Interpreter used to run inspect.")
+    def add_common(sub: argparse.ArgumentParser, *, corpus_default: str) -> None:
+        """Options every corpus command takes.
 
-    def add_timeout(sub: argparse.ArgumentParser) -> None:
-        # Declared on each subcommand rather than globally: argparse only accepts
-        # a top-level option before the subcommand, and `run --timeout 120` is
-        # what anyone actually types.
+        Declared on each subcommand rather than once at the top level. argparse
+        only accepts a top-level option BEFORE the subcommand, and nobody types
+        `irinbench --corpus x run`; they type `irinbench run --corpus x`.
+        """
+        sub.add_argument("--repo-root", default=".", help="Workspace that owns the models.")
+        sub.add_argument("--corpus", default=corpus_default, help="Corpus directory.")
+        sub.add_argument(
+            "--inspect-launcher", default=None, help="Path to the CAD inspect launcher."
+        )
+        sub.add_argument("--python", default=None, help="Interpreter used to run inspect.")
         sub.add_argument(
             "--timeout",
             type=float,
@@ -174,14 +233,30 @@ def build_parser() -> argparse.ArgumentParser:
             "expensive inspection by a wide margin."
         ),
     )
-    add_timeout(derive)
+    add_common(derive, corpus_default="benchmarks/regression")
     derive.set_defaults(handler=cmd_derive)
 
     run = subparsers.add_parser("run", help="Evaluate a corpus and write a result file.")
     run.add_argument("--out", default=None, help="Result file path.")
+    run.add_argument(
+        "--artifacts",
+        default=None,
+        help=(
+            "Directory holding what an agent produced, one file per task id "
+            "(<id>.step.py, .step or .stp). Required for a task corpus, which has "
+            "no artifacts of its own to score."
+        ),
+    )
     run.add_argument("--json", action="store_true", help="Print totals as JSON instead of a report.")
-    add_timeout(run)
+    add_common(run, corpus_default="benchmarks/regression")
     run.set_defaults(handler=cmd_run)
+
+    verify = subparsers.add_parser(
+        "verify",
+        help="Check every task against the reference that proves it satisfiable.",
+    )
+    add_common(verify, corpus_default="benchmarks/tasks")
+    verify.set_defaults(handler=cmd_verify)
 
     report = subparsers.add_parser("report", help="Summarize a stored result file.")
     report.add_argument("result", help="Path to a result JSON file.")

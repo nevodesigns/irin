@@ -1,0 +1,41 @@
+{
+  "id": "clevis-bracket",
+  "prompt": "A clevis bracket 120 mm by 60 mm and 52 mm tall, standing on the XY plane. Bore 14 mm through both ears for the clevis pin, so the pin passes through two aligned bores. Put four 7 mm mounting holes through the base and lighten the webs with cutouts.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "x": 120.0,
+      "y": 60.0,
+      "z": 52.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 2,
+      "diameter": 14.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    },
+    {
+      "kind": "hole_count",
+      "value": 4,
+      "diameter": 7.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    }
+  ]
+}

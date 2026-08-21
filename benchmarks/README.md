@@ -10,6 +10,48 @@ python -m irinbench run --timeout 120          # score it, write a result file
 python -m irinbench report benchmarks/results/<file>.json
 ```
 
+## tasks
+
+17 requirements written from engineering intent, each with assertions written
+from the requirement. This is the corpus that answers the question IRIN exists
+for: can an agent turn a sentence into correct geometry?
+
+```bash
+python -m irinbench verify                       # are the tasks themselves sound?
+python -m irinbench run --corpus benchmarks/tasks --artifacts <dir>
+```
+
+`--artifacts` is required and has no default. A task corpus knows only its
+reference implementations, and defaulting to those would score the answer key:
+every task would pass and the run would report a perfect result measuring
+nothing. Name one file per task id, `<task-id>.step.py`, `.step` or `.stp`.
+
+A task that produced no artifact scores as `artifact_missing`, counted as a
+defect rather than undetermined. An agent given a prompt and returning nothing
+has failed, and calling that inconclusive would let the worst outcome report as
+the mildest. Runs report the count on its own line, because forty parts built
+badly and none built at all are different results.
+
+### Verification
+
+Every task carries a reference implementation it was **not** derived from, and
+`verify` checks the task against it. This is what separates a benchmark from a
+wishlist. A spec authored from intent can be unsatisfiable ("six 30 mm holes on
+a 60 mm bolt circle") or simply wrong about its own geometry, and nothing in the
+schema would object. An agent scored against such a task fails through no fault
+of its own, and the run reports an author's mistake as a model weakness.
+
+All 17 currently verify. Three did not when first written, and each failure was
+the spec being less precise than the part:
+
+- the clevis has two aligned 14 mm bores, one per ear, not one
+- the pulley's vee groove divides its 70 mm rim into two flanges
+- relieving the gear hub on both faces leaves two hub rings
+
+In every case the prompt and the assertion were corrected together to describe
+what the part really is. Tuning numbers until a spec passes would defeat the
+purpose; the point is that verification found the imprecision.
+
 ## regression
 
 51 curated models, from `models/step/parts` (32) and `models/step/assemblies`

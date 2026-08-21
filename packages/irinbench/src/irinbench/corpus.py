@@ -11,7 +11,7 @@ spec cannot accidentally inherit a location that quietly turns it into a
 regression check.
 
     benchmarks/<name>/
-      corpus.json          manifest: kind, entries, provenance
+      corpus.json          manifest: kind, entries or references, provenance
       specs/<id>.json      one spec per task
 """
 
@@ -85,6 +85,14 @@ class Corpus:
     kind: str
     root: Path
     entries: dict[str, str] = field(default_factory=dict)
+    #: Reference implementations, task corpora only. A reference proves a task is
+    #: satisfiable; it is never the thing a run scores.
+    #:
+    #: Kept in its own field rather than reusing ``entries`` because sharing one
+    #: would make ``run`` score the answer key. Every task would pass, the corpus
+    #: would report 100%, and the number would mean nothing at all. That failure
+    #: is silent and total, so the two are separated at the type level.
+    references: dict[str, str] = field(default_factory=dict)
     specs: tuple[Spec, ...] = ()
     provenance: dict[str, object] = field(default_factory=dict)
 
@@ -98,6 +106,18 @@ class Corpus:
                     f"regression specs with no bound artifact: {missing}. "
                     "A regression spec that cannot name its model cannot be rerun."
                 )
+            if self.references:
+                raise CorpusError(
+                    "a regression corpus has no references: its specs were measured "
+                    "from the models in `entries`, so a separate reference would be "
+                    "the same file under a second name."
+                )
+        if self.kind == KIND_TASK and self.entries:
+            raise CorpusError(
+                "a task corpus must not bind specs to artifacts in `entries`. "
+                "The artifact is whatever an agent produces, supplied per run. "
+                "Binding one here would make every run score the same file."
+            )
 
     @property
     def spec_dir(self) -> Path:
@@ -113,6 +133,21 @@ class Corpus:
         except KeyError:
             raise CorpusError(f"no artifact bound to spec {spec.id!r}") from None
 
+    def reference_for(self, spec: Spec) -> str | None:
+        """The implementation that proves this task is satisfiable, if any."""
+        return self.references.get(spec.id)
+
+    def unreferenced(self) -> tuple[str, ...]:
+        """Task specs with nothing proving they can be satisfied.
+
+        Not an error. A task can be authored before anything implements it, and
+        refusing that would stop the corpus growing ahead of the reference set.
+        It is reported so nobody mistakes an unverified task for a verified one.
+        """
+        if self.kind != KIND_TASK:
+            return ()
+        return tuple(spec.id for spec in self.specs if spec.id not in self.references)
+
     # -- persistence ----------------------------------------------------------
 
     def save(self) -> Path:
@@ -123,6 +158,7 @@ class Corpus:
             "name": self.name,
             "kind": self.kind,
             "entries": dict(sorted(self.entries.items())),
+            "references": dict(sorted(self.references.items())),
             "provenance": self.provenance,
         }
         self.manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
@@ -153,7 +189,8 @@ class Corpus:
             specs.append(spec)
 
         entries = manifest.get("entries") or {}
-        orphaned = sorted(set(entries) - seen)
+        references = manifest.get("references") or {}
+        orphaned = sorted((set(entries) | set(references)) - seen)
         if orphaned:
             raise CorpusError(
                 f"{manifest_path} binds artifacts to specs that do not exist: {orphaned}. "
@@ -165,6 +202,7 @@ class Corpus:
             kind=manifest.get("kind", KIND_REGRESSION),
             root=directory,
             entries=dict(entries),
+            references=dict(references),
             specs=tuple(specs),
             provenance=manifest.get("provenance") or {},
         )

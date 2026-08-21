@@ -1,0 +1,26 @@
+{
+  "id": "radial-engine-cylinder",
+  "prompt": "A radial engine cylinder with a finned barrel, standing on the XY plane. Drill six 5 mm holding-down stud holes evenly spaced on a 56 mm bolt circle. They are blind.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "bolt_circle",
+      "diameter": 56.0,
+      "count": 6,
+      "tolerance": {
+        "symmetric": 0.2
+      },
+      "hole_diameter": 5.0,
+      "hole_tolerance": {
+        "symmetric": 0.05
+      }
+    }
+  ]
+}

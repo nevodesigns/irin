@@ -61,8 +61,10 @@ flow, CI/CD-testing and resume options, and local/manual fallbacks.
   `inspect` CLI in a separate process. Depends on `irinspec`, never on
   `irincad`.
 - `packages/irinbench`: benchmark corpora, runs, and reports.
-- `benchmarks/`: spec corpora and stored results. Source-only, and trimmed from
-  the publish tree.
+- `benchmarks/`: spec corpora and stored results. `regression/` is derived by
+  measurement and passes by construction; `tasks/` is authored from intent and
+  scored against what an agent produces. Source-only, and trimmed from the
+  publish tree.
 - `docs/`: documentation site.
 - `tests/`: root-owned test suites for skills, packages, viewer services, and
   repo-wide policy.

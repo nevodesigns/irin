@@ -1,0 +1,47 @@
+{
+  "id": "shaft-collar",
+  "prompt": "A shaft collar 42 mm in outside diameter and 16 mm tall, bored 20 mm through for the shaft, with a single 5 mm grub-screw hole drilled radially into the bore. The grub-screw hole does not pass through the far wall.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "boss_count",
+      "value": 1,
+      "diameter": 42.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "size",
+      "z": 16.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 20.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 5.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": false
+    }
+  ]
+}

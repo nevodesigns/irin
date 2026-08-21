@@ -1,0 +1,48 @@
+{
+  "id": "calibration-block",
+  "prompt": "A rectangular calibration block, 100 mm long, 60 mm wide and 20 mm thick. Put four 8 mm vertical through-holes in it, one near each corner, and chamfer only the top outer edge by 2 mm. Rest it on the XY plane, centred on the origin in X and Y.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "x": 100.0,
+      "y": 60.0,
+      "z": 20.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -50.0,
+        -30.0,
+        0.0
+      ],
+      "max": [
+        50.0,
+        30.0,
+        20.0
+      ],
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 4,
+      "diameter": 8.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "id": "keyed-shaft-hub",
+  "prompt": "A shaft hub 54 mm in outside diameter and 22 mm tall, with a 20 mm bore carrying a keyway. Add four M5 clearance holes, 5.5 mm, evenly spaced on a 39 mm bolt circle, running right through. Chamfer the bore entries.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "boss_count",
+      "value": 1,
+      "diameter": 54.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "size",
+      "z": 22.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 20.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    },
+    {
+      "kind": "bolt_circle",
+      "diameter": 39.0,
+      "count": 4,
+      "tolerance": {
+        "symmetric": 0.2
+      },
+      "hole_diameter": 5.5,
+      "hole_tolerance": {
+        "symmetric": 0.05
+      }
+    }
+  ]
+}

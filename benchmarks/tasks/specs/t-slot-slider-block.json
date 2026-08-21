@@ -1,0 +1,32 @@
+{
+  "id": "t-slot-slider-block",
+  "prompt": "A slider block for a T-slot rail: 80 mm long, 36 mm wide, 18 mm tall, resting on the XY plane. Drill four 4.5 mm mounting holes right through it.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "x": 80.0,
+      "y": 36.0,
+      "z": 18.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 4,
+      "diameter": 4.5,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    }
+  ]
+}

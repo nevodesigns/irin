@@ -1,0 +1,59 @@
+{
+  "id": "mounting-plate",
+  "prompt": "A mounting plate 100 mm by 70 mm from 8 mm stock, with a 28 mm central through-bore. Add four M5 clearance holes at 5.5 mm and two 8 mm dowel holes, all through, plus four 10 mm counterbores that do not break through.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "x": 100.0,
+      "y": 70.0,
+      "z": 8.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 28.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    },
+    {
+      "kind": "hole_count",
+      "value": 4,
+      "diameter": 5.5,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    },
+    {
+      "kind": "hole_count",
+      "value": 2,
+      "diameter": 8.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    },
+    {
+      "kind": "hole_count",
+      "value": 4,
+      "diameter": 10.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": false
+    }
+  ]
+}

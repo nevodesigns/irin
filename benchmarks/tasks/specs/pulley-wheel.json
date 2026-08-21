@@ -1,0 +1,38 @@
+{
+  "id": "pulley-wheel",
+  "prompt": "A vee-belt pulley wheel 24 mm across the rim, bored 10 mm through the centre for its shaft. The vee groove divides the 70 mm rim into two flanges.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "z": 24.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "boss_count",
+      "value": 2,
+      "diameter": 70.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 10.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    }
+  ]
+}

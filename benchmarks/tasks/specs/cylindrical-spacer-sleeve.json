@@ -1,0 +1,38 @@
+{
+  "id": "cylindrical-spacer-sleeve",
+  "prompt": "A plain cylindrical spacer sleeve: 30 mm outside diameter, 10 mm bore, 28 mm long. The bore runs the full length.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "boss_count",
+      "value": 1,
+      "diameter": 30.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "size",
+      "z": 28.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 10.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    }
+  ]
+}

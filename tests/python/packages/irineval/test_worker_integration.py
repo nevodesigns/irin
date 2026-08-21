@@ -19,6 +19,7 @@ from pathlib import Path
 
 from irinspec import (
     BoltCircle,
+    BossCount,
     Bounds,
     ClashCount,
     HoleCount,
@@ -87,6 +88,7 @@ class WorkerCommandCoverageTests(unittest.TestCase):
             NoInterference(),
             ClashCount(value=0),
             HoleCount(value=1),
+            BossCount(value=1),
             BoltCircle(diameter=60.0, count=6),
             Distance(from_ref="#f1", to_ref="#f2", axis="z", value=1.0),
         )

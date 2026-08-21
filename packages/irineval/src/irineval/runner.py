@@ -97,7 +97,11 @@ def default_inspect_launcher(repo_root: str | Path | None = None) -> Path:
     ]
     for candidate in candidates:
         if candidate.exists():
-            return candidate
+            # Absolute, always. A task run roots its worker at the submission
+            # directory, and a launcher path relative to the repository would
+            # simply not exist from there: python exits 2 and every inspection
+            # in the run reports as undetermined.
+            return candidate.resolve()
     raise EvalError(
         "cannot find the CAD inspect launcher. Looked in:\n  "
         + "\n  ".join(str(c) for c in candidates)

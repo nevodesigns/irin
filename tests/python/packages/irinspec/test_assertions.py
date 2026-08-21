@@ -2,6 +2,7 @@ import unittest
 
 from irinspec import (
     BoltCircle,
+    BossCount,
     Bounds,
     ClashCount,
     Distance,
@@ -211,6 +212,23 @@ class HoleCountTests(unittest.TestCase):
         with self.assertRaises(SpecError) as ctx:
             assertion_from_dict({"kind": "hole_count", "diameter": 8.0}, "a[0]")
         self.assertIn("a[0].value", str(ctx.exception))
+
+
+class BossCountTests(unittest.TestCase):
+    def test_a_round_part_states_its_outer_diameter_exactly(self):
+        # The reason this kind exists: a bbox is read from tessellated topology
+        # and reports an 80 mm flange as 79.95, so `size` cannot state a round
+        # dimension without a tolerance loose enough to accept a wrong one.
+        assertion = BossCount(value=1, diameter=80.0)
+        self.assertEqual(assertion_from_dict(assertion.to_dict(), "a[0]"), assertion)
+        self.assertEqual(assertion.describe(), "exactly 1 external cylinder of 80 mm")
+
+    def test_more_than_one_cylinder_pluralizes(self):
+        self.assertIn("2 external cylinders", BossCount(value=2, diameter=70.0).describe())
+
+    def test_a_non_positive_diameter_is_refused(self):
+        with self.assertRaises(SpecError):
+            BossCount(value=1, diameter=-5.0)
 
 
 class BoltCircleTests(unittest.TestCase):

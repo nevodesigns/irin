@@ -432,6 +432,57 @@ class HoleCount(Assertion):
 
 
 @dataclass(frozen=True)
+class BossCount(Assertion):
+    """How many external cylinders there are, optionally of one diameter.
+
+    The way to state a round part's outer diameter exactly. A bounding box
+    cannot do it: bbox extents are read from the tessellated topology, so an
+    80 mm flange measures 79.95 and a 30 mm sleeve measures 29.981. Those are
+    faceting artifacts, not the part being undersize, and a spec that tolerated
+    them would have to be loose enough to accept a genuinely wrong diameter.
+
+    A recognised cylinder carries its radius from the surface itself, so the
+    same flange reports exactly 80.0. Prefer this over ``size`` whenever the
+    dimension being specified is round.
+    """
+
+    kind: ClassVar[str] = "boss_count"
+    source: ClassVar[str] = "features"
+
+    value: int = 0
+    diameter: float | None = None
+    tolerance: Tolerance = field(default_factory=lambda: Tolerance.symmetric(0.05))
+
+    def __post_init__(self) -> None:
+        if self.diameter is not None and self.diameter <= 0:
+            raise SpecError(f"boss_count.diameter: must be positive, got {self.diameter}")
+
+    def to_dict(self) -> dict[str, Any]:
+        out: dict[str, Any] = {"kind": self.kind, "value": self.value}
+        if self.diameter is not None:
+            out["diameter"] = self.diameter
+            out["tolerance"] = self.tolerance.to_dict()
+        return out
+
+    def describe(self) -> str:
+        bits = f"exactly {self.value} external cylinder{'' if self.value == 1 else 's'}"
+        if self.diameter is not None:
+            bits += f" of {self.diameter:g} mm"
+        return bits
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any], path: str) -> "BossCount":
+        if "value" not in data:
+            raise SpecError(f"{path}.value: required for boss_count")
+        diameter = data.get("diameter")
+        return cls(
+            value=_require_positive_int(data["value"], f"{path}.value"),
+            diameter=None if diameter is None else _require_number(diameter, f"{path}.diameter"),
+            tolerance=Tolerance.from_value(data.get("tolerance", 0.05), path=f"{path}.tolerance"),
+        )
+
+
+@dataclass(frozen=True)
 class BoltCircle(Assertion):
     """Holes of one size, evenly spaced on a circle of a given diameter.
 
@@ -568,6 +619,7 @@ _KINDS: tuple[type[Assertion], ...] = (
     NoInterference,
     ClashCount,
     HoleCount,
+    BossCount,
     BoltCircle,
     Distance,
 )

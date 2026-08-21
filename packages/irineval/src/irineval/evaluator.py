@@ -28,6 +28,7 @@ from irinspec import (
     Assertion,
     BoltCircle,
     Bounds,
+    BossCount,
     ClashCount,
     HoleCount,
     Distance,
@@ -65,7 +66,7 @@ def inspect_argv(assertion: Assertion, entry: str) -> tuple[str, ...]:
     if isinstance(assertion, (NoInterference, ClashCount)):
         return ("interfere", entry, "--tolerance", _number(assertion.volume_tolerance))
 
-    if isinstance(assertion, (HoleCount, BoltCircle)):
+    if isinstance(assertion, (HoleCount, BossCount, BoltCircle)):
         # Deliberately unfiltered. Every feature assertion in a spec resolves to
         # this one argv and therefore one inspection; the filtering happens in
         # Python against the full feature list. Encoding --kind or --min-diameter
@@ -445,6 +446,49 @@ def _eval_hole_count(assertion: HoleCount, response: InspectResponse) -> Asserti
     )
 
 
+def _eval_boss_count(assertion: BossCount, response: InspectResponse) -> AssertionResult:
+    bosses = [
+        feature
+        for feature in (response.result.get("features") or [])
+        if feature.get("kind") == "boss"
+    ]
+    if assertion.diameter is not None:
+        bosses = [
+            boss
+            for boss in bosses
+            if assertion.tolerance.contains(assertion.diameter, float(boss.get("diameter", 0.0)))
+        ]
+    actual = len(bosses)
+    expected = int(assertion.value)
+    passed = actual == expected
+
+    detail = ""
+    if not passed:
+        detail = f"expected {expected}, found {actual}"
+        present = sorted(
+            {
+                round(float(f.get("diameter", 0.0)), 3)
+                for f in (response.result.get("features") or [])
+                if f.get("kind") == "boss"
+            }
+        )
+        if not present:
+            detail += "; the part has no external cylinders at all"
+        elif assertion.diameter is not None and actual == 0:
+            detail += f"; external diameters present: {present}"
+
+    return AssertionResult(
+        kind=assertion.kind,
+        description=assertion.describe(),
+        passed=passed,
+        code=None if passed else FailureCode.COUNT_MISMATCH,
+        detail=detail,
+        expected=expected,
+        actual=actual,
+        deviation=float(actual - expected),
+    )
+
+
 def _eval_bolt_circle(assertion: BoltCircle, response: InspectResponse) -> AssertionResult:
     patterns = response.result.get("patterns") or []
 
@@ -506,6 +550,7 @@ _EVALUATORS = {
     "no_interference": _eval_no_interference,
     "clash_count": _eval_clash_count,
     "hole_count": _eval_hole_count,
+    "boss_count": _eval_boss_count,
     "bolt_circle": _eval_bolt_circle,
     "distance": _eval_distance,
 }

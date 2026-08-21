@@ -311,36 +311,49 @@ def features_of_shape(
             high = base + sign * raw.v_max
             spans.append((min(low, high), max(low, high)))
 
-        start = min(span[0] for span in spans)
-        end = max(span[1] for span in spans)
-        depth = end - start
-
         anchor = _point_on_axis_nearest_origin(members[0].location, direction)
-        position = tuple(anchor[i] + start * direction[i] for i in range(3))
 
-        total_angle = sum(raw.angular_span for raw in members)
-        complete = total_angle >= (2 * math.pi) - FULL_TURN_TOLERANCE_RAD
+        # Sharing an axis and a radius does not make two cylinders one feature.
+        # A stepped shaft has the same diameter at both ends, and two blind holes
+        # can be drilled from opposite faces into the same axis. Merging those
+        # would report one feature spanning the gap between them, with a depth
+        # that describes nothing that exists. Only spans that actually touch are
+        # one cylinder split across a seam.
+        ordered = sorted(zip(spans, members), key=lambda pair: pair[0][0])
+        clusters: list[list[tuple[tuple[float, float], _RawCylinder]]] = []
+        for span, raw in ordered:
+            if clusters and span[0] <= clusters[-1][-1][0][1] + AXIS_TOLERANCE_MM:
+                clusters[-1].append((span, raw))
+            else:
+                clusters.append([(span, raw)])
 
-        through = False
-        if bbox is not None and kind == KIND_HOLE:
-            body_low, body_high = _bbox_span_along(bbox, direction)
-            clear = _axis_is_clear(wrapped, anchor, direction, body_low, body_high)
-            through = bool(clear)
+        for cluster in clusters:
+            start = min(span[0] for span, _ in cluster)
+            end = max(span[1] for span, _ in cluster)
+            position = tuple(anchor[i] + start * direction[i] for i in range(3))
 
-        features.append(
-            CylindricalFeature(
-                ref=ref,
-                name=name,
-                kind=kind,
-                diameter=radius * 2.0,
-                axis=direction,
-                position=position,
-                depth=depth,
-                through=through,
-                complete=complete,
-                face_count=len(members),
+            total_angle = sum(raw.angular_span for _, raw in cluster)
+            complete = total_angle >= (2 * math.pi) - FULL_TURN_TOLERANCE_RAD
+
+            through = False
+            if bbox is not None and kind == KIND_HOLE:
+                body_low, body_high = _bbox_span_along(bbox, direction)
+                through = bool(_axis_is_clear(wrapped, anchor, direction, body_low, body_high))
+
+            features.append(
+                CylindricalFeature(
+                    ref=ref,
+                    name=name,
+                    kind=kind,
+                    diameter=radius * 2.0,
+                    axis=direction,
+                    position=position,
+                    depth=end - start,
+                    through=through,
+                    complete=complete,
+                    face_count=len(cluster),
+                )
             )
-        )
 
     features.sort(key=lambda f: (f.kind, -f.diameter, f.position))
     return features

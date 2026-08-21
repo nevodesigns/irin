@@ -3,6 +3,7 @@ import unittest
 import fixtures
 from irinspec import (
     BoltCircle,
+    BossCount,
     Bounds,
     ClashCount,
     HoleCount,
@@ -95,6 +96,7 @@ class PlanningTests(unittest.TestCase):
             "no_interference": NoInterference(),
             "clash_count": ClashCount(value=0),
             "hole_count": HoleCount(value=1),
+            "boss_count": BossCount(value=1),
             "bolt_circle": BoltCircle(diameter=60.0, count=6),
             "distance": Distance(from_ref="#a", to_ref="#b", axis="x", value=1.0),
         }

@@ -33,6 +33,12 @@ class FailureCode(str, Enum):
     COUNT_MISMATCH = "count_mismatch"
     INTERFERENCE = "interference"
 
+    #: The task produced no artifact at all. A defect rather than undetermined,
+    #: deliberately: an agent given a prompt and returning nothing has failed,
+    #: and scoring that as inconclusive would let the worst possible outcome
+    #: report as the mildest one.
+    ARTIFACT_MISSING = "artifact_missing"
+
     # The two below mean IRIN could not establish the answer. They are kept
     # apart from the four above everywhere they are counted.
     INSPECTION_FAILED = "inspection_failed"
@@ -46,6 +52,7 @@ DEFECT_CODES = frozenset(
         FailureCode.DIMENSION_OUT_OF_TOLERANCE,
         FailureCode.COUNT_MISMATCH,
         FailureCode.INTERFERENCE,
+        FailureCode.ARTIFACT_MISSING,
     }
 )
 

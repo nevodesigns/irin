@@ -54,6 +54,14 @@ flow, CI/CD-testing and resume options, and local/manual fallbacks.
 - `packages/implicitjs`: standalone JS implicit CAD model, shader render,
   snapshot, mesh sampling, and export runtime.
 - `packages/irincad`: shared Python STEP/GLB/topology artifact code.
+- `packages/irinspec`: engineering specs as typed data. Stdlib only: a report
+  generator or CI check must be able to read a spec without a CAD kernel.
+- `packages/irineval`: scores an artifact against a spec by driving the CAD
+  `inspect` CLI in a separate process. Depends on `irinspec`, never on
+  `irincad`.
+- `packages/irinbench`: benchmark corpora, runs, and reports.
+- `benchmarks/`: spec corpora and stored results. Source-only, and trimmed from
+  the publish tree.
 - `docs/`: documentation site.
 - `tests/`: root-owned test suites for skills, packages, viewer services, and
   repo-wide policy.
@@ -114,6 +122,12 @@ flow, CI/CD-testing and resume options, and local/manual fallbacks.
   and are re-exported from `cadjs` (e.g. `cadjs/common/camera.js`).
 - `packages/irincad` owns reusable Python artifact generation; skills should use
   bundled package code, not sibling skill imports.
+- The IRIN measurement packages depend in one direction only:
+  `irinbench` -> `irineval` -> `irinspec`, and none of them imports `irincad`.
+  `irineval` reaches the CAD kernel through the `inspect` CLI as a subprocess,
+  so a crash inside OpenCascade cannot take a benchmark run with it and a
+  reporting tool can read results without installing build123d. Do not add an
+  `irincad` import to any of the three.
 - Create lightweight shared Python packages under `packages/` when a helper
   should not inherit heavier package dependencies.
 - Use path-targeted search, validation, and `git status`; avoid broad scans over

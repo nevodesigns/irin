@@ -1,0 +1,48 @@
+{
+  "id": "six-blade-open-propeller",
+  "prompt": "Regression baseline for models/step/assemblies/six_blade_open_propeller.step.py. The reference model measures 147.492 x 150.221 x 30 mm with 7 parts, 95 faces and 241 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 147.492136,
+      "y": 150.221414,
+      "z": 30.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -73.746068,
+        -75.110707,
+        0.0
+      ],
+      "max": [
+        73.746068,
+        75.110707,
+        30.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 7
+    },
+    {
+      "kind": "face_count",
+      "value": 95
+    },
+    {
+      "kind": "edge_count",
+      "value": 241
+    }
+  ]
+}

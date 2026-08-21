@@ -1,0 +1,48 @@
+{
+  "id": "radial-engine-cylinder",
+  "prompt": "Regression baseline for models/step/parts/radial_engine_cylinder.step.py. The reference model measures 79.0576 x 69.9782 x 92.6746 mm with 1 part, 93 faces and 171 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 79.05760000000001,
+      "y": 69.978242,
+      "z": 92.674637,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -34.956492,
+        -34.989121,
+        0.0
+      ],
+      "max": [
+        44.101108,
+        34.989121,
+        92.674637
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "face_count",
+      "value": 93
+    },
+    {
+      "kind": "edge_count",
+      "value": 171
+    }
+  ]
+}

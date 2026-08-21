@@ -1,0 +1,48 @@
+{
+  "id": "gd01-mecha-concept",
+  "prompt": "Regression baseline for models/step/assemblies/gd01_mecha_concept.step.py. The reference model measures 991.198 x 1530 x 2865 mm with 172 parts, 3039 faces and 6221 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 991.198253,
+      "y": 1530.0,
+      "z": 2865.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -500.0,
+        -765.0,
+        0.0
+      ],
+      "max": [
+        491.198253,
+        765.0,
+        2865.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 172
+    },
+    {
+      "kind": "face_count",
+      "value": 3039
+    },
+    {
+      "kind": "edge_count",
+      "value": 6221
+    }
+  ]
+}

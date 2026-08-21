@@ -1,0 +1,48 @@
+{
+  "id": "photo-coffee-cup",
+  "prompt": "Regression baseline for models/step/assemblies/photo_coffee_cup.step.py. The reference model measures 96 x 95.3001 x 128.67 mm with 459 parts, 2949 faces and 5988 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 96.0,
+      "y": 95.300052,
+      "z": 128.67,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -48.0,
+        -47.650026,
+        0.0
+      ],
+      "max": [
+        48.0,
+        47.650026,
+        128.67
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 459
+    },
+    {
+      "kind": "face_count",
+      "value": 2949
+    },
+    {
+      "kind": "edge_count",
+      "value": 5988
+    }
+  ]
+}

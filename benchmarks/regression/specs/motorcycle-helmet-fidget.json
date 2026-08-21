@@ -1,0 +1,48 @@
+{
+  "id": "motorcycle-helmet-fidget",
+  "prompt": "Regression baseline for models/step/parts/motorcycle_helmet_fidget.step.py. The reference model measures 43.6127 x 41.9521 x 33.5 mm with 7 parts, 60 faces and 141 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 43.612742,
+      "y": 41.95209,
+      "z": 33.5,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -21.03852,
+        -20.976045,
+        -14.0
+      ],
+      "max": [
+        22.574222,
+        20.976045,
+        19.5
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 7
+    },
+    {
+      "kind": "face_count",
+      "value": 60
+    },
+    {
+      "kind": "edge_count",
+      "value": 141
+    }
+  ]
+}

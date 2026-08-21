@@ -75,6 +75,7 @@ const tomlTargets = [
   "packages/irincad/pyproject.toml",
   "packages/irinspec/pyproject.toml",
   "packages/irineval/pyproject.toml",
+  "packages/irinbench/pyproject.toml",
   "viewer/moveit2_server/pyproject.toml",
   "viewer/packages/irincad/pyproject.toml",
   "skills/cad-viewer/scripts/viewer/moveit2_server/pyproject.toml",

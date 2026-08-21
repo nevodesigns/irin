@@ -1,0 +1,48 @@
+{
+  "id": "square-mounting-block",
+  "prompt": "Regression baseline for models/step/parts/square_mounting_block.step.py. The reference model measures 48 x 48 x 28 mm with 1 part, 29 faces and 57 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 48.0,
+      "y": 48.0,
+      "z": 28.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -24.0,
+        -24.0,
+        -0.0
+      ],
+      "max": [
+        24.0,
+        24.0,
+        28.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "face_count",
+      "value": 29
+    },
+    {
+      "kind": "edge_count",
+      "value": 57
+    }
+  ]
+}

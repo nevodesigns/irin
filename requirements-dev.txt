@@ -13,6 +13,7 @@
 --editable ./packages/irincad
 --editable ./packages/irinspec
 --editable ./packages/irineval
+--editable ./packages/irinbench
 --editable ./viewer/moveit2_server
 
 # Extra third-party requirements mirrored from skill-local runtime files.

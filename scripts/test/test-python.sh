@@ -37,6 +37,7 @@ run_suite "irinspec package Python tests" "tests/python/packages/irinspec" "pack
 # irineval drives the CAD inspect CLI as a subprocess, so its integration tests need the
 # skill scripts on the path as well as both packages.
 run_suite "irineval package Python tests" "tests/python/packages/irineval" "packages/irineval/src" "packages/irinspec/src" "tests/python/packages/irineval" "skills/cad/scripts/inspect"
+run_suite "irinbench package Python tests" "tests/python/packages/irinbench" "packages/irinbench/src" "packages/irineval/src" "packages/irinspec/src"
 
 while IFS= read -r skill; do
   test_dir="tests/python/skills/$skill"

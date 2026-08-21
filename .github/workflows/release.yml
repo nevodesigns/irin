@@ -429,6 +429,9 @@ jobs:
       #                      carries its own vendored copy, and the only other
       #                      consumer was the docs build, which now runs from
       #                      source too.
+      #   benchmarks/        spec corpus and results. Source-only: the runner
+      #                      lives in packages/irinbench and reads it from a
+      #                      checkout, and nothing under skills/ touches it.
       #
       # This runs after the bundle, check-builds, and the tests, so the tree they
       # validated is untouched and only the published tree is trimmed. The
@@ -441,7 +444,7 @@ jobs:
       - name: Trim publish tree
         if: steps.gate.outputs.should_publish == 'true'
         run: |
-          removed_roots="models viewer tests requirements-dev.txt docs packages"
+          removed_roots="models viewer tests requirements-dev.txt docs packages benchmarks"
           for root in $removed_roots; do
             rm -rf "$root"
             if [ -e "$root" ]; then

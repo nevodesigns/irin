@@ -1,0 +1,48 @@
+{
+  "id": "print-in-place-hinge",
+  "prompt": "Regression baseline for models/step/parts/print_in_place_hinge.step.py. The reference model measures 45.8 x 48 x 9.99962 mm with 2 parts, 44 faces and 108 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 45.8,
+      "y": 48.0,
+      "z": 9.999623,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -22.9,
+        -24.0,
+        -0.0
+      ],
+      "max": [
+        22.9,
+        24.0,
+        9.999623
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 2
+    },
+    {
+      "kind": "face_count",
+      "value": 44
+    },
+    {
+      "kind": "edge_count",
+      "value": 108
+    }
+  ]
+}

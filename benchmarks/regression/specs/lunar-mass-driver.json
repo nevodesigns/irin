@@ -1,0 +1,48 @@
+{
+  "id": "lunar-mass-driver",
+  "prompt": "Regression baseline for models/step/assemblies/lunar_mass_driver.step.py. The reference model measures 228000 x 110143 x 76000 mm with 615 parts, 2617 faces and 4599 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 228000.0,
+      "y": 110143.044587,
+      "z": 76000.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -28000.0,
+        -48000.0,
+        -4000.0
+      ],
+      "max": [
+        200000.0,
+        62143.044587,
+        72000.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 615
+    },
+    {
+      "kind": "face_count",
+      "value": 2617
+    },
+    {
+      "kind": "edge_count",
+      "value": 4599
+    }
+  ]
+}

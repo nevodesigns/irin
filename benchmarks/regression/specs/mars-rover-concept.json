@@ -1,0 +1,48 @@
+{
+  "id": "mars-rover-concept",
+  "prompt": "Regression baseline for models/step/assemblies/mars_rover_concept.step.py. The reference model measures 5200 x 3741.93 x 2470 mm with 600 parts, 2497 faces and 4071 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 5200.0,
+      "y": 3741.931897,
+      "z": 2470.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -2450.0,
+        -1851.105327,
+        -90.0
+      ],
+      "max": [
+        2750.0,
+        1890.82657,
+        2380.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 600
+    },
+    {
+      "kind": "face_count",
+      "value": 2497
+    },
+    {
+      "kind": "edge_count",
+      "value": 4071
+    }
+  ]
+}

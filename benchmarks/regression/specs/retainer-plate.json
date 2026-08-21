@@ -1,0 +1,48 @@
+{
+  "id": "retainer-plate",
+  "prompt": "Regression baseline for models/step/parts/retainer_plate.step.py. The reference model measures 82 x 34 x 6 mm with 1 part, 40 faces and 82 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 82.0,
+      "y": 34.0,
+      "z": 6.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -41.0,
+        -17.0,
+        -0.0
+      ],
+      "max": [
+        41.0,
+        17.0,
+        6.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "face_count",
+      "value": 40
+    },
+    {
+      "kind": "edge_count",
+      "value": 82
+    }
+  ]
+}

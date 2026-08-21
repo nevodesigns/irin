@@ -1,0 +1,48 @@
+{
+  "id": "compact-humanoid",
+  "prompt": "Regression baseline for models/step/assemblies/compact_humanoid.step.py. The reference model measures 512.653 x 322.84 x 1292 mm with 243 parts, 3002 faces and 5996 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 512.652769,
+      "y": 322.839509,
+      "z": 1292.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -255.65,
+        -113.839509,
+        0.0
+      ],
+      "max": [
+        257.002769,
+        209.0,
+        1292.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 243
+    },
+    {
+      "kind": "face_count",
+      "value": 3002
+    },
+    {
+      "kind": "edge_count",
+      "value": 5996
+    }
+  ]
+}

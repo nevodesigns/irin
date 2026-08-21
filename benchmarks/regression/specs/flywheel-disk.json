@@ -1,0 +1,48 @@
+{
+  "id": "flywheel-disk",
+  "prompt": "Regression baseline for models/step/parts/flywheel_disk.step.py. The reference model measures 89.9441 x 89.972 x 12 mm with 1 part, 34 faces and 70 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 89.944061,
+      "y": 89.972026,
+      "z": 12.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -44.944061,
+        -44.986013,
+        0.0
+      ],
+      "max": [
+        45.0,
+        44.986013,
+        12.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "face_count",
+      "value": 34
+    },
+    {
+      "kind": "edge_count",
+      "value": 70
+    }
+  ]
+}

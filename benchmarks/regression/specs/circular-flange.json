@@ -1,0 +1,48 @@
+{
+  "id": "circular-flange",
+  "prompt": "Regression baseline for models/step/parts/circular_flange.step.py. The reference model measures 79.9503 x 79.9751 x 10 mm with 1 part, 12 faces and 28 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 79.950277,
+      "y": 79.975134,
+      "z": 10.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -39.950277,
+        -39.987567,
+        0.0
+      ],
+      "max": [
+        40.0,
+        39.987567,
+        10.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "face_count",
+      "value": 12
+    },
+    {
+      "kind": "edge_count",
+      "value": 28
+    }
+  ]
+}

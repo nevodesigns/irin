@@ -1,0 +1,48 @@
+{
+  "id": "lunar-rover-corner-assembly",
+  "prompt": "Regression baseline for models/step/assemblies/lunar_rover_corner_assembly.step.py. The reference model measures 175.022 x 114.5 x 150.022 mm with 197 parts, 982 faces and 1632 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 175.021574,
+      "y": 114.5,
+      "z": 150.021574,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -105.0,
+        -55.0,
+        -0.0
+      ],
+      "max": [
+        70.021574,
+        59.5,
+        150.021574
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 197
+    },
+    {
+      "kind": "face_count",
+      "value": 982
+    },
+    {
+      "kind": "edge_count",
+      "value": 1632
+    }
+  ]
+}

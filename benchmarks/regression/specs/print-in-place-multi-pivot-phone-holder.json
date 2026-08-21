@@ -1,0 +1,48 @@
+{
+  "id": "print-in-place-multi-pivot-phone-holder",
+  "prompt": "Regression baseline for models/step/parts/print_in_place_multi_pivot_phone_holder.step.py. The reference model measures 94 x 248 x 18 mm with 4 parts, 149 faces and 384 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 94.0,
+      "y": 248.0,
+      "z": 18.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -47.0,
+        -40.0,
+        -0.0
+      ],
+      "max": [
+        47.0,
+        208.0,
+        18.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 4
+    },
+    {
+      "kind": "face_count",
+      "value": 149
+    },
+    {
+      "kind": "edge_count",
+      "value": 384
+    }
+  ]
+}

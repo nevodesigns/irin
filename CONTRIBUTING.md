@@ -447,6 +447,29 @@ Production users should continue cloning `main`; developers should treat
 Generated artifacts should not become skill logic unless they are intentional
 fixtures. Prefer source files plus deterministic regeneration.
 
+## Benchmarks
+
+The regression corpus records what the curated models under `models/step/parts`
+and `models/step/assemblies` currently measure, so drift in the geometry
+pipeline shows up as a named dimension moving by a named amount:
+
+```bash
+python -m irinbench derive --name regression   # measure the models, write the corpus
+python -m irinbench run                        # score the corpus, write a result file
+python -m irinbench report benchmarks/results/<file>.json
+```
+
+`run` exits non-zero when the corpus does not fully pass.
+
+Re-derive only when a model has changed on purpose. Re-deriving after an
+unexplained failure overwrites the baseline with whatever the pipeline now
+produces, which converts a caught regression into a silently accepted one.
+
+The models pass this corpus by construction: its assertions were measured from
+them. It detects drift; it does not measure whether an agent can build the right
+thing from a requirement. That needs a `task` corpus, whose prompts and
+assertions are authored from intent rather than read off an answer.
+
 ## Common Dev Checks
 
 Use path-targeted validation. Common checks from the repo root:

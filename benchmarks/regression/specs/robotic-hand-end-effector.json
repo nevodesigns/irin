@@ -1,0 +1,48 @@
+{
+  "id": "robotic-hand-end-effector",
+  "prompt": "Regression baseline for models/step/assemblies/robotic_hand_end_effector.step.py. The reference model measures 136.779 x 149.29 x 87.0413 mm with 171 parts, 1680 faces and 3251 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 136.778895,
+      "y": 149.289772,
+      "z": 87.04134,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -81.778895,
+        -62.5,
+        -64.0
+      ],
+      "max": [
+        55.0,
+        86.789772,
+        23.04134
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 171
+    },
+    {
+      "kind": "face_count",
+      "value": 1680
+    },
+    {
+      "kind": "edge_count",
+      "value": 3251
+    }
+  ]
+}

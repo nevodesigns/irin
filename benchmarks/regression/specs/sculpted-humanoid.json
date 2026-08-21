@@ -1,0 +1,48 @@
+{
+  "id": "sculpted-humanoid",
+  "prompt": "Regression baseline for models/step/assemblies/sculpted_humanoid.step.py. The reference model measures 768.033 x 411.454 x 1658.4 mm with 617 parts, 2433 faces and 3482 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 768.032818,
+      "y": 411.454203,
+      "z": 1658.402786,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -381.016409,
+        -110.190586,
+        0.097214
+      ],
+      "max": [
+        387.016409,
+        301.263617,
+        1658.5
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 617
+    },
+    {
+      "kind": "face_count",
+      "value": 2433
+    },
+    {
+      "kind": "edge_count",
+      "value": 3482
+    }
+  ]
+}

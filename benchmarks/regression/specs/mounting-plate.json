@@ -1,0 +1,48 @@
+{
+  "id": "mounting-plate",
+  "prompt": "Regression baseline for models/step/parts/mounting_plate.step.py. The reference model measures 100 x 70 x 8 mm with 1 part, 43 faces and 99 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 100.0,
+      "y": 70.0,
+      "z": 8.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -50.0,
+        -35.0,
+        -0.0
+      ],
+      "max": [
+        50.0,
+        35.0,
+        8.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "face_count",
+      "value": 43
+    },
+    {
+      "kind": "edge_count",
+      "value": 99
+    }
+  ]
+}

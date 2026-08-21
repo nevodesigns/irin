@@ -1,0 +1,5030 @@
+{
+  "corpus": {
+    "name": "regression",
+    "kind": "regression"
+  },
+  "started_at": "2026-08-21T02:25:27+00:00",
+  "duration_s": 815.662,
+  "environment": {
+    "irin_version": "0.4.20",
+    "python": "3.12.13",
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35"
+  },
+  "totals": {
+    "specs": 51,
+    "specs_passing": 46,
+    "specs_with_defects": 2,
+    "specs_with_undetermined": 3,
+    "assertions": 306,
+    "assertions_passed": 301,
+    "assertions_undetermined": 3
+  },
+  "rates": {
+    "spec_pass_rate": 0.901961,
+    "assertion_pass_rate": 0.98366
+  },
+  "results": [
+    {
+      "spec": "basic-shape-mating-test-fixture",
+      "entry": "models/step/parts/basic_shape_mating_test_fixture.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/basic_shape_mating_test_fixture.step.py",
+        "refs models/step/parts/basic_shape_mating_test_fixture.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 11 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=120.0, y=70.0, z=42.5 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 120.0,
+            "y": 70.0,
+            "z": 42.5
+          },
+          "actual": {
+            "x": 120.0,
+            "y": 70.0,
+            "z": 42.5
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-60.0, -35.0, -6.0] and max [60.0, 35.0, 36.5] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -60.0,
+              -35.0,
+              -6.0
+            ],
+            "max": [
+              60.0,
+              35.0,
+              36.5
+            ]
+          },
+          "actual": {
+            "min": [
+              -60.0,
+              -35.0,
+              -6.0
+            ],
+            "max": [
+              60.0,
+              35.0,
+              36.5
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 11 parts",
+          "passed": true,
+          "expected": 11,
+          "actual": 11,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 56 faces",
+          "passed": true,
+          "expected": 56,
+          "actual": 56,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 108 edges",
+          "passed": true,
+          "expected": 108,
+          "actual": 108,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 6.7493
+    },
+    {
+      "spec": "cam-follower-roller",
+      "entry": "models/step/parts/cam_follower_roller.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/cam_follower_roller.step.py",
+        "refs models/step/parts/cam_follower_roller.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=31.980111, y=31.990054, z=18.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 31.980111,
+            "y": 31.990054,
+            "z": 18.0
+          },
+          "actual": {
+            "x": 31.980111,
+            "y": 31.990054,
+            "z": 18.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-15.980111, -15.995027, 0.0] and max [16.0, 15.995027, 18.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -15.980111,
+              -15.995027,
+              0.0
+            ],
+            "max": [
+              16.0,
+              15.995027,
+              18.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -15.980111,
+              -15.995027,
+              0.0
+            ],
+            "max": [
+              16.0,
+              15.995027,
+              18.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 8 faces",
+          "passed": true,
+          "expected": 8,
+          "actual": 8,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 14 edges",
+          "passed": true,
+          "expected": 14,
+          "actual": 14,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.4025
+    },
+    {
+      "spec": "centrifugal-impeller",
+      "entry": "models/step/parts/centrifugal_impeller.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/centrifugal_impeller.step.py",
+        "refs models/step/parts/centrifugal_impeller.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=90.0, y=89.748342, z=28.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 90.0,
+            "y": 89.748342,
+            "z": 28.0
+          },
+          "actual": {
+            "x": 90.0,
+            "y": 89.748342,
+            "z": 28.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-45.0, -44.874171, 0.0] and max [45.0, 44.874171, 28.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -45.0,
+              -44.874171,
+              0.0
+            ],
+            "max": [
+              45.0,
+              44.874171,
+              28.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -45.0,
+              -44.874171,
+              0.0
+            ],
+            "max": [
+              45.0,
+              44.874171,
+              28.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 237 faces",
+          "passed": true,
+          "expected": 237,
+          "actual": 237,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 615 edges",
+          "passed": true,
+          "expected": 615,
+          "actual": 615,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 10.9675
+    },
+    {
+      "spec": "circular-flange",
+      "entry": "models/step/parts/circular_flange.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/circular_flange.step.py",
+        "refs models/step/parts/circular_flange.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=79.950277, y=79.975134, z=10.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 79.950277,
+            "y": 79.975134,
+            "z": 10.0
+          },
+          "actual": {
+            "x": 79.950277,
+            "y": 79.975134,
+            "z": 10.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-39.950277, -39.987567, 0.0] and max [40.0, 39.987567, 10.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -39.950277,
+              -39.987567,
+              0.0
+            ],
+            "max": [
+              40.0,
+              39.987567,
+              10.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -39.950277,
+              -39.987567,
+              0.0
+            ],
+            "max": [
+              40.0,
+              39.987567,
+              10.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 12 faces",
+          "passed": true,
+          "expected": 12,
+          "actual": 12,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 28 edges",
+          "passed": true,
+          "expected": 28,
+          "actual": 28,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.7033
+    },
+    {
+      "spec": "clevis-bracket-lightening-cutouts",
+      "entry": "models/step/parts/clevis_bracket_lightening_cutouts.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/clevis_bracket_lightening_cutouts.step.py",
+        "refs models/step/parts/clevis_bracket_lightening_cutouts.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=120.0, y=60.0, z=52.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 120.0,
+            "y": 60.0,
+            "z": 52.0
+          },
+          "actual": {
+            "x": 120.0,
+            "y": 60.0,
+            "z": 52.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-60.0, -30.0, -0.0] and max [60.0, 30.0, 52.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -60.0,
+              -30.0,
+              -0.0
+            ],
+            "max": [
+              60.0,
+              30.0,
+              52.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -60.0,
+              -30.0,
+              -0.0
+            ],
+            "max": [
+              60.0,
+              30.0,
+              52.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 98 faces",
+          "passed": true,
+          "expected": 98,
+          "actual": 98,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 286 edges",
+          "passed": true,
+          "expected": 286,
+          "actual": 286,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 4.8001
+    },
+    {
+      "spec": "compact-humanoid",
+      "entry": "models/step/assemblies/compact_humanoid.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/compact_humanoid.step.py",
+        "refs models/step/assemblies/compact_humanoid.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 243 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=512.652769, y=322.839509, z=1292.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 512.652769,
+            "y": 322.839509,
+            "z": 1292.0
+          },
+          "actual": {
+            "x": 512.652769,
+            "y": 322.839509,
+            "z": 1292.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-255.65, -113.839509, 0.0] and max [257.002769, 209.0, 1292.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -255.65,
+              -113.839509,
+              0.0
+            ],
+            "max": [
+              257.002769,
+              209.0,
+              1292.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -255.65,
+              -113.839509,
+              0.0
+            ],
+            "max": [
+              257.002769,
+              209.0,
+              1292.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 243 parts",
+          "passed": true,
+          "expected": 243,
+          "actual": 243,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 3002 faces",
+          "passed": true,
+          "expected": 3002,
+          "actual": 3002,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 5996 edges",
+          "passed": true,
+          "expected": 5996,
+          "actual": 5996,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 24.3556
+    },
+    {
+      "spec": "cutaway-turbofan-engine",
+      "entry": "models/step/assemblies/cutaway_turbofan_engine.step.py",
+      "ok": false,
+      "score": 0.833333,
+      "counts": {
+        "total": 6,
+        "passed": 5,
+        "defects": 0,
+        "undetermined": 1
+      },
+      "inspections": [
+        "validate models/step/assemblies/cutaway_turbofan_engine.step.py",
+        "refs models/step/assemblies/cutaway_turbofan_engine.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "inspection_failed",
+          "detail": "inspect exceeded 120s answering ['validate', 'models/step/assemblies/cutaway_turbofan_engine.step.py']; the worker was restarted and this check is undetermined"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=180.0, y=118.05344600000001, z=177.547862 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 180.0,
+            "y": 118.05344600000001,
+            "z": 177.547862
+          },
+          "actual": {
+            "x": 180.0,
+            "y": 118.05344600000001,
+            "z": 177.547862
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [0.0, -58.888604, -118.0] and max [180.0, 59.164842, 59.547862] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              0.0,
+              -58.888604,
+              -118.0
+            ],
+            "max": [
+              180.0,
+              59.164842,
+              59.547862
+            ]
+          },
+          "actual": {
+            "min": [
+              0.0,
+              -58.888604,
+              -118.0
+            ],
+            "max": [
+              180.0,
+              59.164842,
+              59.547862
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 206 parts",
+          "passed": true,
+          "expected": 206,
+          "actual": 206,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 1572 faces",
+          "passed": true,
+          "expected": 1572,
+          "actual": 1572,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 3460 edges",
+          "passed": true,
+          "expected": 3460,
+          "actual": 3460,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 123.8962
+    },
+    {
+      "spec": "cylindrical-cap",
+      "entry": "models/step/parts/cylindrical_cap.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/cylindrical_cap.step.py",
+        "refs models/step/parts/cylindrical_cap.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=41.973895, y=41.986946, z=34.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 41.973895,
+            "y": 41.986946,
+            "z": 34.0
+          },
+          "actual": {
+            "x": 41.973895,
+            "y": 41.986946,
+            "z": 34.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-20.973895, -20.993473, 0.0] and max [21.0, 20.993473, 34.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -20.973895,
+              -20.993473,
+              0.0
+            ],
+            "max": [
+              21.0,
+              20.993473,
+              34.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -20.973895,
+              -20.993473,
+              0.0
+            ],
+            "max": [
+              21.0,
+              20.993473,
+              34.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 13 faces",
+          "passed": true,
+          "expected": 13,
+          "actual": 13,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 21 edges",
+          "passed": true,
+          "expected": 21,
+          "actual": 21,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 6.951
+    },
+    {
+      "spec": "cylindrical-spacer-sleeve",
+      "entry": "models/step/parts/cylindrical_spacer_sleeve.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/cylindrical_spacer_sleeve.step.py",
+        "refs models/step/parts/cylindrical_spacer_sleeve.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=29.981354, y=29.990676, z=28.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 29.981354,
+            "y": 29.990676,
+            "z": 28.0
+          },
+          "actual": {
+            "x": 29.981354,
+            "y": 29.990676,
+            "z": 28.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-14.981354, -14.995338, 0.0] and max [15.0, 14.995338, 28.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -14.981354,
+              -14.995338,
+              0.0
+            ],
+            "max": [
+              15.0,
+              14.995338,
+              28.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -14.981354,
+              -14.995338,
+              0.0
+            ],
+            "max": [
+              15.0,
+              14.995338,
+              28.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 8 faces",
+          "passed": true,
+          "expected": 8,
+          "actual": 8,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 14 edges",
+          "passed": true,
+          "expected": 14,
+          "actual": 14,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.9299
+    },
+    {
+      "spec": "electronics-enclosure-base",
+      "entry": "models/step/parts/electronics_enclosure_base.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/electronics_enclosure_base.step.py",
+        "refs models/step/parts/electronics_enclosure_base.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=100.0, y=70.0, z=30.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 30.0
+          },
+          "actual": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 30.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-50.0, -35.0, 0.0] and max [50.0, 35.0, 30.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -50.0,
+              -35.0,
+              0.0
+            ],
+            "max": [
+              50.0,
+              35.0,
+              30.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -50.0,
+              -35.0,
+              0.0
+            ],
+            "max": [
+              50.0,
+              35.0,
+              30.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 31 faces",
+          "passed": true,
+          "expected": 31,
+          "actual": 31,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 60 edges",
+          "passed": true,
+          "expected": 60,
+          "actual": 60,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 4.2492
+    },
+    {
+      "spec": "flying-car",
+      "entry": "models/step/assemblies/flying_car.step.py",
+      "ok": false,
+      "score": 0.833333,
+      "counts": {
+        "total": 6,
+        "passed": 5,
+        "defects": 0,
+        "undetermined": 1
+      },
+      "inspections": [
+        "validate models/step/assemblies/flying_car.step.py",
+        "refs models/step/assemblies/flying_car.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "inspection_failed",
+          "detail": "inspect exceeded 120s answering ['validate', 'models/step/assemblies/flying_car.step.py']; the worker was restarted and this check is undetermined"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=408.0, y=320.0, z=107.759746 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 408.0,
+            "y": 320.0,
+            "z": 107.759746
+          },
+          "actual": {
+            "x": 408.0,
+            "y": 320.0,
+            "z": 107.759746
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-215.0, -160.0, 0.0] and max [193.0, 160.0, 107.759746] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -215.0,
+              -160.0,
+              0.0
+            ],
+            "max": [
+              193.0,
+              160.0,
+              107.759746
+            ]
+          },
+          "actual": {
+            "min": [
+              -215.0,
+              -160.0,
+              0.0
+            ],
+            "max": [
+              193.0,
+              160.0,
+              107.759746
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 97 parts",
+          "passed": true,
+          "expected": 97,
+          "actual": 97,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 1267 faces",
+          "passed": true,
+          "expected": 1267,
+          "actual": 1267,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 2615 edges",
+          "passed": true,
+          "expected": 2615,
+          "actual": 2615,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 122.8377
+    },
+    {
+      "spec": "flywheel-disk",
+      "entry": "models/step/parts/flywheel_disk.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/flywheel_disk.step.py",
+        "refs models/step/parts/flywheel_disk.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=89.944061, y=89.972026, z=12.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 89.944061,
+            "y": 89.972026,
+            "z": 12.0
+          },
+          "actual": {
+            "x": 89.944061,
+            "y": 89.972026,
+            "z": 12.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-44.944061, -44.986013, 0.0] and max [45.0, 44.986013, 12.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -44.944061,
+              -44.986013,
+              0.0
+            ],
+            "max": [
+              45.0,
+              44.986013,
+              12.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -44.944061,
+              -44.986013,
+              0.0
+            ],
+            "max": [
+              45.0,
+              44.986013,
+              12.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 34 faces",
+          "passed": true,
+          "expected": 34,
+          "actual": 34,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 70 edges",
+          "passed": true,
+          "expected": 70,
+          "actual": 70,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 6.1436
+    },
+    {
+      "spec": "gd01-mecha-concept",
+      "entry": "models/step/assemblies/gd01_mecha_concept.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/gd01_mecha_concept.step.py",
+        "refs models/step/assemblies/gd01_mecha_concept.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 172 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=991.198253, y=1530.0, z=2865.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 991.198253,
+            "y": 1530.0,
+            "z": 2865.0
+          },
+          "actual": {
+            "x": 991.198253,
+            "y": 1530.0,
+            "z": 2865.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-500.0, -765.0, 0.0] and max [491.198253, 765.0, 2865.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -500.0,
+              -765.0,
+              0.0
+            ],
+            "max": [
+              491.198253,
+              765.0,
+              2865.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -500.0,
+              -765.0,
+              0.0
+            ],
+            "max": [
+              491.198253,
+              765.0,
+              2865.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 172 parts",
+          "passed": true,
+          "expected": 172,
+          "actual": 172,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 3039 faces",
+          "passed": true,
+          "expected": 3039,
+          "actual": 3039,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 6221 edges",
+          "passed": true,
+          "expected": 6221,
+          "actual": 6221,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 22.2493
+    },
+    {
+      "spec": "gusset-plate",
+      "entry": "models/step/parts/gusset_plate.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/gusset_plate.step.py",
+        "refs models/step/parts/gusset_plate.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=88.0, y=30.0, z=51.087422 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 88.0,
+            "y": 30.0,
+            "z": 51.087422
+          },
+          "actual": {
+            "x": 88.0,
+            "y": 30.0,
+            "z": 51.087422
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-44.0, -15.0, -0.0] and max [44.0, 15.0, 51.087422] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -44.0,
+              -15.0,
+              -0.0
+            ],
+            "max": [
+              44.0,
+              15.0,
+              51.087422
+            ]
+          },
+          "actual": {
+            "min": [
+              -44.0,
+              -15.0,
+              -0.0
+            ],
+            "max": [
+              44.0,
+              15.0,
+              51.087422
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 47 faces",
+          "passed": true,
+          "expected": 47,
+          "actual": 47,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 104 edges",
+          "passed": true,
+          "expected": 104,
+          "actual": 104,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.892
+    },
+    {
+      "spec": "keyed-shaft-hub",
+      "entry": "models/step/parts/keyed_shaft_hub.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/keyed_shaft_hub.step.py",
+        "refs models/step/parts/keyed_shaft_hub.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=53.966437, y=53.983216, z=22.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 53.966437,
+            "y": 53.983216,
+            "z": 22.0
+          },
+          "actual": {
+            "x": 53.966437,
+            "y": 53.983216,
+            "z": 22.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-26.966437, -26.991608, -0.0] and max [27.0, 26.991608, 22.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -26.966437,
+              -26.991608,
+              -0.0
+            ],
+            "max": [
+              27.0,
+              26.991608,
+              22.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -26.966437,
+              -26.991608,
+              -0.0
+            ],
+            "max": [
+              27.0,
+              26.991608,
+              22.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 23 faces",
+          "passed": true,
+          "expected": 23,
+          "actual": 23,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 53 edges",
+          "passed": true,
+          "expected": 53,
+          "actual": 53,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.7415
+    },
+    {
+      "spec": "l-bracket",
+      "entry": "models/step/parts/l_bracket.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/l_bracket.step.py",
+        "refs models/step/parts/l_bracket.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=80.0, y=50.0, z=58.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 80.0,
+            "y": 50.0,
+            "z": 58.0
+          },
+          "actual": {
+            "x": 80.0,
+            "y": 50.0,
+            "z": 58.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-40.0, -25.0, 0.0] and max [40.0, 25.0, 58.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -40.0,
+              -25.0,
+              0.0
+            ],
+            "max": [
+              40.0,
+              25.0,
+              58.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -40.0,
+              -25.0,
+              0.0
+            ],
+            "max": [
+              40.0,
+              25.0,
+              58.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 23 faces",
+          "passed": true,
+          "expected": 23,
+          "actual": 23,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 67 edges",
+          "passed": true,
+          "expected": 67,
+          "actual": 67,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.4609
+    },
+    {
+      "spec": "lunar-mass-driver",
+      "entry": "models/step/assemblies/lunar_mass_driver.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/lunar_mass_driver.step.py",
+        "refs models/step/assemblies/lunar_mass_driver.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 615 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=228000.0, y=110143.044587, z=76000.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 228000.0,
+            "y": 110143.044587,
+            "z": 76000.0
+          },
+          "actual": {
+            "x": 228000.0,
+            "y": 110143.044587,
+            "z": 76000.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-28000.0, -48000.0, -4000.0] and max [200000.0, 62143.044587, 72000.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -28000.0,
+              -48000.0,
+              -4000.0
+            ],
+            "max": [
+              200000.0,
+              62143.044587,
+              72000.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -28000.0,
+              -48000.0,
+              -4000.0
+            ],
+            "max": [
+              200000.0,
+              62143.044587,
+              72000.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 615 parts",
+          "passed": true,
+          "expected": 615,
+          "actual": 615,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 2617 faces",
+          "passed": true,
+          "expected": 2617,
+          "actual": 2617,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 4599 edges",
+          "passed": true,
+          "expected": 4599,
+          "actual": 4599,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 7.875
+    },
+    {
+      "spec": "lunar-rover-corner-assembly",
+      "entry": "models/step/assemblies/lunar_rover_corner_assembly.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/lunar_rover_corner_assembly.step.py",
+        "refs models/step/assemblies/lunar_rover_corner_assembly.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 197 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=175.021574, y=114.5, z=150.021574 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 175.021574,
+            "y": 114.5,
+            "z": 150.021574
+          },
+          "actual": {
+            "x": 175.021574,
+            "y": 114.5,
+            "z": 150.021574
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-105.0, -55.0, -0.0] and max [70.021574, 59.5, 150.021574] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -105.0,
+              -55.0,
+              -0.0
+            ],
+            "max": [
+              70.021574,
+              59.5,
+              150.021574
+            ]
+          },
+          "actual": {
+            "min": [
+              -105.0,
+              -55.0,
+              -0.0
+            ],
+            "max": [
+              70.021574,
+              59.5,
+              150.021574
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 197 parts",
+          "passed": true,
+          "expected": 197,
+          "actual": 197,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 982 faces",
+          "passed": true,
+          "expected": 982,
+          "actual": 982,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 1632 edges",
+          "passed": true,
+          "expected": 1632,
+          "actual": 1632,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 6.9515
+    },
+    {
+      "spec": "mars-rover-concept",
+      "entry": "models/step/assemblies/mars_rover_concept.step.py",
+      "ok": false,
+      "score": 0.833333,
+      "counts": {
+        "total": 6,
+        "passed": 5,
+        "defects": 1,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/mars_rover_concept.step.py",
+        "refs models/step/assemblies/mars_rover_concept.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "geometry_invalid",
+          "detail": "terrain_rock_03: selfIntersecting; terrain_rock_08: selfIntersecting",
+          "expected": "every occurrence sound",
+          "actual": "2 of 600 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=5200.0, y=3741.931897, z=2470.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 5200.0,
+            "y": 3741.931897,
+            "z": 2470.0
+          },
+          "actual": {
+            "x": 5200.0,
+            "y": 3741.931897,
+            "z": 2470.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-2450.0, -1851.105327, -90.0] and max [2750.0, 1890.82657, 2380.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -2450.0,
+              -1851.105327,
+              -90.0
+            ],
+            "max": [
+              2750.0,
+              1890.82657,
+              2380.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -2450.0,
+              -1851.105327,
+              -90.0
+            ],
+            "max": [
+              2750.0,
+              1890.82657,
+              2380.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 600 parts",
+          "passed": true,
+          "expected": 600,
+          "actual": 600,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 2497 faces",
+          "passed": true,
+          "expected": 2497,
+          "actual": 2497,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 4071 edges",
+          "passed": true,
+          "expected": 4071,
+          "actual": 4071,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 8.3346
+    },
+    {
+      "spec": "mechanical-iris-aperture",
+      "entry": "models/step/assemblies/mechanical_iris_aperture.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/mechanical_iris_aperture.step.py",
+        "refs models/step/assemblies/mechanical_iris_aperture.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 118 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=160.0, y=158.83342, z=20.1 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 160.0,
+            "y": 158.83342,
+            "z": 20.1
+          },
+          "actual": {
+            "x": 160.0,
+            "y": 158.83342,
+            "z": 20.1
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-80.0, -79.41671, 0.0] and max [80.0, 79.41671, 20.1] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -80.0,
+              -79.41671,
+              0.0
+            ],
+            "max": [
+              80.0,
+              79.41671,
+              20.1
+            ]
+          },
+          "actual": {
+            "min": [
+              -80.0,
+              -79.41671,
+              0.0
+            ],
+            "max": [
+              80.0,
+              79.41671,
+              20.1
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 118 parts",
+          "passed": true,
+          "expected": 118,
+          "actual": 118,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 3968 faces",
+          "passed": true,
+          "expected": 3968,
+          "actual": 3968,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 9012 edges",
+          "passed": true,
+          "expected": 9012,
+          "actual": 9012,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 46.6137
+    },
+    {
+      "spec": "miniature-spiral-staircase",
+      "entry": "models/step/assemblies/miniature_spiral_staircase.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/miniature_spiral_staircase.step.py",
+        "refs models/step/assemblies/miniature_spiral_staircase.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 43 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=136.87839400000001, y=136.88359, z=140.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 136.87839400000001,
+            "y": 136.88359,
+            "z": 140.0
+          },
+          "actual": {
+            "x": 136.87839400000001,
+            "y": 136.88359,
+            "z": 140.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-68.378394, -68.414485, 0.0] and max [68.5, 68.469105, 140.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -68.378394,
+              -68.414485,
+              0.0
+            ],
+            "max": [
+              68.5,
+              68.469105,
+              140.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -68.378394,
+              -68.414485,
+              0.0
+            ],
+            "max": [
+              68.5,
+              68.469105,
+              140.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 43 parts",
+          "passed": true,
+          "expected": 43,
+          "actual": 43,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 189 faces",
+          "passed": true,
+          "expected": 189,
+          "actual": 189,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 309 edges",
+          "passed": true,
+          "expected": 309,
+          "actual": 309,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 4.2215
+    },
+    {
+      "spec": "motorcycle-helmet-fidget",
+      "entry": "models/step/parts/motorcycle_helmet_fidget.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/motorcycle_helmet_fidget.step.py",
+        "refs models/step/parts/motorcycle_helmet_fidget.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 7 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=43.612742, y=41.95209, z=33.5 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 43.612742,
+            "y": 41.95209,
+            "z": 33.5
+          },
+          "actual": {
+            "x": 43.612742,
+            "y": 41.95209,
+            "z": 33.5
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-21.03852, -20.976045, -14.0] and max [22.574222, 20.976045, 19.5] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -21.03852,
+              -20.976045,
+              -14.0
+            ],
+            "max": [
+              22.574222,
+              20.976045,
+              19.5
+            ]
+          },
+          "actual": {
+            "min": [
+              -21.03852,
+              -20.976045,
+              -14.0
+            ],
+            "max": [
+              22.574222,
+              20.976045,
+              19.5
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 7 parts",
+          "passed": true,
+          "expected": 7,
+          "actual": 7,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 60 faces",
+          "passed": true,
+          "expected": 60,
+          "actual": 60,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 141 edges",
+          "passed": true,
+          "expected": 141,
+          "actual": 141,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.8279
+    },
+    {
+      "spec": "motorcycle-seat-fidget",
+      "entry": "models/step/parts/motorcycle_seat_fidget.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/motorcycle_seat_fidget.step.py",
+        "refs models/step/parts/motorcycle_seat_fidget.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 7 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=63.484707, y=34.0, z=24.499139 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 63.484707,
+            "y": 34.0,
+            "z": 24.499139
+          },
+          "actual": {
+            "x": 63.484707,
+            "y": 34.0,
+            "z": 24.499139
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-34.484707, -17.0, 0.0] and max [29.0, 17.0, 24.499139] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -34.484707,
+              -17.0,
+              0.0
+            ],
+            "max": [
+              29.0,
+              17.0,
+              24.499139
+            ]
+          },
+          "actual": {
+            "min": [
+              -34.484707,
+              -17.0,
+              0.0
+            ],
+            "max": [
+              29.0,
+              17.0,
+              24.499139
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 7 parts",
+          "passed": true,
+          "expected": 7,
+          "actual": 7,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 94 faces",
+          "passed": true,
+          "expected": 94,
+          "actual": 94,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 222 edges",
+          "passed": true,
+          "expected": 222,
+          "actual": 222,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 4.3777
+    },
+    {
+      "spec": "motorcycle-shock-absorber",
+      "entry": "models/step/assemblies/motorcycle_shock_absorber.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/motorcycle_shock_absorber.step.py",
+        "refs models/step/assemblies/motorcycle_shock_absorber.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 11 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=85.09556, y=85.09556, z=370.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 85.09556,
+            "y": 85.09556,
+            "z": 370.0
+          },
+          "actual": {
+            "x": 85.09556,
+            "y": 85.09556,
+            "z": 370.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-42.54778, -42.54778, -185.0] and max [42.54778, 42.54778, 185.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -42.54778,
+              -42.54778,
+              -185.0
+            ],
+            "max": [
+              42.54778,
+              42.54778,
+              185.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -42.54778,
+              -42.54778,
+              -185.0
+            ],
+            "max": [
+              42.54778,
+              42.54778,
+              185.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 11 parts",
+          "passed": true,
+          "expected": 11,
+          "actual": 11,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 815 faces",
+          "passed": true,
+          "expected": 815,
+          "actual": 815,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 2374 edges",
+          "passed": true,
+          "expected": 2374,
+          "actual": 2374,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 19.9823
+    },
+    {
+      "spec": "motorcycle-shock-fidget",
+      "entry": "models/step/parts/motorcycle_shock_fidget.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/motorcycle_shock_fidget.step.py",
+        "refs models/step/parts/motorcycle_shock_fidget.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 9 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=45.291716, y=45.291716, z=80.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 45.291716,
+            "y": 45.291716,
+            "z": 80.0
+          },
+          "actual": {
+            "x": 45.291716,
+            "y": 45.291716,
+            "z": 80.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-22.645858, -22.645858, 0.0] and max [22.645858, 22.645858, 80.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -22.645858,
+              -22.645858,
+              0.0
+            ],
+            "max": [
+              22.645858,
+              22.645858,
+              80.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -22.645858,
+              -22.645858,
+              0.0
+            ],
+            "max": [
+              22.645858,
+              22.645858,
+              80.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 9 parts",
+          "passed": true,
+          "expected": 9,
+          "actual": 9,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 400 faces",
+          "passed": true,
+          "expected": 400,
+          "actual": 400,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 1140 edges",
+          "passed": true,
+          "expected": 1140,
+          "actual": 1140,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 9.7129
+    },
+    {
+      "spec": "motorcycle-wheel-fidget",
+      "entry": "models/step/parts/motorcycle_wheel_fidget.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/motorcycle_wheel_fidget.step.py",
+        "refs models/step/parts/motorcycle_wheel_fidget.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 25 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=99.0, y=99.0, z=19.972037999999998 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 99.0,
+            "y": 99.0,
+            "z": 19.972037999999998
+          },
+          "actual": {
+            "x": 99.0,
+            "y": 99.0,
+            "z": 19.972037999999998
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-49.5, -49.5, -9.972038] and max [49.5, 49.5, 10.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -49.5,
+              -49.5,
+              -9.972038
+            ],
+            "max": [
+              49.5,
+              49.5,
+              10.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -49.5,
+              -49.5,
+              -9.972038
+            ],
+            "max": [
+              49.5,
+              49.5,
+              10.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 25 parts",
+          "passed": true,
+          "expected": 25,
+          "actual": 25,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 108 faces",
+          "passed": true,
+          "expected": 108,
+          "actual": 108,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 173 edges",
+          "passed": true,
+          "expected": 173,
+          "actual": 173,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.6272
+    },
+    {
+      "spec": "mounting-plate",
+      "entry": "models/step/parts/mounting_plate.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/mounting_plate.step.py",
+        "refs models/step/parts/mounting_plate.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=100.0, y=70.0, z=8.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 8.0
+          },
+          "actual": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 8.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-50.0, -35.0, -0.0] and max [50.0, 35.0, 8.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -50.0,
+              -35.0,
+              -0.0
+            ],
+            "max": [
+              50.0,
+              35.0,
+              8.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -50.0,
+              -35.0,
+              -0.0
+            ],
+            "max": [
+              50.0,
+              35.0,
+              8.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 43 faces",
+          "passed": true,
+          "expected": 43,
+          "actual": 43,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 99 edges",
+          "passed": true,
+          "expected": 99,
+          "actual": 99,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.7481
+    },
+    {
+      "spec": "open-top-electronics-enclosure",
+      "entry": "models/step/parts/open_top_electronics_enclosure.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/open_top_electronics_enclosure.step.py",
+        "refs models/step/parts/open_top_electronics_enclosure.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=100.0, y=70.0, z=30.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 30.0
+          },
+          "actual": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 30.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-50.0, -35.0, 0.0] and max [50.0, 35.0, 30.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -50.0,
+              -35.0,
+              0.0
+            ],
+            "max": [
+              50.0,
+              35.0,
+              30.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -50.0,
+              -35.0,
+              0.0
+            ],
+            "max": [
+              50.0,
+              35.0,
+              30.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 31 faces",
+          "passed": true,
+          "expected": 31,
+          "actual": 31,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 60 edges",
+          "passed": true,
+          "expected": 60,
+          "actual": 60,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.3605
+    },
+    {
+      "spec": "pelican-riding-bicycle",
+      "entry": "models/step/assemblies/pelican_riding_bicycle.step.py",
+      "ok": false,
+      "score": 0.833333,
+      "counts": {
+        "total": 6,
+        "passed": 5,
+        "defects": 1,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/pelican_riding_bicycle.step.py",
+        "refs models/step/assemblies/pelican_riding_bicycle.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "geometry_invalid",
+          "detail": "pelican_round_body: selfIntersecting; left_eye: selfIntersecting; right_webbed_foot_on_rear_pedal: selfIntersecting",
+          "expected": "every occurrence sound",
+          "actual": "3 of 101 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=202.0, y=53.0, z=175.5 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 202.0,
+            "y": 53.0,
+            "z": 175.5
+          },
+          "actual": {
+            "x": 202.0,
+            "y": 53.0,
+            "z": 175.5
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-101.0, -26.5, -2.5] and max [101.0, 26.5, 173.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -101.0,
+              -26.5,
+              -2.5
+            ],
+            "max": [
+              101.0,
+              26.5,
+              173.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -101.0,
+              -26.5,
+              -2.5
+            ],
+            "max": [
+              101.0,
+              26.5,
+              173.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 101 parts",
+          "passed": true,
+          "expected": 101,
+          "actual": 101,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 376 faces",
+          "passed": true,
+          "expected": 376,
+          "actual": 376,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 547 edges",
+          "passed": true,
+          "expected": 547,
+          "actual": 547,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 5.4878
+    },
+    {
+      "spec": "photo-coffee-cup",
+      "entry": "models/step/assemblies/photo_coffee_cup.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/photo_coffee_cup.step.py",
+        "refs models/step/assemblies/photo_coffee_cup.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 459 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=96.0, y=95.300052, z=128.67 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 96.0,
+            "y": 95.300052,
+            "z": 128.67
+          },
+          "actual": {
+            "x": 96.0,
+            "y": 95.300052,
+            "z": 128.67
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-48.0, -47.650026, 0.0] and max [48.0, 47.650026, 128.67] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -48.0,
+              -47.650026,
+              0.0
+            ],
+            "max": [
+              48.0,
+              47.650026,
+              128.67
+            ]
+          },
+          "actual": {
+            "min": [
+              -48.0,
+              -47.650026,
+              0.0
+            ],
+            "max": [
+              48.0,
+              47.650026,
+              128.67
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 459 parts",
+          "passed": true,
+          "expected": 459,
+          "actual": 459,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 2949 faces",
+          "passed": true,
+          "expected": 2949,
+          "actual": 2949,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 5988 edges",
+          "passed": true,
+          "expected": 5988,
+          "actual": 5988,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 10.1059
+    },
+    {
+      "spec": "planetary-gear-assembly",
+      "entry": "models/step/assemblies/planetary_gear_assembly.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/planetary_gear_assembly.step.py",
+        "refs models/step/assemblies/planetary_gear_assembly.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 9 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=140.0, y=139.608532, z=14.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 140.0,
+            "y": 139.608532,
+            "z": 14.0
+          },
+          "actual": {
+            "x": 140.0,
+            "y": 139.608532,
+            "z": 14.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-70.0, -69.804266, -5.0] and max [70.0, 69.804266, 9.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -70.0,
+              -69.804266,
+              -5.0
+            ],
+            "max": [
+              70.0,
+              69.804266,
+              9.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -70.0,
+              -69.804266,
+              -5.0
+            ],
+            "max": [
+              70.0,
+              69.804266,
+              9.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 9 parts",
+          "passed": true,
+          "expected": 9,
+          "actual": 9,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 582 faces",
+          "passed": true,
+          "expected": 582,
+          "actual": 582,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 1692 edges",
+          "passed": true,
+          "expected": 1692,
+          "actual": 1692,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 6.2366
+    },
+    {
+      "spec": "planetary-gear-stage",
+      "entry": "models/step/assemblies/planetary_gear_stage.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/planetary_gear_stage.step.py",
+        "refs models/step/assemblies/planetary_gear_stage.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 9 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=140.0, y=139.608532, z=14.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 140.0,
+            "y": 139.608532,
+            "z": 14.0
+          },
+          "actual": {
+            "x": 140.0,
+            "y": 139.608532,
+            "z": 14.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-70.0, -69.804266, -5.0] and max [70.0, 69.804266, 9.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -70.0,
+              -69.804266,
+              -5.0
+            ],
+            "max": [
+              70.0,
+              69.804266,
+              9.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -70.0,
+              -69.804266,
+              -5.0
+            ],
+            "max": [
+              70.0,
+              69.804266,
+              9.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 9 parts",
+          "passed": true,
+          "expected": 9,
+          "actual": 9,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 579 faces",
+          "passed": true,
+          "expected": 579,
+          "actual": 579,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 1683 edges",
+          "passed": true,
+          "expected": 1683,
+          "actual": 1683,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 6.1973
+    },
+    {
+      "spec": "print-in-place-hinge",
+      "entry": "models/step/parts/print_in_place_hinge.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/print_in_place_hinge.step.py",
+        "refs models/step/parts/print_in_place_hinge.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 2 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=45.8, y=48.0, z=9.999623 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 45.8,
+            "y": 48.0,
+            "z": 9.999623
+          },
+          "actual": {
+            "x": 45.8,
+            "y": 48.0,
+            "z": 9.999623
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-22.9, -24.0, -0.0] and max [22.9, 24.0, 9.999623] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -22.9,
+              -24.0,
+              -0.0
+            ],
+            "max": [
+              22.9,
+              24.0,
+              9.999623
+            ]
+          },
+          "actual": {
+            "min": [
+              -22.9,
+              -24.0,
+              -0.0
+            ],
+            "max": [
+              22.9,
+              24.0,
+              9.999623
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 2 parts",
+          "passed": true,
+          "expected": 2,
+          "actual": 2,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 44 faces",
+          "passed": true,
+          "expected": 44,
+          "actual": 44,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 108 edges",
+          "passed": true,
+          "expected": 108,
+          "actual": 108,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.4869
+    },
+    {
+      "spec": "print-in-place-multi-pivot-phone-holder",
+      "entry": "models/step/parts/print_in_place_multi_pivot_phone_holder.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/print_in_place_multi_pivot_phone_holder.step.py",
+        "refs models/step/parts/print_in_place_multi_pivot_phone_holder.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 4 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=94.0, y=248.0, z=18.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 94.0,
+            "y": 248.0,
+            "z": 18.0
+          },
+          "actual": {
+            "x": 94.0,
+            "y": 248.0,
+            "z": 18.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-47.0, -40.0, -0.0] and max [47.0, 208.0, 18.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -47.0,
+              -40.0,
+              -0.0
+            ],
+            "max": [
+              47.0,
+              208.0,
+              18.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -47.0,
+              -40.0,
+              -0.0
+            ],
+            "max": [
+              47.0,
+              208.0,
+              18.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 4 parts",
+          "passed": true,
+          "expected": 4,
+          "actual": 4,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 149 faces",
+          "passed": true,
+          "expected": 149,
+          "actual": 149,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 384 edges",
+          "passed": true,
+          "expected": 384,
+          "actual": 384,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 4.4147
+    },
+    {
+      "spec": "pulley-wheel",
+      "entry": "models/step/parts/pulley_wheel.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/pulley_wheel.step.py",
+        "refs models/step/parts/pulley_wheel.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=69.99045699999999, y=69.988046, z=24.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 69.99045699999999,
+            "y": 69.988046,
+            "z": 24.0
+          },
+          "actual": {
+            "x": 69.99045699999999,
+            "y": 69.988046,
+            "z": 24.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-34.990457, -34.998925, -4.0] and max [35.0, 34.989121, 20.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -34.990457,
+              -34.998925,
+              -4.0
+            ],
+            "max": [
+              35.0,
+              34.989121,
+              20.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -34.990457,
+              -34.998925,
+              -4.0
+            ],
+            "max": [
+              35.0,
+              34.989121,
+              20.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 20 faces",
+          "passed": true,
+          "expected": 20,
+          "actual": 20,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 36 edges",
+          "passed": true,
+          "expected": 36,
+          "actual": 36,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.512
+    },
+    {
+      "spec": "radial-engine-cylinder",
+      "entry": "models/step/parts/radial_engine_cylinder.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/radial_engine_cylinder.step.py",
+        "refs models/step/parts/radial_engine_cylinder.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=79.05760000000001, y=69.978242, z=92.674637 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 79.05760000000001,
+            "y": 69.978242,
+            "z": 92.674637
+          },
+          "actual": {
+            "x": 79.05760000000001,
+            "y": 69.978242,
+            "z": 92.674637
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-34.956492, -34.989121, 0.0] and max [44.101108, 34.989121, 92.674637] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -34.956492,
+              -34.989121,
+              0.0
+            ],
+            "max": [
+              44.101108,
+              34.989121,
+              92.674637
+            ]
+          },
+          "actual": {
+            "min": [
+              -34.956492,
+              -34.989121,
+              0.0
+            ],
+            "max": [
+              44.101108,
+              34.989121,
+              92.674637
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 93 faces",
+          "passed": true,
+          "expected": 93,
+          "actual": 93,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 171 edges",
+          "passed": true,
+          "expected": 171,
+          "actual": 171,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 5.1511
+    },
+    {
+      "spec": "rectangular-calibration-block",
+      "entry": "models/step/parts/rectangular_calibration_block.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/rectangular_calibration_block.step.py",
+        "refs models/step/parts/rectangular_calibration_block.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=100.0, y=60.0, z=20.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 100.0,
+            "y": 60.0,
+            "z": 20.0
+          },
+          "actual": {
+            "x": 100.0,
+            "y": 60.0,
+            "z": 20.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-50.0, -30.0, 0.0] and max [50.0, 30.0, 20.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -50.0,
+              -30.0,
+              0.0
+            ],
+            "max": [
+              50.0,
+              30.0,
+              20.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -50.0,
+              -30.0,
+              0.0
+            ],
+            "max": [
+              50.0,
+              30.0,
+              20.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 14 faces",
+          "passed": true,
+          "expected": 14,
+          "actual": 14,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 32 edges",
+          "passed": true,
+          "expected": 32,
+          "actual": 32,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.1281
+    },
+    {
+      "spec": "rectangular-clamp-block",
+      "entry": "models/step/parts/rectangular_clamp_block.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/rectangular_clamp_block.step.py",
+        "refs models/step/parts/rectangular_clamp_block.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=70.0, y=34.0, z=28.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 70.0,
+            "y": 34.0,
+            "z": 28.0
+          },
+          "actual": {
+            "x": 70.0,
+            "y": 34.0,
+            "z": 28.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-35.0, -17.0, 0.0] and max [35.0, 17.0, 28.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -35.0,
+              -17.0,
+              0.0
+            ],
+            "max": [
+              35.0,
+              17.0,
+              28.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -35.0,
+              -17.0,
+              0.0
+            ],
+            "max": [
+              35.0,
+              17.0,
+              28.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 56 faces",
+          "passed": true,
+          "expected": 56,
+          "actual": 56,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 108 edges",
+          "passed": true,
+          "expected": 108,
+          "actual": 108,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.4079
+    },
+    {
+      "spec": "research-humanoid",
+      "entry": "models/step/parts/research_humanoid.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/research_humanoid.step.py",
+        "refs models/step/parts/research_humanoid.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 2288 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=662.038438, y=405.215549, z=1710.5 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 662.038438,
+            "y": 405.215549,
+            "z": 1710.5
+          },
+          "actual": {
+            "x": 662.038438,
+            "y": 405.215549,
+            "z": 1710.5
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-331.019219, -119.983067, 0.0] and max [331.019219, 285.232482, 1710.5] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -331.019219,
+              -119.983067,
+              0.0
+            ],
+            "max": [
+              331.019219,
+              285.232482,
+              1710.5
+            ]
+          },
+          "actual": {
+            "min": [
+              -331.019219,
+              -119.983067,
+              0.0
+            ],
+            "max": [
+              331.019219,
+              285.232482,
+              1710.5
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 2288 parts",
+          "passed": true,
+          "expected": 2288,
+          "actual": 2288,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 14902 faces",
+          "passed": true,
+          "expected": 14902,
+          "actual": 14902,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 22890 edges",
+          "passed": true,
+          "expected": 22890,
+          "actual": 22890,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 47.2889
+    },
+    {
+      "spec": "retainer-plate",
+      "entry": "models/step/parts/retainer_plate.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/retainer_plate.step.py",
+        "refs models/step/parts/retainer_plate.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=82.0, y=34.0, z=6.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 82.0,
+            "y": 34.0,
+            "z": 6.0
+          },
+          "actual": {
+            "x": 82.0,
+            "y": 34.0,
+            "z": 6.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-41.0, -17.0, -0.0] and max [41.0, 17.0, 6.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -41.0,
+              -17.0,
+              -0.0
+            ],
+            "max": [
+              41.0,
+              17.0,
+              6.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -41.0,
+              -17.0,
+              -0.0
+            ],
+            "max": [
+              41.0,
+              17.0,
+              6.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 40 faces",
+          "passed": true,
+          "expected": 40,
+          "actual": 40,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 82 edges",
+          "passed": true,
+          "expected": 82,
+          "actual": 82,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.3482
+    },
+    {
+      "spec": "robotic-hand-end-effector",
+      "entry": "models/step/assemblies/robotic_hand_end_effector.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/robotic_hand_end_effector.step.py",
+        "refs models/step/assemblies/robotic_hand_end_effector.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 171 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=136.778895, y=149.289772, z=87.04134 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 136.778895,
+            "y": 149.289772,
+            "z": 87.04134
+          },
+          "actual": {
+            "x": 136.778895,
+            "y": 149.289772,
+            "z": 87.04134
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-81.778895, -62.5, -64.0] and max [55.0, 86.789772, 23.04134] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -81.778895,
+              -62.5,
+              -64.0
+            ],
+            "max": [
+              55.0,
+              86.789772,
+              23.04134
+            ]
+          },
+          "actual": {
+            "min": [
+              -81.778895,
+              -62.5,
+              -64.0
+            ],
+            "max": [
+              55.0,
+              86.789772,
+              23.04134
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 171 parts",
+          "passed": true,
+          "expected": 171,
+          "actual": 171,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 1680 faces",
+          "passed": true,
+          "expected": 1680,
+          "actual": 1680,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 3251 edges",
+          "passed": true,
+          "expected": 3251,
+          "actual": 3251,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 22.2205
+    },
+    {
+      "spec": "sculpted-humanoid",
+      "entry": "models/step/assemblies/sculpted_humanoid.step.py",
+      "ok": false,
+      "score": 0.833333,
+      "counts": {
+        "total": 6,
+        "passed": 5,
+        "defects": 0,
+        "undetermined": 1
+      },
+      "inspections": [
+        "validate models/step/assemblies/sculpted_humanoid.step.py",
+        "refs models/step/assemblies/sculpted_humanoid.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "inspection_failed",
+          "detail": "inspect exceeded 120s answering ['validate', 'models/step/assemblies/sculpted_humanoid.step.py']; the worker was restarted and this check is undetermined"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=768.032818, y=411.454203, z=1658.402786 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 768.032818,
+            "y": 411.454203,
+            "z": 1658.402786
+          },
+          "actual": {
+            "x": 768.032818,
+            "y": 411.454203,
+            "z": 1658.402786
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-381.016409, -110.190586, 0.097214] and max [387.016409, 301.263617, 1658.5] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -381.016409,
+              -110.190586,
+              0.097214
+            ],
+            "max": [
+              387.016409,
+              301.263617,
+              1658.5
+            ]
+          },
+          "actual": {
+            "min": [
+              -381.016409,
+              -110.190586,
+              0.097214
+            ],
+            "max": [
+              387.016409,
+              301.263617,
+              1658.5
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 617 parts",
+          "passed": true,
+          "expected": 617,
+          "actual": 617,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 2433 faces",
+          "passed": true,
+          "expected": 2433,
+          "actual": 2433,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 3482 edges",
+          "passed": true,
+          "expected": 3482,
+          "actual": 3482,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 123.0592
+    },
+    {
+      "spec": "shaft-collar",
+      "entry": "models/step/parts/shaft_collar.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/shaft_collar.step.py",
+        "refs models/step/parts/shaft_collar.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=41.973895, y=41.986946, z=16.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 41.973895,
+            "y": 41.986946,
+            "z": 16.0
+          },
+          "actual": {
+            "x": 41.973895,
+            "y": 41.986946,
+            "z": 16.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-20.973895, -20.993473, 0.0] and max [21.0, 20.993473, 16.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -20.973895,
+              -20.993473,
+              0.0
+            ],
+            "max": [
+              21.0,
+              20.993473,
+              16.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -20.973895,
+              -20.993473,
+              0.0
+            ],
+            "max": [
+              21.0,
+              20.993473,
+              16.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 9 faces",
+          "passed": true,
+          "expected": 9,
+          "actual": 9,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 21 edges",
+          "passed": true,
+          "expected": 21,
+          "actual": 21,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 5.5064
+    },
+    {
+      "spec": "six-axis-industrial-robot-arm",
+      "entry": "models/step/assemblies/six_axis_industrial_robot_arm.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/six_axis_industrial_robot_arm.step.py",
+        "refs models/step/assemblies/six_axis_industrial_robot_arm.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 99 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=261.8, y=140.0, z=165.825013 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 261.8,
+            "y": 140.0,
+            "z": 165.825013
+          },
+          "actual": {
+            "x": 261.8,
+            "y": 140.0,
+            "z": 165.825013
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-41.4, -70.0, -0.0] and max [220.4, 70.0, 165.825013] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -41.4,
+              -70.0,
+              -0.0
+            ],
+            "max": [
+              220.4,
+              70.0,
+              165.825013
+            ]
+          },
+          "actual": {
+            "min": [
+              -41.4,
+              -70.0,
+              -0.0
+            ],
+            "max": [
+              220.4,
+              70.0,
+              165.825013
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 99 parts",
+          "passed": true,
+          "expected": 99,
+          "actual": 99,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 791 faces",
+          "passed": true,
+          "expected": 791,
+          "actual": 791,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 1349 edges",
+          "passed": true,
+          "expected": 1349,
+          "actual": 1349,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 20.0457
+    },
+    {
+      "spec": "six-blade-open-propeller",
+      "entry": "models/step/assemblies/six_blade_open_propeller.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/six_blade_open_propeller.step.py",
+        "refs models/step/assemblies/six_blade_open_propeller.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 7 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=147.492136, y=150.221414, z=30.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 147.492136,
+            "y": 150.221414,
+            "z": 30.0
+          },
+          "actual": {
+            "x": 147.492136,
+            "y": 150.221414,
+            "z": 30.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-73.746068, -75.110707, 0.0] and max [73.746068, 75.110707, 30.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -73.746068,
+              -75.110707,
+              0.0
+            ],
+            "max": [
+              73.746068,
+              75.110707,
+              30.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -73.746068,
+              -75.110707,
+              0.0
+            ],
+            "max": [
+              73.746068,
+              75.110707,
+              30.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 7 parts",
+          "passed": true,
+          "expected": 7,
+          "actual": 7,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 95 faces",
+          "passed": true,
+          "expected": 95,
+          "actual": 95,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 241 edges",
+          "passed": true,
+          "expected": 241,
+          "actual": 241,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 44.017
+    },
+    {
+      "spec": "small-enclosure-cover",
+      "entry": "models/step/parts/small_enclosure_cover.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/small_enclosure_cover.step.py",
+        "refs models/step/parts/small_enclosure_cover.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=90.0, y=60.0, z=4.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 90.0,
+            "y": 60.0,
+            "z": 4.0
+          },
+          "actual": {
+            "x": 90.0,
+            "y": 60.0,
+            "z": 4.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-45.0, -30.0, 0.0] and max [45.0, 30.0, 4.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -45.0,
+              -30.0,
+              0.0
+            ],
+            "max": [
+              45.0,
+              30.0,
+              4.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -45.0,
+              -30.0,
+              0.0
+            ],
+            "max": [
+              45.0,
+              30.0,
+              4.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 19 faces",
+          "passed": true,
+          "expected": 19,
+          "actual": 19,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 48 edges",
+          "passed": true,
+          "expected": 48,
+          "actual": 48,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.4883
+    },
+    {
+      "spec": "spiral-staircase",
+      "entry": "models/step/assemblies/spiral_staircase.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/assemblies/spiral_staircase.step.py",
+        "refs models/step/assemblies/spiral_staircase.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 43 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=136.87839400000001, y=136.88359, z=140.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 136.87839400000001,
+            "y": 136.88359,
+            "z": 140.0
+          },
+          "actual": {
+            "x": 136.87839400000001,
+            "y": 136.88359,
+            "z": 140.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-68.378394, -68.414485, 0.0] and max [68.5, 68.469105, 140.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -68.378394,
+              -68.414485,
+              0.0
+            ],
+            "max": [
+              68.5,
+              68.469105,
+              140.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -68.378394,
+              -68.414485,
+              0.0
+            ],
+            "max": [
+              68.5,
+              68.469105,
+              140.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 43 parts",
+          "passed": true,
+          "expected": 43,
+          "actual": 43,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 189 faces",
+          "passed": true,
+          "expected": 189,
+          "actual": 189,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 309 edges",
+          "passed": true,
+          "expected": 309,
+          "actual": 309,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.9877
+    },
+    {
+      "spec": "spur-gear-blank",
+      "entry": "models/step/parts/spur_gear_blank.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/spur_gear_blank.step.py",
+        "refs models/step/parts/spur_gear_blank.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=77.743264, y=77.743264, z=16.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 77.743264,
+            "y": 77.743264,
+            "z": 16.0
+          },
+          "actual": {
+            "x": 77.743264,
+            "y": 77.743264,
+            "z": 16.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-38.871632, -38.871632, -3.0] and max [38.871632, 38.871632, 13.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -38.871632,
+              -38.871632,
+              -3.0
+            ],
+            "max": [
+              38.871632,
+              38.871632,
+              13.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -38.871632,
+              -38.871632,
+              -3.0
+            ],
+            "max": [
+              38.871632,
+              38.871632,
+              13.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 109 faces",
+          "passed": true,
+          "expected": 109,
+          "actual": 109,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 309 edges",
+          "passed": true,
+          "expected": 309,
+          "actual": 309,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.6111
+    },
+    {
+      "spec": "square-mounting-block",
+      "entry": "models/step/parts/square_mounting_block.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/square_mounting_block.step.py",
+        "refs models/step/parts/square_mounting_block.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=48.0, y=48.0, z=28.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 48.0,
+            "y": 48.0,
+            "z": 28.0
+          },
+          "actual": {
+            "x": 48.0,
+            "y": 48.0,
+            "z": 28.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-24.0, -24.0, -0.0] and max [24.0, 24.0, 28.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -24.0,
+              -24.0,
+              -0.0
+            ],
+            "max": [
+              24.0,
+              24.0,
+              28.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -24.0,
+              -24.0,
+              -0.0
+            ],
+            "max": [
+              24.0,
+              24.0,
+              28.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 29 faces",
+          "passed": true,
+          "expected": 29,
+          "actual": 29,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 57 edges",
+          "passed": true,
+          "expected": 57,
+          "actual": 57,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.1577
+    },
+    {
+      "spec": "stepped-shaft-keyway",
+      "entry": "models/step/parts/stepped_shaft_keyway.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/stepped_shaft_keyway.step.py",
+        "refs models/step/parts/stepped_shaft_keyway.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=120.0, y=29.990676, z=29.987838 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 120.0,
+            "y": 29.990676,
+            "z": 29.987838
+          },
+          "actual": {
+            "x": 120.0,
+            "y": 29.990676,
+            "z": 29.987838
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-0.0, -14.995338, -15.0] and max [120.0, 14.995338, 14.987838] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -0.0,
+              -14.995338,
+              -15.0
+            ],
+            "max": [
+              120.0,
+              14.995338,
+              14.987838
+            ]
+          },
+          "actual": {
+            "min": [
+              -0.0,
+              -14.995338,
+              -15.0
+            ],
+            "max": [
+              120.0,
+              14.995338,
+              14.987838
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 14 faces",
+          "passed": true,
+          "expected": 14,
+          "actual": 14,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 25 edges",
+          "passed": true,
+          "expected": 25,
+          "actual": 25,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.1548
+    },
+    {
+      "spec": "t-slot-slider-block",
+      "entry": "models/step/parts/t_slot_slider_block.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/t_slot_slider_block.step.py",
+        "refs models/step/parts/t_slot_slider_block.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=80.0, y=36.0, z=18.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 80.0,
+            "y": 36.0,
+            "z": 18.0
+          },
+          "actual": {
+            "x": 80.0,
+            "y": 36.0,
+            "z": 18.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-40.0, -18.0, 0.0] and max [40.0, 18.0, 18.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -40.0,
+              -18.0,
+              0.0
+            ],
+            "max": [
+              40.0,
+              18.0,
+              18.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -40.0,
+              -18.0,
+              0.0
+            ],
+            "max": [
+              40.0,
+              18.0,
+              18.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 32 faces",
+          "passed": true,
+          "expected": 32,
+          "actual": 32,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 96 edges",
+          "passed": true,
+          "expected": 96,
+          "actual": 96,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.6839
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "motorcycle-shock-absorber",
+  "prompt": "Regression baseline for models/step/assemblies/motorcycle_shock_absorber.step.py. The reference model measures 85.0956 x 85.0956 x 370 mm with 11 parts, 815 faces and 2374 edges.",
+  "units": "mm",
+  "notes": "Derived by measurement, not authored from intent. These assertions record what the model already is, so it passes them by construction. This detects drift in the geometry pipeline; it does not measure whether an agent can build the right thing from a requirement.",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "size",
+      "x": 85.09556,
+      "y": 85.09556,
+      "z": 370.0,
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "bounds",
+      "min": [
+        -42.54778,
+        -42.54778,
+        -185.0
+      ],
+      "max": [
+        42.54778,
+        42.54778,
+        185.0
+      ],
+      "tolerance": {
+        "symmetric": 0.01
+      }
+    },
+    {
+      "kind": "part_count",
+      "value": 11
+    },
+    {
+      "kind": "face_count",
+      "value": 815
+    },
+    {
+      "kind": "edge_count",
+      "value": 2374
+    }
+  ]
+}

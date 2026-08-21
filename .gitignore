@@ -5,10 +5,10 @@
 # Python
 __pycache__/
 *.py[cod]
-# Per-folder cadgen output home written beside CAD sources: component-GLB render
+# Per-folder irincad output home written beside CAD sources: component-GLB render
 # packages (assembly.json + components/*.glb), drawing packages, binary BREP scene
 # caches, and generation locks. Rebuilt on demand; never committed.
-__cadgen__/
+__irincad__/
 *.egg-info/
 .pytest_cache/
 .mypy_cache/

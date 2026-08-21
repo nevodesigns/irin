@@ -31,8 +31,8 @@ the arm links for a 220 mm bed.
 """
 
 from build123d import *
-from cadgen import srgb
-from cadgen.assembly import AssemblyHelper
+from irincad import srgb
+from irincad.assembly import AssemblyHelper
 
 
 # ---- shared joint geometry ----

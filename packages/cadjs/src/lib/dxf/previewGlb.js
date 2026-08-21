@@ -31,7 +31,7 @@ import {
 
 /**
  * Millimetres to glTF metres. The viewer's loader multiplies by 1000 on the way back in
- * (`GLB_CAD_UNIT_SCALE`, `render/glbMeshData.js`), and cadgen's Python GLB writer applies the
+ * (`GLB_CAD_UNIT_SCALE`, `render/glbMeshData.js`), and irincad's Python GLB writer applies the
  * same 0.001 (`_internal/glb_mesh_payload.py`). Writing raw millimetres would load a part at
  * 1000x its size.
  */

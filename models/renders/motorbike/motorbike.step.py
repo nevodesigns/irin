@@ -16,7 +16,7 @@ OCCURRENCE ORDER IS FROZEN — top to bottom below.
 
 from build123d import Axis, Location, Plane
 
-from cadgen.assembly import AssemblyHelper
+from irincad.assembly import AssemblyHelper
 
 import _bodywork as BODY
 import _chassis as CH

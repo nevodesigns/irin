@@ -53,7 +53,7 @@ from f14_parts.context import group, mirror_pair
 from f14_parts import palette as P
 
 try:  # instanced fastener/perforation rows; optional so the module still loads
-    from cadgen import compound_from_instances
+    from irincad import compound_from_instances
 except Exception:  # noqa: BLE001
     compound_from_instances = None
 

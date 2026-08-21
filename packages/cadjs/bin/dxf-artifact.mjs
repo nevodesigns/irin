@@ -2,7 +2,7 @@
 /**
  * The DXF drawing package's Node builder: DXF text on stdin, `preview.glb` out.
  *
- * Spawned by `cadgen._internal.node_runtime.run_node_builder` from INSIDE the Python
+ * Spawned by `irincad._internal.node_runtime.run_node_builder` from INSIDE the Python
  * producer's `artifact_build` lock, so it inherits that run's id, status record and progress
  * bar and owns none of them (design §4.3). Its whole job is geometry and bytes:
  *
@@ -17,7 +17,7 @@
  * The drawing arrives on STDIN, never as a path. That is what makes an imported drawing and a
  * generated one indistinguishable here: the producer either reads the user's file or
  * serialises the document its generator just built, and this sees the same bytes either way.
- * It is also why no `.dxf` is written into the package -- __cadgen__ caches what was COMPUTED
+ * It is also why no `.dxf` is written into the package -- __irincad__ caches what was COMPUTED
  * (the GLB), not a copy of an input the user already has, nor a file it could regenerate.
  *
  * There is no `--thickness-mm`. Thickness is a render-time scale on a prism, not a property of
@@ -100,7 +100,7 @@ async function main() {
 
   // A dimensioned drawing has no flat pattern: preview.glb is the 3D prism of a CUT profile,
   // and there is no profile to extrude. The producer decides which this is from the file's own
-  // DXF apparatus (cadgen.drawing_checks.document_is_drawing) and says so here, so the two
+  // DXF apparatus (irincad.drawing_checks.document_is_drawing) and says so here, so the two
   // never disagree about what the package should contain.
   const drawingProfile = String(args.profile || "cut").trim().toLowerCase() === "drawing";
 

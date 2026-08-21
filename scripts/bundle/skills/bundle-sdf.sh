@@ -13,8 +13,8 @@ MODE="write"
 CLEAN=0
 PRINT_OUTPUTS=0
 
-CADGEN_PACKAGE_DIR="$REPO_ROOT/packages/cadgen"
-CADGEN_RUNTIME_DIR="$REPO_ROOT/skills/sdf/scripts/packages/cadgen"
+IRINCAD_PACKAGE_DIR="$REPO_ROOT/packages/irincad"
+IRINCAD_RUNTIME_DIR="$REPO_ROOT/skills/sdf/scripts/packages/irincad"
 SNAPSHOT_RUNTIME_DIR="$REPO_ROOT/skills/sdf/scripts/snapshot/runtime"
 CHECK_DIR="${SDF_SKILL_BUNDLE_CHECK_DIR:-$REPO_ROOT/tmp/sdf-skill-runtime-check}"
 # The SAME cadjs entrypoint every rendering skill bundles, so a robot snapshot and the CAD
@@ -27,7 +27,7 @@ usage() {
 Usage:
   scripts/bundle/bundle-skill.sh sdf [--check] [--clean]
 
-Bundles the SDF skill runtime: the vendored cadgen Python package and the
+Bundles the SDF skill runtime: the vendored irincad Python package and the
 self-contained headless render runtime its snapshot CLI drives.
 
 Options:
@@ -52,12 +52,12 @@ while [ "$#" -gt 0 ]; do
 done
 
 if [ "$PRINT_OUTPUTS" -eq 1 ]; then
-  printf '%s\n' "skills/sdf/scripts/packages/cadgen"
+  printf '%s\n' "skills/sdf/scripts/packages/irincad"
   printf '%s\n' "skills/sdf/scripts/snapshot/runtime"
   exit 0
 fi
 
-require_python_package "$CADGEN_PACKAGE_DIR" cadgen
+require_python_package "$IRINCAD_PACKAGE_DIR" irincad
 ensure_snapshot_runtime_deps "$SNAPSHOT_BUILD_DEPS_DIR" 1
 
 if [ "$CLEAN" -eq 1 ]; then
@@ -65,7 +65,7 @@ if [ "$CLEAN" -eq 1 ]; then
 fi
 
 # The snapshot runtime is esbuild output, never a symlink, so it is checked in BOTH
-# layouts -- unlike the vendored cadgen copy, which the development layout replaces with a
+# layouts -- unlike the vendored irincad copy, which the development layout replaces with a
 # link to its source.
 check_snapshot() {
   build_snapshot_runtime "$CHECK_DIR/snapshot-runtime" "$SNAPSHOT_BUILD_DEPS_DIR"
@@ -74,7 +74,7 @@ check_snapshot() {
     "Run scripts/bundle/bundle-skill.sh sdf and commit skills/sdf/scripts/snapshot/runtime."
 }
 
-if [ "$MODE" = "check" ] && [ -L "$CADGEN_RUNTIME_DIR" ]; then
+if [ "$MODE" = "check" ] && [ -L "$IRINCAD_RUNTIME_DIR" ]; then
   rm -rf "$CHECK_DIR"
   check_snapshot || exit 1
   "$REPO_ROOT/scripts/dev/setup-skill-symlink.sh" sdf --check
@@ -85,8 +85,8 @@ fi
 if [ "$MODE" = "check" ]; then
   rm -rf "$CHECK_DIR"
   stale=0
-  check_python_runtime "$CADGEN_PACKAGE_DIR" "$CADGEN_RUNTIME_DIR" \
-    "$CHECK_DIR/packages/cadgen" "skills/sdf/scripts/packages/cadgen" \
+  check_python_runtime "$IRINCAD_PACKAGE_DIR" "$IRINCAD_RUNTIME_DIR" \
+    "$CHECK_DIR/packages/irincad" "skills/sdf/scripts/packages/irincad" \
     "Run scripts/bundle/bundle-skill.sh sdf and commit the updated production package copy." \
     || stale=1
   check_snapshot || stale=1
@@ -97,8 +97,8 @@ if [ "$MODE" = "check" ]; then
   fi
   echo "SDF skill production outputs are up to date."
 else
-  vendor_python_package "$CADGEN_PACKAGE_DIR" "$CADGEN_RUNTIME_DIR"
-  echo "Bundled skills/sdf/scripts/packages/cadgen"
+  vendor_python_package "$IRINCAD_PACKAGE_DIR" "$IRINCAD_RUNTIME_DIR"
+  echo "Bundled skills/sdf/scripts/packages/irincad"
   build_snapshot_runtime "$SNAPSHOT_RUNTIME_DIR" "$SNAPSHOT_BUILD_DEPS_DIR"
   echo "Bundled skills/sdf/scripts/snapshot/runtime"
 fi

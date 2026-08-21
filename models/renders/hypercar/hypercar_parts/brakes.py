@@ -61,7 +61,7 @@ from build123d import (
     revolve,
 )
 
-from cadgen import compound_from_instances
+from irincad import compound_from_instances
 
 from hypercar_parts import surfaces as S
 from hypercar_parts import palette as P

@@ -13,7 +13,7 @@ add_repo_path("skills/cad/scripts")
 
 from artifact import cli
 
-_OK_PAYLOAD = {"ok": True, "packagePath": "/abs/__cadgen__/models/sample.step"}
+_OK_PAYLOAD = {"ok": True, "packagePath": "/abs/__irincad__/models/sample.step"}
 
 
 class ArtifactCliTests(unittest.TestCase):
@@ -104,7 +104,7 @@ class ArtifactCliTests(unittest.TestCase):
             "import sys; sys.path.insert(0, 'scripts'); import artifact.cli; "
             "print('common' in sys.modules); "
             "print('OCP.OCP' in sys.modules); "
-            "print('cadgen._internal.step_scene' in sys.modules)"
+            "print('irincad._internal.step_scene' in sys.modules)"
         )
         result = subprocess.run(
             [sys.executable, "-c", code],

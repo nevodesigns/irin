@@ -23,14 +23,14 @@ from build123d.topology import downcast
 from build123d.topology.shape_core import shapetype
 
 REPO_ROOT = Path(__file__).resolve().parents[5]
-PACKAGE_SRC = REPO_ROOT / "packages" / "cadgen" / "src"
+PACKAGE_SRC = REPO_ROOT / "packages" / "irincad" / "src"
 if str(PACKAGE_SRC) not in sys.path:
     sys.path.insert(0, str(PACKAGE_SRC))
 
 os.environ.setdefault("XDG_CACHE_HOME", str(REPO_ROOT / ".cache"))
 os.environ.setdefault("EZDXF_CACHE_HOME", str(REPO_ROOT / ".cache" / "ezdxf"))
 
-from cadgen.step_scene import located_shape, load_step_scene, occurrence_selector_id
+from irincad.step_scene import located_shape, load_step_scene, occurrence_selector_id
 
 
 SOURCE_STEP = Path(__file__).resolve().with_name("tom_gripper.step")

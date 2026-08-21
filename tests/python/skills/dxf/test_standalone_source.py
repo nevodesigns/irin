@@ -2,9 +2,9 @@ import textwrap
 import unittest
 from pathlib import Path
 
-from cadgen import catalog as cad_catalog
-from cadgen._internal import generation as cad_generation
-from cadgen.metadata import parse_generator_metadata
+from irincad import catalog as cad_catalog
+from irincad._internal import generation as cad_generation
+from irincad.metadata import parse_generator_metadata
 from tests.python.support.tmp_root import temporary_directory
 
 STANDALONE_DXF_SOURCE = textwrap.dedent(
@@ -80,7 +80,7 @@ class StandaloneDxfSourceTests(unittest.TestCase):
 
             self.assertEqual(0, cad_generation.generate_dxf_targets([str(script_path)]))
 
-            package_dir = Path(root) / "__cadgen__" / "models" / script_path.name
+            package_dir = Path(root) / "__irincad__" / "models" / script_path.name
             self.assertTrue((package_dir / "drawing.json").exists())
             preview_path = package_dir / "preview.glb"
             self.assertTrue(preview_path.exists())
@@ -152,7 +152,7 @@ class StandaloneDxfSourceTests(unittest.TestCase):
 
             self.assertEqual(0, cad_generation.generate_dxf_targets([str(script_path)]))
 
-            package_dir = Path(root) / "__cadgen__" / "models" / script_path.name
+            package_dir = Path(root) / "__irincad__" / "models" / script_path.name
             self.assertTrue((package_dir / "preview.glb").is_file())
             self.assertFalse((package_dir / "drawing.svg").exists())
 

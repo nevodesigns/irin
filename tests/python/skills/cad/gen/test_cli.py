@@ -190,7 +190,7 @@ class GenCliTests(unittest.TestCase):
             "import sys; sys.path.insert(0, 'scripts'); import gen.cli; "
             "print('common' in sys.modules); "
             "print('OCP.OCP' in sys.modules); "
-            "print('cadgen._internal.step_scene' in sys.modules)"
+            "print('irincad._internal.step_scene' in sys.modules)"
         )
         result = subprocess.run(
             [sys.executable, "-c", code],

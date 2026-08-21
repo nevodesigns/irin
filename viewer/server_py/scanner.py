@@ -7,8 +7,8 @@ gets rewritten to the ``/__cad/asset?file=...`` form later by the backend's
 ``?v=`` token is ``base36(size)-base36(mtime_ns)`` (see encoding.file_version).
 
 Encoder semantics are pinned byte-for-byte by tests/golden.json (regenerate with
-tests/gen_golden.mjs). Kept deliberately importable WITHOUT cadgen/OCP: the
-package-path helpers below mirror ``cadgen.catalog`` (see the drift-guard test
+tests/gen_golden.mjs). Kept deliberately importable WITHOUT irincad/OCP: the
+package-path helpers below mirror ``irincad.catalog`` (see the drift-guard test
 in tests/python/global).
 """
 
@@ -32,22 +32,22 @@ IMPLICIT_CAD_EXTENSIONS = (".implicit.js", ".implicit.mjs")
 # this set only needs the non-hidden names.
 VIEWER_SKIPPED_DIRECTORIES = frozenset(
     [
-        "__cadgen__", "__pycache__", "build", "coverage", "dist", "node_modules", "viewer",
+        "__irincad__", "__pycache__", "build", "coverage", "dist", "node_modules", "viewer",
     ]
 )
-# --- per-folder __cadgen__ render-package paths ---
-# IMPORTED, not hand-copied. These were four literals under a "mirrors cadgen.catalog"
+# --- per-folder __irincad__ render-package paths ---
+# IMPORTED, not hand-copied. These were four literals under a "mirrors irincad.catalog"
 # comment, and after the mirror test was deleted nothing cross-checked them -- so renaming
-# `drawing.json` in cadgen would have silently stopped the viewer recognising drawing
+# `drawing.json` in irincad would have silently stopped the viewer recognising drawing
 # packages, with no test to catch it. Both modules are stdlib-only (verified: importing
 # either pulls in no OCP/build123d/ezdxf), so the server process stays free of a CAD runtime,
 # which is the invariant that actually matters here.
-from cadgen.catalog import CADGEN_DIRNAME, CADGEN_MODELS_DIRNAME  # noqa: E402
-from cadgen._internal.drawing_package import (  # noqa: E402
+from irincad.catalog import IRINCAD_DIRNAME, IRINCAD_MODELS_DIRNAME  # noqa: E402
+from irincad._internal.drawing_package import (  # noqa: E402
     DRAWING_DESCRIPTOR_NAME,
     DRAWING_PACKAGE_KIND,
 )
-from cadgen._internal.implicit_package import (  # noqa: E402
+from irincad._internal.implicit_package import (  # noqa: E402
     IMPLICIT_DESCRIPTOR_NAME,
     IMPLICIT_PACKAGE_KIND,
 )
@@ -59,26 +59,26 @@ def is_dxf_generator_path(file_path: str) -> bool:
     return str(file_path or "").lower().endswith(DXF_GENERATOR_SUFFIX)
 
 
-def is_inside_cadgen_dir(file_path: str) -> bool:
-    return CADGEN_DIRNAME in str(file_path or "").split(os.sep)
+def is_inside_irincad_dir(file_path: str) -> bool:
+    return IRINCAD_DIRNAME in str(file_path or "").split(os.sep)
 
 
 def is_render_package_path(file_path: str) -> bool:
     # A render-artifact package is the descriptor directory at
-    # ``<folder>/__cadgen__/models/<entry-filename>/``, recognized purely by structure.
+    # ``<folder>/__irincad__/models/<entry-filename>/``, recognized purely by structure.
     p = str(file_path or "")
     if not os.path.basename(p):
         return False
     return (
-        os.path.basename(os.path.dirname(p)) == CADGEN_MODELS_DIRNAME
-        and os.path.basename(os.path.dirname(os.path.dirname(p))) == CADGEN_DIRNAME
+        os.path.basename(os.path.dirname(p)) == IRINCAD_MODELS_DIRNAME
+        and os.path.basename(os.path.dirname(os.path.dirname(p))) == IRINCAD_DIRNAME
     )
 
 
 def render_package_dir(entry_path: str) -> str:
     """The render package directory for an entry file.
 
-    Resolved, to match cadgen.catalog.render_package_dir exactly. This side used to do a
+    Resolved, to match irincad.catalog.render_package_dir exactly. This side used to do a
     plain dirname/basename join: for a SYMLINKED entry file the two derived different
     package dirs, hence different lock sentinels, so the viewer and a CLI build silently
     failed to exclude each other and each rebuilt a package the other could not see. The
@@ -87,7 +87,7 @@ def render_package_dir(entry_path: str) -> str:
     base = os.path.realpath(entry_path)
     return os.path.realpath(
         os.path.join(
-            os.path.dirname(base), CADGEN_DIRNAME, CADGEN_MODELS_DIRNAME, os.path.basename(base)
+            os.path.dirname(base), IRINCAD_DIRNAME, IRINCAD_MODELS_DIRNAME, os.path.basename(base)
         )
     )
 
@@ -104,7 +104,7 @@ def render_package_asset_dir(entry_path: str) -> str:
     identically, because the OS follows the symlink; only the URL cares."""
     base = os.path.abspath(entry_path)
     return os.path.join(
-        os.path.dirname(base), CADGEN_DIRNAME, CADGEN_MODELS_DIRNAME, os.path.basename(base)
+        os.path.dirname(base), IRINCAD_DIRNAME, IRINCAD_MODELS_DIRNAME, os.path.basename(base)
     )
 
 
@@ -242,7 +242,7 @@ def _collect_cad_source_files(root_path: str, result: list) -> list:
             # List generated models/drawings whether or not their render artifact has
             # been built. An unbuilt one reports `needs-build` via /__cad/artifact and
             # is built on demand when opened, so a fresh checkout shows ALL generated
-            # entries (the __cadgen__ dir is gitignored), not only the pre-built ones.
+            # entries (the __irincad__ dir is gitignored), not only the pre-built ones.
             result.append(entry_path)
             continue
         if extension in SOURCE_EXTENSIONS or path_is_implicit_cad_source(entry_path):
@@ -296,7 +296,7 @@ def _paired_urdf_path_for_srdf(source_path, repo_root):
 # --- render-package payload assets ---
 # Which baked GLB a catalog entry renders from, per kind. A DXF and an implicit model have
 # no renderable geometry of their own -- one is 2D entities, the other is GLSL -- so each
-# bakes a mesh into its entry-keyed __cadgen__ package and the scanner publishes THAT as the
+# bakes a mesh into its entry-keyed __irincad__ package and the scanner publishes THAT as the
 # entry's `glb` relation. The client then resolves it through the ordinary
 # entryMeshAssetUrl path with no per-format branch, which is the whole point: one render
 # path, fed by one asset key.
@@ -308,7 +308,7 @@ _RENDER_PACKAGE_GLB_PAYLOADS = {
 
 
 def _read_package_descriptor(package_dir, descriptor_name, package_kind):
-    """Read one render-package descriptor (pure JSON; no cadgen runtime import)."""
+    """Read one render-package descriptor (pure JSON; no irincad runtime import)."""
     try:
         with open(os.path.join(package_dir, descriptor_name), "r", encoding="utf-8") as handle:
             descriptor = json.load(handle)
@@ -432,13 +432,13 @@ def create_single_asset_entry(repo_root, root_path, source_path, extension):
 
 
 def read_drawing_catalog_metadata(package_dir):
-    """Read a generated-DXF drawing package descriptor (pure JSON; no cadgen import)."""
+    """Read a generated-DXF drawing package descriptor (pure JSON; no irincad import)."""
     return _read_package_descriptor(package_dir, DRAWING_DESCRIPTOR_NAME, DRAWING_PACKAGE_KIND)
 
 
 def create_generated_dxf_entry(repo_root, root_path, source_path):
     # A `<name>.dxf.py` drawing generator entry. Its `url` is the cached drawing.dxf inside
-    # the entry-keyed __cadgen__ package (the exchange artifact, which is what Export and
+    # the entry-keyed __irincad__ package (the exchange artifact, which is what Export and
     # the file metadata are about); the geometry the viewport renders is the package's
     # preview.glb, published as the `glb` relation. An unbuilt entry has neither yet and
     # reports `needs-build` via /__cad/artifact when opened.
@@ -513,12 +513,12 @@ def read_step_catalog_metadata(package_dir):
 
 def create_step_entry(repo_root, root_path, source_path, extension, include_artifact_status=True):
     # Catalog path runs with include_artifact_status=False (refreshCatalog), so
-    # the entry is built purely from the on-disk __cadgen__ descriptor (gitignored,
+    # the entry is built purely from the on-disk __irincad__ descriptor (gitignored,
     # built locally) — no OCP. The include_artifact_status=True path (the
-    # /__cad/artifact status route) delegates to cadgen and is a later phase.
+    # /__cad/artifact status route) delegates to irincad and is a later phase.
     if include_artifact_status:
         raise NotImplementedError(
-            "STEP artifact-status path pending cadgen delegation (artifact-route phase)"
+            "STEP artifact-status path pending irincad delegation (artifact-route phase)"
         )
     entry_is_python = source_path.lower().endswith(".py")
     package_dir = render_package_dir(source_path)
@@ -587,7 +587,7 @@ def is_step_sidecar_path(file_path: str) -> bool:
 def _is_declared_params_sidecar(file_path: str) -> bool:
     model_dir = os.path.dirname(file_path)
     resolved = os.path.abspath(file_path)
-    packages_dir = os.path.join(model_dir, CADGEN_DIRNAME, CADGEN_MODELS_DIRNAME)
+    packages_dir = os.path.join(model_dir, IRINCAD_DIRNAME, IRINCAD_MODELS_DIRNAME)
     try:
         names = os.listdir(packages_dir)
     except OSError:
@@ -611,12 +611,12 @@ def is_served_cad_asset(file_path: str) -> bool:
     extension = os.path.splitext(file_path)[1].lower()
     if _is_hidden_name(os.path.basename(file_path)):
         # Hidden (dot-prefixed) files are never served: generation locks, temp files, and
-        # any leftover pre-__cadgen__ hidden artifacts. Hidden directory components below
+        # any leftover pre-__irincad__ hidden artifacts. Hidden directory components below
         # the served root are rejected by the backend, which knows the root; the basename
         # check here stays root-agnostic so a model root under a hidden absolute path
         # (e.g. a worktree in a dot-directory) still serves.
         return False
-    if is_inside_cadgen_dir(file_path):
+    if is_inside_irincad_dir(file_path):
         return True
     if extension in (".js", ".mjs") and (
         _is_declared_params_sidecar(file_path) or is_step_sidecar_path(file_path)

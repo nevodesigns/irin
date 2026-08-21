@@ -83,7 +83,7 @@ export function entrySourceFormat(entry) {
   return RENDER_FORMAT.STEP;
 }
 
-// The kinds whose renderable geometry is BAKED into a __cadgen__ render package rather
+// The kinds whose renderable geometry is BAKED into a __irincad__ render package rather
 // than parsed in the browser: a DXF is 2D entities and an implicit model is GLSL, so
 // neither has a mesh of its own. The producer writes one, the scanner publishes it as the
 // entry's `glb` asset, and the viewport loads it through the same path a native .glb takes.

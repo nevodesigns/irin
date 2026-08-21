@@ -45,7 +45,7 @@ def _run(argv, port_free=True, child_code=0, cad_backend_error=""):
     probe_effect = RuntimeError(cad_backend_error) if cad_backend_error else None
     with mock.patch.object(sav, "port_is_free", return_value=port_free), \
             mock.patch.object(sav, "spawn_backend", side_effect=fake_spawn), \
-            mock.patch.object(sav.cadgen_bridge, "require_cadgen_runtime", side_effect=probe_effect), \
+            mock.patch.object(sav.irincad_bridge, "require_irincad_runtime", side_effect=probe_effect), \
             contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
         rc = sav.main(argv)
     yield rc, out.getvalue(), err.getvalue(), calls

@@ -3,7 +3,7 @@
 The render pipeline supports per-occurrence PBR overrides: any leaf shape
 carrying a plain ``cad_material`` dict ({roughness, metalness, clearcoat,
 clearcoatRoughness, opacity} in [0,1]) has those channels override the
-presentation theme's global material (see cadgen
+presentation theme's global material (see irincad
 ``_occurrence_material`` and cadjs ``applyMaterialSettingsToRecord``).
 Albedo still comes from ``shape.color``.
 

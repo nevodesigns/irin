@@ -8,12 +8,12 @@ from unittest import mock
 from tests.python.support.paths import add_repo_path, repo_path
 
 add_repo_path("skills/dxf/scripts")
-add_repo_path("packages/cadgen/src")
+add_repo_path("packages/irincad/src")
 
-# The CLI is shared (cadgen.snapshot_cli); this skill's entrypoint declares that it accepts
+# The CLI is shared (irincad.snapshot_cli); this skill's entrypoint declares that it accepts
 # drawings and where its runtime lives. What is DXF-specific -- resolving a .dxf or a
 # gen_dxf() source to its built package -- is what these tests cover.
-import cadgen.snapshot_cli as snapshot
+import irincad.snapshot_cli as snapshot
 
 # Loaded BY PATH, not by module name: every skill names its entry package `snapshot`, so
 # `import snapshot.__main__` resolves to whichever skill's scripts dir landed on sys.path
@@ -30,13 +30,13 @@ _dxf_entry_spec.loader.exec_module(dxf_snapshot_entry)
 class DxfSnapshotCliTests(unittest.TestCase):
     """A drawing snapshot is a package build followed by a mesh render.
 
-    The render half is cadgen.snapshot_core, shared with the CAD skill, so these tests
+    The render half is irincad.snapshot_core, shared with the CAD skill, so these tests
     cover only what is specific here: that the input is resolved to the package's
     preview.glb, and that drawing-shaped inputs are the ones accepted.
     """
 
     def test_renders_the_packages_preview_glb(self) -> None:
-        payload = {"previewPath": "models/drawings/dxf/__cadgen__/models/x.dxf/preview.glb"}
+        payload = {"previewPath": "models/drawings/dxf/__irincad__/models/x.dxf/preview.glb"}
         with mock.patch.object(snapshot, "build_dxf_artifact", return_value=payload) as build:
             with mock.patch.object(Path, "is_file", return_value=True):
                 resolved = snapshot.drawing_preview_path(Path("/models/x.dxf"), force=False)

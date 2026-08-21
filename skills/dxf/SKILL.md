@@ -5,7 +5,7 @@ description: Generate, regenerate, and validate 2D DXF drawings from Python ezdx
 
 # DXF generation and validation
 
-Provenance: maintained in [earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad).
+Provenance: maintained in [nevodesigns/irin](https://github.com/nevodesigns/irin).
 Use the installed local skill files as the runtime source of truth; the
 repository link is only for provenance and release review.
 
@@ -16,7 +16,7 @@ Create or modify 2D DXF drawings from natural-language requirements or from CAD 
 The default build product is the **drawing package** — a render artifact the CAD Viewer serves and auto-regenerates:
 
 ```
-<model-folder>/__cadgen__/models/<name>.dxf.py/
+<model-folder>/__irincad__/models/<name>.dxf.py/
   drawing.json    # provenance + freshness descriptor
   drawing.dxf     # the built DXF (the exchange artifact)
   preview.glb     # the baked 3D flat pattern (what the viewer renders)
@@ -24,7 +24,7 @@ The default build product is the **drawing package** — a render artifact the C
 
 `preview.glb` is baked from `drawing.dxf` by a Node child of the build, inside the same
 generation lock, so a build produces both payloads or neither. It needs `node` on PATH (or
-`CADGEN_NODE`).
+`IRINCAD_NODE`).
 
 The sibling `<name>.dxf` file is written **on demand only** (`--write`, `-o`, or a `SOURCE=OUTPUT` pair) for deliverables handed to cutting services or other tools. An exported `.dxf` is a point-in-time deliverable, totally detached from its generator: rebuilds never delete, rewrite, or staleness-track it (same as an exported STEP file) — re-export when you want it refreshed. Do not commit generated `.dxf` outputs; the package cache is gitignored and rebuilt on demand.
 
@@ -38,7 +38,7 @@ Copy the full generator template for the applicable workflow from `references/ge
 
    ```python
    from pathlib import Path
-   from cadgen.sources import load_source_module
+   from irincad.sources import load_source_module
 
    _step = load_source_module(Path(__file__).with_name("bracket.step.py"))
 
@@ -46,9 +46,9 @@ Copy the full generator template for the applicable workflow from `references/ge
        return {"document": _step.build_dxf()}
    ```
 
-   Keep the shared drawing logic (e.g. a `build_dxf()` helper that unfolds the part via `cadgen.flatten`) in the `.step.py` or a plain helper module; the `.dxf.py` is the drawing entry point. The loaded `.step.py` and its imports are recorded in the drawing's source closure, so editing the 3D part automatically invalidates the cached drawing.
+   Keep the shared drawing logic (e.g. a `build_dxf()` helper that unfolds the part via `irincad.flatten`) in the `.step.py` or a plain helper module; the `.dxf.py` is the drawing entry point. The loaded `.step.py` and its imports are recorded in the drawing's source closure, so editing the 3D part automatically invalidates the cached drawing.
 
-3. **DXF derived from an imported STEP** (a `.step`/`.stp` file with no Python source): a `<name>.dxf.py` that reads the STEP (e.g. `build123d.import_step`) and projects it with `cadgen.flatten`. Only Python sources are freshness inputs — like a `gen_step()` that composes imported STEPs, the drawing does not auto-rebuild when the imported file changes; rerun with `--force` after replacing it.
+3. **DXF derived from an imported STEP** (a `.step`/`.stp` file with no Python source): a `<name>.dxf.py` that reads the STEP (e.g. `build123d.import_step`) and projects it with `irincad.flatten`. Only Python sources are freshness inputs — like a `gen_step()` that composes imported STEPs, the drawing does not auto-rebuild when the imported file changes; rerun with `--force` after replacing it.
 
 `gen_dxf()` must live in a dedicated `.dxf.py` file: a source defining both `gen_step()` and `gen_dxf()` is rejected. A plain `<name>.py` defining only `gen_dxf()` is still accepted as an explicit CLI target (the CLI is naming-agnostic), but only `.dxf.py` files are catalog entries the CAD Viewer lists and rebuilds.
 
@@ -65,8 +65,8 @@ Use these defaults unless the user specifies otherwise:
 - Units: millimeters; set them explicitly on the document (`doc.units = ezdxf.units.MM`).
 - Geometry lives in modelspace at 1:1 scale.
 - Cut profiles are closed polylines or closed line/arc loops; open contours only for engraving or reference geometry (generation validation enforces this — see Validation).
-- For CAD-backed parts, derive DXF cut contours from the actual STEP/solid topology with `cadgen.flatten`: select the real planar faces (`planar_faces`), project and union them (`union_projected_faces`), and emit clean closed contours (`add_shapely_geometry`). Use hand-drawn parametric outlines only when there is no reliable 3D topology to project.
-- Apply kerf / tool-radius compensation with `cadgen.flatten.offset_geometry` / `offset_closed_points` when the cutting process requires it; do not hand-offset coordinates.
+- For CAD-backed parts, derive DXF cut contours from the actual STEP/solid topology with `irincad.flatten`: select the real planar faces (`planar_faces`), project and union them (`union_projected_faces`), and emit clean closed contours (`add_shapely_geometry`). Use hand-drawn parametric outlines only when there is no reliable 3D topology to project.
+- Apply kerf / tool-radius compensation with `irincad.flatten.offset_geometry` / `offset_closed_points` when the cutting process requires it; do not hand-offset coordinates.
 - Layers carry intent: keep cut geometry and bend/fold lines on separate layers, and include "bend" in bend-layer names so downstream tools classify them as bends rather than cuts.
 - DXF layers are drawing structure, not STEP part/assembly structure.
 
@@ -109,7 +109,7 @@ python scripts/artifact path/to/imported.dxf
 python scripts/artifact path/to/source.dxf.py --force
 ```
 
-That builds the same hidden `__cadgen__` drawing package the CAD Viewer builds on
+That builds the same hidden `__irincad__` drawing package the CAD Viewer builds on
 demand — the drawing DXF plus the 3D `preview.glb` the viewport renders — and accepts
 either source kind, so it is also how you debug a generated drawing's package build.
 Flags: `--write PATH` (also write the package's drawing DXF there), `--force`,
@@ -123,7 +123,7 @@ python scripts/snapshot --input path/to/source.dxf.py --output turntable.gif --m
 ```
 
 It builds/refreshes the drawing package first, then renders that package's `preview.glb`
-through the shared snapshot CLI (`cadgen.snapshot_cli`) and the same headless browser
+through the shared snapshot CLI (`irincad.snapshot_cli`) and the same headless browser
 runtime every rendering skill uses — so geometry and materials render identically to the CAD
 Viewer; the default `snapshot` theme differs from the viewport only by dropping the grid,
 origin axis and shadows. The
@@ -175,7 +175,7 @@ Beyond the built-in checks, verify requested dimensions with targeted `ezdxf` re
 ```python
 import ezdxf
 
-doc = ezdxf.readfile("path/to/__cadgen__/models/source.dxf.py/drawing.dxf")
+doc = ezdxf.readfile("path/to/__irincad__/models/source.dxf.py/drawing.dxf")
 msp = doc.modelspace()
 profiles = [e for e in msp.query("LWPOLYLINE") if e.closed]
 holes = msp.query('CIRCLE[layer=="0"]')

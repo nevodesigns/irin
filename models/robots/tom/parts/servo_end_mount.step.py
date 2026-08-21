@@ -35,7 +35,7 @@ if str(TOM_DIR) not in sys.path:
 from robot_common.booleans import intersection_volume
 from robot_common.materials import GRAY_ALUMINUM_COLOR
 from robot_common.step_import import import_as_shape
-from cadgen import flatten as dxf_topology
+from irincad import flatten as dxf_topology
 
 
 CAD_DIR = Path(__file__).resolve().parent

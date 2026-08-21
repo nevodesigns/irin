@@ -21,10 +21,10 @@ BUILD_DEPS_DIR="${CAD_SNAPSHOT_BUILD_DEPS_DIR:-$REPO_ROOT/tmp/cad-snapshot-build
 CHECK_DIR="${CAD_SNAPSHOT_CHECK_DIR:-$REPO_ROOT/tmp/cad-snapshot-runtime-check}"
 RUNTIME_DIR="$REPO_ROOT/skills/cad/scripts/snapshot/runtime"
 ENTRYPOINT="$REPO_ROOT/packages/cadjs/src/common/headlessRenderEntry.js"
-CADPY_PACKAGE_DIR="$REPO_ROOT/packages/cadgen"
-CADPY_RUNTIME_DIR="$REPO_ROOT/skills/cad/scripts/packages/cadgen"
-# cadgen resolves its Node builders beside whatever runtime ships it, so a runtime that ships
-# cadgen must ship the builders cadgen can reach for. `scripts/gen` accepts a bare gen_dxf()
+CADPY_PACKAGE_DIR="$REPO_ROOT/packages/irincad"
+CADPY_RUNTIME_DIR="$REPO_ROOT/skills/cad/scripts/packages/irincad"
+# irincad resolves its Node builders beside whatever runtime ships it, so a runtime that ships
+# irincad must ship the builders irincad can reach for. `scripts/gen` accepts a bare gen_dxf()
 # document, which routes through the shared drawing-package path and shells out to this
 # builder -- so the CAD skill needs it even though drawings are the DXF skill's subject.
 # Missing here, the failure only appears in the bundled tree: in the development layout the
@@ -91,9 +91,9 @@ if [ ! -f "$ENTRYPOINT" ]; then
   exit 1
 fi
 
-if [ ! -f "$CADPY_PACKAGE_DIR/pyproject.toml" ] || [ ! -d "$CADPY_PACKAGE_DIR/src/cadgen" ]; then
-  echo "Missing cadgen package source: $CADPY_PACKAGE_DIR" >&2
-  echo "The CAD skill Python runtime is bundled from packages/cadgen." >&2
+if [ ! -f "$CADPY_PACKAGE_DIR/pyproject.toml" ] || [ ! -d "$CADPY_PACKAGE_DIR/src/irincad" ]; then
+  echo "Missing irincad package source: $CADPY_PACKAGE_DIR" >&2
+  echo "The CAD skill Python runtime is bundled from packages/irincad." >&2
   exit 1
 fi
 
@@ -101,14 +101,14 @@ if [ "$CLEAN" -eq 1 ]; then
   rm -rf "$BUILD_DEPS_DIR" "$CHECK_DIR"
 fi
 
-sync_cadgen_runtime() {
+sync_irincad_runtime() {
   vendor_python_package "$CADPY_PACKAGE_DIR" "$1"
 }
 
-check_cadgen_runtime() {
+check_irincad_runtime() {
   check_python_runtime "$CADPY_PACKAGE_DIR" "$CADPY_RUNTIME_DIR" \
-    "$CHECK_DIR/packages/cadgen" "skills/cad/scripts/packages/cadgen" \
-    "Run scripts/bundle/bundle-skill.sh cad and commit skills/cad/scripts/packages/cadgen."
+    "$CHECK_DIR/packages/irincad" "skills/cad/scripts/packages/irincad" \
+    "Run scripts/bundle/bundle-skill.sh cad and commit skills/cad/scripts/packages/irincad."
 }
 
 ensure_node_builder_deps
@@ -128,12 +128,12 @@ if [ "$MODE" = "check" ]; then
     "${BUILDER_ENTRIES[@]}" \
     || exit 1
   echo "skills/cad/scripts/packages/cadjs/bin is up to date."
-  check_cadgen_runtime
+  check_irincad_runtime
 else
   build_snapshot_runtime "$RUNTIME_DIR" "$BUILD_DEPS_DIR"
-  sync_cadgen_runtime "$CADPY_RUNTIME_DIR"
+  sync_irincad_runtime "$CADPY_RUNTIME_DIR"
   bundle_node_builders "$BUILDERS_RUNTIME_DIR" "${BUILDER_ENTRIES[@]}"
   echo "Bundled skills/cad/scripts/snapshot/runtime"
-  echo "Bundled skills/cad/scripts/packages/cadgen"
+  echo "Bundled skills/cad/scripts/packages/irincad"
   echo "Bundled skills/cad/scripts/packages/cadjs/bin"
 fi

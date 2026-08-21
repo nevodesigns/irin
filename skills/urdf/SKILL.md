@@ -5,7 +5,7 @@ description: URDF robot description authoring and validation. Use when creating,
 
 # URDF
 
-Provenance: maintained in [earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad).
+Provenance: maintained in [nevodesigns/irin](https://github.com/nevodesigns/irin).
 Use the installed local skill files as the runtime source of truth; the
 repository link is only for provenance and release review.
 

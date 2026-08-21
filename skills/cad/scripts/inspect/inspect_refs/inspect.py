@@ -4,8 +4,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-from cadgen import cad_ref_syntax as syntax
-from cadgen.reporting import (
+from irincad import cad_ref_syntax as syntax
+from irincad.reporting import (
     EntryReportOptions,
     entry_facts_payload,
     entry_positioning_payload,
@@ -13,8 +13,8 @@ from cadgen.reporting import (
     entry_summary_payload,
     major_planes_payload,
 )
-from cadgen.selector_types import SelectorProfile
-from cadgen.step_targets import (
+from irincad.selector_types import SelectorProfile
+from irincad.step_targets import (
     CadRefError,
     ResolvedStepTarget,
     cad_path_from_target,
@@ -23,8 +23,8 @@ from cadgen.step_targets import (
     resolve_step_target,
     step_path_from_target,
 )
-from cadgen import analysis
-from cadgen import lookup
+from irincad import analysis
+from irincad import lookup
 
 
 @dataclass
@@ -249,7 +249,7 @@ def _load_step_context(
     *,
     profile: SelectorProfile,
 ) -> EntryContext:
-    from cadgen.step_artifacts import ensure_step_topology_artifact
+    from irincad.step_artifacts import ensure_step_topology_artifact
 
     artifact = ensure_step_topology_artifact(
         target,
@@ -264,7 +264,7 @@ def _load_step_context(
         # An assembly's selector bundle is extracted from the composed compound and knows one
         # occurrence; the refs users pick come from the instance tree. Without this, every
         # `#o1.12` the viewer or `snapshot --mode list` hands out failed to resolve here.
-        from cadgen.assembly_lookup import index_with_assembly_occurrences
+        from irincad.assembly_lookup import index_with_assembly_occurrences
 
         selector_index = index_with_assembly_occurrences(selector_index, artifact)
 
@@ -456,7 +456,7 @@ def _occurrence_detail(row: dict[str, object], selector_index: lookup.SelectorIn
     # form when several parts share a label, which is the one case a reader cannot guess from
     # `name` alone. Omitted when the part has no usable label; then its numeric ref is the only
     # way in, exactly as before labels existed.
-    from cadgen.label_refs import label_ref_for_occurrence
+    from irincad.label_refs import label_ref_for_occurrence
 
     label_ref = label_ref_for_occurrence(getattr(selector_index, "label_aliases", {}) or {}, occurrence_id)
     return {

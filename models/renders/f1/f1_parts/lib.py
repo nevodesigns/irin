@@ -709,7 +709,7 @@ def bbox(shape):
     """Exact bounding box WITHOUT tessellating the shape.
 
     `Shape.bounding_box()` triangulates, which mutates the shared TShape and
-    breaks cadgen's content-addressed component dedup. Always use this instead.
+    breaks irincad's content-addressed component dedup. Always use this instead.
     Returns ((xmin, ymin, zmin), (xmax, ymax, zmax)).
     """
     from OCP.Bnd import Bnd_Box

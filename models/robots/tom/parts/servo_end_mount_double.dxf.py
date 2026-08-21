@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from cadgen.sources import load_source_module
+from irincad.sources import load_source_module
 
 _step = load_source_module(Path(__file__).with_name("servo_end_mount_double.step.py"))
 

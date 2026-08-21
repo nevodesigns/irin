@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Shared helpers for shipping cadgen's Node builders inside a skill runtime.
+# Shared helpers for shipping irincad's Node builders inside a skill runtime.
 #
-# cadgen builds the implicit and DXF render packages by spawning a Node child
-# (packages/cadgen/src/cadgen/_internal/node_runtime.py). The builders themselves live in
+# irincad builds the implicit and DXF render packages by spawning a Node child
+# (packages/irincad/src/irincad/_internal/node_runtime.py). The builders themselves live in
 # packages/cadjs/bin and import three, meshoptimizer and implicitjs -- a dependency GRAPH,
 # not just a file. A published skill ships no node_modules (design
 # §4.5, "Node the binary is available; the dependency graph is not"), so the builders are
@@ -10,10 +10,10 @@
 # scripts/bundle/skills/bundle-cad.sh does for snapshot-render.js.
 #
 # The outputs land at <skill>/scripts/packages/cadjs/bin/<name>, which is the path
-# `node_builder_script()` already derives (node_package_root() is cadgen's own
+# `node_builder_script()` already derives (node_package_root() is irincad's own
 # parents[4] -- packages/ in the dev checkout, <skill>/scripts/packages/ in a vendored
 # runtime). Nothing in the Python side changes, and the dev checkout keeps resolving the
-# real packages/cadjs/bin sources through the cadgen symlink.
+# real packages/cadjs/bin sources through the irincad symlink.
 #
 # Source it after setting BUNDLE_REPO_ROOT, then call bundle_node_builders /
 # check_node_builders with the entry files the skill's builders need.
@@ -50,7 +50,7 @@ node_builder_require_tools() {
   local tool
   for tool in node npm; do
     if ! command -v "$tool" >/dev/null 2>&1; then
-      echo "$tool is required to bundle cadgen's Node builders." >&2
+      echo "$tool is required to bundle irincad's Node builders." >&2
       return 1
     fi
   done

@@ -11,7 +11,7 @@ assemblies and their sidecars directly.
 ## Contents
 
 - `*.step`: canonical mechanism assemblies.
-- `__cadgen__/`: per-folder cadgen output home written beside the sources,
+- `__irincad__/`: per-folder irincad output home written beside the sources,
   holding the generated content-addressed render/selector package for each
   STEP file. Gitignored and rebuilt on demand — never commit it.
 - `<name>.step.js`: optional JS parameter/animation sidecar for an imported
@@ -25,7 +25,7 @@ bundle.
 
 ## Manifest
 
-The render/selector package (generated under `__cadgen__/`) is built on demand
+The render/selector package (generated under `__irincad__/`) is built on demand
 for every mechanism and is omitted from this table; the optional params sidecar
 is listed per mechanism below.
 

@@ -42,4 +42,4 @@ done
 source "$UTILS_SCRIPT"
 
 cd "$REPO_ROOT"
-setup_link "$MODE" "skills/urdf/scripts/packages/cadgen" "../../../../packages/cadgen"
+setup_link "$MODE" "skills/urdf/scripts/packages/irincad" "../../../../packages/irincad"

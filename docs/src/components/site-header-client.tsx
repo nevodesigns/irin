@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const GITHUB_REPO_URL = "https://github.com/earthtojake/text-to-cad";
+const GITHUB_REPO_URL = "https://github.com/nevodesigns/irin";
 
 function DiscordLogo({ className }: { className?: string }) {
   return (

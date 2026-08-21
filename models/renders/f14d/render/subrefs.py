@@ -24,7 +24,7 @@ import re
 from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parent.parent
-ASSEMBLY = PROJECT / "__cadgen__" / "models" / "f14d.step.py" / "assembly.json"
+ASSEMBLY = PROJECT / "__irincad__" / "models" / "f14d.step.py" / "assembly.json"
 
 # group name -> (parent occurrence prefix, name patterns, side filter or None)
 GROUPS = [

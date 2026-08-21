@@ -18,8 +18,8 @@ Clearances target a tuned 0.4 mm-nozzle FDM printer:
 """
 
 from build123d import *
-from cadgen import srgb
-from cadgen.assembly import AssemblyHelper
+from irincad import srgb
+from irincad.assembly import AssemblyHelper
 
 
 HINGE_LENGTH = 40.0

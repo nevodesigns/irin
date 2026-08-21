@@ -10,7 +10,7 @@ export const DXF_EXPORT_FORMATS = Object.freeze(["dxf"]);
 
 // An `.implicit.js` model exports to mesh formats only — its own source is the "native"
 // file and there is nothing to download. The mesh is produced by the shipped implicitjs
-// export CLI, run SERVER-side (cadgen.implicit_export): unlike the baked render package it
+// export CLI, run SERVER-side (irincad.implicit_export): unlike the baked render package it
 // is live-valued, so the exporter's own resolution/params defaults apply.
 export const IMPLICIT_EXPORT_FORMATS = Object.freeze(["stl", "glb", "3mf"]);
 

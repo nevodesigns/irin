@@ -17,11 +17,11 @@ PRINT_OUTPUTS=0
 
 IMPLICITJS_PACKAGE_DIR="$REPO_ROOT/packages/implicitjs"
 IMPLICITJS_RUNTIME_DIR="$REPO_ROOT/skills/implicit-cad/scripts/packages/implicitjs"
-# scripts/gen drives cadgen.implicit_artifact, so the skill vendors the Python package the
+# scripts/gen drives irincad.implicit_artifact, so the skill vendors the Python package the
 # same way `cad` and `dxf` do.
-CADGEN_PACKAGE_DIR="$REPO_ROOT/packages/cadgen"
-CADGEN_RUNTIME_DIR="$REPO_ROOT/skills/implicit-cad/scripts/packages/cadgen"
-# The Node BUILDER cadgen spawns. It lives in packages/cadjs and imports meshoptimizer and
+IRINCAD_PACKAGE_DIR="$REPO_ROOT/packages/irincad"
+IRINCAD_RUNTIME_DIR="$REPO_ROOT/skills/implicit-cad/scripts/packages/irincad"
+# The Node BUILDER irincad spawns. It lives in packages/cadjs and imports meshoptimizer and
 # implicitjs, so it is esbuilt self-contained rather than copied (design §4.5). Two of its
 # three entries exist only because their runtime path is computed from `import.meta.url`
 # inside the bundle and therefore cannot be inlined: implicitClosureHooks.mjs is
@@ -85,7 +85,7 @@ done
 
 if [ "$PRINT_OUTPUTS" -eq 1 ]; then
   printf '%s\n' "${IMPLICITJS_RUNTIME_DIR#"$REPO_ROOT"/}"
-  printf '%s\n' "${CADGEN_RUNTIME_DIR#"$REPO_ROOT"/}"
+  printf '%s\n' "${IRINCAD_RUNTIME_DIR#"$REPO_ROOT"/}"
   printf '%s\n' "${BUILDERS_RUNTIME_DIR#"$REPO_ROOT"/}"
   printf '%s\n' "${SNAPSHOT_RUNTIME_DIR#"$REPO_ROOT"/}"
   exit 0
@@ -158,7 +158,7 @@ require_file "$IMPLICITJS_PACKAGE_DIR/package.json" "implicitjs package"
 require_dir "$IMPLICITJS_PACKAGE_DIR/src" "implicitjs source"
 require_file "$REPO_ROOT/skills/implicit-cad/scripts/snapshot/__main__.py" "implicit CAD snapshot CLI"
 require_file "$IMPLICITJS_PACKAGE_DIR/scripts/export.mjs" "implicit CAD export CLI"
-require_python_package "$CADGEN_PACKAGE_DIR" cadgen
+require_python_package "$IRINCAD_PACKAGE_DIR" irincad
 ensure_node_builder_deps
 ensure_snapshot_runtime_deps "$SNAPSHOT_BUILD_DEPS_DIR" 1
 
@@ -208,9 +208,9 @@ if [ "$MODE" = "check" ]; then
   check_builders || stale=1
   check_snapshot || stale=1
   check_python_runtime \
-    "$CADGEN_PACKAGE_DIR" "$CADGEN_RUNTIME_DIR" "$CHECK_DIR/packages/cadgen" \
-    "skills/implicit-cad/scripts/packages/cadgen" \
-    "Run scripts/bundle/bundle-skill.sh implicit-cad and commit skills/implicit-cad/scripts/packages/cadgen." \
+    "$IRINCAD_PACKAGE_DIR" "$IRINCAD_RUNTIME_DIR" "$CHECK_DIR/packages/irincad" \
+    "skills/implicit-cad/scripts/packages/irincad" \
+    "Run scripts/bundle/bundle-skill.sh implicit-cad and commit skills/implicit-cad/scripts/packages/irincad." \
     || stale=1
 
   if [ "$stale" -ne 0 ]; then
@@ -222,8 +222,8 @@ if [ "$MODE" = "check" ]; then
 else
   sync_implicitjs_package "$IMPLICITJS_RUNTIME_DIR"
   echo "Bundled skills/implicit-cad/scripts/packages/implicitjs"
-  vendor_python_package "$CADGEN_PACKAGE_DIR" "$CADGEN_RUNTIME_DIR"
-  echo "Bundled skills/implicit-cad/scripts/packages/cadgen"
+  vendor_python_package "$IRINCAD_PACKAGE_DIR" "$IRINCAD_RUNTIME_DIR"
+  echo "Bundled skills/implicit-cad/scripts/packages/irincad"
   bundle_node_builders "$BUILDERS_RUNTIME_DIR" "${BUILDER_ENTRIES[@]}"
   echo "Bundled skills/implicit-cad/scripts/packages/cadjs/bin"
   build_snapshot_runtime "$SNAPSHOT_RUNTIME_DIR" "$SNAPSHOT_BUILD_DEPS_DIR"

@@ -18,7 +18,7 @@ from server_py.backend import LocalAssetBackend  # noqa: E402
 
 GENERATOR = """from pathlib import Path
 
-from cadgen.step_scene import import_step
+from irincad.step_scene import import_step
 
 
 def gen_step():

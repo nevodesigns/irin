@@ -60,8 +60,8 @@ export default { manifest: { /* ... */ }, update({ params, effects }) { /* ... *
       return {"shape": build_model(), "params": "<name>.params.js"}
   ```
 
-  cadgen records that path as `paramsPath` in the package descriptor
-  (`assembly.json`, under `__cadgen__`), model-folder-relative. The CAD Viewer
+  irincad records that path as `paramsPath` in the package descriptor
+  (`assembly.json`, under `__irincad__`), model-folder-relative. The CAD Viewer
   reads `paramsPath` from the descriptor to load the sidecar. JS serving is
   descriptor-gated: only a file a descriptor declares is served, never arbitrary
   workspace JS.

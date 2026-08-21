@@ -17,7 +17,7 @@
  *
  * The cost is that a bare displayed name is NOT a literal path suffix, so resolving one back to
  * a file means expanding it (`bracket` -> `bracket.step.py`) rather than matching verbatim.
- * cadgen.cad_ref_syntax owns that expansion, since the CLI guard is its only caller.
+ * irincad.cad_ref_syntax owns that expansion, since the CLI guard is its only caller.
  *
  * Emission is allowed to drift: adding a file that collides lengthens another entry's suffix.
  * Acceptance is not, which is why resolvers match any unambiguous suffix rather than only the

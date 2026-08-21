@@ -2,7 +2,7 @@
 /**
  * The implicit CAD package's Node builder: `<name>.implicit.js` in, `model.glb` out.
  *
- * Spawned by `cadgen._internal.node_runtime.run_node_builder` from INSIDE the Python
+ * Spawned by `irincad._internal.node_runtime.run_node_builder` from INSIDE the Python
  * producer's `artifact_build` lock, so it inherits that run's id, status record and progress
  * bar and owns none of them (design §4.3). Its whole job is geometry and bytes:
  *

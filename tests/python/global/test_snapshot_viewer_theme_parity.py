@@ -20,9 +20,9 @@ from pathlib import Path
 
 from tests.python.support.paths import add_repo_path, repo_path
 
-add_repo_path("packages/cadgen/src")
+add_repo_path("packages/irincad/src")
 
-from cadgen.snapshot_core import (  # noqa: E402
+from irincad.snapshot_core import (  # noqa: E402
     DEFAULT_RENDER_THEME_ID,
     DISPLAY_OPTION_KEYS,
     VIEWER_DEFAULT_THEME_ID,

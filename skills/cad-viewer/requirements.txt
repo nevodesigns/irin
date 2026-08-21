@@ -1,1 +1,1 @@
---editable ./scripts/viewer/packages/cadgen
+--editable ./scripts/viewer/packages/irincad

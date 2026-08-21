@@ -4,25 +4,25 @@ import { HeroSection } from "@/components/hero-section";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
-const skillsInstallCommand = "npx skills add earthtojake/text-to-cad";
+const skillsInstallCommand = "npx skills add nevodesigns/irin";
 
 const pluginInstallCommands = [
   {
     agent: "Codex",
     command:
-      "codex plugin marketplace add earthtojake/text-to-cad\ncodex plugin add cad@text-to-cad",
+      "codex plugin marketplace add nevodesigns/irin\ncodex plugin add cad@irin",
   },
   {
     agent: "Claude Code",
     command:
-      "claude plugin marketplace add earthtojake/text-to-cad\nclaude plugin install cad@text-to-cad",
+      "claude plugin marketplace add nevodesigns/irin\nclaude plugin install cad@irin",
   },
   // Grok Build reads the same .claude-plugin/marketplace.json as Claude Code -- there is no
   // separate Grok manifest -- and installs straight from the repo rather than adding a
   // marketplace first, so it is one command, not two.
   {
     agent: "Grok Build",
-    command: "grok plugin install earthtojake/text-to-cad --trust",
+    command: "grok plugin install nevodesigns/irin --trust",
   },
 ];
 
@@ -178,7 +178,7 @@ function SkillLink({ skill }: { skill: (typeof skillGroups)[number] }) {
   return (
     <a
       className="inline-flex min-w-0 items-center gap-1.5 text-label uppercase tracking-[1.5px] text-primary transition hover:text-primary/80"
-      href={`https://github.com/earthtojake/text-to-cad/blob/main/${skill.path}/SKILL.md`}
+      href={`https://github.com/nevodesigns/irin/blob/main/${skill.path}/SKILL.md`}
       target="_blank"
       rel="noreferrer"
     >
@@ -290,7 +290,7 @@ export default function Home() {
                 Local development symlink guidance lives in{" "}
                 <a
                   className="inline-flex items-center gap-1 text-primary transition hover:text-primary/80"
-                  href="https://github.com/earthtojake/text-to-cad/blob/main/CONTRIBUTING.md"
+                  href="https://github.com/nevodesigns/irin/blob/main/CONTRIBUTING.md"
                   rel="noreferrer"
                   target="_blank"
                 >

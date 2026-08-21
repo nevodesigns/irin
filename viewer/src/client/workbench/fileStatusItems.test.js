@@ -73,7 +73,7 @@ test("stepFileStatusItems marks missing STEP artifacts as errors", () => {
         stale: false,
         sourceKind: "python",
         stepPath: "models/tom/STEP/tom.step",
-        packagePath: "models/tom/STEP/__cadgen__/models/tom.step",
+        packagePath: "models/tom/STEP/__irincad__/models/tom.step",
         artifactHash: "",
         currentHash: "new-hash",
         message: "Render package is missing."
@@ -88,7 +88,7 @@ test("stepFileStatusItems marks missing STEP artifacts as errors", () => {
   assert.equal(items[0].title, "STEP artifact missing");
   assert.equal(items[0].message, "Generated GLB is missing.");
   assert.equal(items[0].details.find((item) => item.label === "Code")?.value, "missing_glb");
-  assert.equal(items[0].details.find((item) => item.label === "Render package")?.value, "tom/STEP/__cadgen__/models/tom.step");
+  assert.equal(items[0].details.find((item) => item.label === "Render package")?.value, "tom/STEP/__irincad__/models/tom.step");
 });
 
 test("stepFileStatusItems reads artifact warnings from current-file status", () => {
@@ -103,7 +103,7 @@ test("stepFileStatusItems reads artifact warnings from current-file status", () 
         error: "missing_glb",
         sourceKind: "step",
         stepPath: "models/tom/STEP/tom.step",
-        packagePath: "models/tom/STEP/__cadgen__/models/tom.step"
+        packagePath: "models/tom/STEP/__irincad__/models/tom.step"
       },
       step: {
         ok: true,
@@ -118,7 +118,7 @@ test("stepFileStatusItems reads artifact warnings from current-file status", () 
 
   assert.equal(items.length, 1);
   assert.equal(items[0].title, "STEP artifact missing");
-  assert.equal(items[0].details.find((item) => item.label === "Render package")?.value, "tom/STEP/__cadgen__/models/tom.step");
+  assert.equal(items[0].details.find((item) => item.label === "Render package")?.value, "tom/STEP/__irincad__/models/tom.step");
 });
 
 test("stepFileStatusItems keeps renderable STEP artifact issues as warnings", () => {
@@ -239,7 +239,7 @@ test("viewer alerts normalize to status items", () => {
     title: "Failed to load render mesh",
     message: "404",
     resolution: "Reload the page.",
-    command: "python -m cadgen.step_artifact_cli --repo-root . --step model.step"
+    command: "python -m irincad.step_artifact_cli --repo-root . --step model.step"
   });
 
   assert.equal(item.level, FILE_STATUS_LEVELS.ERROR);
@@ -375,7 +375,7 @@ test("formatFileStatusItemForAgent copies status items with details", () => {
         stale: true,
         sourceKind: "step",
         stepPath: "models/step/parts/part.step",
-        packagePath: "models/step/parts/__cadgen__/models/part.step",
+        packagePath: "models/step/parts/__irincad__/models/part.step",
         artifactHash: "old-hash",
         currentHash: "new-hash"
       }
@@ -395,7 +395,7 @@ test("formatFileStatusItemForAgent copies status items with details", () => {
     "Details:",
     "- Code: stale_step_artifact",
     "- STEP file: step/parts/part.step",
-    "- Render package: step/parts/__cadgen__/models/part.step",
+    "- Render package: step/parts/__irincad__/models/part.step",
     "- Source kind: step",
     "- Artifact hash: old-hash",
     "- Current hash: new-hash"

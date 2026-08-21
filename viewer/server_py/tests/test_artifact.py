@@ -1,6 +1,6 @@
 """Deterministic unit tests for the /__cad/artifact freshness logic.
 
-Builds a synthetic imported-.step component-GLB package (no cadgen/OCP) and
+Builds a synthetic imported-.step component-GLB package (no irincad/OCP) and
 checks the state machine: ready / stale_step_artifact / missing_glb /
 unsupported, the owns_entry gate, and the generation-lock reader.
 """
@@ -29,21 +29,21 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
 
 from server_py import artifact, scanner  # noqa: E402
 
-from cadgen._internal import drawing_package as _drawing_package  # noqa: E402
-from cadgen._internal.drawing_package import (  # noqa: E402
+from irincad._internal import drawing_package as _drawing_package  # noqa: E402
+from irincad._internal.drawing_package import (  # noqa: E402
     DXF_PACKAGE_SCHEMA_VERSION,
     drawing_preview_bake_settings,
 )
-from cadgen._internal import implicit_package as _implicit_package  # noqa: E402
-from cadgen._internal.implicit_package import (  # noqa: E402
+from irincad._internal import implicit_package as _implicit_package  # noqa: E402
+from irincad._internal.implicit_package import (  # noqa: E402
     IMPLICIT_PACKAGE_SCHEMA_VERSION,
     implicit_bake_settings,
 )
-from cadgen._internal.package_freshness import (  # noqa: E402
+from irincad._internal.package_freshness import (  # noqa: E402
     STEP_PACKAGE_VERSION as _STEP_SCHEMA_VERSION,
     canonical_bake_hash,
 )
-from cadgen._internal.source_hash import closure_for_files  # noqa: E402
+from irincad._internal.source_hash import closure_for_files  # noqa: E402
 
 
 def _dump(path, payload):
@@ -71,13 +71,13 @@ def _write_package(
     schema_version=_STEP_SCHEMA_VERSION,
     bake_hash=None,
 ):
-    """Create <root>/<step_name> + its __cadgen__/models/<step_name> package."""
+    """Create <root>/<step_name> + its __irincad__/models/<step_name> package."""
     step_path = os.path.join(root, step_name)
     with open(step_path, "wb") as h:
         h.write(b"ISO-10303-21;\nfake step\n")
     with open(step_path, "rb") as h:
         actual_hash = hashlib.sha256(h.read()).hexdigest()
-    pkg = os.path.join(root, "__cadgen__", "models", step_name)
+    pkg = os.path.join(root, "__irincad__", "models", step_name)
     comp_dir = os.path.join(pkg, "components")
     os.makedirs(comp_dir, exist_ok=True)
     comps = {}
@@ -149,7 +149,7 @@ class ImportedStepFreshness(unittest.TestCase):
 class ImportedDigestFailsClosed(unittest.TestCase):
     """A descriptor that records no digest for a source file that exists cannot be shown
     to be current, and must report needs-build rather than ready. This was the validator's
-    last fail-OPEN path; cadgen's producer gate has always compared the file's real hash
+    last fail-OPEN path; irincad's producer gate has always compared the file's real hash
     against whatever was recorded, so a blank one never satisfied it either."""
 
     def test_absent_step_hash_is_needs_build(self):
@@ -168,7 +168,7 @@ class ImportedDigestFailsClosed(unittest.TestCase):
             )
 
     def test_digest_field_is_named_per_format_not_aliased(self):
-        # `stepHash` is load-bearing at a dozen cadgen sites beyond the render descriptor,
+        # `stepHash` is load-bearing at a dozen irincad sites beyond the render descriptor,
         # so it is not renamed and not aliased -- the spec table names the field per format.
         self.assertEqual(artifact._STEP_PACKAGE["source_digest_field"], "stepHash")
         self.assertEqual(artifact._DRAWING_PACKAGE["source_digest_field"], "sourceDigest")
@@ -317,7 +317,7 @@ class BakeHashGate(unittest.TestCase):
     fcntl is None,
     "these drive raw fcntl.flock, which is the POSIX backend specifically. The Windows "
     "backend's equivalent cross-process coverage lives in "
-    "tests/python/packages/cadgen/test_coordination_lock.py::RealBackendRegressionTests, "
+    "tests/python/packages/irincad/test_coordination_lock.py::RealBackendRegressionTests, "
     "which runs on whatever platform it finds.",
 )
 class GenerationLock(unittest.TestCase):
@@ -326,7 +326,7 @@ class GenerationLock(unittest.TestCase):
     which is the case that actually matters."""
 
     def _lock_for(self, package_dir):
-        from cadgen.coordination.paths import write_lock_path
+        from irincad.coordination.paths import write_lock_path
 
         return str(write_lock_path(package_dir))
 
@@ -427,8 +427,8 @@ class GenerationLock(unittest.TestCase):
         """A SIGKILLed build leaves a non-terminal record on disk forever. Attributing it
         to whoever holds the lock NEXT is what made the viewer render "Meshing components
         31/50" for a run that had meshed nothing, then jump backwards."""
-        from cadgen.coordination import record as record_mod
-        from cadgen.coordination.paths import status_path
+        from irincad.coordination import record as record_mod
+        from irincad.coordination.paths import status_path
 
         with tempfile.TemporaryDirectory() as d:
             pkg = os.path.join(d, "x.step")
@@ -452,12 +452,12 @@ class GenerationLock(unittest.TestCase):
 
 
 def _reference_closure_hash(root, relative_files):
-    """Independent re-derivation of the closure digest cadgen records.
+    """Independent re-derivation of the closure digest irincad records.
 
     Deliberately NOT calling server_py.source_hash: a fixture built by the module
     under test could not catch a bug in that module's digest construction. Parity
-    with the real cadgen implementation is pinned separately in
-    tests/python/global/test_viewer_cadgen_mirror.py.
+    with the real irincad implementation is pinned separately in
+    tests/python/global/test_viewer_irincad_mirror.py.
     """
     pairs = []
     for rel in relative_files:
@@ -491,7 +491,7 @@ def _write_generated_package(
     bake_hash=None,
 ):
     """A gen_step generator + optionally its generated component-GLB package
-    (sourceKind=python), keyed by the .step.py name like cadgen writes it."""
+    (sourceKind=python), keyed by the .step.py name like irincad writes it."""
     py_path = os.path.join(root, py_name)
     with open(py_path, "w") as h:
         h.write("def gen_step():\n    return None\n")
@@ -500,7 +500,7 @@ def _write_generated_package(
             h.write("# closure dep\n")
     if not with_package:
         return py_path, None
-    pkg = os.path.join(root, "__cadgen__", "models", py_name)
+    pkg = os.path.join(root, "__irincad__", "models", py_name)
     os.makedirs(os.path.join(pkg, "components"), exist_ok=True)
     with open(os.path.join(pkg, "components", "c0.glb"), "wb") as h:
         h.write(b"glTF\x02\x00\x00\x00")
@@ -585,7 +585,7 @@ class ScannerListsGenerated(unittest.TestCase):
             py = os.path.join(root, "widget.step.py")
             with open(py, "w") as h:
                 h.write("def gen_step():\n    return None\n")
-            # No __cadgen__ at all — it must still be listed (built on demand).
+            # No __irincad__ at all — it must still be listed (built on demand).
             self.assertIn(py, scanner._collect_cad_source_files(root, []))
 
     def test_unbuilt_dxf_py_is_collected(self):
@@ -609,7 +609,7 @@ def _write_drawing_package(
     preview=True,
 ):
     """A gen_dxf generator + optionally its drawing package, keyed by the
-    .dxf.py name like cadgen writes it. The package carries its ONE payload: the baked
+    .dxf.py name like irincad writes it. The package carries its ONE payload: the baked
     preview.glb the viewport renders."""
     py_path = os.path.join(root, py_name)
     with open(py_path, "w") as h:
@@ -619,7 +619,7 @@ def _write_drawing_package(
             h.write("# closure dep\n")
     if not with_package:
         return py_path, None
-    pkg = os.path.join(root, "__cadgen__", "models", py_name)
+    pkg = os.path.join(root, "__irincad__", "models", py_name)
     os.makedirs(pkg, exist_ok=True)
     with open(os.path.join(pkg, "preview.glb"), "wb") as h:
         h.write(b"glTF\x02\x00\x00\x00")
@@ -658,7 +658,7 @@ def _write_imported_drawing_package(root, dxf_name, *, source_digest=True, previ
         h.write("0\nSECTION\n0\nEOF\n")
     with open(dxf_path, "rb") as h:
         digest = hashlib.sha256(h.read()).hexdigest()
-    pkg = os.path.join(root, "__cadgen__", "models", dxf_name)
+    pkg = os.path.join(root, "__irincad__", "models", dxf_name)
     os.makedirs(pkg, exist_ok=True)
     with open(os.path.join(pkg, "preview.glb"), "wb") as h:
         h.write(b"glTF\x02\x00\x00\x00")
@@ -745,7 +745,7 @@ class GeneratedDxfFreshness(unittest.TestCase):
         )
 
     def test_a_changed_bake_format_makes_every_drawing_stale(self):
-        # The other half of cadgen's own package-freshness pin:
+        # The other half of irincad's own package-freshness pin:
         # the SAME callable owns the bake on both sides, so an edit to the producer's
         # settings invalidates packages here too instead of rendering an old bake silently.
         with tempfile.TemporaryDirectory() as root:
@@ -970,7 +970,7 @@ def _write_implicit_package(
             h.write("// closure dep\n")
     if not with_package:
         return source_path, None
-    pkg = os.path.join(root, "__cadgen__", "models", source_name)
+    pkg = os.path.join(root, "__irincad__", "models", source_name)
     os.makedirs(pkg, exist_ok=True)
     with open(os.path.join(pkg, "model.glb"), "wb") as h:
         h.write(b"glTF\x02\x00\x00\x00")
@@ -1122,8 +1122,8 @@ class ScannerPublishesPackageGlb(unittest.TestCase):
             entry = scanner.create_single_asset_entry(root, root, src, ".js")
             self.assertEqual(entry["kind"], "implicit")
             relation = entry["relations"]["glb"]
-            self.assertIn("__cadgen__/models/gyroid.implicit.js/model.glb", relation["url"])
-            self.assertEqual(relation["file"], "__cadgen__/models/gyroid.implicit.js/model.glb")
+            self.assertIn("__irincad__/models/gyroid.implicit.js/model.glb", relation["url"])
+            self.assertEqual(relation["file"], "__irincad__/models/gyroid.implicit.js/model.glb")
             self.assertTrue(relation["hash"])
             self.assertEqual(relation["bytes"], 8)
 
@@ -1138,14 +1138,14 @@ class ScannerPublishesPackageGlb(unittest.TestCase):
             py, _ = _write_drawing_package(root, "outline.dxf.py")
             entry = scanner.create_generated_dxf_entry(root, root, py)
             relation = entry["relations"]["glb"]
-            self.assertIn("__cadgen__/models/outline.dxf.py/preview.glb", relation["url"])
+            self.assertIn("__irincad__/models/outline.dxf.py/preview.glb", relation["url"])
 
     def test_imported_drawing_entry_publishes_its_preview(self):
         with tempfile.TemporaryDirectory() as root:
             dxf, _ = _write_imported_drawing_package(root, "vendor.dxf")
             entry = scanner.create_single_asset_entry(root, root, dxf, ".dxf")
             relation = entry["relations"]["glb"]
-            self.assertIn("__cadgen__/models/vendor.dxf/preview.glb", relation["url"])
+            self.assertIn("__irincad__/models/vendor.dxf/preview.glb", relation["url"])
 
     def test_the_asset_dir_is_unresolved_while_the_lock_dir_is_resolved(self):
         # Two derivations of one directory, deliberately (design §8). The lock sentinel
@@ -1203,17 +1203,17 @@ class ArtifactFormatDispatchIsTotal(unittest.TestCase):
 
     def test_every_producer_the_backend_shells_out_to_is_worker_dispatchable(self):
         # The warm worker keeps its own module allowlist; a producer missing from it fails at
-        # RUNTIME with "Unknown cadgen module for worker", which no unit test of either side
+        # RUNTIME with "Unknown irincad module for worker", which no unit test of either side
         # alone would catch.
         from server_py import worker
 
         dispatch = worker._module_dispatch()
         for module in (
-            "cadgen.step_artifact_cli",
-            "cadgen.dxf_artifact",
-            "cadgen.implicit_artifact",
-            "cadgen.step_export_target",
-            "cadgen.implicit_export",
+            "irincad.step_artifact_cli",
+            "irincad.dxf_artifact",
+            "irincad.implicit_artifact",
+            "irincad.step_export_target",
+            "irincad.implicit_export",
         ):
             with self.subTest(module=module):
                 self.assertIn(module, dispatch)
@@ -1236,7 +1236,7 @@ class DrawingProfileGate(unittest.TestCase):
             source = os.path.join(directory, "workshop.dxf.py")
             with open(source, "w", encoding="utf-8") as handle:
                 handle.write("def gen_dxf():\n    raise NotImplementedError\n")
-            package = os.path.join(directory, "__cadgen__", "models", "workshop.dxf.py")
+            package = os.path.join(directory, "__irincad__", "models", "workshop.dxf.py")
             os.makedirs(package, exist_ok=True)
             with open(os.path.join(package, "geometry.json"), "w", encoding="utf-8") as handle:
                 handle.write("{}")
@@ -1260,7 +1260,7 @@ class DrawingProfileGate(unittest.TestCase):
             source = os.path.join(directory, "workshop.dxf.py")
             with open(source, "w", encoding="utf-8") as handle:
                 handle.write("def gen_dxf():\n    raise NotImplementedError\n")
-            package = os.path.join(directory, "__cadgen__", "models", "workshop.dxf.py")
+            package = os.path.join(directory, "__irincad__", "models", "workshop.dxf.py")
             os.makedirs(package, exist_ok=True)
             with open(os.path.join(package, "geometry.json"), "w", encoding="utf-8") as handle:
                 handle.write("{}")

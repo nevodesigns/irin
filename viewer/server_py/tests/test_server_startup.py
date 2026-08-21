@@ -18,8 +18,8 @@ class ServerStartupTest(unittest.TestCase):
         with \
                 mock.patch.dict("os.environ", {"VIEWER_CAD_BACKEND_VALIDATED": ""}, clear=False), \
                 mock.patch.object(
-                    server.cadgen_bridge,
-                    "require_cadgen_runtime",
+                    server.irincad_bridge,
+                    "require_irincad_runtime",
                     side_effect=RuntimeError("No module named 'OCP'"),
                 ), \
                 mock.patch.object(server, "ThreadingHTTPServer") as http_server, \
@@ -34,8 +34,8 @@ class ServerStartupTest(unittest.TestCase):
         with \
                 mock.patch.dict("os.environ", {"VIEWER_CAD_BACKEND_VALIDATED": ""}, clear=False), \
                 mock.patch.object(
-                    server.cadgen_bridge,
-                    "require_cadgen_runtime",
+                    server.irincad_bridge,
+                    "require_irincad_runtime",
                     return_value={"ok": True},
                 ) as require_runtime, \
                 mock.patch.object(server, "ThreadingHTTPServer") as http_server, \

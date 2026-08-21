@@ -1,4 +1,4 @@
-"""Unit tests for the save-dialog env hooks and the cadgen subprocess bridge."""
+"""Unit tests for the save-dialog env hooks and the irincad subprocess bridge."""
 
 import os
 import pathlib
@@ -9,7 +9,7 @@ from unittest import mock
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
 
-from server_py import cadgen_bridge, save_dialog  # noqa: E402
+from server_py import irincad_bridge, save_dialog  # noqa: E402
 
 _WORKTREE = pathlib.Path(__file__).resolve().parents[3]
 
@@ -41,30 +41,30 @@ class SaveDialogEnvHooks(unittest.TestCase):
 
 
 class CadpyPythonpath(unittest.TestCase):
-    def test_discovers_cadgen_src(self):
-        if not (_WORKTREE / "packages" / "cadgen" / "src").is_dir():
-            self.skipTest("packages/cadgen/src not present")
-        pp = cadgen_bridge.cadgen_pythonpath(str(_WORKTREE))
-        self.assertIn(os.path.join("packages", "cadgen", "src"), pp)
+    def test_discovers_irincad_src(self):
+        if not (_WORKTREE / "packages" / "irincad" / "src").is_dir():
+            self.skipTest("packages/irincad/src not present")
+        pp = irincad_bridge.irincad_pythonpath(str(_WORKTREE))
+        self.assertIn(os.path.join("packages", "irincad", "src"), pp)
 
-    def test_cadgen_runtime_probe_checks_required_imports(self):
+    def test_irincad_runtime_probe_checks_required_imports(self):
         completed = subprocess.CompletedProcess([], 0, stdout="", stderr="")
-        with mock.patch.object(cadgen_bridge.subprocess, "run", return_value=completed) as run:
-            result = cadgen_bridge.probe_cadgen_runtime(str(_WORKTREE))
+        with mock.patch.object(irincad_bridge.subprocess, "run", return_value=completed) as run:
+            result = irincad_bridge.probe_irincad_runtime(str(_WORKTREE))
         self.assertTrue(result["ok"])
         command = run.call_args.args[0]
         self.assertEqual(command[:2], [sys.executable, "-c"])
         self.assertIn("import OCP", command[2])
         self.assertIn("import build123d", command[2])
-        self.assertIn("import cadgen.step_artifact_cli", command[2])
+        self.assertIn("import irincad.step_artifact_cli", command[2])
 
-    def test_cadgen_runtime_probe_preserves_import_failure(self):
+    def test_irincad_runtime_probe_preserves_import_failure(self):
         completed = subprocess.CompletedProcess(
             [], 1, stdout="", stderr="ModuleNotFoundError: No module named 'OCP'"
         )
-        with mock.patch.object(cadgen_bridge.subprocess, "run", return_value=completed):
+        with mock.patch.object(irincad_bridge.subprocess, "run", return_value=completed):
             with self.assertRaisesRegex(RuntimeError, "No module named 'OCP'"):
-                cadgen_bridge.require_cadgen_runtime(str(_WORKTREE))
+                irincad_bridge.require_irincad_runtime(str(_WORKTREE))
 
 
 if __name__ == "__main__":

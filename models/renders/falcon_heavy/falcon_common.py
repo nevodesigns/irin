@@ -128,11 +128,11 @@ def engine_prototype() -> Compound:
 def make_engine_cluster(core_x: float, core_tag: str) -> Compound:
     """Octaweb 8-around-1; outer pumps oriented tangentially to clear neighbors.
 
-    Instances share the prototype geometry via cadgen.compound_from_instances
+    Instances share the prototype geometry via irincad.compound_from_instances
     (O(1) OCCT placements); build123d .moved() deep-copies the ~70-solid
     engine per instance, which dominated stack compose time.
     """
-    from cadgen import compound_from_instances
+    from irincad import compound_from_instances
 
     proto = engine_prototype()
     placements = [

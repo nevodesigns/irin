@@ -19,7 +19,7 @@
 //
 // Usage:
 //   node packages/cadjs/bench/composePackageBench.mjs <package-dir> [--json]
-// where <package-dir> is a __cadgen__/models/<entry> directory (has
+// where <package-dir> is a __irincad__/models/<entry> directory (has
 // assembly.json + components/). Defaults to the warmed falcon_heavy package.
 
 import { readFile } from "node:fs/promises";
@@ -34,7 +34,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(HERE, "../../..");
 const DEFAULT_PACKAGE = path.join(
   REPO_ROOT,
-  "models/renders/falcon_heavy/__cadgen__/models/falcon_heavy.step.py",
+  "models/renders/falcon_heavy/__irincad__/models/falcon_heavy.step.py",
 );
 
 function sumPartBytes(meshData) {

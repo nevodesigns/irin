@@ -20,7 +20,7 @@ The rim is the design event:
 * a BRONZE centre-lock nut sitting at the bottom of that bowl -- the warm
   jewel on an otherwise cool wheel.
 
-Spokes are placed with ``cadgen.compound_from_instances`` (36 occurrences over
+Spokes are placed with ``irincad.compound_from_instances`` (36 occurrences over
 two prototypes) so nine blades per corner cost two lofts, not thirty-six.
 
 The module also owns the ARCH FLARE at each corner -- the haunch that swells

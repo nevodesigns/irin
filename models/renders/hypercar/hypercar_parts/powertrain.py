@@ -40,7 +40,7 @@ from build123d import (
     sweep,
 )
 
-import cadgen
+import irincad
 
 from hypercar_parts import surfaces as S  # noqa: F401  (package datums)
 from hypercar_parts.context import group
@@ -390,7 +390,7 @@ def _intake_row(s, proto, kind, colour):
          f"{kind}:{tag}_{i + 1}")
         for i, y in enumerate(Y_CYL)
     ]
-    return cadgen.compound_from_instances(f"{kind}_{tag}", inst)
+    return irincad.compound_from_instances(f"{kind}_{tag}", inst)
 
 
 def _oil_cap():
@@ -420,7 +420,7 @@ def _cover_bolts():
                     Location((x, y, z), (0.0, s * V_ANGLE, 0.0)),
                     f"cam_cover_bolt:{tag}_{n}",
                 ))
-    return cadgen.compound_from_instances("cam_cover_bolts", inst)
+    return irincad.compound_from_instances("cam_cover_bolts", inst)
 
 
 # ---------------------------------------------------------------------------
@@ -509,7 +509,7 @@ def _port_bosses():
                 Location((x, y, z), (0.0, s_ * 120.0, 0.0)),
                 f"exhaust_port_boss:{tag}_{i + 1}",
             ))
-    return cadgen.compound_from_instances("exhaust_port_bosses", inst)
+    return irincad.compound_from_instances("exhaust_port_bosses", inst)
 
 
 def _megaphone(sy):

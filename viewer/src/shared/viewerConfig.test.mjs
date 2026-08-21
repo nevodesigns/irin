@@ -48,8 +48,11 @@ test("normalizeViewerGithubUrl falls back to a configured default", () => {
   );
 });
 
-test("normalizeViewerDiscordUrl defaults to the text-to-cad Discord invite", () => {
-  assert.equal(normalizeViewerDiscordUrl(""), DEFAULT_VIEWER_DISCORD_URL);
+test("normalizeViewerDiscordUrl has no default invite", () => {
+  // IRIN ships no community link. The top bar hides the button while this is empty
+  // rather than rendering a dead anchor.
+  assert.equal(DEFAULT_VIEWER_DISCORD_URL, "");
+  assert.equal(normalizeViewerDiscordUrl(""), "");
 });
 
 test("normalizeViewerDiscordUrl accepts configured invite URLs", () => {
@@ -131,14 +134,14 @@ test("a patch release is worth prompting about, at this cadence", () => {
 test("normalizeViewerSkillsInstallCommand accepts skills add/install and nothing else", () => {
   // A shell prompt and padding are stripped, so a command pasted out of a release body works.
   assert.equal(
-    normalizeViewerSkillsInstallCommand("$ npx   skills add   earthtojake/text-to-cad"),
-    "npx skills add earthtojake/text-to-cad"
+    normalizeViewerSkillsInstallCommand("$ npx   skills add   nevodesigns/irin"),
+    "npx skills add nevodesigns/irin"
   );
   // `install` is an undocumented alias for `add`, and older release bodies use it, so it stays
   // acceptable rather than being rewritten into the fallback.
   assert.equal(
-    normalizeViewerSkillsInstallCommand("npx skills install earthtojake/text-to-cad"),
-    "npx skills install earthtojake/text-to-cad"
+    normalizeViewerSkillsInstallCommand("npx skills install nevodesigns/irin"),
+    "npx skills install nevodesigns/irin"
   );
   assert.equal(
     normalizeViewerSkillsInstallCommand("npx skills add example/repo --channel beta"),
@@ -173,7 +176,7 @@ test("viewerSkillsInstallCommandFromText extracts release-body install commands"
 });
 
 test("the agent update prompt names the command, in one short line", () => {
-  assert.match(DEFAULT_VIEWER_SKILLS_UPDATE_PROMPT, /npx skills add earthtojake\/text-to-cad/u);
+  assert.match(DEFAULT_VIEWER_SKILLS_UPDATE_PROMPT, /npx skills add nevodesigns\/irin/u);
   // `add`, not `update`: only `add` picks up a skill that is new in a release.
   assert.doesNotMatch(DEFAULT_VIEWER_SKILLS_UPDATE_PROMPT, /npx skills update/u);
   // It is read at a glance in a popover, so it stays one short line.
@@ -182,10 +185,10 @@ test("the agent update prompt names the command, in one short line", () => {
 });
 
 test("normalizeViewerSkillsUpdatePrompt rejects a prompt with no command in it", () => {
-  const custom = "Run `npx skills add earthtojake/text-to-cad` for me.";
+  const custom = "Run `npx skills add nevodesigns/irin` for me.";
   assert.equal(normalizeViewerSkillsUpdatePrompt(custom), custom);
   // The `install` spelling is an accepted alias, so an older prompt still passes through.
-  const legacy = "Run `npx skills install earthtojake/text-to-cad`.";
+  const legacy = "Run `npx skills install nevodesigns/irin`.";
   assert.equal(normalizeViewerSkillsUpdatePrompt(legacy), legacy);
   // Prose with no command leaves the agent guessing at a channel: fall back instead.
   assert.equal(

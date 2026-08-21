@@ -19,24 +19,24 @@ import unittest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
 
-from server_py import cadgen_bridge, worker, worker_client  # noqa: E402
+from server_py import irincad_bridge, worker, worker_client  # noqa: E402
 
 _WORKTREE = pathlib.Path(__file__).resolve().parents[3]
 _FIXTURE = _WORKTREE / "models/step/parts/basic_shape_mating_test_fixture.step.py"
 _LOGICAL_STEP = _WORKTREE / "models/step/parts/basic_shape_mating_test_fixture.step"
 _DESCRIPTOR = (
     _WORKTREE
-    / "models/step/parts/__cadgen__/models/basic_shape_mating_test_fixture.step.py/assembly.json"
+    / "models/step/parts/__irincad__/models/basic_shape_mating_test_fixture.step.py/assembly.json"
 )
 
 
 def _ocp_available() -> bool:
-    if not (_WORKTREE / "packages/cadgen/src").is_dir():
+    if not (_WORKTREE / "packages/irincad/src").is_dir():
         return False
-    sys.path.insert(0, str(_WORKTREE / "packages/cadgen/src"))
+    sys.path.insert(0, str(_WORKTREE / "packages/irincad/src"))
     try:
         importlib.import_module("OCP")
-        importlib.import_module("cadgen.step_artifact_cli")
+        importlib.import_module("irincad.step_artifact_cli")
         return True
     except Exception:
         return False
@@ -83,10 +83,10 @@ class WorkerProtocol(unittest.TestCase):
 
     def test_invoke_unknown_module_is_failure_dict(self):
         [frame] = self._run(
-            [{"jsonrpc": "2.0", "id": 2, "method": "invoke", "params": {"module": "cadgen.nope"}}]
+            [{"jsonrpc": "2.0", "id": 2, "method": "invoke", "params": {"module": "irincad.nope"}}]
         )
         self.assertFalse(frame["result"]["ok"])
-        self.assertIn("Unknown cadgen module", frame["result"]["error"])
+        self.assertIn("Unknown irincad module", frame["result"]["error"])
 
     def test_invoke_core_exception_is_failure_dict_not_protocol_error(self):
         [frame] = self._run(
@@ -160,10 +160,10 @@ class ClientLifecycle(unittest.TestCase):
     def test_disabled_raises_for_cold_fallback(self):
         os.environ["VIEWER_CAD_WORKER"] = "0"
         with self.assertRaises(worker_client._WorkerError):
-            worker_client.run_cadgen("cadgen.step_artifact_cli", [], str(_WORKTREE))
+            worker_client.run_irincad("irincad.step_artifact_cli", [], str(_WORKTREE))
 
 
-@unittest.skipUnless(_ocp_available(), "OpenCASCADE / cadgen not importable")
+@unittest.skipUnless(_ocp_available(), "OpenCASCADE / irincad not importable")
 class WorkerBuildIntegration(unittest.TestCase):
     """End-to-end: build the mating fixture through the warm worker subprocess and
     assert it matches a cold subprocess on the recorded source closure."""
@@ -188,23 +188,23 @@ class WorkerBuildIntegration(unittest.TestCase):
         return (data.get("sourceClosureHash"), tuple(data.get("sourceClosureFiles") or ()))
 
     def test_warm_builds_match_cold(self):
-        cold = cadgen_bridge.run_cadgen_cold("cadgen.step_artifact_cli", self._build_args(), str(_WORKTREE))
+        cold = irincad_bridge.run_irincad_cold("irincad.step_artifact_cli", self._build_args(), str(_WORKTREE))
         self.assertTrue(cold.get("ok"), cold)
         cold_closure = self._closure()
 
-        warm1 = self.client.run_cadgen("cadgen.step_artifact_cli", self._build_args(), str(_WORKTREE))
+        warm1 = self.client.run_irincad("irincad.step_artifact_cli", self._build_args(), str(_WORKTREE))
         self.assertTrue(warm1.get("ok"), warm1)
         self.assertTrue(warm1.get("packagePath"))
         w1 = self._closure()
 
-        warm2 = self.client.run_cadgen("cadgen.step_artifact_cli", self._build_args(), str(_WORKTREE))
+        warm2 = self.client.run_irincad("irincad.step_artifact_cli", self._build_args(), str(_WORKTREE))
         self.assertTrue(warm2.get("ok"), warm2)
         w2 = self._closure()
 
-        # Model files only — the running runtime (cadgen, launchers) is excluded from
+        # Model files only — the running runtime (irincad, launchers) is excluded from
         # closures — and identical across cold/warm1/warm2.
         self.assertEqual(len(cold_closure[1]), 1, cold_closure)
-        self.assertNotIn("cadgen", "".join(cold_closure[1]), cold_closure)
+        self.assertNotIn("irincad", "".join(cold_closure[1]), cold_closure)
         self.assertEqual(w1, cold_closure)
         self.assertEqual(w2, cold_closure)
 

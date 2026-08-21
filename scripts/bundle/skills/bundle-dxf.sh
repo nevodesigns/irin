@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Vendors packages/cadgen into skills/dxf/scripts/packages/cadgen, and esbuilds the Node
+# Vendors packages/irincad into skills/dxf/scripts/packages/irincad, and esbuilds the Node
 # drawing-preview builder into skills/dxf/scripts/packages/cadjs/bin. The builder is what
-# `cadgen._internal.drawing_package` spawns to bake preview.glb; it lives in
+# `irincad._internal.drawing_package` spawns to bake preview.glb; it lives in
 # packages/cadjs/bin and imports three, meshoptimizer and implicitjs, none of which a
 # published skill ships as node_modules -- so it is bundled self-contained (design §4.5).
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -20,8 +20,8 @@ MODE="write"
 CLEAN=0
 PRINT_OUTPUTS=0
 
-CADGEN_PACKAGE_DIR="$REPO_ROOT/packages/cadgen"
-CADGEN_RUNTIME_DIR="$REPO_ROOT/skills/dxf/scripts/packages/cadgen"
+IRINCAD_PACKAGE_DIR="$REPO_ROOT/packages/irincad"
+IRINCAD_RUNTIME_DIR="$REPO_ROOT/skills/dxf/scripts/packages/irincad"
 BUILDERS_RUNTIME_DIR="$REPO_ROOT/skills/dxf/scripts/packages/cadjs/bin"
 BUILDER_ENTRIES=("$REPO_ROOT/packages/cadjs/bin/dxf-artifact.mjs")
 SNAPSHOT_RUNTIME_DIR="$REPO_ROOT/skills/dxf/scripts/snapshot/runtime"
@@ -35,7 +35,7 @@ usage() {
 Usage:
   scripts/bundle/bundle-skill.sh dxf [--check] [--clean]
 
-Bundles the DXF skill runtime: the vendored cadgen Python package and the
+Bundles the DXF skill runtime: the vendored irincad Python package and the
 self-contained Node drawing-preview builder.
 
 Options:
@@ -60,13 +60,13 @@ while [ "$#" -gt 0 ]; do
 done
 
 if [ "$PRINT_OUTPUTS" -eq 1 ]; then
-  printf '%s\n' "${CADGEN_RUNTIME_DIR#"$REPO_ROOT"/}"
+  printf '%s\n' "${IRINCAD_RUNTIME_DIR#"$REPO_ROOT"/}"
   printf '%s\n' "${BUILDERS_RUNTIME_DIR#"$REPO_ROOT"/}"
   printf '%s\n' "${SNAPSHOT_RUNTIME_DIR#"$REPO_ROOT"/}"
   exit 0
 fi
 
-require_python_package "$CADGEN_PACKAGE_DIR" cadgen
+require_python_package "$IRINCAD_PACKAGE_DIR" irincad
 ensure_node_builder_deps
 # --clean BEFORE the install, not after. Reversed, this deleted the very directory it had
 # just installed esbuild into, and the build below then died with exit 127 looking for it --
@@ -82,9 +82,9 @@ if [ "$MODE" = "check" ]; then
   rm -rf "$CHECK_DIR"
   stale=0
   check_python_runtime \
-    "$CADGEN_PACKAGE_DIR" "$CADGEN_RUNTIME_DIR" "$CHECK_DIR/packages/cadgen" \
-    "skills/dxf/scripts/packages/cadgen" \
-    "Run scripts/bundle/bundle-skill.sh dxf and commit skills/dxf/scripts/packages/cadgen." \
+    "$IRINCAD_PACKAGE_DIR" "$IRINCAD_RUNTIME_DIR" "$CHECK_DIR/packages/irincad" \
+    "skills/dxf/scripts/packages/irincad" \
+    "Run scripts/bundle/bundle-skill.sh dxf and commit skills/dxf/scripts/packages/irincad." \
     || stale=1
   check_node_builders \
     "$BUILDERS_RUNTIME_DIR" "$CHECK_DIR/packages/cadjs/bin" \
@@ -104,8 +104,8 @@ if [ "$MODE" = "check" ]; then
   fi
   echo "DXF skill production outputs are up to date."
 else
-  vendor_python_package "$CADGEN_PACKAGE_DIR" "$CADGEN_RUNTIME_DIR"
-  echo "Bundled skills/dxf/scripts/packages/cadgen"
+  vendor_python_package "$IRINCAD_PACKAGE_DIR" "$IRINCAD_RUNTIME_DIR"
+  echo "Bundled skills/dxf/scripts/packages/irincad"
   bundle_node_builders "$BUILDERS_RUNTIME_DIR" "${BUILDER_ENTRIES[@]}"
   echo "Bundled skills/dxf/scripts/packages/cadjs/bin"
   build_snapshot_runtime "$SNAPSHOT_RUNTIME_DIR" "$SNAPSHOT_BUILD_DEPS_DIR"

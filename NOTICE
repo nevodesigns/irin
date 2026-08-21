@@ -1,0 +1,58 @@
+IRIN
+====
+
+IRIN is an independent engineering-agent platform. It began as a fork of
+text-to-cad and retains a substantial amount of that project's code.
+
+Upstream project
+----------------
+
+    text-to-cad
+    https://github.com/earthtojake/text-to-cad
+    Licensed under the MIT License.
+
+    Copyright (c) 2026 Thompson Labs LLC
+
+    The implicit CAD skill (skills/implicit-cad) additionally carries:
+    Copyright (c) 2026 Thompson Labs LLC and Gradient Control Laboratories
+
+IRIN was forked from upstream release 0.4.20, commit 290ecd21a0dbe6eee0aba3b50c345e33ef074e79.
+
+What this means
+---------------
+
+The MIT License permits this fork, on the condition that the copyright notice
+and permission notice travel with the software. Every LICENSE file inherited
+from upstream is retained unmodified, at the path where it was inherited:
+
+    LICENSE
+    packages/irincad/LICENSE
+    viewer/LICENSE
+    skills/bambu-labs/LICENSE
+    skills/cad/LICENSE
+    skills/cad-viewer/LICENSE
+    skills/dxf/LICENSE
+    skills/gcode/LICENSE
+    skills/implicit-cad/LICENSE
+    skills/sdf/LICENSE
+    skills/sendcutsend/LICENSE
+    skills/srdf/LICENSE
+    skills/step-parts/LICENSE
+    skills/urdf/LICENSE
+
+Do not remove, rename, or rewrite those files. Removing them would make every
+distribution of IRIN a license violation.
+
+Divergence
+----------
+
+IRIN is a hard fork, not a downstream distribution. It does not track upstream
+releases and does not open pull requests against upstream. Its direction,
+release train, and package identity are its own.
+
+Work that originates in IRIN rather than upstream is, at the time of writing,
+concentrated in the measurement layer: declared engineering assertions, the
+geometry evaluator that scores artifacts against them, the benchmark corpus and
+runner, and the repair accounting built on top. Where IRIN adds new files, they
+carry IRIN's own copyright. Where IRIN modifies inherited files, the upstream
+copyright stands alongside.

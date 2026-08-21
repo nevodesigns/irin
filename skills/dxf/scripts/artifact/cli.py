@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 def build_dxf_artifact(*args, **kwargs):
-    from cadgen.dxf_artifact import build_dxf_artifact as build
+    from irincad.dxf_artifact import build_dxf_artifact as build
 
     return build(*args, **kwargs)
 
@@ -45,7 +45,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="scripts/artifact",
         description=(
-            "Build the hidden __cadgen__ drawing package (drawing DXF + 3D preview.glb) "
+            "Build the hidden __irincad__ drawing package (drawing DXF + 3D preview.glb) "
             "for one drawing — the same on-demand build snapshot and the CAD Viewer run. "
             "This is the only CLI that accepts an IMPORTED .dxf: scripts/gen runs "
             "gen_dxf() generators, and an imported drawing has no generator to run."
@@ -57,7 +57,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def report_cli_error(*args, **kwargs):
-    from cadgen._internal.cli_errors import report_cli_error as report
+    from irincad._internal.cli_errors import report_cli_error as report
 
     return report(*args, **kwargs)
 
@@ -72,7 +72,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         parser.error(
             f"scripts/artifact target must be a .dxf file or a gen_dxf() Python source: {target}"
         )
-    from cadgen.cli_logging import CliLogger
+    from irincad.cli_logging import CliLogger
 
     logger = CliLogger("dxf-artifact", verbose=bool(args.verbose))
     try:

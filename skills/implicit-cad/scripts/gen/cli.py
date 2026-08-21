@@ -3,7 +3,7 @@
 Mirrors `skills/cad/scripts/gen` point for point -- positional targets, `--force`,
 `--verbose`, one format-specific bake knob (`--resolution`), sequential per-target locks, a
 CliLogger on stderr and one self-erasing progress line -- because there is ONE producer
-(`cadgen.implicit_artifact`) behind both this and the viewer's POST, and the CLI's job is to
+(`irincad.implicit_artifact`) behind both this and the viewer's POST, and the CLI's job is to
 present it, not to reimplement any part of it.
 
 Always builds the package. `--write` ALSO leaves the sibling `<name>.glb` beside the source
@@ -18,8 +18,8 @@ import sys
 from collections.abc import Sequence
 from pathlib import Path
 
-from cadgen.cli_logging import CliLogger
-from cadgen.coordination import render_progress_bar
+from irincad.cli_logging import CliLogger
+from irincad.coordination import render_progress_bar
 
 # Sentinel for --write without a path: write each target's sibling <name>.glb.
 DEFAULT_GLB_OUTPUT = "__default_sibling_glb__"
@@ -28,7 +28,7 @@ IMPLICIT_SUFFIXES = (".implicit.js", ".implicit.mjs")
 
 
 def build_implicit_artifact(*args, **kwargs):
-    from cadgen.implicit_artifact import build_implicit_artifact as build
+    from irincad.implicit_artifact import build_implicit_artifact as build
 
     return build(*args, **kwargs)
 
@@ -147,7 +147,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def report_cli_error(*args, **kwargs):
-    from cadgen._internal.cli_errors import report_cli_error as report
+    from irincad._internal.cli_errors import report_cli_error as report
 
     return report(*args, **kwargs)
 

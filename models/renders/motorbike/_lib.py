@@ -35,7 +35,7 @@ from build123d import (
     sweep,
 )
 
-from cadgen.assembly import label_shape
+from irincad.assembly import label_shape
 
 __all__ = [
     "paint",

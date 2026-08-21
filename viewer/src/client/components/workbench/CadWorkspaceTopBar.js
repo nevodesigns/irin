@@ -1240,18 +1240,20 @@ export default function CadWorkspaceTopBar({
             releaseUrl={releaseUrl}
             releaseCheck={releaseCheck}
           />
-          <Button
-            asChild
-            variant="ghost"
-            size="icon-sm"
-            aria-label="Join the text-to-cad Discord"
-            title="Join the text-to-cad Discord"
-            className={topBarIconButtonClasses}
-          >
-            <a href={discordUrl} target="_blank" rel="noreferrer">
-              <DiscordMark className={topBarIconClasses} />
-            </a>
-          </Button>
+          {discordUrl ? (
+            <Button
+              asChild
+              variant="ghost"
+              size="icon-sm"
+              aria-label="Join the IRIN Discord"
+              title="Join the IRIN Discord"
+              className={topBarIconButtonClasses}
+            >
+              <a href={discordUrl} target="_blank" rel="noreferrer">
+                <DiscordMark className={topBarIconClasses} />
+              </a>
+            </Button>
+          ) : null}
           {githubUrl ? (
             <Button
               asChild

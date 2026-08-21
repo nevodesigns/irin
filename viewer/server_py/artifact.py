@@ -10,16 +10,16 @@ DXF drawing package and the implicit-CAD render package).
   `model.glb` is the only renderer it has.
 - Freshness is a PURE descriptor read (descriptor + payload existence + schema version +
   bake hash; a generated entry re-hashes its recorded source closure, an imported entry
-  compares the digest its format's spec-table row names) — **no OCP**. It DOES import cadgen, but only stdlib-only modules
-  (`cadgen.coordination`, `cadgen._internal.source_hash`), so the long-lived server
+  compares the digest its format's spec-table row names) — **no OCP**. It DOES import irincad, but only stdlib-only modules
+  (`irincad.coordination`, `irincad._internal.source_hash`), so the long-lived server
   process never loads a CAD runtime. That is the invariant that matters, and it is
-  pinned by tests/python/packages/cadgen/test_coordination_is_stdlib_only.py — the
-  older "no cadgen import at all" rule was a proxy for it, and the price of that proxy
+  pinned by tests/python/packages/irincad/test_coordination_is_stdlib_only.py — the
+  older "no irincad import at all" rule was a proxy for it, and the price of that proxy
   was maintaining hand-written copies of the digest and the lock protocol here.
   STEP and generated-DXF packages run the SAME validator and the SAME content digest
-  cadgen's CLI gate uses, so the two never disagree about staleness. State machine:
+  irincad's CLI gate uses, so the two never disagree about staleness. State machine:
   ready | needs-build | generating | error.
-- The build (POST) shells out to `cadgen.step_artifact_cli`, keeping OCP out of the
+- The build (POST) shells out to `irincad.step_artifact_cli`, keeping OCP out of the
   server process (crash/memory isolation).
 """
 
@@ -30,30 +30,30 @@ import os
 import re
 from pathlib import Path
 
-# The closure digest is cadgen's, imported rather than reimplemented: the viewer's copy
+# The closure digest is irincad's, imported rather than reimplemented: the viewer's copy
 # of it was 133 lines that had to agree byte-for-byte with the producer's or a model
-# would rebuild forever. cadgen._internal.source_hash is stdlib-only, so this costs the
+# would rebuild forever. irincad._internal.source_hash is stdlib-only, so this costs the
 # server process nothing.
-from cadgen._internal.drawing_package import (
+from irincad._internal.drawing_package import (
     DXF_PACKAGE_SCHEMA_VERSION,
     descriptor_is_drawing,
     drawing_payload_keys,
     drawing_preview_bake_settings,
 )
-from cadgen._internal.implicit_package import (
+from irincad._internal.implicit_package import (
     IMPLICIT_DESCRIPTOR_NAME,
     IMPLICIT_PACKAGE_KIND,
     IMPLICIT_PACKAGE_SCHEMA_VERSION,
     IMPLICIT_SUFFIXES,
     implicit_bake_settings,
 )
-from cadgen._internal.package_freshness import (
+from irincad._internal.package_freshness import (
     STEP_PACKAGE_VERSION,
     bake_hash_matches,
     canonical_bake_hash,
     schema_version_matches,
 )
-from cadgen._internal.source_hash import closure_hash_matches
+from irincad._internal.source_hash import closure_hash_matches
 
 from . import scanner
 
@@ -96,7 +96,7 @@ def owns_dxf_entry(entry) -> bool:
 
 
 # Owns `.implicit.js` / `.implicit.mjs` models. The suffixes come from the PRODUCER
-# (cadgen._internal.implicit_package), so the set of sources the viewer asks to build can
+# (irincad._internal.implicit_package), so the set of sources the viewer asks to build can
 # never drift from the set the builder accepts.
 def owns_implicit_entry(entry) -> bool:
     file_ref = str((entry or {}).get("file") or "").lower()
@@ -111,7 +111,7 @@ def owns_entry(entry) -> bool:
 # Per-format descriptor names, package kinds, payload refs, schema versions, digest field
 # names, bake ownership, and error codes. The validation ALGORITHM is identical for both;
 # only this table differs. Anything format-specific belongs HERE, not in a branch inside
-# the validator and not as a field alias: `stepHash` is load-bearing at a dozen cadgen
+# the validator and not as a field alias: `stepHash` is load-bearing at a dozen irincad
 # sites beyond the render descriptor (GLB manifests, the BREP scene cache), so newer
 # formats name their digest `sourceDigest` and the table says which.
 _STEP_PACKAGE = {
@@ -191,16 +191,16 @@ def descriptor_declares_no_bake(descriptor):
 def _drawing_payload_refs(descriptor):
     """The drawing package's one payload: the render GLB.
 
-    It used to also carry an exchange DXF. That is gone: __cadgen__ caches what was COMPUTED,
+    It used to also carry an exchange DXF. That is gone: __irincad__ caches what was COMPUTED,
     and a drawing's DXF is either the user's own file (imported) or reproducible on demand
     from its generator. Checking `preview.glb` is the check that matters -- a package whose
     GLB is missing or half-written would otherwise validate as `ready`, the viewer would
     render nothing, and no `needs-build` would ever explain why (design §4.7, §7.4.2).
 
-    Mirrors ``drawing_package_current`` in cadgen's drawing_package.py; the two authorities
+    Mirrors ``drawing_package_current`` in irincad's drawing_package.py; the two authorities
     must ask the same question or a build and a status GET disagree."""
     # A dimensioned drawing has no flat pattern, so its package holds no preview.glb and
-    # never had a bake -- the payload list comes from cadgen so this side cannot drift into
+    # never had a bake -- the payload list comes from irincad so this side cannot drift into
     # demanding one and reporting every drawing stale forever (issue #246).
     return [str(descriptor.get(key) or "").strip() for key in drawing_payload_keys(descriptor)]
 
@@ -219,19 +219,19 @@ def _validate_render_package(spec, source_path, payload_refs, model_folder):
     settings, and then freshness is decided by provenance —
 
     * generated (``sourceKind: python``): the recorded source closure must still
-      hash unchanged. This is the SAME content digest cadgen's CLI gate uses (see
-      cadgen._internal.source_hash), so the two never disagree. A descriptor that records no
+      hash unchanged. This is the SAME content digest irincad's CLI gate uses (see
+      irincad._internal.source_hash), so the two never disagree. A descriptor that records no
       usable closure is treated as STALE for both formats: it cannot be shown to be
       current, and a rebuild is cheap and self-correcting.
     * imported: the on-disk file must still hash to the digest the spec table names
       (``stepHash`` for STEP). This FAILS CLOSED — a descriptor recording no digest for a
-      source file that exists reports needs-build, matching cadgen's producer gate, which
+      source file that exists reports needs-build, matching irincad's producer gate, which
       compares the file's real hash against whatever the descriptor recorded and so has
       never accepted a blank one.
 
     Every gate here exists in the producer's currency predicate too
     (``generation._package_descriptor_matches_spec`` / ``drawing_package_current``);
-    see cadgen._internal.package_freshness for why that is not optional.
+    see irincad._internal.package_freshness for why that is not optional.
     """
     package_dir = scanner.render_package_dir(source_path)
     if not os.path.isdir(package_dir):
@@ -279,7 +279,7 @@ def _validate_render_package(spec, source_path, payload_refs, model_folder):
     if scanner._file_stats(source_path):
         # Fail closed. A descriptor with no digest for a source file that is right there
         # cannot be shown to be current, and answering `ready` on it was this validator's
-        # lone fail-open path -- the generated branch above and cadgen's own gate both
+        # lone fail-open path -- the generated branch above and irincad's own gate both
         # already treat missing provenance as a rebuild.
         if not recorded_digest:
             return (False, spec["missing_digest"])
@@ -318,25 +318,25 @@ def validate_implicit_freshness(repo_root, source_path):
 
 
 # --- generation state (ONE implementation, shared with the producer) -----------------
-# This used to be a hand-written COPY of cadgen's lock and progress readers, kept in sync
+# This used to be a hand-written COPY of irincad's lock and progress readers, kept in sync
 # with the producer only by a test that compared path strings. The two had drifted into
 # implementing different protocols from one primitive: the producer took a blocking
 # exclusive lock to DO something, this side took a momentary EXCLUSIVE lock to ASK
 # something -- and because flock conflicts per open file description, two concurrent
 # probes conflicted with EACH OTHER and one reported a build that did not exist.
 #
-# cadgen.coordination is stdlib-only and importing it pulls in no CAD runtime, which is
+# irincad.coordination is stdlib-only and importing it pulls in no CAD runtime, which is
 # the property that actually matters for this process (pinned by
-# tests/python/packages/cadgen/test_coordination_is_stdlib_only.py). Reading the state
+# tests/python/packages/irincad/test_coordination_is_stdlib_only.py). Reading the state
 # through the same code that writes it is what makes the two agree by construction.
 def generation_snapshot(package_dir: str):
     """Non-blocking view of what is happening to ``package_dir`` right now.
 
-    Returns a ``cadgen.coordination.Snapshot``: ``state`` is idle/writing/busy, decided by
+    Returns a ``irincad.coordination.Snapshot``: ``state`` is idle/writing/busy, decided by
     the KERNEL rather than by any written file, so a crashed or killed build reads as idle
     with no stale window. ``progress`` is attached only when the record on disk belongs to
     the run currently holding the lock.
     """
-    from cadgen.coordination import snapshot
+    from irincad.coordination import snapshot
 
     return snapshot(package_dir)

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Thin shim: launch the Python CAD Viewer launcher (server_py.start_viewer)
-// using the project's discovered venv Python + cadgen PYTHONPATH, so `npm start`
+// using the project's discovered venv Python + irincad PYTHONPATH, so `npm start`
 // can run the Python backend without the caller knowing the venv path. Reuses the
 // proven cadPythonExecutable/cadPythonEnv discovery from the STEP pipeline.
 import { spawn } from "node:child_process";

@@ -40,7 +40,7 @@ from build123d import (
     revolve,
 )
 
-from cadgen import srgb
+from irincad import srgb
 
 from mx_switch_socket import mx_socket_cutter
 

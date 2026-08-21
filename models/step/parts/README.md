@@ -86,6 +86,6 @@ because the structured fixtures above already carry richer versions.
 
 - `*.step.py`: build123d generator source for each model.
 - `*.step`: STEP output, written on demand via `scripts/gen --write`.
-- `__cadgen__/`: per-folder cadgen output home written beside the sources,
+- `__irincad__/`: per-folder irincad output home written beside the sources,
   holding the generated render/selector packages. Gitignored and rebuilt on
   demand — never commit it.

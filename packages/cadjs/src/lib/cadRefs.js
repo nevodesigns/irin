@@ -1,4 +1,4 @@
-// `<file>#<selectors>`, file half optional. Mirrors CAD_TOKEN_RE in cadgen/cad_ref_syntax.py;
+// `<file>#<selectors>`, file half optional. Mirrors CAD_TOKEN_RE in irincad/cad_ref_syntax.py;
 // the tokenCases in cadRefs.parity.json are asserted by both languages. The prefix sits LEFT of
 // the '#' so it can never collide with the selector grammar on the right.
 const CAD_TOKEN_RE = /^\s*([^#\s]*)#([^\s]*)/;
@@ -7,7 +7,7 @@ const OCCURRENCE_ENTITY_SELECTOR_RE = /^o((?:\d+)(?:\.\d+)*)\.([sfev])(\d+)$/;
 const ENTITY_SELECTOR_RE = /^([sfev])(\d+)$/;
 const MATE_SELECTOR_RE = /^m\d+$/i;
 
-// Mirrors LABEL_PATTERN in cadgen/cad_ref_syntax.py. Kept in step by cadRefs.parity.json,
+// Mirrors LABEL_PATTERN in irincad/cad_ref_syntax.py. Kept in step by cadRefs.parity.json,
 // which both this module's tests and the Python tests assert against.
 const LABEL_SOURCE = "[A-Za-z_][A-Za-z0-9_:]*";
 const LABEL_SELECTOR_RE = new RegExp(`^(${LABEL_SOURCE})$`);
@@ -258,7 +258,7 @@ function labelCandidate(name) {
 }
 
 /**
- * Map label aliases to occurrence ids. Mirrors cadgen.label_refs.build_label_aliases; the
+ * Map label aliases to occurrence ids. Mirrors irincad.label_refs.build_label_aliases; the
  * aliasCases in cadRefs.parity.json are asserted by both implementations.
  *
  * Duplicated labels are legitimate (two wheels, one rim label), so each gets a numbered alias

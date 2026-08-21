@@ -1,2 +1,2 @@
---editable ./scripts/packages/cadgen
+--editable ./scripts/packages/irincad
 playwright

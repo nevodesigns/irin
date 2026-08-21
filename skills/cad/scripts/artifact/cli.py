@@ -5,11 +5,11 @@ import json
 from collections.abc import Sequence
 from pathlib import Path
 
-from cadgen.metadata import normalize_mesh_numeric
+from irincad.metadata import normalize_mesh_numeric
 
 
 def build_step_artifact(*args, **kwargs):
-    from cadgen.step_artifact_cli import build_step_artifact as build
+    from irincad.step_artifact_cli import build_step_artifact as build
 
     return build(*args, **kwargs)
 
@@ -68,7 +68,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="scripts/artifact",
         description=(
-            "Build the hidden __cadgen__ render package (GLB/topology) for one model — "
+            "Build the hidden __irincad__ render package (GLB/topology) for one model — "
             "the same on-demand build inspect, snapshot, and the CAD Viewer run. Meant "
             "for debugging that flow, especially for imported STEP/STP files; generated "
             "sources normally go through scripts/gen."
@@ -80,7 +80,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def report_cli_error(*args, **kwargs):
-    from cadgen._internal.cli_errors import report_cli_error as report
+    from irincad._internal.cli_errors import report_cli_error as report
 
     return report(*args, **kwargs)
 

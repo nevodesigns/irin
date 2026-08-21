@@ -8,7 +8,7 @@
 // 1000, yields an empty or absurd viewport rather than a warning.
 //
 // It stops short of spawning the builder: the process/lock/NDJSON half is covered by
-// tests/python/packages/cadgen/test_implicit_artifact.py against the real child. What is
+// tests/python/packages/irincad/test_implicit_artifact.py against the real child. What is
 // verified here is the geometry contract.
 
 import assert from "node:assert/strict";

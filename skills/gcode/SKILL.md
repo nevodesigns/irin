@@ -5,7 +5,7 @@ description: Generate, inspect, dry-run, and statically validate plain FDM `.gco
 
 # G-code
 
-Provenance: maintained in [earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad).
+Provenance: maintained in [nevodesigns/irin](https://github.com/nevodesigns/irin).
 Use the installed local skill files as the runtime source of truth; the
 repository link is only for provenance and release review.
 

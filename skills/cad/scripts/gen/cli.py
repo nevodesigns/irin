@@ -4,22 +4,22 @@ import argparse
 from collections.abc import Sequence
 from pathlib import Path
 
-from cadgen._internal.cli_locking import add_lock_timeout_argument
-from cadgen.catalog import StepImportOptions
-from cadgen.metadata import normalize_mesh_numeric
+from irincad._internal.cli_locking import add_lock_timeout_argument
+from irincad.catalog import StepImportOptions
+from irincad.metadata import normalize_mesh_numeric
 
 # Sentinel for --write without a path: write each target's sibling <name>.step.
 DEFAULT_STEP_OUTPUT = "__default_sibling_step__"
 
 
 def generate_step_targets(*args, **kwargs):
-    from cadgen.generation import generate_step_targets as generate
+    from irincad.generation import generate_step_targets as generate
 
     return generate(*args, **kwargs)
 
 
 def report_cli_error(*args, **kwargs):
-    from cadgen._internal.cli_errors import report_cli_error as report
+    from irincad._internal.cli_errors import report_cli_error as report
 
     return report(*args, **kwargs)
 
@@ -122,7 +122,7 @@ def _targets_with_step_outputs(
     parser: argparse.ArgumentParser,
 ) -> list[str]:
     """Translate --write into the SOURCE=OUTPUT pair targets that
-    cadgen.generation already resolves per target."""
+    irincad.generation already resolves per target."""
     if write_step is None:
         return list(targets)
     if write_step == DEFAULT_STEP_OUTPUT:

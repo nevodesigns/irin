@@ -95,7 +95,7 @@ class StepSidecarCatalogEntry(unittest.TestCase):
         with open(path, "w", encoding="utf-8") as handle:
             handle.write("ISO-10303-21;\n")
         # Minimal render package so the entry resolves like a real import.
-        pkg = os.path.join(self.root, "__cadgen__", "models", name)
+        pkg = os.path.join(self.root, "__irincad__", "models", name)
         os.makedirs(pkg, exist_ok=True)
         with open(os.path.join(pkg, "assembly.json"), "w", encoding="utf-8") as handle:
             json.dump({"kind": "assembly-package", "sourceKind": "step"}, handle)

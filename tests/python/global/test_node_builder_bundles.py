@@ -1,14 +1,14 @@
-"""Every skill that ships cadgen's JS-backed producers must also ship its Node builders.
+"""Every skill that ships irincad's JS-backed producers must also ship its Node builders.
 
-cadgen builds the DXF and implicit render packages by spawning a Node child
-(``cadgen._internal.node_runtime``), and it looks for that child at
-``node_package_root()/cadjs/bin/<name>`` -- the ``packages/`` directory cadgen itself was
+irincad builds the DXF and implicit render packages by spawning a Node child
+(``irincad._internal.node_runtime``), and it looks for that child at
+``node_package_root()/cadjs/bin/<name>`` -- the ``packages/`` directory irincad itself was
 loaded from. In the dev checkout that is the real ``packages/cadjs/bin``; in a published
 skill it is ``skills/<skill>/scripts/packages/cadjs/bin``, which only exists because
 ``scripts/bundle/skills/bundle-{dxf,implicit-cad}.sh`` esbuilds it there.
 
 This test is the regression guard for the failure those bundle steps fix: a skill runtime
-that vendored ``cadgen`` but not its builder shipped a format it could not build, and said so
+that vendored ``irincad`` but not its builder shipped a format it could not build, and said so
 only at build time, in the user's model directory. It asserts what a published skill needs
 and cannot get any other way -- the file is present, is a REAL file (a symlink would be
 dropped silently by Codex's plugin installer; see ``check-builds.sh``), and is
@@ -24,11 +24,11 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
-# Builder file name -> the cadgen module constant that names it, so a rename in either place
+# Builder file name -> the irincad module constant that names it, so a rename in either place
 # has to be a rename in both.
 BUILDER_CONSTANTS = {
-    "dxf-artifact.mjs": ("cadgen/_internal/drawing_package.py", "DRAWING_PREVIEW_BUILDER"),
-    "implicit-artifact.mjs": ("cadgen/_internal/implicit_package.py", "IMPLICIT_BUILDER"),
+    "dxf-artifact.mjs": ("irincad/_internal/drawing_package.py", "DRAWING_PREVIEW_BUILDER"),
+    "implicit-artifact.mjs": ("irincad/_internal/implicit_package.py", "IMPLICIT_BUILDER"),
 }
 
 # Skill -> the files its builders need at runtime. The extra two implicit entries are not
@@ -106,10 +106,10 @@ class NodeBuilderBundleTests(unittest.TestCase):
                 self.assertTrue(manifest.is_file(), f"Missing {manifest.relative_to(REPO_ROOT)}")
                 self.assertIn('"type": "module"', manifest.read_text(encoding="utf-8"))
 
-    def test_builder_names_match_the_cadgen_constants_that_spawn_them(self) -> None:
+    def test_builder_names_match_the_irincad_constants_that_spawn_them(self) -> None:
         shipped = {name for names in SKILL_BUILDERS.values() for name in names}
         for name, (module_path, constant) in BUILDER_CONSTANTS.items():
-            source = (REPO_ROOT / "packages" / "cadgen" / "src" / module_path).read_text(encoding="utf-8")
+            source = (REPO_ROOT / "packages" / "irincad" / "src" / module_path).read_text(encoding="utf-8")
             with self.subTest(builder=name):
                 self.assertIn(
                     f'{constant} = "{name}"',

@@ -123,7 +123,7 @@ const EXPLODE = {
 // which is NOT the SYSTEMS list in f14d.step.py -- glove, engines and markings
 // are listed there but have no module, so they take no number and everything
 // after them shifts up. These ten are what the built package contains, read
-// back off __cadgen__/models/f14d.step.py/assembly.json rather than counted off
+// back off __irincad__/models/f14d.step.py/assembly.json rather than counted off
 // the source; the leaf names confirm each one (o1.1 airframe_skin, o1.3
 // wing_panel:port, o1.6 fin:port, o1.9 mlg_wheel_arch:port).
 //

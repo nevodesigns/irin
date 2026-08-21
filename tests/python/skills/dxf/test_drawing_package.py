@@ -12,9 +12,9 @@ import json
 import unittest
 from pathlib import Path
 
-from cadgen._internal import drawing_package
-from cadgen._internal.source_hash import closure_for_files
-from cadgen.catalog import render_package_dir
+from irincad._internal import drawing_package
+from irincad._internal.source_hash import closure_for_files
+from irincad.catalog import render_package_dir
 from tests.python.support.tmp_root import temporary_directory
 
 
@@ -43,7 +43,7 @@ class DrawingProfilePackageTest(unittest.TestCase):
         self.assertFalse(drawing_package.descriptor_is_drawing({}))
 
     def test_the_viewer_asks_the_same_question_from_the_same_function(self) -> None:
-        # Not "the two lists match today" -- the viewer imports cadgen's rule, so they cannot
+        # Not "the two lists match today" -- the viewer imports irincad's rule, so they cannot
         # drift. This asserts the wiring, which is the thing an edit could undo.
         import sys
         from pathlib import Path as _Path

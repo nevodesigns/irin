@@ -60,8 +60,8 @@ The local backend serves asset bytes from the active root and writes regenerated
 artifacts back into it. It rejects path traversal and only serves or writes
 supported CAD Viewer asset types.
 
-Local STEP GLB/topology regeneration calls the Python `cadgen` package. This app
-carries an installable copy under `packages/cadgen`, so regeneration works from
+Local STEP GLB/topology regeneration calls the Python `irincad` package. This app
+carries an installable copy under `packages/irincad`, so regeneration works from
 this directory alone — install `requirements.txt` into the Python runtime used
 by the viewer:
 
@@ -70,7 +70,7 @@ python -m pip install -r requirements.txt
 ```
 
 Before binding its HTTP port, the Viewer validates that its selected Python can
-import `OCP`, `build123d`, and `cadgen.step_artifact_cli`. Startup fails instead of
+import `OCP`, `build123d`, and `irincad.step_artifact_cli`. Startup fails instead of
 serving a Viewer that cannot build missing artifacts. Set
 `VIEWER_CAD_PYTHON=/absolute/path/to/python` when the CAD environment is not in
 the checkout's `.venv`.

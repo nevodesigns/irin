@@ -1,15 +1,17 @@
-export const DEFAULT_VIEWER_GITHUB_URL = "https://github.com/earthtojake/text-to-cad";
-export const DEFAULT_VIEWER_DISCORD_URL = "https://discord.gg/5FGB9DwJYU";
+export const DEFAULT_VIEWER_GITHUB_URL = "https://github.com/nevodesigns/irin";
+// No default community link. Set VIEWER_DISCORD_URL to enable the button; the top bar
+// hides it while this is empty rather than rendering a dead link.
+export const DEFAULT_VIEWER_DISCORD_URL = "";
 // `add` rather than `update`: both refresh what is installed, but only `add` picks up a skill
 // that is NEW in a release, because `update` walks the lockfile. Releases here do add skills,
 // so `update` would quietly leave them out. (`install` is an undocumented alias for `add`.)
-export const DEFAULT_VIEWER_SKILLS_INSTALL_COMMAND = "npx skills add earthtojake/text-to-cad";
+export const DEFAULT_VIEWER_SKILLS_INSTALL_COMMAND = "npx skills add nevodesigns/irin";
 
 // The other way to take an update: hand this to your agent instead of running the command
 // yourself. One short line -- it is read at a glance in a popover, and it is pasted into a chat
 // where the agent already knows the rest of the job.
 export const DEFAULT_VIEWER_SKILLS_UPDATE_PROMPT =
-  "Update the text-to-cad skills with `npx skills add earthtojake/text-to-cad`.";
+  "Update the IRIN skills with `npx skills add nevodesigns/irin`.";
 
 export function normalizeViewerDefaultFile(value = "") {
   const rawValue = String(value ?? "").trim();

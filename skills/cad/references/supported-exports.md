@@ -6,7 +6,7 @@ Read this file when the user requests STL, 3MF, or native GLB output files from 
 
 STL, 3MF, and native GLB are mesh exports, not substitutes for STEP. Validate the primary CAD geometry first, then export the requested formats. Do not treat exported mesh renders as CAD validation; inspect and snapshot the primary model per the standard workflow.
 
-Native GLB exports are ordinary glTF 2.0 binary files for external tools: Y-up, meter-scaled, and free of the CAD Viewer `STEP_topology` extension. Do not confuse them with the CAD Viewer render artifact — the component-GLB package directory at `<folder>/__cadgen__/models/<name>.step/` (an `assembly.json` descriptor plus a `components/` dir of content-addressed GLBs) — which `scripts/gen` builds and `scripts/export` never writes.
+Native GLB exports are ordinary glTF 2.0 binary files for external tools: Y-up, meter-scaled, and free of the CAD Viewer `STEP_topology` extension. Do not confuse them with the CAD Viewer render artifact — the component-GLB package directory at `<folder>/__irincad__/models/<name>.step/` (an `assembly.json` descriptor plus a `components/` dir of content-addressed GLBs) — which `scripts/gen` builds and `scripts/export` never writes.
 
 ## Tool
 

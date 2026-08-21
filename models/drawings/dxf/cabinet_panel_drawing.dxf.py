@@ -3,7 +3,7 @@
 # hidden edges and a title block.
 #
 # Nothing here is a toolpath, and that is the point. Every construct that makes a DXF a drawing
-# rather than a laser file is present, because those are what `cadgen.drawing_checks` reads to
+# rather than a laser file is present, because those are what `irincad.drawing_checks` reads to
 # decide which rules apply:
 #
 #   DIMENSION entities        the drawing's measurements

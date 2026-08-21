@@ -35,7 +35,7 @@ from __future__ import annotations
 
 from build123d import Compound
 
-from cadgen.assembly import AssemblyHelper
+from irincad.assembly import AssemblyHelper
 
 from f1_parts import (
     cockpit,

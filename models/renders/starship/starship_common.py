@@ -149,7 +149,7 @@ def _rvac_engine() -> Compound:
 
 
 def _engine_instance(base: Compound, label: str, x: float, y: float, az_deg: float) -> tuple:
-    # (prototype, placement, name) for cadgen.compound_from_instances: shares
+    # (prototype, placement, name) for irincad.compound_from_instances: shares
     # the prototype geometry instead of build123d .moved()'s per-instance
     # deep copy of the whole engine.
     return (base, Location((x, y, 0.0), (0, 0, az_deg)), label)
@@ -194,7 +194,7 @@ def ship_engine_positions() -> list[tuple[str, str, float, float, float]]:
 
 
 def make_booster_engines() -> Compound:
-    from cadgen import compound_from_instances
+    from irincad import compound_from_instances
 
     base = _sl_engine()
     placements = [
@@ -207,7 +207,7 @@ def make_booster_engines() -> Compound:
 
 
 def make_ship_engines() -> Compound:
-    from cadgen import compound_from_instances
+    from irincad import compound_from_instances
 
     sl, rvac = _sl_engine(), _rvac_engine()
     placements = [

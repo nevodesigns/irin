@@ -42,7 +42,7 @@ import math
 from build123d import (Face, Line, Location, Plane, Solid, Spline, Vector,
                        Wire, loft, make_face)
 
-from cadgen import compound_from_instances
+from irincad import compound_from_instances
 
 from f14_parts import geometry as G
 from f14_parts import sections as SEC

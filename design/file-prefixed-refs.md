@@ -42,7 +42,7 @@ starship/super_heavy.step.py#o1.3             two files are named super_heavy.st
   is their discriminator, which is why SUFP keeps it.) So SUFP = filename for
   ~99% of entries and one directory segment for the rest.
 - **The grammar already reserved the slot.** `ParsedToken.cad_path` exists and
-  is filled with `""` (`packages/cadgen/src/cadgen/cad_ref_syntax.py`,
+  is filled with `""` (`packages/irincad/src/irincad/cad_ref_syntax.py`,
   `parse_cad_tokens`); `build_cad_token(cad_path, selector)` takes a path and
   DISCARDS it (`_ = cad_path`); `CAD_TOKEN_RE = ^\s*#([^\s]*)` captures only
   after `#`. The JS mirror (`packages/cadjs/src/lib/cadRefs.js`,
@@ -66,7 +66,7 @@ starship/super_heavy.step.py#o1.3             two files are named super_heavy.st
   — `skills/cad/references/inspection-and-validation.md:31`.
 - Parity fixture: `packages/cadjs/src/lib/cadRefs.parity.json` currently has
   `selectorCases` / `inheritanceCases` / `aliasCases`, asserted by BOTH
-  `tests/python/packages/cadgen/test_cad_ref_syntax_parity.py` and
+  `tests/python/packages/irincad/test_cad_ref_syntax_parity.py` and
   `packages/cadjs/src/lib/cadRefs.test.js`. Token parsing gets `tokenCases`
   there, same both-languages discipline.
 
@@ -203,7 +203,7 @@ At the two places raw user ref strings first become tokens/selectors:
 
 ## Gotchas for the executor
 
-- **Bundle discipline**: cadjs and cadgen edits require
+- **Bundle discipline**: cadjs and irincad edits require
   `scripts/bundle/bundle.sh`, then `scripts/bundle/bundle.sh --check`, then
   `scripts/dev/setup-symlinks.sh` to restore the dev layout before committing.
 - The parity JSON must stay test-only — imported by the two test suites, never
@@ -232,7 +232,7 @@ At the two places raw user ref strings first become tokens/selectors:
 ## Verification commands
 
 ```
-./.venv/bin/python -m unittest tests/python/packages/cadgen/test_cad_ref_syntax_parity.py
+./.venv/bin/python -m unittest tests/python/packages/irincad/test_cad_ref_syntax_parity.py
 scripts/test/test-python.sh
 npm --prefix packages/cadjs test
 npm --prefix viewer run test

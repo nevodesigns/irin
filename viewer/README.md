@@ -85,7 +85,7 @@ there is no stored fallback, so the same URL always shows the same thing.
 - `docs/`: workflow reference docs for backend storage, browser persistence,
   render types, settings UI, and MoveIt2.
 - `moveit2_server/`: optional Python websocket backend for SRDF controls.
-- `packages/cadjs`, `packages/implicitjs`, `packages/cadgen`: the shared
+- `packages/cadjs`, `packages/implicitjs`, `packages/irincad`: the shared
   runtimes this app depends on. Keep reusable parsing, rendering, sidecar,
   selector, topology, implicit shader, snapshot, and export logic in these
   packages rather than in `src/`.
@@ -135,7 +135,7 @@ Important environment variables:
 - `VIEWER_MOVEIT2_WS_URL`: optional websocket URL for SRDF MoveIt2 controls.
 - `VIEWER_CAD_PYTHON`: optional Python executable for local STEP/DXF artifact regeneration.
 - `VIEWER_CAD_PYTHONPATH` / `CAD_PYTHONPATH`: optional Python source path for
-  the `cadgen` package.
+  the `irincad` package.
 
 `VIEWER_LOCAL_ROOT_DIR` and `VIEWER_LOCAL_WORKSPACE_ROOT` are removed for local
 filesystem viewing. Setting either variable is a hard startup error; the URL's

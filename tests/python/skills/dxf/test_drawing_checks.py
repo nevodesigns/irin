@@ -6,8 +6,8 @@ from pathlib import Path
 
 import ezdxf
 
-from cadgen import drawing_checks
-from cadgen.drawing_checks import (
+from irincad import drawing_checks
+from irincad.drawing_checks import (
     DrawingValidationError,
     layer_allows_open_geometry,
     layer_intent,
@@ -43,7 +43,7 @@ class LayerIntentTests(unittest.TestCase):
         self.assertTrue(layer_allows_open_geometry("BEND"))
 
     def test_render_kind_matches_validation_intent(self) -> None:
-        from cadgen.drawing_render import _semantic_kind_for_layer
+        from irincad.drawing_render import _semantic_kind_for_layer
 
         for name in ("BEND", "PREFORM", "ENGRAVE", "NOTES", "CUT"):
             self.assertEqual(layer_intent(name), _semantic_kind_for_layer(name))
@@ -171,7 +171,7 @@ class LayerIntentTokenTest(unittest.TestCase):
         self.assertEqual(
             drawing_checks._LAYER_INTENT_BY_TOKEN,
             js_pairs,
-            "cadgen and cadjs disagree on layer intent; validation and rendering would classify "
+            "irincad and cadjs disagree on layer intent; validation and rendering would classify "
             "the same drawing differently",
         )
 def _drawing_with_dimensions():
@@ -258,7 +258,7 @@ class MalformedSplineTests(unittest.TestCase):
     """
 
     def test_unusable_spline_control_points_skip_the_entity(self) -> None:
-        from cadgen.drawing_checks import _open_endpoints
+        from irincad.drawing_checks import _open_endpoints
 
         _MISSING = object()
 
@@ -282,7 +282,7 @@ class MalformedSplineTests(unittest.TestCase):
         self.assertIsNone(_open_endpoints(_FakeSpline([None, None])))  # TypeError: None points
 
     def test_usable_spline_control_points_give_open_endpoints(self) -> None:
-        from cadgen.drawing_checks import _open_endpoints
+        from irincad.drawing_checks import _open_endpoints
 
         class _PointySpline:
             closed = False
@@ -300,7 +300,7 @@ class MalformedSplineTests(unittest.TestCase):
         )
 
     def test_a_closed_spline_has_no_endpoints(self) -> None:
-        from cadgen.drawing_checks import _open_endpoints
+        from irincad.drawing_checks import _open_endpoints
 
         class _ClosedSpline:
             closed = True

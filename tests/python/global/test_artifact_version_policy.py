@@ -23,10 +23,10 @@ from pathlib import Path
 
 from tests.python.support.paths import REPO_ROOT, add_repo_path
 
-add_repo_path("packages/cadgen/src")
+add_repo_path("packages/irincad/src")
 
-from cadgen._internal.glb_topology import STEP_TOPOLOGY_SCHEMA_VERSION
-from cadgen._internal.package_freshness import STEP_PACKAGE_VERSION
+from irincad._internal.glb_topology import STEP_TOPOLOGY_SCHEMA_VERSION
+from irincad._internal.package_freshness import STEP_PACKAGE_VERSION
 
 ROOT = REPO_ROOT
 
@@ -39,7 +39,7 @@ class TopologySchemaVersionMirrorTest(unittest.TestCase):
         self.assertEqual(
             STEP_TOPOLOGY_SCHEMA_VERSION,
             int(match.group(1)),
-            "cadgen and cadjs disagree on STEP_topology schemaVersion; the JS client throws "
+            "irincad and cadjs disagree on STEP_topology schemaVersion; the JS client throws "
             "on a mismatch, so a bump has to land in both languages together",
         )
 
@@ -48,14 +48,14 @@ class PackageVersionIsOneNumberPerFileTypeTest(unittest.TestCase):
     def test_the_step_cid_salt_is_the_package_version_itself(self) -> None:
         # Not merely equal to it: the same constant. A separate payload version is the
         # split this rule exists to prevent.
-        from cadgen._internal import component_package
+        from irincad._internal import component_package
 
         self.assertIs(component_package.STEP_PACKAGE_VERSION, STEP_PACKAGE_VERSION)
         self.assertEqual(STEP_PACKAGE_VERSION, component_package.PACKAGE_SCHEMA_VERSION)
 
     def test_no_separate_payload_version_has_reappeared(self) -> None:
         source = (
-            ROOT / "packages/cadgen/src/cadgen/_internal/component_package.py"
+            ROOT / "packages/irincad/src/irincad/_internal/component_package.py"
         ).read_text()
         self.assertNotIn(
             "COMPONENT_PAYLOAD_VERSION",
@@ -91,7 +91,7 @@ class DeadVersionsStayDeadTest(unittest.TestCase):
 
     def test_dxf_render_schema_version_is_gone_from_both_languages(self) -> None:
         for relative in (
-            "packages/cadgen/src/cadgen/drawing_render.py",
+            "packages/irincad/src/irincad/drawing_render.py",
             "packages/cadjs/src/lib/dxf/parseDxf.js",
         ):
             self.assertNotIn(
@@ -111,7 +111,7 @@ class DeadVersionsStayDeadTest(unittest.TestCase):
         # two copies of an external constant is two places to get it wrong.
         declarations = [
             path
-            for path in (ROOT / "packages/cadgen/src/cadgen/_internal").glob("*.py")
+            for path in (ROOT / "packages/irincad/src/irincad/_internal").glob("*.py")
             if re.search(r"^GLB_VERSION\s*=", path.read_text(), re.MULTILINE)
         ]
         self.assertEqual(

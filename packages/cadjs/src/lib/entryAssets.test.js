@@ -87,7 +87,7 @@ test("entry availability helpers preserve existing viewer gates", () => {
 });
 
 function packagedEntry(kind, file, glbFile) {
-  // What the scanner publishes for a kind whose geometry is baked into a __cadgen__ render
+  // What the scanner publishes for a kind whose geometry is baked into a __irincad__ render
   // package: the entry keeps its own source/exchange file as `url`, and the package's mesh
   // arrives as a `glb` relation.
   return {
@@ -102,8 +102,8 @@ function packagedEntry(kind, file, glbFile) {
 }
 
 test("a DXF or implicit entry resolves its mesh from the render package", () => {
-  const dxf = packagedEntry("dxf", "plate.dxf", "__cadgen__/models/plate.dxf/preview.glb");
-  const implicit = packagedEntry("implicit", "orb.implicit.js", "__cadgen__/models/orb.implicit.js/model.glb");
+  const dxf = packagedEntry("dxf", "plate.dxf", "__irincad__/models/plate.dxf/preview.glb");
+  const implicit = packagedEntry("implicit", "orb.implicit.js", "__irincad__/models/orb.implicit.js/model.glb");
   for (const entry of [dxf, implicit]) {
     assert.equal(entryMeshAssetUrl(entry), `/assets/${entry.relations.glb.file}`);
     assert.equal(entryMeshAssetHash(entry), "baked-hash");

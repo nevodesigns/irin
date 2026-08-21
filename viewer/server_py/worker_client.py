@@ -3,7 +3,7 @@
 Owns the lifecycle of one :mod:`server_py.worker` subprocess on behalf of the
 long-lived server: lazy spawn, serialized request/response over stdio JSON-RPC,
 transparent respawn after a crash/EOF, and periodic recycle to bound the OCP
-kernel's memory growth. Exposes :func:`run_cadgen` with the same
+kernel's memory growth. Exposes :func:`run_irincad` with the same
 ``(module, args, repo_root) -> dict`` contract as the cold-subprocess bridge, so it
 is a drop-in for the heavy STEP build/export path.
 
@@ -19,7 +19,7 @@ import subprocess
 import sys
 import threading
 
-from . import cadgen_bridge
+from . import irincad_bridge
 
 # viewer/ (dev) or the bundled runtime root — the dir that holds the `server_py`
 # package, so the worker resolves as `-m server_py.worker`.
@@ -61,7 +61,7 @@ class CadWorker:
     def _env_for(self, repo_root: str) -> dict:
         env = dict(os.environ)
         parts = [_SERVER_PY_PARENT]
-        pythonpath = cadgen_bridge.cadgen_pythonpath(repo_root)
+        pythonpath = irincad_bridge.irincad_pythonpath(repo_root)
         if pythonpath:
             parts.append(pythonpath)
         env["PYTHONPATH"] = os.pathsep.join(p for p in parts if p)
@@ -167,7 +167,7 @@ class CadWorker:
             self._invokes += 1
             return result
 
-    def run_cadgen(self, module: str, args, repo_root: str) -> dict:
+    def run_irincad(self, module: str, args, repo_root: str) -> dict:
         return self._request(
             repo_root, "invoke", {"module": module, "args": list(args), "repo_root": repo_root}
         )
@@ -192,9 +192,9 @@ def get_client() -> CadWorker:
         return _CLIENT
 
 
-def run_cadgen(module: str, args, repo_root: str) -> dict:
-    """Warm-worker equivalent of :func:`cadgen_bridge.run_cadgen`. Raises
+def run_irincad(module: str, args, repo_root: str) -> dict:
+    """Warm-worker equivalent of :func:`irincad_bridge.run_irincad`. Raises
     :class:`_WorkerError` on a transport/spawn fault (caller falls back to cold)."""
     if not _worker_enabled():
         raise _WorkerError("warm worker disabled (VIEWER_CAD_WORKER=0)")
-    return get_client().run_cadgen(module, args, repo_root)
+    return get_client().run_irincad(module, args, repo_root)

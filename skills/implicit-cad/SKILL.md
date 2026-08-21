@@ -153,7 +153,7 @@ python scripts/snapshot --job - --json
 python scripts/snapshot --help
 ```
 
-Use `python scripts/snapshot --help` for the complete current command interface. The snapshot CLI is shared with every other rendering skill (`cadgen.snapshot_cli`) and driven by the same browser runtime the CAD Viewer uses, so geometry, materials and lighting render identically — the default `snapshot` theme deliberately differs from the viewport only by dropping the grid, origin axis and shadows; this skill enables `.implicit.js` only. Theme settings live under one `--theme` and implicit raymarch quality under `--graphics`, mirroring the viewer's Theme and Graphics tabs. There is no `--display`: display settings are CAD topology settings and an implicit model carries none. The default theme is `snapshot` — Workbench Light without the ground grid, origin axis or shadows; raymarched shadows are off by default here too, so an implicit snapshot matches the shadowless mesh path (pass `--graphics '{"shadows":true}'` to restore them). The tool appends a UTC timestamp before the output extension. JSON jobs may be a single job, one job with multiple `outputs`, a raw array of jobs, or `{ "jobs": [...] }`; prefer a multi-output job for review packets because it avoids rebuilding the same artifact for each camera.
+Use `python scripts/snapshot --help` for the complete current command interface. The snapshot CLI is shared with every other rendering skill (`irincad.snapshot_cli`) and driven by the same browser runtime the CAD Viewer uses, so geometry, materials and lighting render identically — the default `snapshot` theme deliberately differs from the viewport only by dropping the grid, origin axis and shadows; this skill enables `.implicit.js` only. Theme settings live under one `--theme` and implicit raymarch quality under `--graphics`, mirroring the viewer's Theme and Graphics tabs. There is no `--display`: display settings are CAD topology settings and an implicit model carries none. The default theme is `snapshot` — Workbench Light without the ground grid, origin axis or shadows; raymarched shadows are off by default here too, so an implicit snapshot matches the shadowless mesh path (pass `--graphics '{"shadows":true}'` to restore them). The tool appends a UTC timestamp before the output extension. JSON jobs may be a single job, one job with multiple `outputs`, a raw array of jobs, or `{ "jobs": [...] }`; prefer a multi-output job for review packets because it avoids rebuilding the same artifact for each camera.
 
 ## Generate Tool
 
@@ -168,7 +168,7 @@ python scripts/gen --help
 ```
 
 `scripts/gen` builds the model's **render package** — the baked mesh the CAD Viewer opens,
-under the model folder's `__cadgen__/models/<name>.implicit.js/` (`implicit.json` +
+under the model folder's `__irincad__/models/<name>.implicit.js/` (`implicit.json` +
 `model.glb`). The package is baked at the model's parameter DEFAULTS: it carries no live
 parameters and no animation. It is also what the viewer builds on demand, through the same
 producer, so a package built here and one built by opening the model are the same artifact.

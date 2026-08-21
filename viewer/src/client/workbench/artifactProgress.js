@@ -1,5 +1,5 @@
 // Reading the build-progress payload the artifact-status route attaches while a model is
-// generating (written by cadgen's coordination/record.py, served by server_py/artifact.py).
+// generating (written by irincad's coordination/record.py, served by server_py/artifact.py).
 //
 // Each phase reports ITSELF. There is no overall percentage, because a build's phases have
 // no fixed relationship to each other: measured across this repo's models, `generate` is 11%

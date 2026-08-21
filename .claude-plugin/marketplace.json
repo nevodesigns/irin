@@ -1,34 +1,35 @@
 {
-  "name": "text-to-cad",
+  "name": "irin",
   "owner": {
-    "name": "earthtojake"
+    "name": "nevodesigns"
   },
   "interface": {
-    "displayName": "text-to-cad"
+    "displayName": "IRIN"
   },
   "metadata": {
-    "description": "CAD, robotics, fabrication, and local review plugins."
+    "description": "IRIN: CAD, robotics, fabrication, and measured engineering validation plugins."
   },
-  "description": "CAD, robotics, fabrication, and local review plugins.",
+  "description": "IRIN: CAD, robotics, fabrication, and measured engineering validation plugins.",
   "version": "0.4.20",
   "plugins": [
     {
       "name": "cad",
       "source": "./",
-      "description": "CAD, robotics, fabrication, and local review skills.",
+      "description": "IRIN: CAD, robotics, fabrication, and measured engineering validation skills.",
       "version": "0.4.20",
       "author": {
-        "name": "earthtojake"
+        "name": "nevodesigns"
       },
-      "homepage": "https://www.texttocad.dev",
-      "repository": "https://github.com/earthtojake/text-to-cad",
+      "homepage": "https://github.com/nevodesigns/irin",
+      "repository": "https://github.com/nevodesigns/irin",
       "license": "MIT",
       "category": "productivity",
       "tags": [
         "cad",
         "robotics",
         "fabrication",
-        "skills"
+        "skills",
+        "validation"
       ]
     }
   ]

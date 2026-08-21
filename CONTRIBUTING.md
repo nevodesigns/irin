@@ -9,8 +9,8 @@ fixture/artifact area.
 For development, branch from `develop` and open PRs back to `develop`:
 
 ```bash
-git clone --branch develop https://github.com/earthtojake/text-to-cad.git
-cd text-to-cad
+git clone --branch develop https://github.com/nevodesigns/irin.git
+cd irin
 git switch -c my-change
 ```
 
@@ -255,26 +255,46 @@ The GitHub Release is published immediately by default; set `publish=false` to
 review it as a draft first. Treat generated outputs as CI products, not edit
 targets.
 
-The publish job also uploads `packages/cadgen` to
-[PyPI](https://pypi.org/project/cadgen/). The upload runs after the production
+The publish job also uploads `packages/irincad` to
+[PyPI](https://pypi.org/project/irincad/). The upload runs after the production
 bundle is validated but BEFORE `main` is pushed: the publish tree pins
-`cadgen==<version>` from PyPI (`scripts/release/pin-cadgen-requirements.sh`
+`irincad==<version>` from PyPI (`scripts/release/pin-irincad-requirements.sh`
 rewrites the editable requirement lines), so a failed PyPI upload must block the
 release rather than ship a `main` whose skill installs cannot resolve. The PyPI version always
 equals `VERSION`; `sync-version.mjs` stamps
-`packages/cadgen/pyproject.toml` and the publish job refuses to upload on a
+`packages/irincad/pyproject.toml` and the publish job refuses to upload on a
 mismatch. Uploads use `skip-existing`, so a rerun after a post-upload failure
 (for example a failed `main` push) is idempotent and resumes like any other
 failed publish. Local development keeps the editable symlinked installs.
+
+#### Optional release integrations
+
+Three release steps talk to accounts IRIN does not own yet, so each is gated on
+a repository variable and skips when the variable is unset. A release runs end
+to end without any of them. Set the variable to `true` once the account exists:
+
+| Variable | Enables | Prerequisite |
+| --- | --- | --- |
+| `IRIN_PUBLISH_PYPI` | `irincad` upload to PyPI | A PyPI project plus a trusted publisher |
+| `IRIN_DEPLOY_DOCS` | Docs deploy to Vercel | A Vercel project and its three secrets |
+| `IRIN_SYNC_VIEWER` | `viewer/` mirror push | `nevodesigns/irin-viewer` plus `CAD_VIEWER_SYNC_TOKEN` |
+
+`Tag and GitHub Release` depends on the docs and mirror jobs, so its condition
+checks their results explicitly rather than their success. A skipped job would
+otherwise skip the tag as well, and the release would ship without one.
 
 #### One-time PyPI setup
 
 The PyPI upload authenticates with [trusted
 publishing](https://docs.pypi.org/trusted-publishers/) (GitHub OIDC); no API
 token secret is stored. Before the first release that publishes to PyPI, add a
-trusted publisher for the `cadgen` project on PyPI (use "Add a pending
-publisher" if the project does not exist yet): repository
-`earthtojake/text-to-cad`, workflow `release.yml`, environment left blank.
+trusted publisher for the project on PyPI (use "Add a pending publisher" if it
+does not exist yet): repository `nevodesigns/irin`, workflow `release.yml`,
+environment left blank.
+
+Note that the distribution is still named `irincad`, which is upstream's name on
+PyPI. Choose IRIN's own distribution name before the first upload, or the
+publish will be rejected as a project IRIN does not own.
 
 ### Publishing without a version bump
 
@@ -345,7 +365,7 @@ The CAD Viewer is a local-filesystem app and has no hosted deployment.
 ### Mirroring the CAD Viewer repo
 
 `viewer/` is published as its own standalone repo,
-[`earthtojake/cad-viewer`](https://github.com/earthtojake/cad-viewer). The
+[`nevodesigns/irin-viewer`](https://github.com/nevodesigns/irin-viewer). The
 `Release` workflow calls `Sync CAD Viewer Repo` after publishing to `main`, so
 the mirror tracks releases rather than in-flight `develop` work. It mirrors from
 the release **source** commit, not from `main`, which carries no `viewer/`.

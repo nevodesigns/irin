@@ -82,7 +82,7 @@ class DxfArtifactCliTests(unittest.TestCase):
         code = (
             "import sys; sys.path.insert(0, 'scripts'); import artifact.cli; "
             "print('OCP.OCP' in sys.modules); "
-            "print('cadgen._internal.step_scene' in sys.modules)"
+            "print('irincad._internal.step_scene' in sys.modules)"
         )
         result = subprocess.run(
             [sys.executable, "-c", code],

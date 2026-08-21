@@ -45,7 +45,7 @@ def gen_step():
 
 def build_dxf():
     import ezdxf
-    from cadgen import flatten
+    from irincad import flatten
 
     document = ezdxf.new("R2010")
     document.units = ezdxf.units.MM

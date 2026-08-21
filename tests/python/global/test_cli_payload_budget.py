@@ -20,7 +20,7 @@ from pathlib import Path
 
 from tests.python.support.paths import add_repo_path, repo_path
 
-add_repo_path("packages/cadgen/src")
+add_repo_path("packages/irincad/src")
 
 RENDER_MESH_SCENE_JS = Path(repo_path("packages/cadjs/src/common/renderMeshScene.js"))
 
@@ -75,9 +75,9 @@ class CompactStdoutTests(unittest.TestCase):
     # Every source that writes JSON to stdout. `cad artifact` and `dxf artifact` were
     # missed by the first pass of this test and were still pretty-printing.
     STDOUT_JSON_SOURCES = (
-        "packages/cadgen/src/cadgen/snapshot_core.py",
-        "packages/cadgen/src/cadgen/step_artifact_cli.py",
-        "packages/cadgen/src/cadgen/dxf_artifact.py",
+        "packages/irincad/src/irincad/snapshot_core.py",
+        "packages/irincad/src/irincad/step_artifact_cli.py",
+        "packages/irincad/src/irincad/dxf_artifact.py",
         "skills/cad/scripts/inspect/inspect_refs/cli.py",
         "skills/cad/scripts/artifact/cli.py",
         "skills/dxf/scripts/artifact/cli.py",

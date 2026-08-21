@@ -28,7 +28,7 @@ When a generated STEP file's `gen_step()` builds on another STEP file, that othe
 
 A **STEP entry generator** — a Python script that defines `gen_step()` and is meant to be built, inspected, snapshotted, or shown in the viewer on its own — is named `<name>.step.py`. That filename is the marker the viewer catalog and the build tools scan for. Ordinary **helper / library modules** (shared geometry functions, `*_parts/` packages, `*_common.py`, anything imported by other generators but not built on its own) stay `<name>.py` and are NOT treated as entries even if they define `gen_step` — the viewer scans for `.step.py`, not every Python file. So: if a `.py` script is a buildable model on its own, name it `<name>.step.py`; if it only exists to be imported by other generators, leave it `<name>.py`.
 
-- A `<name>.step.py` entry produces the logical STEP `<name>.step` (the filename minus the trailing `.py`); its render package lives at `<dir>/__cadgen__/models/<name>.step.py/`. Build/inspect it by passing the `.step.py` path to the CLI, exactly like any generator source.
+- A `<name>.step.py` entry produces the logical STEP `<name>.step` (the filename minus the trailing `.py`); its render package lives at `<dir>/__irincad__/models/<name>.step.py/`. Build/inspect it by passing the `.step.py` path to the CLI, exactly like any generator source.
 - **A `.step.py` file cannot be imported by name.** `import foo` does not find `foo.step.py`, and `import foo.step` makes Python look for a `foo` package (a `foo/` directory) — neither exists. Load an entry generator by PATH (`importlib.util.spec_from_file_location`), which is how the CLI, the viewer, and assembly composition already load generators. If generators must share constants/functions, put the shared code in a plain `<name>.py` helper they both import, or path-load the entry. When a generated assembly composes a generated child (see "Child dependencies" in `positioning.md`), it path-loads the child `.step.py` and calls its `gen_step()` — it never `import`s it by name.
 
   **`sys.path` does not survive into `gen_step()`.** The CLI restores `sys.path`
@@ -73,7 +73,7 @@ python scripts/gen path/to/a.step.py path/to/b.step.py
 python scripts/gen path/to/assembly.step.py
 ```
 
-Passing a generated assembly's exported `.step` to a tool treats it as imported native STEP and loses source-level assembly composition; work with the `.py` assembly source. For generated build123d assemblies, prefer `cadgen.assembly.AssemblyHelper` in the Python source so native labels, named mate frames, and source-level relationships are preserved before STEP export (see `positioning.md`).
+Passing a generated assembly's exported `.step` to a tool treats it as imported native STEP and loses source-level assembly composition; work with the `.py` assembly source. For generated build123d assemblies, prefer `irincad.assembly.AssemblyHelper` in the Python source so native labels, named mate frames, and source-level relationships are preserved before STEP export (see `positioning.md`).
 
 ## Imported STEP/STP files
 
@@ -120,11 +120,11 @@ python scripts/inspect refs path/to/model.step --facts --planes --positioning
 
 Every `scripts/gen` / `scripts/export` / `scripts/artifact` / `scripts/inspect`
 / `scripts/snapshot` invocation pays a multi-second OCP/build123d import. Set
-`CADGEN_WARM=1` to route these CLIs through a shared warm-process daemon
+`IRINCAD_WARM=1` to route these CLIs through a shared warm-process daemon
 instead:
 
 ```bash
-CADGEN_WARM=1 python scripts/gen path/to/part.step.py
+IRINCAD_WARM=1 python scripts/gen path/to/part.step.py
 ```
 
 - The first warm call spawns the daemon (paying the import cost once) and each
@@ -132,17 +132,17 @@ CADGEN_WARM=1 python scripts/gen path/to/part.step.py
   exit code back unchanged. Arguments, cwd resolution, and outputs match the
   cold CLIs; requests are handled sequentially.
 - The daemon is **per worktree**: the socket is
-  `$TMPDIR/cadgen-daemon-<sha256(worktree-root)[:12]>.sock` (falling back to
+  `$TMPDIR/irincad-daemon-<sha256(worktree-root)[:12]>.sock` (falling back to
   `/tmp`), with a `.log` file beside it for daemon lifecycle and C-level OCP
-  noise. `CADGEN_DAEMON_SOCKET` overrides the socket path.
+  noise. `IRINCAD_DAEMON_SOCKET` overrides the socket path.
 - **Staleness:** the daemon records a version token (max mtime over
-  `packages/cadgen/src/cadgen/**/*.py` and `skills/cad/scripts/**/*.py`) at
-  startup. When a client's token differs — i.e. cadgen or the skill CLIs
+  `packages/irincad/src/irincad/**/*.py` and `skills/cad/scripts/**/*.py`) at
+  startup. When a client's token differs — i.e. irincad or the skill CLIs
   changed — the daemon exits and the client transparently respawns a fresh one,
   so edits to runtime code always take effect on the next call.
 - **Idle exit:** the daemon exits after 10 minutes without a request
-  (`CADGEN_DAEMON_IDLE_TIMEOUT` seconds overrides) and cleans up its socket.
-- Without `CADGEN_WARM=1` nothing changes; on any daemon spawn or protocol
+  (`IRINCAD_DAEMON_IDLE_TIMEOUT` seconds overrides) and cleans up its socket.
+- Without `IRINCAD_WARM=1` nothing changes; on any daemon spawn or protocol
   problem the CLI silently falls back to the normal cold in-process run.
   Invocations reading a payload from stdin (e.g. `scripts/snapshot --job -`)
   always run cold.

@@ -17,7 +17,7 @@ do not open PRs to `main` or push it directly.
 Do not bump the canonical release version in `VERSION` during
 normal development work. Ship releases only through the single `Release`
 GitHub Actions workflow, which handles the version bump, release PR, publish
-commit to `main`, `cadgen` PyPI publish, docs deploy, semver tag, and GitHub
+commit to `main`, `irincad` PyPI publish, docs deploy, semver tag, and GitHub
 Release in one run.
 
 When asked to publish, make, or ship a release, dispatch `Release` with its
@@ -35,7 +35,7 @@ The standalone `Deploy Docs` workflow redeploys the docs site without running a
 release. It deploys a source ref (defaulting to `develop`), never `main`: the
 publish tree drops `docs/` and `packages/`, which the docs app builds against.
 The CAD Viewer is a local-filesystem app with no hosted deployment, but each
-release mirrors `viewer/` into the standalone `earthtojake/cad-viewer` repo
+release mirrors `viewer/` into the standalone `nevodesigns/irin-viewer` repo
 through the `Sync CAD Viewer Repo` workflow, which `Release` calls after
 publishing and which can also be dispatched on its own. Both of those read the
 release SOURCE commit, because `main` carries only what installs.
@@ -53,7 +53,7 @@ flow, CI/CD-testing and resume options, and local/manual fallbacks.
 - `packages/cadjs`: shared JS CAD/render/runtime code, UI-framework agnostic.
 - `packages/implicitjs`: standalone JS implicit CAD model, shader render,
   snapshot, mesh sampling, and export runtime.
-- `packages/cadgen`: shared Python STEP/GLB/topology artifact code.
+- `packages/irincad`: shared Python STEP/GLB/topology artifact code.
 - `docs/`: documentation site.
 - `tests/`: root-owned test suites for skills, packages, viewer services, and
   repo-wide policy.
@@ -112,7 +112,7 @@ flow, CI/CD-testing and resume options, and local/manual fallbacks.
   `implicitjs` directly or duplicating implicit CAD logic. Shared primitives
   that both packages need live in `implicitjs` as the single source of truth
   and are re-exported from `cadjs` (e.g. `cadjs/common/camera.js`).
-- `packages/cadgen` owns reusable Python artifact generation; skills should use
+- `packages/irincad` owns reusable Python artifact generation; skills should use
   bundled package code, not sibling skill imports.
 - Create lightweight shared Python packages under `packages/` when a helper
   should not inherit heavier package dependencies.

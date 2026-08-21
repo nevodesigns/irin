@@ -3,7 +3,7 @@ from __future__ import annotations
 from math import sqrt
 
 from build123d import *
-from cadgen.assembly import AssemblyHelper
+from irincad.assembly import AssemblyHelper
 
 
 # Units: millimeters.

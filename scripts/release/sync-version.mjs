@@ -72,12 +72,12 @@ export const jsonTargets = [
 ];
 
 const tomlTargets = [
-  "packages/cadgen/pyproject.toml",
+  "packages/irincad/pyproject.toml",
   "viewer/moveit2_server/pyproject.toml",
-  "viewer/packages/cadgen/pyproject.toml",
+  "viewer/packages/irincad/pyproject.toml",
   "skills/cad-viewer/scripts/viewer/moveit2_server/pyproject.toml",
-  "skills/cad-viewer/scripts/viewer/packages/cadgen/pyproject.toml",
-  "skills/cad/scripts/packages/cadgen/pyproject.toml",
+  "skills/cad-viewer/scripts/viewer/packages/irincad/pyproject.toml",
+  "skills/cad/scripts/packages/irincad/pyproject.toml",
 ];
 
 function usage() {

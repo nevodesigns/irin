@@ -329,7 +329,7 @@ import {
 } from "@/workbench/modelExport";
 
 const DEFAULT_DOCUMENT_TITLE = "CAD Viewer";
-// The source formats whose renderable geometry lives in a `__cadgen__` render package, and
+// The source formats whose renderable geometry lives in a `__irincad__` render package, and
 // therefore go through the /__cad/artifact state machine before they can render. Mirrors
 // `owns_entry` in viewer/server_py/artifact.py; an entry listed here and not there (or the
 // reverse) is a format that either never builds or reports ready forever.

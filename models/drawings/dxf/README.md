@@ -8,7 +8,7 @@ tooling, not the fixture.
 ## Generated sources (`.dxf.py`)
 
 Build them with the DXF skill CLI (`python skills/dxf/scripts/gen <source>`);
-drawing packages land in the gitignored `__cadgen__/` cache and `.dxf` exports
+drawing packages land in the gitignored `__irincad__/` cache and `.dxf` exports
 are written on demand only, so no generated DXF output is committed. Together
 they cover the skill's standalone-drafting and STEP-projection workflows.
 
@@ -35,7 +35,7 @@ they cover the skill's standalone-drafting and STEP-projection workflows.
   must render as a line, never a solid), and layer colors from the layer table.
 - `clamp_plate_profile.py` + `clamp_plate.dxf.py` — STEP-projection workflow:
   the `.dxf.py` path-loads the sibling `clamp_plate_profile.py` helper and
-  projects its top-face topology to a cut profile with `cadgen.flatten`
+  projects its top-face topology to a cut profile with `irincad.flatten`
   (outline, two bolt holes, center slot). The helper is a plain `.py`, not a
   `.step.py` entry, so this drawings folder holds no STEP generator of its own.
 

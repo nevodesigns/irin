@@ -32,7 +32,7 @@ MODE="write"
 # Packages that must be present under viewer/packages for the mirror to install.
 # cadjs declares "implicitjs": "file:../implicitjs", so implicitjs has to ship
 # alongside it or `npm install` fails in the mirror.
-REQUIRED_PACKAGES=(cadjs implicitjs cadgen)
+REQUIRED_PACKAGES=(cadjs implicitjs irincad)
 
 usage() {
   cat <<'EOF'

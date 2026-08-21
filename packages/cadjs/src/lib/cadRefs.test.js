@@ -15,7 +15,7 @@ import {
 } from "./cadRefs.js";
 
 // The same fixture the Python suite reads. It is the only thing keeping the two grammars --
-// this module and cadgen/cad_ref_syntax.py -- from drifting, which they had already done four
+// this module and irincad/cad_ref_syntax.py -- from drifting, which they had already done four
 // copies deep before it existed.
 const FIXTURE = JSON.parse(
   readFileSync(fileURLToPath(new URL("./cadRefs.parity.json", import.meta.url)), "utf8")

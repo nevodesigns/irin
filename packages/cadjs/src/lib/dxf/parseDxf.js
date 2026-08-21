@@ -8,7 +8,7 @@ function toFiniteNumber(value, fallback = 0) {
 }
 
 // Layer intent by WHOLE tokens of the layer name (split on non-alphanumerics),
-// mirroring cadgen.drawing_checks.layer_intent so validation, snapshots, and
+// mirroring irincad.drawing_checks.layer_intent so validation, snapshots, and
 // rendering classify layers identically ("PREFORM" must not match "ref").
 const LAYER_INTENT_BY_TOKEN = new Map([
   ["cut", "cut"],

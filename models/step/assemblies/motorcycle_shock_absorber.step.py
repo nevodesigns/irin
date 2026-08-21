@@ -34,7 +34,7 @@ from build123d import (
     Vector,
 )
 
-from cadgen.assembly import AssemblyHelper, label_shape
+from irincad.assembly import AssemblyHelper, label_shape
 
 
 DISPLAY_NAME = "Motorcycle rear shock absorber"

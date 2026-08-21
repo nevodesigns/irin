@@ -33,14 +33,14 @@ from urllib.parse import urlsplit, parse_qs, unquote
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from server_py import backend as backend_mod
-    from server_py import cadgen_bridge
+    from server_py import irincad_bridge
     from server_py import paths
     from server_py import server_info as server_info_mod
     from server_py import encoding as enc
     from server_py.content_types import content_type_for_static_asset
 else:
     from . import backend as backend_mod
-    from . import cadgen_bridge
+    from . import irincad_bridge
     from . import paths
     from . import server_info as server_info_mod
     from . import encoding as enc
@@ -351,7 +351,7 @@ def main(argv=None):
     directory_root = os.getcwd()
     if os.environ.get("VIEWER_CAD_BACKEND_VALIDATED") != "1":
         try:
-            cadgen_bridge.require_cadgen_runtime(directory_root)
+            irincad_bridge.require_irincad_runtime(directory_root)
         except RuntimeError as exc:
             print(str(exc), file=sys.stderr)
             return 1

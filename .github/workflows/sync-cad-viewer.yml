@@ -1,6 +1,6 @@
 name: Sync CAD Viewer Repo
 
-# Mirrors viewer/ into the standalone earthtojake/cad-viewer repo.
+# Mirrors viewer/ into the standalone nevodesigns/irin-viewer repo.
 #
 # The Release workflow calls this after it publishes, so the mirror tracks
 # releases rather than in-flight develop work. Dispatch it manually for an
@@ -44,7 +44,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  MIRROR_REPOSITORY: earthtojake/cad-viewer
+  MIRROR_REPOSITORY: nevodesigns/irin-viewer
   MIRROR_BRANCH: main
 
 jobs:
@@ -111,7 +111,7 @@ jobs:
       - name: Run mirror backend tests
         working-directory: ${{ runner.temp }}/cad-viewer
         env:
-          PYTHONPATH: packages/cadgen/src
+          PYTHONPATH: packages/irincad/src
         run: python -m unittest discover -s server_py/tests -t .
 
       - name: Commit and push the mirror

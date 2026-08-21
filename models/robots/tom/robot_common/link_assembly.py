@@ -5,7 +5,7 @@ helper rebuilds the same geometry as an AssemblyHelper ``Compound`` whose parts 
 connected by explicit rigid mates (a root part, with every other part rigid-mated at
 its transform relative to the root) instead of independent baked transforms. Geometry
 is identical to placing the instances directly; parts import through the cached
-``__cadgen__`` loader. This is the design-coordinate joint approach (juno-style):
+``__irincad__`` loader. This is the design-coordinate joint approach (juno-style):
 the mate frames carry the design placement, validated against the imported topology.
 """
 
@@ -22,8 +22,8 @@ from typing import Any, Sequence
 
 from build123d import Compound, Location
 
-from cadgen.assembly import AssemblyHelper
-from cadgen.step_scene import import_step
+from irincad.assembly import AssemblyHelper
+from irincad.step_scene import import_step
 
 
 def location_from_transform(transform: Sequence[float]) -> Location:
@@ -92,7 +92,7 @@ def _resolve_shape(path: object, *, base_dir: Path) -> Any:
     composed from that generator's ``gen_step()``. This is a source-level dependency: a child edit
     flows into the parent on the next rebuild with no committed-STEP refresh and no leaf-first
     regeneration ordering. An IMPORTED child — no generator, e.g. a purchased/downloaded servo,
-    extrusion, or gripper — loads through the cached ``__cadgen__`` importer. Both paths return a
+    extrusion, or gripper — loads through the cached ``__irincad__`` importer. Both paths return a
     fresh, independent shape per call so repeated copies of the same part stay independent occurrences.
     """
     step_path = _resolve(path, base_dir=base_dir)
@@ -115,14 +115,14 @@ def compound_from_instances(
 
     Each instance's ``transform`` is its absolute (world) placement — the tom
     composition resolves every part into world coordinates — so parts are imported
-    through the cached ``__cadgen__`` loader, moved to their placement, and labeled
+    through the cached ``__irincad__`` loader, moved to their placement, and labeled
     with the instance name. There are no joints: the geometry is baked. This is the
     ``shape`` contract for a whole-robot assembly, which trades the assembly path's
     prototype instancing for a self-contained build123d ``Compound``.
 
     ``assembly_mates`` (semantic joint metadata, the same dicts the legacy envelope
     carried) are attached directly to the returned compound via ``.assembly_mates``.
-    The STEP export collector (``cadgen.step_export._collect_assembly_mates``) reads
+    The STEP export collector (``irincad.step_export._collect_assembly_mates``) reads
     that attribute off the root compound and normalizes the ids, so the mates reach
     the scene/manifest exactly as the deprecated ``assembly_mates`` envelope field
     used to — no separate envelope channel required.
@@ -148,7 +148,7 @@ def compound_from_instances(
             _occurrence_subtree(part, location, f"o1.{index}", str(inst["name"]))
         )
     compound = Compound(occt_compound, label=name)
-    # Occurrence-metadata tree consumed by cadgen._internal.component_package.build_package_from_compound;
+    # Occurrence-metadata tree consumed by irincad._internal.component_package.build_package_from_compound;
     # absent on plain build123d shapes, which fall back to walking the compound's children.
     compound._occurrence_tree = {"id": "o1", "name": name, "children": occurrence_children}
     if assembly_mates:

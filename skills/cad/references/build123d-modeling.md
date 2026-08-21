@@ -108,17 +108,17 @@ For source operations, prefer robust selectors such as top/bottom by axis or pos
 For assemblies, keep this file focused on BREP modeling patterns and labels. Use `positioning.md` as the single source of truth for:
 
 - part-local coordinate conventions
-- when to use `cadgen.assembly.AssemblyHelper`, build123d joints, or explicit `Location` transforms
+- when to use `irincad.assembly.AssemblyHelper`, build123d joints, or explicit `Location` transforms
 - `connect_to()` behavior
 - CLI `inspect align` as read-only selector-pair alignment validation
 - frame, measure, and positioning report expectations
 
 ## Labels and assemblies
 
-Label every exported part and assembly child with native build123d labels. Prefer concise intent labels through `cadgen.assembly` helpers:
+Label every exported part and assembly child with native build123d labels. Prefer concise intent labels through `irincad.assembly` helpers:
 
 ```python
-from cadgen.assembly import AssemblyHelper, label_shape
+from irincad.assembly import AssemblyHelper, label_shape
 
 asm = AssemblyHelper("electronics_enclosure")
 base = asm.add(make_base(), "base")
@@ -149,11 +149,11 @@ Two rules, both of which fail silently — no error, just a model that looks wro
 **Channels are LINEAR RGB, not sRGB.** The renderer converts them to sRGB on the
 way to the screen, so `Color(0.5, 0.5, 0.5)` displays as roughly `#BCBCBC`, not
 `#808080`. Picking channel values off a hex palette by eye gives a washed-out,
-desaturated model. Author with `cadgen.srgb()`, which takes the hex you want to
+desaturated model. Author with `irincad.srgb()`, which takes the hex you want to
 see:
 
 ```python
-from cadgen import srgb
+from irincad import srgb
 
 body.color = srgb("#2E3742")
 glass.color = srgb("#38414D", 0.42)   # with alpha

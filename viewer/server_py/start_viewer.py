@@ -29,11 +29,11 @@ import sys
 
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    from server_py import cadgen_bridge
+    from server_py import irincad_bridge
     from server_py.paths import url_path_from_filesystem_path
     from server_py.server_info import DEFAULT_VIEWER_PORT, DEFAULT_VIEWER_HOST
 else:
-    from . import cadgen_bridge
+    from . import irincad_bridge
     from .paths import url_path_from_filesystem_path
     from .server_info import DEFAULT_VIEWER_PORT, DEFAULT_VIEWER_HOST
 
@@ -93,7 +93,7 @@ def main(argv=None):
         return 1
 
     try:
-        cadgen_bridge.require_cadgen_runtime(directory)
+        irincad_bridge.require_irincad_runtime(directory)
     except RuntimeError as exc:
         print(str(exc), file=sys.stderr)
         return 1

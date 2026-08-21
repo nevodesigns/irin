@@ -5,13 +5,13 @@ from collections.abc import Sequence
 
 
 def report_cli_error(*args, **kwargs):
-    from cadgen._internal.cli_errors import report_cli_error as report
+    from irincad._internal.cli_errors import report_cli_error as report
 
     return report(*args, **kwargs)
 
 
 def generate_dxf_targets(*args, **kwargs):
-    from cadgen.generation import generate_dxf_targets as generate
+    from irincad.generation import generate_dxf_targets as generate
 
     return generate(*args, **kwargs)
 
@@ -19,7 +19,7 @@ def generate_dxf_targets(*args, **kwargs):
 def validate_dxf_files(targets: Sequence[str]) -> int:
     """Run the generation-time drawing checks post-hoc on existing .dxf files.
     One unreadable/corrupt file is a per-file FAIL, never an aborted run."""
-    from cadgen.drawing_checks import validate_dxf_file
+    from irincad.drawing_checks import validate_dxf_file
 
     exit_code = 0
     for target in targets:

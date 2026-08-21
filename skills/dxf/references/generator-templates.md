@@ -47,7 +47,7 @@ if __name__ == "__main__":
 For flat patterns / profiles of a `$cad` model. The `.dxf.py` sits beside the
 `<name>.step.py` it projects and path-loads it (dotted-extension files cannot
 be imported by module name). Keep the drawing logic — typically a `build_dxf()`
-helper built on `cadgen.flatten` — in the `.step.py` or a plain helper module;
+helper built on `irincad.flatten` — in the `.step.py` or a plain helper module;
 the `.dxf.py` is the drawing entry point. The loaded `.step.py` and its imports
 are recorded as freshness inputs automatically.
 
@@ -58,7 +58,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from cadgen.sources import load_source_module
+from irincad.sources import load_source_module
 
 _step = load_source_module(Path(__file__).with_name("<name>.step.py"))
 
@@ -81,7 +81,7 @@ file changes; rerun with `--force` after replacing it.
 
 The face selection and projection are part-specific judgment calls: pick the
 planar face(s) that define the cut profile and the 2D projection for that
-plane. `cadgen.flatten` owns the projection/union/emission machinery.
+plane. `irincad.flatten` owns the projection/union/emission machinery.
 
 ```python
 """DXF projection of <name>.step."""
@@ -92,7 +92,7 @@ from pathlib import Path
 
 import build123d
 import ezdxf
-from cadgen import flatten
+from irincad import flatten
 
 _STEP_PATH = Path(__file__).with_name("<name>.step")
 
@@ -126,8 +126,8 @@ if __name__ == "__main__":
   (e.g. `document.layers.add("BEND", linetype="DASHED")`); open geometry is
   allowed there and downstream tools classify it as bends rather than cuts.
 - **Kerf / tool-radius compensation**: offset closed profiles with
-  `cadgen.flatten.offset_geometry` (shapely geometry) or
-  `cadgen.flatten.offset_closed_points` (point lists); do not hand-offset
+  `irincad.flatten.offset_geometry` (shapely geometry) or
+  `irincad.flatten.offset_closed_points` (point lists); do not hand-offset
   coordinates.
 - **Circles**: emit holes with `flatten.add_shapely_geometry` (fits circles
   from projected rings automatically) or `flatten.add_circle_polyline` when

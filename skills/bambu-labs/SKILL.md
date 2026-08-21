@@ -5,7 +5,7 @@ description: Dry-run, upload, and cautiously initiate local Bambu Lab print jobs
 
 # Bambu Labs
 
-Provenance: maintained in [earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad).
+Provenance: maintained in [nevodesigns/irin](https://github.com/nevodesigns/irin).
 Use the installed local skill files as the runtime source of truth; the
 repository link is only for provenance and release review.
 

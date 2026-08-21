@@ -20,7 +20,7 @@ import { createImplicitCadColorEvaluator } from "./sdfEvaluator.js";
 
 /**
  * Millimetres to glTF metres. The viewer's loader multiplies by 1000 on the way back in
- * (`GLB_CAD_UNIT_SCALE`, `cadjs/lib/render/glbMeshData.js`), and cadgen's Python GLB writer
+ * (`GLB_CAD_UNIT_SCALE`, `cadjs/lib/render/glbMeshData.js`), and irincad's Python GLB writer
  * applies the same 0.001 (`_internal/glb_mesh_payload.py`). Writing raw millimetres would
  * load a model at 1000x its size.
  */

@@ -24,7 +24,7 @@ import importlib.util
 from pathlib import Path
 
 import build123d as bd
-from cadgen import step_scene as _scene
+from irincad import step_scene as _scene
 
 HERE = Path(__file__).resolve().parent
 PART_NAME = Path(__file__).stem

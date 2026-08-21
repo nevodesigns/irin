@@ -1,8 +1,8 @@
 /**
- * The Node half of `cadgen.coordination.require_write_lock`.
+ * The Node half of `irincad.coordination.require_write_lock`.
  *
  * A render package is only ever written from inside the artifact's generation lock, and for
- * the JS builders that lock is held by the PYTHON PARENT (`cadgen/_internal/node_runtime.py`)
+ * the JS builders that lock is held by the PYTHON PARENT (`irincad/_internal/node_runtime.py`)
  * -- Node cannot take it: `fs.flock` and `O_EXLOCK` do not exist. So the child cannot verify
  * the lock by taking it. What it can do is prove it was started by the holder:
  *
@@ -20,7 +20,7 @@
  * `require_write_lock()` refuses to do. Only the parent can tell that apart from an
  * unverified id; from here both look like an empty sentinel.
  *
- * That case warns and continues with no `CADGEN_STRICT_LOCKS` escape, deliberately. Python's
+ * That case warns and continues with no `IRINCAD_STRICT_LOCKS` escape, deliberately. Python's
  * flag turns a MISSING lock into an error, and a degraded run does not read as missing there
  * either -- `exclusive()` registers it, so `require_write_lock()` returns true. Honouring the
  * flag only here would invent a third policy that fires in no environment CI can reach: a
@@ -60,7 +60,7 @@ export function assertWriteLock(packageDir, runId, { degraded = false } = {}) {
   if (degraded) {
     // stderr, not stdout: stdout carries the progress protocol and the result payload.
     console.warn(
-      `cadgen: writing ${packageDir} without mutual exclusion -- this filesystem does not `
+      `irincad: writing ${packageDir} without mutual exclusion -- this filesystem does not `
       + "support the generation lock, so a concurrent build of the same model is not prevented."
     );
     return;

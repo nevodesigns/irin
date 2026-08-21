@@ -20,11 +20,11 @@ from tests.python.support.paths import add_repo_path, repo_path
 def write_package(step_path, *, entry_kind="part", source_kind="step"):
     """Materialize the canonical render artifact for ``step_path``: a SELF-CONTAINED
     component-GLB PACKAGE directory inside the per-folder cache
-    (``__cadgen__/models/<step-filename>/assembly.json``) whose content-addressed component
+    (``__irincad__/models/<step-filename>/assembly.json``) whose content-addressed component
     GLBs live in the package's own ``components/<hash>.glb`` dir. Returns the package directory
-    path, mirroring ``cadgen.catalog.render_package_dir``."""
+    path, mirroring ``irincad.catalog.render_package_dir``."""
     step_path = Path(step_path)
-    pkg_dir = step_path.parent / "__cadgen__" / "models" / step_path.name
+    pkg_dir = step_path.parent / "__irincad__" / "models" / step_path.name
     comp_dir = pkg_dir / "components"
     pkg_dir.mkdir(parents=True, exist_ok=True)
     comp_dir.mkdir(parents=True, exist_ok=True)
@@ -57,15 +57,15 @@ def write_package(step_path, *, entry_kind="part", source_kind="step"):
     return pkg_dir
 
 add_repo_path("skills/cad/scripts")
-add_repo_path("packages/cadgen/src")
+add_repo_path("packages/irincad/src")
 
-# The CLI itself is shared (cadgen.snapshot_cli); the CAD skill's entrypoint is the
+# The CLI itself is shared (irincad.snapshot_cli); the CAD skill's entrypoint is the
 # declaration of which kinds it accepts and where its runtime lives. These tests exercise
 # the CAD skill's behaviour, so they drive the shared implementation through that skill's
 # runtime directory.
-import cadgen.snapshot_cli as snapshot_main
+import irincad.snapshot_cli as snapshot_main
 import snapshot.__main__ as cad_snapshot_entry
-from cadgen.snapshot_cli import (
+from irincad.snapshot_cli import (
     SnapshotError,
     load_job_from_options,
     parse_snapshot_args,
@@ -106,7 +106,7 @@ class SnapshotCliTests(unittest.TestCase):
         code = (
             "import sys; sys.path.insert(0, 'scripts'); import snapshot.__main__; "
             "print('OCP.OCP' in sys.modules); "
-            "print('cadgen._internal.step_scene' in sys.modules)"
+            "print('irincad._internal.step_scene' in sys.modules)"
         )
         result = subprocess.run(
             [sys.executable, "-c", code],
@@ -455,7 +455,7 @@ class SnapshotCliTests(unittest.TestCase):
         self.assertRegex(parse_qs(input_url.query)["v"][0], r"^[0-9a-f]{16}$")
         # The render artifact is a SELF-CONTAINED component-GLB package, so the resolved job
         # carries a package descriptor with per-component asset URLs (no monolithic glbUrl).
-        # Each component URL points into the package's own components/ dir inside __cadgen__.
+        # Each component URL points into the package's own components/ dir inside __irincad__.
         self.assertNotIn("glbUrl", job["resolved"])
         package = job["resolved"]["package"]
         self.assertEqual(package["descriptor"]["kind"], "assembly-package")
@@ -465,7 +465,7 @@ class SnapshotCliTests(unittest.TestCase):
             parsed_component_url = urlparse(component_url)
             self.assertTrue(
                 parsed_component_url.path.startswith(
-                    "/__render_asset/__cadgen__/models/part.step/components/"
+                    "/__render_asset/__irincad__/models/part.step/components/"
                 ),
                 component_url,
             )

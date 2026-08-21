@@ -3,7 +3,7 @@
 Owns root resolution, catalog absolutization (raw scanner URLs ->
 ``/__cad/asset?file=...`` form the client consumes verbatim), the guarded
 asset-path resolver, and the render-artifact build/export routes that shell
-out to cadgen.
+out to irincad.
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ import re
 from urllib.parse import urlsplit, parse_qs, unquote
 
 from . import artifact as artifact_mod
-from . import cadgen_bridge
+from . import irincad_bridge
 from . import paths
 from . import scanner
 from .content_types import content_type_for_path
@@ -28,7 +28,7 @@ _STEP_EXPORT_FORMAT_SUFFIX = {"step": "step", "stl": "stl", "3mf": "3mf", "glb":
 _ARTIFACT_LOCK_TIMEOUT_SECONDS = 0.5
 
 # The formats an `.implicit.js` model exports to. Rejected here only so a bad request fails
-# before a Node process is spawned; `cadgen.implicit_export` holds the authoritative list
+# before a Node process is spawned; `irincad.implicit_export` holds the authoritative list
 # beside the exporter it drives, and validates again.
 _IMPLICIT_EXPORT_FORMATS = ("stl", "glb", "3mf")
 
@@ -257,7 +257,7 @@ class LocalAssetBackend:
             # sidecar -- the documented way to attach one to an imported STEP.
             # Resolving it here keeps the
             # build, the freshness check and STEP export all keyed on the same
-            # source. cadgen's generator mode writes only the render package, so
+            # source. irincad's generator mode writes only the render package, so
             # the exported `.step` beside it is never rewritten.
             generator = self._same_stem_python_generator_path(c)
             if generator:
@@ -391,7 +391,7 @@ class LocalAssetBackend:
         candidate = os.path.join(os.path.dirname(step_path), os.path.basename(step_path) + ".py")
         return candidate if scanner._file_has_python_generator(candidate, "gen_step") else ""
 
-    # POST /__cad/artifact build — subprocess cadgen.step_artifact_cli (OCP stays out of
+    # POST /__cad/artifact build — subprocess irincad.step_artifact_cli (OCP stays out of
     # the server process).
     def generate_step_artifact(self, file_ref, force, resolved_root, catalog):
         resolved = self.resolve_step_source(file_ref, resolved_root)
@@ -407,41 +407,41 @@ class LocalAssetBackend:
         args = ["--step", step_path]
         if has_generator:
             # Generated models keep no .step on disk — --source-path selects generator
-            # mode: cadgen runs the generator in-process and writes only the render
+            # mode: irincad runs the generator in-process and writes only the render
             # package (the logical --step path never exists).
             args += ["--source-path", generator]
         result = self._run_artifact_build(
-            "cadgen.step_artifact_cli", args, resolved_root["rootPath"],
+            "irincad.step_artifact_cli", args, resolved_root["rootPath"],
             force=force, error_label="STEP render artifact build failed",
         )
         return {**result, "stepPath": step_path}
 
     # POST /__cad/artifact build for a generated `.dxf.py` drawing — subprocess
-    # cadgen.dxf_artifact (parity with the STEP build; the generator runs out of the
+    # irincad.dxf_artifact (parity with the STEP build; the generator runs out of the
     # server process).
     def generate_dxf_artifact(self, file_ref, force, resolved_root, catalog):
         resolved = self.resolve_dxf_source(file_ref, resolved_root)
         source_path = resolved["sourcePath"]
         result = self._run_artifact_build(
-            "cadgen.dxf_artifact", ["--source-path", source_path], resolved_root["rootPath"],
+            "irincad.dxf_artifact", ["--source-path", source_path], resolved_root["rootPath"],
             force=force, error_label="DXF render artifact build failed",
         )
         return {**result, "sourcePath": source_path}
 
     # POST /__cad/artifact build for an `.implicit.js` model — subprocess
-    # cadgen.implicit_artifact. Same shape as the DXF build: the cadgen module holds the
+    # irincad.implicit_artifact. Same shape as the DXF build: the irincad module holds the
     # generation lock and owns the Node mesher's lifetime, so nothing about "the geometry is
     # produced in JS" leaks into this process.
     def generate_implicit_artifact(self, file_ref, force, resolved_root, catalog):
         resolved = self.resolve_implicit_source(file_ref, resolved_root)
         source_path = resolved["sourcePath"]
         result = self._run_artifact_build(
-            "cadgen.implicit_artifact", ["--source-path", source_path], resolved_root["rootPath"],
+            "irincad.implicit_artifact", ["--source-path", source_path], resolved_root["rootPath"],
             force=force, error_label="Implicit CAD render artifact build failed",
         )
         return {**result, "sourcePath": source_path}
 
-    # Shared build tail for both artifact formats: run the cadgen module in a
+    # Shared build tail for both artifact formats: run the irincad module in a
     # subprocess/worker. Freshness is decided by the recorded source-closure CONTENT
     # hash, so there is nothing to touch afterwards — the descriptor mtime bump this
     # used to do existed only to quiet the old mtime staleness trigger after a
@@ -450,7 +450,7 @@ class LocalAssetBackend:
         full_args = ["--repo-root", root_path, *args]
         if force:
             full_args += ["--force"]
-        # NEVER wait out a peer inside a build. cadgen's acquire is blocking by default,
+        # NEVER wait out a peer inside a build. irincad's acquire is blocking by default,
         # which is right for a CLI (an agent asking for a build wants the build) and wrong
         # here: this request runs in the ONE serial warm worker, so a build parked on
         # another process's lock stops every OTHER model's build and export for as long as
@@ -461,7 +461,7 @@ class LocalAssetBackend:
         full_args += ["--lock-timeout", str(_ARTIFACT_LOCK_TIMEOUT_SECONDS)]
         if os.environ.get("VIEWER_STEP_ARTIFACT_VERBOSE") == "1":
             full_args += ["--verbose"]
-        result = cadgen_bridge.run_cadgen(module, full_args, root_path)
+        result = irincad_bridge.run_irincad(module, full_args, root_path)
         if result.get("contended"):
             # A peer holds the lock. Nothing failed and nothing was built: the caller
             # reports the peer's run so the client attaches to its progress.
@@ -512,7 +512,7 @@ class LocalAssetBackend:
             return {"ok": True, "state": artifact_mod.ARTIFACT_STATE_READY, "ref": ref}
         return {"ok": False, "state": artifact_mod.ARTIFACT_STATE_ERROR, "error": built["error"]}
 
-    # POST /__cad/export — native Save dialog (subprocess) + a cadgen export module
+    # POST /__cad/export — native Save dialog (subprocess) + a irincad export module
     # (subprocess). Headless fallback writes beside the source + a download URL. One route
     # for every exportable entry: the source file decides which producer runs.
     def generate_export(self, file_ref, fmt, resolved_root, catalog):
@@ -536,7 +536,7 @@ class LocalAssetBackend:
             args = ["--repo-root", resolved_root["rootPath"], "--step", step_path, "--format", normalized, "--out", out_path]
             if source_path:
                 args += ["--source-path", source_path]
-            return cadgen_bridge.run_cadgen("cadgen.step_export_target", args, resolved_root["rootPath"])
+            return irincad_bridge.run_irincad("irincad.step_export_target", args, resolved_root["rootPath"])
 
         return self._export_with_destination(
             resolved_root,
@@ -548,7 +548,7 @@ class LocalAssetBackend:
             error_label="STEP export failed",
         )
 
-    # Export a generated `.dxf.py` drawing as a `.dxf` file — cadgen.dxf_artifact with
+    # Export a generated `.dxf.py` drawing as a `.dxf` file — irincad.dxf_artifact with
     # --export ensures the drawing package is fresh (rebuilding if the source changed)
     # and writes the DXF to the chosen path.
     def generate_dxf_export(self, file_ref, resolved_root):
@@ -558,7 +558,7 @@ class LocalAssetBackend:
 
         def _export(out_path):
             args = ["--repo-root", resolved_root["rootPath"], "--source-path", source_path, "--export", out_path]
-            return cadgen_bridge.run_cadgen("cadgen.dxf_artifact", args, resolved_root["rootPath"])
+            return irincad_bridge.run_irincad("irincad.dxf_artifact", args, resolved_root["rootPath"])
 
         return self._export_with_destination(
             resolved_root,
@@ -570,7 +570,7 @@ class LocalAssetBackend:
             error_label="DXF export failed",
         )
 
-    # Export an `.implicit.js` model as STL/GLB/3MF — cadgen.implicit_export runs the
+    # Export an `.implicit.js` model as STL/GLB/3MF — irincad.implicit_export runs the
     # shipped implicitjs export CLI in a Node child, under the model's GENERATOR lock.
     #
     # This used to happen in the browser: the client loaded the model module, meshed and
@@ -592,7 +592,7 @@ class LocalAssetBackend:
                 "--format", normalized,
                 "--out", out_path,
             ]
-            return cadgen_bridge.run_cadgen("cadgen.implicit_export", args, resolved_root["rootPath"])
+            return irincad_bridge.run_irincad("irincad.implicit_export", args, resolved_root["rootPath"])
 
         return self._export_with_destination(
             resolved_root,

@@ -4,7 +4,7 @@ import argparse
 import json
 from collections.abc import Sequence
 
-from cadgen.metadata import normalize_mesh_numeric
+from irincad.metadata import normalize_mesh_numeric
 
 # Sentinel for a format flag passed without a path: export to the default sibling
 # path (`<name>.<ext>` beside the model's logical STEP).
@@ -12,13 +12,13 @@ DEFAULT_OUTPUT = "__default_sibling_output__"
 
 
 def export_cad_target(*args, **kwargs):
-    from cadgen.step_export_target import export_cad_target as export
+    from irincad.step_export_target import export_cad_target as export
 
     return export(*args, **kwargs)
 
 
 def report_cli_error(*args, **kwargs):
-    from cadgen._internal.cli_errors import report_cli_error as report
+    from irincad._internal.cli_errors import report_cli_error as report
 
     return report(*args, **kwargs)
 

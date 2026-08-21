@@ -65,7 +65,7 @@ from build123d import (
     sweep,
 )
 
-from cadgen import compound_from_instances
+from irincad import compound_from_instances
 
 from hypercar_parts import surfaces as S
 from hypercar_parts.context import group

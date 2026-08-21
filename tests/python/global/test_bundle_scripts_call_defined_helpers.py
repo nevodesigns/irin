@@ -5,7 +5,7 @@ Bash only resolves a function name when the line runs, so nothing caught it: the
 behind a `MODE = check` branch that the development symlink layout skips entirely, and the one
 layout that reaches it -- the production tree on build-test/main -- turned the resulting exit
 127 into `|| stale=1`. The check reported the vendored copy as stale forever, for a reason that
-had nothing to do with the copy, and the skills' vendored cadgen went unverified instead.
+had nothing to do with the copy, and the skills' vendored irincad went unverified instead.
 
 A typo in a shell function name is invisible until the branch runs, so check it statically.
 """

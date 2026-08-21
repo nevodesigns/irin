@@ -1,4 +1,4 @@
-"""Tests for the viewer-facing cadgen.dxf_artifact build/export command.
+"""Tests for the viewer-facing irincad.dxf_artifact build/export command.
 
 The build spans two runtimes -- Python runs the generator and holds the lock, a Node child
 bakes ``preview.glb`` inside it -- so the cross-runtime tests here spawn a REAL node child.
@@ -16,10 +16,10 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from cadgen import dxf_artifact
-from cadgen._internal import drawing_package
-from cadgen._internal.node_runtime import NodeBuilderError
-from cadgen.coordination.paths import status_path, write_lock_path
+from irincad import dxf_artifact
+from irincad._internal import drawing_package
+from irincad._internal.node_runtime import NodeBuilderError
+from irincad.coordination.paths import status_path, write_lock_path
 from tests.python.support.tmp_root import temporary_directory
 
 DXF_GENERATOR_SOURCE = textwrap.dedent(
@@ -75,7 +75,7 @@ class DxfArtifactTests(unittest.TestCase):
         return script_path
 
     def _package_dir(self, root: Path, name: str) -> Path:
-        return root / "__cadgen__" / "models" / name
+        return root / "__irincad__" / "models" / name
 
     @unittest.skipUnless(_NODE_READY, "node + the cadjs dependency graph are required")
     def test_builds_drawing_package_and_skips_when_current(self) -> None:
@@ -135,13 +135,13 @@ class DxfArtifactTests(unittest.TestCase):
             self.assertTrue(export_path.is_file())
             text = export_path.read_text(encoding="utf-8")
             # The identity comment points at the generator relative to the export.
-            self.assertIn("cadgen:sourcePath=../outline.dxf.py", text)
+            self.assertIn("irincad:sourcePath=../outline.dxf.py", text)
             descriptor = json.loads(
                 (self._package_dir(Path(root), "outline.dxf.py") / "drawing.json").read_text(
                     encoding="utf-8"
                 )
             )
-            self.assertIn(f"cadgen:sourceHash={descriptor['sourceHash']}", text)
+            self.assertIn(f"irincad:sourceHash={descriptor['sourceHash']}", text)
 
 
 @unittest.skipUnless(_NODE_READY, "node + the cadjs dependency graph are required")
@@ -152,7 +152,7 @@ class DrawingPreviewBakeTests(unittest.TestCase):
         script_path = root / "outline.dxf.py"
         script_path.write_text(DXF_GENERATOR_SOURCE + "\n", encoding="utf-8")
         dxf_artifact.build_dxf_artifact(repo_root=root, source_path=script_path)
-        return root / "__cadgen__" / "models" / "outline.dxf.py"
+        return root / "__irincad__" / "models" / "outline.dxf.py"
 
     def _build_imported(self, root: Path) -> Path:
         # An imported .dxf: produced by the generator once, then treated as a plain file the
@@ -162,7 +162,7 @@ class DrawingPreviewBakeTests(unittest.TestCase):
         # Exported on demand, since the package no longer caches a DXF to copy.
         drawing_package.export_drawing_dxf(root / "outline.dxf.py", imported)
         dxf_artifact.build_dxf_artifact(repo_root=root, source_path=imported)
-        return root / "__cadgen__" / "models" / "vendor.dxf"
+        return root / "__irincad__" / "models" / "vendor.dxf"
 
     def test_generated_drawing_bakes_a_loadable_preview(self) -> None:
         with temporary_directory(prefix="dxf-preview") as root:
@@ -235,7 +235,7 @@ class DrawingPreviewBakeTests(unittest.TestCase):
                 with self.assertRaises(NodeBuilderError):
                     dxf_artifact.build_dxf_artifact(repo_root=root_path, source_path=script_path)
 
-            package_dir = root_path / "__cadgen__" / "models" / "outline.dxf.py"
+            package_dir = root_path / "__irincad__" / "models" / "outline.dxf.py"
             self.assertFalse((package_dir / "drawing.json").exists())
             self.assertFalse((package_dir / "preview.glb").exists())
             self.assertFalse(drawing_package.drawing_package_current(script_path))
@@ -249,7 +249,7 @@ class DrawingPreviewBakeTests(unittest.TestCase):
         # dxf_artifact. If it wrote a package with no preview, its own no-op fast path would
         # never fire again and the viewer would rebuild on every open -- so the mesh step
         # lives in write_drawing_package, which both producers reach.
-        from cadgen._internal.generation import generate_dxf_targets
+        from irincad._internal.generation import generate_dxf_targets
 
         with temporary_directory(prefix="dxf-cli") as root:
             root_path = Path(root)
@@ -257,7 +257,7 @@ class DrawingPreviewBakeTests(unittest.TestCase):
             script_path.write_text(DXF_GENERATOR_SOURCE + "\n", encoding="utf-8")
 
             self.assertEqual(0, generate_dxf_targets([str(script_path)]))
-            package_dir = root_path / "__cadgen__" / "models" / "outline.dxf.py"
+            package_dir = root_path / "__irincad__" / "models" / "outline.dxf.py"
             self.assertTrue((package_dir / "preview.glb").is_file())
             self.assertTrue(drawing_package.drawing_package_current(script_path))
 

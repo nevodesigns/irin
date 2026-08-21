@@ -1,7 +1,7 @@
 """The implicit skill's snapshot: an .implicit.js model, raymarched.
 
 Everything about rendering — arguments, job schema, theme, display, the headless browser —
-is `cadgen.snapshot_cli`, shared with every other skill that renders. What is local is this
+is `irincad.snapshot_cli`, shared with every other skill that renders. What is local is this
 file: which input kinds this skill accepts, and where its own bundled browser runtime lives.
 
 This replaces a standalone 978-line Node CLI with its own Playwright driver, its own render
@@ -21,12 +21,12 @@ import sys
 from pathlib import Path
 
 SCRIPTS_DIR = Path(__file__).resolve().parents[1]
-for _runtime_path in (SCRIPTS_DIR, SCRIPTS_DIR / "packages", SCRIPTS_DIR / "packages" / "cadgen" / "src"):
+for _runtime_path in (SCRIPTS_DIR, SCRIPTS_DIR / "packages", SCRIPTS_DIR / "packages" / "irincad" / "src"):
     _text = str(_runtime_path)
     if _runtime_path.is_dir() and _text not in sys.path:
         sys.path.insert(0, _text)
 
-from cadgen.snapshot_cli import run_snapshot_cli
+from irincad.snapshot_cli import run_snapshot_cli
 
 RUNTIME_DIR = Path(__file__).resolve().parent / "runtime"
 KINDS = ("implicit",)

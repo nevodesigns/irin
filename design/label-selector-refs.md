@@ -35,7 +35,7 @@ occurrence id, everywhere a selector ref is *accepted* today:
 ## Measured ground truth
 
 - Occurrence rows already carry `name` from the build123d `.label`
-  (`packages/cadgen/src/cadgen/instances.py:81`); `snapshot --mode list` emits it
+  (`packages/irincad/src/irincad/instances.py:81`); `snapshot --mode list` emits it
   (`{"ref":"#o1.1.2","name":"eye_shank"}`). No generator-side plumbing needed.
 - Label charset in the wild (156 labels, 3 assemblies): alphanumerics plus `:` and
   `_` only. Zero contain `.`; zero match `^o\d`; `:` appears mid-label
@@ -44,19 +44,19 @@ occurrence id, everywhere a selector ref is *accepted* today:
   (`cast_rim:5spoke` ×2, `turn_signal_housing:left` ×2, …). Shock absorber,
   planetary gear, six-axis arm: fully unique.
 - The grammar exists in FOUR places with no parity test:
-  1. `packages/cadgen/src/cadgen/cad_ref_syntax.py` (canonical, 3 regexes)
+  1. `packages/irincad/src/irincad/cad_ref_syntax.py` (canonical, 3 regexes)
   2. `packages/cadjs/src/lib/cadRefs.js` (same 3 regexes)
   3. `viewer/src/client/components/CadWorkspace.js:429` (`NATIVE_CAD_SELECTOR_RE`,
      also accepts `m\d+`)
   4. `viewer/src/client/workbench/referenceSelection.js:263` (byte-identical inline
      copy of 3 — and this file already imports cadRefs.js)
-- `SelectorIndex` (`packages/cadgen/src/cadgen/lookup.py:57`) is a frozen dataclass
+- `SelectorIndex` (`packages/irincad/src/irincad/lookup.py:57`) is a frozen dataclass
   with `occurrence_by_id` etc. There are exactly TWO index construction sites, both
   ending in `index_with_assembly_occurrences(index, artifact)`:
   `snapshot_cli.artifact_selector_index` and
   `skills/cad/scripts/inspect/inspect_refs/inspect.py:255`.
 - Snapshot focus/hide selectors are validated python-side in
-  `packages/cadgen/src/cadgen/snapshot_core.py` (selection normalization ~lines
+  `packages/irincad/src/irincad/snapshot_core.py` (selection normalization ~lines
   605–640, `SELECTION_SHAPED_JOB_KEYS`). That is the choke point where labels must
   become numerics before the JS render job is built.
 - `parse_selector` today returns `opaque` for `m1` (mates) — mate handling lives in
@@ -75,12 +75,12 @@ Do this first regardless; it is the safety net for every later phase.
    array of `{selector, type, occurrenceId, ordinal, canonical}` cases covering
    every grammar form, including the future label forms marked `"phase": 1` so both
    suites skip-then-enable them. Root Python test
-   `tests/python/packages/cadgen/test_cad_ref_syntax_parity.py` loads the fixture
+   `tests/python/packages/irincad/test_cad_ref_syntax_parity.py` loads the fixture
    (root tests may reach into `packages/`); `cadRefs.test.js` loads it relatively.
    Both assert their parser agrees with every case.
 
 Checks: `npm --prefix packages/cadjs test`, `npm --prefix viewer run test`,
-`./.venv/bin/python -m unittest tests/python/packages/cadgen/test_cad_ref_syntax_parity.py`.
+`./.venv/bin/python -m unittest tests/python/packages/irincad/test_cad_ref_syntax_parity.py`.
 
 ## Phase 1 — grammar: parse label forms (Python + JS)
 
@@ -114,9 +114,9 @@ canonical becomes `eye_shank.f46`. Track `inherited_label` alongside
 
 Enable the `"phase": 1` fixture cases in both suites.
 
-## Phase 2 — alias map + resolution (Python, cadgen)
+## Phase 2 — alias map + resolution (Python, irincad)
 
-New module `packages/cadgen/src/cadgen/label_refs.py`. Small, pure, no I/O.
+New module `packages/irincad/src/irincad/label_refs.py`. Small, pure, no I/O.
 
 ### Alias algorithm (deterministic; implement exactly)
 
@@ -146,7 +146,7 @@ Attach the result to the index. `SelectorIndex` is frozen — add a field
 `index_with_assembly_occurrences` (assembly merge changes the row set, so aliases
 must be computed on the merged rows):
 
-- `packages/cadgen/src/cadgen/snapshot_cli.py` — `artifact_selector_index` tail
+- `packages/irincad/src/irincad/snapshot_cli.py` — `artifact_selector_index` tail
 - `skills/cad/scripts/inspect/inspect_refs/inspect.py:255`
 
 ### Resolution
@@ -200,7 +200,7 @@ client-side with names per ref, so:
 
 ## Gotchas for the executor
 
-- **Vendored runtimes:** skills bundle cadgen (`skills/cad/scripts/packages/cadgen`)
+- **Vendored runtimes:** skills bundle irincad (`skills/cad/scripts/packages/irincad`)
   and the snapshot JS runtime bundles cadjs. After source edits run
   `scripts/bundle/bundle.sh`, verify with `scripts/bundle/bundle.sh --check`, and
   restore the dev symlink layout (`scripts/dev/setup-symlinks.sh`) if continuing on
@@ -217,7 +217,7 @@ client-side with names per ref, so:
 
 ## Test matrix
 
-Python (`tests/python/packages/cadgen/`):
+Python (`tests/python/packages/irincad/`):
 - `test_cad_ref_syntax_parity.py` — fixture-driven, both grammars (Phase 0/1).
 - `test_label_refs.py` — alias builder: unique bare, duplicate numbering order
   (numeric path order, o1.10 after o1.2), collision-with-authored-name rule,
@@ -237,7 +237,7 @@ JS:
 ## Verification commands
 
 ```
-./.venv/bin/python -m unittest tests/python/packages/cadgen/test_cad_ref_syntax_parity.py tests/python/packages/cadgen/test_label_refs.py
+./.venv/bin/python -m unittest tests/python/packages/irincad/test_cad_ref_syntax_parity.py tests/python/packages/irincad/test_label_refs.py
 scripts/test/test-python.sh
 npm --prefix packages/cadjs test
 npm --prefix viewer run test

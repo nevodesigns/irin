@@ -1,13 +1,13 @@
 {
   "name": "cad",
   "version": "0.4.20",
-  "description": "CAD, robotics, fabrication, and local review skills packaged for agent plugin installs.",
+  "description": "IRIN: CAD, robotics, fabrication, and measured engineering validation skills packaged for agent plugin installs.",
   "author": {
-    "name": "earthtojake",
-    "url": "https://github.com/earthtojake"
+    "name": "nevodesigns",
+    "url": "https://github.com/nevodesigns"
   },
-  "homepage": "https://www.texttocad.dev",
-  "repository": "https://github.com/earthtojake/text-to-cad",
+  "homepage": "https://github.com/nevodesigns/irin",
+  "repository": "https://github.com/nevodesigns/irin",
   "license": "MIT",
   "keywords": [
     "cad",
@@ -17,20 +17,21 @@
     "step",
     "urdf",
     "sdf",
-    "gcode"
+    "gcode",
+    "validation"
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "text-to-cad",
-    "shortDescription": "CAD, robotics, fabrication, and local review skills.",
-    "longDescription": "text-to-cad packages local agent workflows for generating CAD, inspecting models, sourcing STEP parts, writing robot description files, slicing mesh files, and preparing fabrication handoffs.",
-    "developerName": "earthtojake",
+    "displayName": "IRIN",
+    "shortDescription": "CAD, robotics, fabrication, and measured engineering validation skills.",
+    "longDescription": "IRIN packages local agent workflows for generating CAD, inspecting and scoring models against declared engineering assertions, sourcing STEP parts, writing robot description files, slicing mesh files, and preparing fabrication handoffs.",
+    "developerName": "nevodesigns",
     "category": "Productivity",
     "capabilities": [
       "Write",
       "Interactive"
     ],
-    "websiteURL": "https://www.texttocad.dev",
+    "websiteURL": "https://github.com/nevodesigns/irin",
     "defaultPrompt": [
       "Create a CAD model and open it in CAD Viewer.",
       "Generate a URDF and review it locally.",

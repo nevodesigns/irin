@@ -36,7 +36,7 @@ from build123d import (
     Vector,
 )
 
-from cadgen import srgb
+from irincad import srgb
 
 from mx_switch_socket import MX_POCKET_DEPTH, mx_socket_cutter
 

@@ -33,7 +33,7 @@ file, it belongs in `step/parts/` (single body) or `step/assemblies/`
 generators, research/provenance docs, a `render/` config — it belongs in
 `renders/`. Robot fixtures imported from elsewhere go in `robots/`.
 
-Generated output (`__cadgen__/`, `.step` exports) is written on demand beside
+Generated output (`__irincad__/`, `.step` exports) is written on demand beside
 the sources and is gitignored — never commit it.
 
 ## Directory Map

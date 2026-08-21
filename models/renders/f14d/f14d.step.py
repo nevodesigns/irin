@@ -47,7 +47,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from build123d import Compound
 
-from cadgen import track
+from irincad import track
 
 # Order here IS the occurrence order (o1.1, o1.2, ...).
 SYSTEMS = [

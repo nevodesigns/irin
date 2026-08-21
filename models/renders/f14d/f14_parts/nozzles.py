@@ -43,7 +43,7 @@ from OCP.TopExp import TopExp_Explorer
 from OCP.TopoDS import TopoDS
 from OCP.gp import gp_Ax1, gp_Dir, gp_Pnt
 
-from cadgen import compound_from_instances
+from irincad import compound_from_instances
 
 from f14_parts import geometry as G
 from f14_parts import sections as SEC

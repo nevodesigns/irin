@@ -2,7 +2,7 @@ import { SiteHeaderClient } from "@/components/site-header-client";
 import packageJson from "../../package.json";
 
 const GITHUB_REPO_API_URL =
-  "https://api.github.com/repos/earthtojake/text-to-cad";
+  "https://api.github.com/repos/nevodesigns/irin";
 const DEFAULT_DISCORD_URL = "https://discord.gg/5FGB9DwJYU";
 
 function normalizeDiscordUrl(value: string | undefined) {

@@ -73,6 +73,7 @@ export const jsonTargets = [
 
 const tomlTargets = [
   "packages/irincad/pyproject.toml",
+  "packages/irinspec/pyproject.toml",
   "viewer/moveit2_server/pyproject.toml",
   "viewer/packages/irincad/pyproject.toml",
   "skills/cad-viewer/scripts/viewer/moveit2_server/pyproject.toml",

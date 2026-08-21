@@ -11,6 +11,7 @@
 # - skills/cad/requirements.txt
 # - skills/cad-viewer/requirements.txt
 --editable ./packages/irincad
+--editable ./packages/irinspec
 --editable ./viewer/moveit2_server
 
 # Extra third-party requirements mirrored from skill-local runtime files.

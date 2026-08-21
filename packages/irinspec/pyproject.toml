@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "irinspec"
+version = "0.4.20"
+description = "Typed engineering specs for IRIN: requirements, tolerances, and checkable geometry assertions."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{ name = "nevodesigns" }]
+keywords = ["cad", "engineering", "assertions", "tolerance", "benchmark", "agent-skills"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Manufacturing",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+]
+# Deliberately no dependencies. A benchmark runner, a report generator and a CI
+# check all parse specs, and none of them should have to install a CAD kernel to
+# read a JSON file.
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/nevodesigns/irin"
+Repository = "https://github.com/nevodesigns/irin"
+Issues = "https://github.com/nevodesigns/irin/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["irinspec*"]
+
+[tool.setuptools.package-data]
+irinspec = ["py.typed"]

@@ -33,6 +33,7 @@ cd "$REPO_ROOT"
 export IRINCAD_STRICT_LOCKS=1
 
 run_suite "irincad package Python tests" "tests/python/packages/irincad" "packages/irincad/src"
+run_suite "irinspec package Python tests" "tests/python/packages/irinspec" "packages/irinspec/src"
 
 while IFS= read -r skill; do
   test_dir="tests/python/skills/$skill"

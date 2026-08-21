@@ -53,7 +53,8 @@ flow, CI/CD-testing and resume options, and local/manual fallbacks.
 - `packages/cadjs`: shared JS CAD/render/runtime code, UI-framework agnostic.
 - `packages/implicitjs`: standalone JS implicit CAD model, shader render,
   snapshot, mesh sampling, and export runtime.
-- `packages/irincad`: shared Python STEP/GLB/topology artifact code.
+- `packages/irincad`: shared Python STEP/GLB/topology artifact code, including
+  `features.py`, which recognises holes, bosses and bolt circles from the B-rep.
 - `packages/irinspec`: engineering specs as typed data. Stdlib only: a report
   generator or CI check must be able to read a spec without a CAD kernel.
 - `packages/irineval`: scores an artifact against a spec by driving the CAD

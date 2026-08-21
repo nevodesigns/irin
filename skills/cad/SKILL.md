@@ -47,7 +47,7 @@ From the CAD skill directory, the launcher shape is:
 ```bash
 python scripts/gen ...       # render GLB/topology packages from gen_step() Python sources
 python scripts/export ...    # STL/3MF/GLB mesh files from Python sources or imported STEP
-python scripts/inspect ...   # refs, measure, align, frame, diff
+python scripts/inspect ...   # refs, measure, align, frame, diff, validate, interfere, features
 python scripts/snapshot ...  # PNG/GIF visual review packets
 python scripts/artifact ...  # debug one on-demand render-package build (imported STEP)
 ```

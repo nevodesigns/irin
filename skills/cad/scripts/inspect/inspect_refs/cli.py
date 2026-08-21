@@ -177,6 +177,38 @@ def build_parser() -> argparse.ArgumentParser:
     _add_output_arguments(interfere_parser)
     interfere_parser.set_defaults(handler=run_interfere)
 
+    features_parser = subparsers.add_parser(
+        "features",
+        help="Report cylindrical features: holes, bosses, and the patterns they form.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=(
+            "examples:\n"
+            "  scripts/inspect features models/part/plate.step.py\n"
+            "  scripts/inspect features models/part/plate.step.py --kind hole\n"
+            "  scripts/inspect features models/part/hub.step.py --min-diameter 5 --max-diameter 6\n"
+        ),
+    )
+    features_parser.add_argument("entry", help="CAD STEP path or CAD entry target.")
+    features_parser.add_argument(
+        "--refs",
+        default="",
+        help="Comma-separated occurrence refs to restrict the report to. A ref matches its whole subtree.",
+    )
+    features_parser.add_argument(
+        "--kind",
+        choices=("all", "hole", "boss"),
+        default="all",
+        help="Report holes, bosses, or both. Default: all.",
+    )
+    features_parser.add_argument(
+        "--min-diameter", type=float, default=None, help="Ignore features below this diameter (mm)."
+    )
+    features_parser.add_argument(
+        "--max-diameter", type=float, default=None, help="Ignore features above this diameter (mm)."
+    )
+    _add_output_arguments(features_parser)
+    features_parser.set_defaults(handler=run_features)
+
     validate_parser = subparsers.add_parser(
         "validate",
         help="Report per-solid geometric validity: topology, closure, and orientation.",
@@ -366,6 +398,28 @@ def run_interfere(args: argparse.Namespace) -> int:
     return 0 if bool(result.get("ok")) else 2
 
 
+def run_features(args: argparse.Namespace) -> int:
+    inspect = _inspect_api()
+    from irincad import features
+
+    refs = [ref for ref in str(getattr(args, "refs", "") or "").split(",") if ref.strip()]
+    try:
+        result = features.inspect_features(
+            args.entry,
+            refs=refs,
+            kind=str(getattr(args, "kind", "all")),
+            min_diameter=getattr(args, "min_diameter", None),
+            max_diameter=getattr(args, "max_diameter", None),
+        )
+    except inspect.CadRefError as exc:
+        result = {"ok": False, "entry": args.entry, "errors": [inspect.cad_ref_error_payload(exc)]}
+    except (OSError, RuntimeError, ValueError) as exc:
+        result = {"ok": False, "entry": args.entry, "errors": [{"message": str(exc)}]}
+
+    _emit_result(args, result, _format_features_text)
+    return 0 if bool(result.get("ok")) else 2
+
+
 def run_validate(args: argparse.Namespace) -> int:
     inspect = _inspect_api()
     # Imported here, not at module scope: `inspect --help` must not pull OCP in.
@@ -551,6 +605,17 @@ def inspect_command_result(argv: Sequence[str]) -> tuple[int, dict[str, object]]
                 allow_open=bool(getattr(args, "allow_open", False)),
                 check_self_intersection=not bool(getattr(args, "skip_self_intersection", False)),
             )
+        elif args.command == "features":
+            from irincad import features as _features
+
+            refs = [ref for ref in str(getattr(args, "refs", "") or "").split(",") if ref.strip()]
+            result = _features.inspect_features(
+                args.entry,
+                refs=refs,
+                kind=str(getattr(args, "kind", "all")),
+                min_diameter=getattr(args, "min_diameter", None),
+                max_diameter=getattr(args, "max_diameter", None),
+            )
         elif args.command == "interfere":
             from irincad import interference
 
@@ -695,6 +760,36 @@ def _format_diff_text(result: dict[str, object], *, quiet: bool, verbose: bool) 
         lines.append(f"faceDelta={diff.get('faceCountDelta')} edgeDelta={diff.get('edgeCountDelta')}")
     if verbose:
         lines.append(f"sizeDelta={diff.get('sizeDelta')} centerDelta={diff.get('centerDelta')}")
+    return "\n".join(lines)
+
+
+def _format_features_text(result: dict, *, quiet: bool = False, verbose: bool = False) -> str:
+    errors = result.get("errors") or []
+    if errors:
+        return "\n".join(str(error.get("message") or error) for error in errors)
+    lines = [
+        f"entry  : {result.get('entry', '')}",
+        f"holes  : {result.get('holeCount', 0)}",
+        f"bosses : {result.get('bossCount', 0)}",
+    ]
+    for feature in result.get("features") or []:
+        through = "through" if feature.get("through") else "blind"
+        partial = "" if feature.get("complete", True) else ", partial"
+        owner = feature.get("name") or feature.get("ref") or ""
+        lines.append(
+            f"  {feature.get('kind', ''):<5} d={feature.get('diameter')} "
+            f"depth={feature.get('depth')} ({through}{partial}) "
+            f"at {feature.get('position')} {owner}"
+        )
+    patterns = result.get("patterns") or []
+    if patterns:
+        lines.append("patterns:")
+        for pattern in patterns:
+            label = "bolt circle" if pattern.get("uniform") else "circular pattern (not evenly spaced)"
+            lines.append(
+                f"  {pattern.get('count')} x d={pattern.get('holeDiameter')} on "
+                f"{pattern.get('circleDiameter')} mm {label}"
+            )
     return "\n".join(lines)
 
 

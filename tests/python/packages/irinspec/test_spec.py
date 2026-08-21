@@ -139,9 +139,13 @@ class SpecFileTests(unittest.TestCase):
             self.assertEqual(load_spec(path), spec)
 
     def test_a_missing_file_names_the_path(self):
+        # Compared through str(Path(...)) rather than a forward-slash literal:
+        # the same path renders with backslashes on Windows, and asserting the
+        # POSIX spelling fails there while the code is behaving correctly.
+        missing = Path("/nonexistent/spec.json")
         with self.assertRaises(SpecError) as ctx:
-            load_spec("/nonexistent/spec.json")
-        self.assertIn("/nonexistent/spec.json", str(ctx.exception))
+            load_spec(missing)
+        self.assertIn(str(missing), str(ctx.exception))
 
     def test_a_malformed_file_names_the_path_not_just_the_line(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -15,7 +15,7 @@ if __package__ in {None, ""}:
     if str(tool_dir) not in sys.path:
         sys.path.insert(0, str(tool_dir))
 
-from cadgen.cli_logging import CliLogger
+from irincad.cli_logging import CliLogger
 
 
 def _inspect_api():
@@ -338,7 +338,7 @@ def run_frame(args: argparse.Namespace) -> int:
 
 def run_interfere(args: argparse.Namespace) -> int:
     inspect = _inspect_api()
-    from cadgen import interference
+    from irincad import interference
 
     refs = [ref for ref in str(getattr(args, "refs", "") or "").split(",") if ref.strip()]
     tolerance = args.tolerance if args.tolerance is not None else interference.DEFAULT_TOLERANCE_MM3
@@ -369,7 +369,7 @@ def run_interfere(args: argparse.Namespace) -> int:
 def run_validate(args: argparse.Namespace) -> int:
     inspect = _inspect_api()
     # Imported here, not at module scope: `inspect --help` must not pull OCP in.
-    from cadgen import validity
+    from irincad import validity
 
     refs = [ref for ref in str(getattr(args, "refs", "") or "").split(",") if ref.strip()]
     try:
@@ -538,6 +538,33 @@ def inspect_command_result(argv: Sequence[str]) -> tuple[int, dict[str, object]]
                 mode=args.mode,
                 offset=float(args.offset),
                 axis=args.axis,
+            )
+        elif args.command == "validate":
+            # Imported here, not at module scope, for the same reason run_validate
+            # does it: `inspect --help` must not pull OCP in.
+            from irincad import validity
+
+            refs = [ref for ref in str(getattr(args, "refs", "") or "").split(",") if ref.strip()]
+            result = validity.inspect_validity(
+                args.entry,
+                refs=refs,
+                allow_open=bool(getattr(args, "allow_open", False)),
+                check_self_intersection=not bool(getattr(args, "skip_self_intersection", False)),
+            )
+        elif args.command == "interfere":
+            from irincad import interference
+
+            refs = [ref for ref in str(getattr(args, "refs", "") or "").split(",") if ref.strip()]
+            tolerance = (
+                args.tolerance
+                if args.tolerance is not None
+                else interference.DEFAULT_TOLERANCE_MM3
+            )
+            result = interference.inspect_interference(
+                args.entry,
+                refs=refs,
+                tolerance=tolerance,
+                max_pairs=args.max_pairs,
             )
         else:
             raise _inspect_api().CadRefError(f"Unsupported inspect command: {args.command}")

@@ -7,7 +7,7 @@ STEP comes from `scripts/gen ... --write-step`; STL/GLB come from
 `scripts/export ... --stl/--glb`. This helper adds IGES (OCCT writer, from the same gen_step geometry)
 and OBJ (trimesh conversion of the native GLB; requires the GLB to exist):
 
-    PYTHONPATH=<repo>/packages/cadpy/src <venv-python> export_extras.py
+    PYTHONPATH=<repo>/packages/irincad/src <venv-python> export_extras.py
 """
 
 from __future__ import annotations

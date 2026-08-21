@@ -6,7 +6,7 @@ manufacture, propulsion, testing, or operational engineering.
 STEP comes from `scripts/gen ... --write-step`; STL/GLB come from
 `scripts/export ... --stl/--glb`. This helper adds the two formats that pipeline does not emit:
 
-    PYTHONPATH=<repo>/packages/cadpy/src <venv-python> export_extras.py
+    PYTHONPATH=<repo>/packages/irincad/src <venv-python> export_extras.py
 
 - IGES: written from the same gen_step() geometry via the OCCT IGES writer.
 - OBJ: converted from the native GLB sidecar via trimesh (per-part meshes);

@@ -36,10 +36,7 @@ from build123d import (
     loft,
 )
 
-try:  # release/0.4 runtime
-    from cadgen.assembly import AssemblyHelper, label_shape
-except ModuleNotFoundError:  # current develop runtime
-    from cadpy.assembly import AssemblyHelper, label_shape
+from irincad.assembly import AssemblyHelper, label_shape
 
 
 # restrained production-prototype palette

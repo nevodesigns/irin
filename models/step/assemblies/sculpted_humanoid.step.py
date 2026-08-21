@@ -44,7 +44,7 @@ from build123d import (
     Torus,
     loft,
 )
-from cadpy.assembly import AssemblyHelper, label_shape
+from irincad.assembly import AssemblyHelper, label_shape
 
 
 # Restrained industrial material palette.  Source colors survive the repo's

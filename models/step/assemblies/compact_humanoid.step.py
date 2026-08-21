@@ -38,7 +38,7 @@ from build123d import (
     loft,
 )
 
-from cadpy.assembly import AssemblyHelper, label_shape
+from irincad.assembly import AssemblyHelper, label_shape
 
 
 # Restrained industrial palette.  Color carries subsystem meaning; there are

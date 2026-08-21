@@ -3,7 +3,7 @@
 Educational, non-functional public-source reconstruction. Not suitable for
 manufacture, propulsion, testing, or operational engineering.
 
-Run:  PYTHONPATH=<repo>/packages/cadpy/src <venv-python> gen_hierarchy.py
+Run:  PYTHONPATH=<repo>/packages/irincad/src <venv-python> gen_hierarchy.py
 """
 
 from __future__ import annotations

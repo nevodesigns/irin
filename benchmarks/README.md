@@ -12,15 +12,32 @@ python -m irinbench report benchmarks/results/<file>.json
 
 ## tasks
 
-22 requirements written from engineering intent, each with assertions written
+28 requirements written from engineering intent, each with assertions written
 from the requirement. This is the corpus that answers the question IRIN exists
 for: can an agent turn a sentence into correct geometry?
 
-Seventeen are single parts. Five are assemblies, which is where agents struggle
-and where `part_count`, `no_interference` and `feature_spacing` earn their
-place: a planetary stage whose three planet bores sit on an 84 mm circle, a
-shock absorber specified by its 340 mm eye-to-eye length, an iris with twelve
+Twenty-three are single parts. Five are assemblies, which is where agents
+struggle and where `part_count`, `no_interference` and `feature_spacing` earn
+their place: a planetary stage whose three planet bores sit on an 84 mm circle,
+a shock absorber specified by its 340 mm eye-to-eye length, an iris with twelve
 pivots on one circle and six fixings on another.
+
+### Written first, or found afterwards
+
+Twenty-two tasks were reverse-engineered from models already in this
+repository. That is a legitimate way to build a corpus and it carries a quiet
+bias: only requirements the existing parts happened to satisfy could be
+written.
+
+Six were done the other way round. The requirement was fixed first, from
+engineering practice, and a reference was then built to satisfy it: a NEMA 17
+motor mount, a flanged shaft coupling, a pillow block, a vee block, a headed
+drill bushing, a six-hole spacer ring. All six verified on the first attempt,
+which is evidence the vocabulary can express a requirement chosen
+independently rather than only describe geometry that already exists.
+
+The vee block is the one task that asserts the *absence* of a feature. It has
+no holes, and a model that added one would fail.
 
 Interference is asserted only where the design requires it. Meshing gears,
 press fits and treads let into a column all overlap on purpose, so a task
@@ -115,7 +132,7 @@ purpose; the point is that verification found the imprecision.
 
 ## regression
 
-51 curated models, from `models/step/parts` (32) and `models/step/assemblies`
+57 curated models, from `models/step/parts` (38) and `models/step/assemblies`
 (19). Each spec records what its model measures: soundness, extents, bounds,
 part count, face count, edge count.
 
@@ -125,6 +142,11 @@ whose prompts and assertions are authored from intent rather than read off an
 answer, and nothing can derive one.
 
 ### Current baseline: 46 of 51
+
+The corpus grew to 57 when six references were added for new tasks. Re-deriving
+changed no existing baseline: all 51 earlier models measured byte-identical,
+which is worth knowing on its own, because it means the geometry pipeline is
+reproducible and a future difference is real drift rather than noise.
 
 `benchmarks/results/regression-baseline.json`, IRIN 0.4.20, 816 s.
 

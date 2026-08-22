@@ -12,10 +12,12 @@
     "cylindrical-cap": "models/step/parts/cylindrical_cap.step.py",
     "cylindrical-spacer-sleeve": "models/step/parts/cylindrical_spacer_sleeve.step.py",
     "electronics-enclosure-base": "models/step/parts/electronics_enclosure_base.step.py",
+    "flanged-shaft-coupling": "models/step/parts/flanged_shaft_coupling.step.py",
     "flying-car": "models/step/assemblies/flying_car.step.py",
     "flywheel-disk": "models/step/parts/flywheel_disk.step.py",
     "gd01-mecha-concept": "models/step/assemblies/gd01_mecha_concept.step.py",
     "gusset-plate": "models/step/parts/gusset_plate.step.py",
+    "headed-drill-bushing": "models/step/parts/headed_drill_bushing.step.py",
     "keyed-shaft-hub": "models/step/parts/keyed_shaft_hub.step.py",
     "l-bracket": "models/step/parts/l_bracket.step.py",
     "lunar-mass-driver": "models/step/assemblies/lunar_mass_driver.step.py",
@@ -29,9 +31,11 @@
     "motorcycle-shock-fidget": "models/step/parts/motorcycle_shock_fidget.step.py",
     "motorcycle-wheel-fidget": "models/step/parts/motorcycle_wheel_fidget.step.py",
     "mounting-plate": "models/step/parts/mounting_plate.step.py",
+    "nema17-motor-mount": "models/step/parts/nema17_motor_mount.step.py",
     "open-top-electronics-enclosure": "models/step/parts/open_top_electronics_enclosure.step.py",
     "pelican-riding-bicycle": "models/step/assemblies/pelican_riding_bicycle.step.py",
     "photo-coffee-cup": "models/step/assemblies/photo_coffee_cup.step.py",
+    "pillow-block": "models/step/parts/pillow_block.step.py",
     "planetary-gear-assembly": "models/step/assemblies/planetary_gear_assembly.step.py",
     "planetary-gear-stage": "models/step/assemblies/planetary_gear_stage.step.py",
     "print-in-place-hinge": "models/step/parts/print_in_place_hinge.step.py",
@@ -47,13 +51,16 @@
     "shaft-collar": "models/step/parts/shaft_collar.step.py",
     "six-axis-industrial-robot-arm": "models/step/assemblies/six_axis_industrial_robot_arm.step.py",
     "six-blade-open-propeller": "models/step/assemblies/six_blade_open_propeller.step.py",
+    "six-hole-spacer-ring": "models/step/parts/six_hole_spacer_ring.step.py",
     "small-enclosure-cover": "models/step/parts/small_enclosure_cover.step.py",
     "spiral-staircase": "models/step/assemblies/spiral_staircase.step.py",
     "spur-gear-blank": "models/step/parts/spur_gear_blank.step.py",
     "square-mounting-block": "models/step/parts/square_mounting_block.step.py",
     "stepped-shaft-keyway": "models/step/parts/stepped_shaft_keyway.step.py",
-    "t-slot-slider-block": "models/step/parts/t_slot_slider_block.step.py"
+    "t-slot-slider-block": "models/step/parts/t_slot_slider_block.step.py",
+    "vee-block": "models/step/parts/vee_block.step.py"
   },
+  "references": {},
   "provenance": {
     "derived_from": [
       "models/step/assemblies",
@@ -61,9 +68,9 @@
     ],
     "tolerance_mm": 0.01,
     "interference_measured": false,
-    "entries_attempted": 51,
-    "entries_derived": 51,
+    "entries_attempted": 57,
+    "entries_derived": 57,
     "entries_failed": 0,
-    "derived_at": "2026-08-21T01:49:25+00:00"
+    "derived_at": "2026-08-22T11:13:20+00:00"
   }
 }

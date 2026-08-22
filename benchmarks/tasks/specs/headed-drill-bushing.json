@@ -1,0 +1,46 @@
+{
+  "id": "headed-drill-bushing",
+  "prompt": "A headed drill bushing: a 16 mm body 20 mm long under a 24 mm head 4 mm thick, bored 8 mm through the whole length.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "z": 24.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "boss_count",
+      "value": 1,
+      "diameter": 24.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "boss_count",
+      "value": 1,
+      "diameter": 16.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 8.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    }
+  ]
+}

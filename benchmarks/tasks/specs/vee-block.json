@@ -1,0 +1,27 @@
+{
+  "id": "vee-block",
+  "prompt": "A toolroom vee block: a 60 mm cube with a 90 degree vee groove running the full length of the top face, 20 mm deep at its centre. No holes of any kind.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "x": 60.0,
+      "y": 60.0,
+      "z": 60.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 0
+    }
+  ]
+}

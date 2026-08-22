@@ -7,28 +7,34 @@
     "circular-flange": "models/step/parts/circular_flange.step.py",
     "clevis-bracket": "models/step/parts/clevis_bracket_lightening_cutouts.step.py",
     "cylindrical-spacer-sleeve": "models/step/parts/cylindrical_spacer_sleeve.step.py",
+    "flanged-shaft-coupling": "models/step/parts/flanged_shaft_coupling.step.py",
     "flywheel-disk": "models/step/parts/flywheel_disk.step.py",
+    "headed-drill-bushing": "models/step/parts/headed_drill_bushing.step.py",
     "keyed-shaft-hub": "models/step/parts/keyed_shaft_hub.step.py",
     "l-bracket": "models/step/parts/l_bracket.step.py",
     "mechanical-iris-aperture": "models/step/assemblies/mechanical_iris_aperture.step.py",
     "motorcycle-shock-absorber": "models/step/assemblies/motorcycle_shock_absorber.step.py",
     "mounting-plate": "models/step/parts/mounting_plate.step.py",
+    "nema17-motor-mount": "models/step/parts/nema17_motor_mount.step.py",
     "open-top-electronics-enclosure": "models/step/parts/open_top_electronics_enclosure.step.py",
+    "pillow-block": "models/step/parts/pillow_block.step.py",
     "planetary-gear-stage": "models/step/assemblies/planetary_gear_stage.step.py",
     "pulley-wheel": "models/step/parts/pulley_wheel.step.py",
     "radial-engine-cylinder": "models/step/parts/radial_engine_cylinder.step.py",
     "retainer-plate": "models/step/parts/retainer_plate.step.py",
     "shaft-collar": "models/step/parts/shaft_collar.step.py",
     "six-blade-propeller": "models/step/assemblies/six_blade_open_propeller.step.py",
+    "six-hole-spacer-ring": "models/step/parts/six_hole_spacer_ring.step.py",
     "spiral-staircase": "models/step/assemblies/spiral_staircase.step.py",
     "spur-gear-blank": "models/step/parts/spur_gear_blank.step.py",
     "square-mounting-block": "models/step/parts/square_mounting_block.step.py",
     "stepped-shaft-keyway": "models/step/parts/stepped_shaft_keyway.step.py",
-    "t-slot-slider-block": "models/step/parts/t_slot_slider_block.step.py"
+    "t-slot-slider-block": "models/step/parts/t_slot_slider_block.step.py",
+    "vee-block": "models/step/parts/vee_block.step.py"
   },
   "provenance": {
     "authored": "from engineering intent, not measured from the models",
     "reference_role": "proves each task is satisfiable; never scored by a run",
-    "task_count": 22
+    "task_count": 28
   }
 }

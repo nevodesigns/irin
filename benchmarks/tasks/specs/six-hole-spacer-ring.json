@@ -1,0 +1,50 @@
+{
+  "id": "six-hole-spacer-ring",
+  "prompt": "A spacer ring: 80 mm outside diameter, 50 mm bore, 5 mm thick, with six 6 mm holes evenly spaced on a 65 mm bolt circle.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "z": 5.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "boss_count",
+      "value": 1,
+      "diameter": 80.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 50.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    },
+    {
+      "kind": "bolt_circle",
+      "diameter": 65.0,
+      "count": 6,
+      "tolerance": {
+        "symmetric": 0.2
+      },
+      "hole_diameter": 6.0,
+      "hole_tolerance": {
+        "symmetric": 0.05
+      }
+    }
+  ]
+}

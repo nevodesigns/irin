@@ -1,0 +1,49 @@
+{
+  "id": "pillow-block",
+  "prompt": "A pillow block bearing housing: a 90 mm by 30 mm base, 45 mm tall overall, carrying a 25 mm bore whose axis sits 30 mm above the base. Two 7 mm mounting holes pass through the base, 70 mm apart.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 1
+    },
+    {
+      "kind": "size",
+      "x": 90.0,
+      "y": 30.0,
+      "z": 45.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 25.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    },
+    {
+      "kind": "hole_count",
+      "value": 2,
+      "diameter": 7.0,
+      "tolerance": {
+        "symmetric": 0.05
+      },
+      "through": true
+    },
+    {
+      "kind": "feature_spacing",
+      "diameter": 7.0,
+      "value": 70.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    }
+  ]
+}

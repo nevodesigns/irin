@@ -1,0 +1,41 @@
+{
+  "id": "planetary-gear-stage",
+  "prompt": "A planetary gear stage, nine parts in all: a 24-tooth sun gear bored 10 mm, three 18-tooth planet gears bored 6.8 mm, a ring gear, and a carrier with a pin for each planet. The gears are 8 mm thick and the planet bores sit on an 84 mm circle, evenly spaced. The whole stage stands 14 mm tall.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 9
+    },
+    {
+      "kind": "size",
+      "z": 14.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 1,
+      "diameter": 10.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "bolt_circle",
+      "diameter": 84.0,
+      "count": 3,
+      "tolerance": {
+        "symmetric": 0.2
+      },
+      "hole_diameter": 6.8,
+      "hole_tolerance": {
+        "symmetric": 0.05
+      }
+    }
+  ]
+}

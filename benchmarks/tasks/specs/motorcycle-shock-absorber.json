@@ -1,0 +1,37 @@
+{
+  "id": "motorcycle-shock-absorber",
+  "prompt": "A motorcycle shock absorber, eleven parts in all: a damper body, a coil spring around it, upper and lower mounting eyes, and the hardware between them. It stands 370 mm long overall. The mounting eyes are bored 12 mm and sit 340 mm between centres, which is how the unit is specified.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 11
+    },
+    {
+      "kind": "size",
+      "z": 370.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 2,
+      "diameter": 12.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "feature_spacing",
+      "diameter": 12.0,
+      "value": 340.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    }
+  ]
+}

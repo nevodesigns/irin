@@ -1,0 +1,25 @@
+{
+  "id": "six-blade-propeller",
+  "prompt": "A six-blade open propeller: a central hub with six swept blades around it, seven parts in all. The blades reach about 68 mm from the axis and the assembly stands 30 mm deep. No blade may intersect another or the hub.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 7
+    },
+    {
+      "kind": "size",
+      "z": 30.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "no_interference",
+      "volume_tolerance": 1.0
+    }
+  ]
+}

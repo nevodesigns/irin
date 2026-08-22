@@ -21,6 +21,7 @@ breakage as model error produces a number that moves for the wrong reasons.
 
 from __future__ import annotations
 
+import math
 import time
 from typing import Any, Sequence
 
@@ -30,6 +31,7 @@ from irinspec import (
     Bounds,
     BossCount,
     ClashCount,
+    FeatureSpacing,
     HoleCount,
     Distance,
     EdgeCount,
@@ -66,7 +68,7 @@ def inspect_argv(assertion: Assertion, entry: str) -> tuple[str, ...]:
     if isinstance(assertion, (NoInterference, ClashCount)):
         return ("interfere", entry, "--tolerance", _number(assertion.volume_tolerance))
 
-    if isinstance(assertion, (HoleCount, BossCount, BoltCircle)):
+    if isinstance(assertion, (HoleCount, BossCount, BoltCircle, FeatureSpacing)):
         # Deliberately unfiltered. Every feature assertion in a spec resolves to
         # this one argv and therefore one inspection; the filtering happens in
         # Python against the full feature list. Encoding --kind or --min-diameter
@@ -489,6 +491,101 @@ def _eval_boss_count(assertion: BossCount, response: InspectResponse) -> Asserti
     )
 
 
+def _axis_line_distance(
+    a_point: Sequence[float],
+    b_point: Sequence[float],
+    axis: Sequence[float],
+) -> float:
+    """Perpendicular distance between two parallel axis lines.
+
+    Measured between the LINES, not between the points the features happen to
+    start at. Two parallel holes beginning at different depths sit at different
+    positions along their own axes, and a straight point-to-point distance would
+    include that offset and overstate the spacing.
+    """
+    delta = [b_point[i] - a_point[i] for i in range(3)]
+    along = sum(delta[i] * axis[i] for i in range(3))
+    perpendicular = [delta[i] - along * axis[i] for i in range(3)]
+    return math.sqrt(sum(component * component for component in perpendicular))
+
+
+def _eval_feature_spacing(assertion: FeatureSpacing, response: InspectResponse) -> AssertionResult:
+    matching = [
+        feature
+        for feature in (response.result.get("features") or [])
+        if feature.get("kind") == assertion.feature
+        and assertion.diameter_tolerance.contains(
+            assertion.diameter, float(feature.get("diameter", 0.0))
+        )
+    ]
+
+    if len(matching) != 2:
+        # Three features of one size have three pairwise spacings and no single
+        # answer. Picking one would produce a confident, arbitrary result.
+        present = sorted(
+            {
+                round(float(f.get("diameter", 0.0)), 3)
+                for f in (response.result.get("features") or [])
+                if f.get("kind") == assertion.feature
+            }
+        )
+        detail = (
+            f"needs exactly 2 features of {assertion.diameter:g} mm to measure between, "
+            f"found {len(matching)}"
+        )
+        if present:
+            detail += f"; diameters present: {present}"
+        return AssertionResult(
+            kind=assertion.kind,
+            description=assertion.describe(),
+            passed=False,
+            code=FailureCode.COUNT_MISMATCH,
+            detail=detail,
+            expected=assertion.value,
+        )
+
+    first, second = matching
+    axis_a = _triplet(first.get("axis"), "feature.axis")
+    axis_b = _triplet(second.get("axis"), "feature.axis")
+    alignment = abs(sum(axis_a[i] * axis_b[i] for i in range(3)))
+    if alignment < 0.999:
+        return AssertionResult(
+            kind=assertion.kind,
+            description=assertion.describe(),
+            passed=False,
+            code=FailureCode.COUNT_MISMATCH,
+            detail=(
+                "the two features are not parallel, so the distance between them is "
+                "not a single spacing"
+            ),
+            expected=assertion.value,
+        )
+
+    actual = _axis_line_distance(
+        _triplet(first.get("position"), "feature.position"),
+        _triplet(second.get("position"), "feature.position"),
+        axis_a,
+    )
+    passed, deviation, excess, detail = _eval_scalar_band(
+        assertion,
+        label=f"{assertion.diameter:g} mm feature spacing",
+        nominal=assertion.value,
+        actual=actual,
+        tolerance=assertion.tolerance,
+    )
+    return AssertionResult(
+        kind=assertion.kind,
+        description=assertion.describe(),
+        passed=passed,
+        code=None if passed else FailureCode.DIMENSION_OUT_OF_TOLERANCE,
+        detail=detail,
+        expected=assertion.value,
+        actual=round(actual, 6),
+        deviation=deviation,
+        excess=excess,
+    )
+
+
 def _eval_bolt_circle(assertion: BoltCircle, response: InspectResponse) -> AssertionResult:
     patterns = response.result.get("patterns") or []
 
@@ -551,6 +648,7 @@ _EVALUATORS = {
     "clash_count": _eval_clash_count,
     "hole_count": _eval_hole_count,
     "boss_count": _eval_boss_count,
+    "feature_spacing": _eval_feature_spacing,
     "bolt_circle": _eval_bolt_circle,
     "distance": _eval_distance,
 }

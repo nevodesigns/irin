@@ -21,6 +21,7 @@ from irinspec import (
     BoltCircle,
     BossCount,
     Bounds,
+    FeatureSpacing,
     ClashCount,
     HoleCount,
     Distance,
@@ -89,6 +90,7 @@ class WorkerCommandCoverageTests(unittest.TestCase):
             ClashCount(value=0),
             HoleCount(value=1),
             BossCount(value=1),
+            FeatureSpacing(diameter=6.0, value=60.0),
             BoltCircle(diameter=60.0, count=6),
             Distance(from_ref="#f1", to_ref="#f2", axis="z", value=1.0),
         )

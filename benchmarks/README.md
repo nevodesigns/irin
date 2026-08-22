@@ -12,9 +12,20 @@ python -m irinbench report benchmarks/results/<file>.json
 
 ## tasks
 
-17 requirements written from engineering intent, each with assertions written
+22 requirements written from engineering intent, each with assertions written
 from the requirement. This is the corpus that answers the question IRIN exists
 for: can an agent turn a sentence into correct geometry?
+
+Seventeen are single parts. Five are assemblies, which is where agents struggle
+and where `part_count`, `no_interference` and `feature_spacing` earn their
+place: a planetary stage whose three planet bores sit on an 84 mm circle, a
+shock absorber specified by its 340 mm eye-to-eye length, an iris with twelve
+pivots on one circle and six fixings on another.
+
+Interference is asserted only where the design requires it. Meshing gears,
+press fits and treads let into a column all overlap on purpose, so a task
+demanding zero clashes would fail assemblies that are exactly right. The
+propeller asserts it, because no blade may intersect another.
 
 ```bash
 python -m irinbench verify                       # are the tasks themselves sound?

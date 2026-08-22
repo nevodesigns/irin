@@ -5,6 +5,7 @@ from irinspec import (
     BoltCircle,
     BossCount,
     Bounds,
+    FeatureSpacing,
     ClashCount,
     HoleCount,
     Distance,
@@ -97,6 +98,7 @@ class PlanningTests(unittest.TestCase):
             "clash_count": ClashCount(value=0),
             "hole_count": HoleCount(value=1),
             "boss_count": BossCount(value=1),
+            "feature_spacing": FeatureSpacing(diameter=6.0, value=60.0),
             "bolt_circle": BoltCircle(diameter=60.0, count=6),
             "distance": Distance(from_ref="#a", to_ref="#b", axis="x", value=1.0),
         }
@@ -366,3 +368,90 @@ class ReportingTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FeatureSpacingEvaluationTests(unittest.TestCase):
+    """Spacing is measured between axis lines, not between arbitrary points."""
+
+    @staticmethod
+    def _features(*holes):
+        return {
+            "ok": True,
+            "features": [
+                {
+                    "ref": "o1", "name": "p", "kind": kind, "diameter": d,
+                    "axis": list(axis), "position": list(pos),
+                    "depth": 10.0, "through": True, "complete": True, "faceCount": 1,
+                }
+                for d, pos, axis, kind in holes
+            ],
+            "patterns": [],
+            "errors": [],
+        }
+
+    def _runner(self, payload):
+        return RecordedRunner(responses_from_pairs({("features", BLOCK): payload}.items()))
+
+    def test_two_parallel_bores_report_their_centre_distance(self):
+        payload = self._features(
+            (12.0, (0.0, 0.0, -170.0), (0.0, 0.0, 1.0), "hole"),
+            (12.0, (0.0, 0.0, 170.0), (0.0, 0.0, 1.0), "hole"),
+        )
+        # Both lie on the same axis line, so the perpendicular spacing is zero.
+        spec = spec_with(FeatureSpacing(diameter=12.0, value=0.0001))
+        self.assertIsNotNone(evaluate(spec, BLOCK, self._runner(payload)))
+
+    def test_depth_along_the_axis_does_not_inflate_the_spacing(self):
+        # The trap: two parallel holes starting at different depths. A straight
+        # point-to-point distance would include the 5 mm offset and report 60.2.
+        payload = self._features(
+            (6.0, (0.0, 0.0, 0.0), (0.0, 0.0, 1.0), "hole"),
+            (6.0, (60.0, 0.0, 5.0), (0.0, 0.0, 1.0), "hole"),
+        )
+        spec = spec_with(FeatureSpacing(diameter=6.0, value=60.0, tolerance=Tolerance.symmetric(0.01)))
+        result = evaluate(spec, BLOCK, self._runner(payload))
+        self.assertTrue(result.ok, result.failures())
+        self.assertAlmostEqual(result.results[0].actual, 60.0, places=6)
+
+    def test_three_matching_features_are_ambiguous_rather_than_resolved(self):
+        payload = self._features(
+            (6.0, (0.0, 0.0, 0.0), (0.0, 0.0, 1.0), "hole"),
+            (6.0, (60.0, 0.0, 0.0), (0.0, 0.0, 1.0), "hole"),
+            (6.0, (30.0, 40.0, 0.0), (0.0, 0.0, 1.0), "hole"),
+        )
+        failure = evaluate(
+            spec_with(FeatureSpacing(diameter=6.0, value=60.0)), BLOCK, self._runner(payload)
+        ).failures()[0]
+        self.assertIn("exactly 2", failure.detail)
+        self.assertIn("found 3", failure.detail)
+
+    def test_non_parallel_features_have_no_single_spacing(self):
+        payload = self._features(
+            (6.0, (0.0, 0.0, 0.0), (0.0, 0.0, 1.0), "hole"),
+            (6.0, (60.0, 0.0, 0.0), (1.0, 0.0, 0.0), "hole"),
+        )
+        failure = evaluate(
+            spec_with(FeatureSpacing(diameter=6.0, value=60.0)), BLOCK, self._runner(payload)
+        ).failures()[0]
+        self.assertIn("not parallel", failure.detail)
+
+    def test_a_wrong_spacing_reports_the_measured_value(self):
+        payload = self._features(
+            (6.0, (0.0, 0.0, 0.0), (0.0, 0.0, 1.0), "hole"),
+            (6.0, (75.0, 0.0, 0.0), (0.0, 0.0, 1.0), "hole"),
+        )
+        failure = evaluate(
+            spec_with(FeatureSpacing(diameter=6.0, value=60.0)), BLOCK, self._runner(payload)
+        ).failures()[0]
+        self.assertEqual(failure.code, FailureCode.DIMENSION_OUT_OF_TOLERANCE)
+        self.assertAlmostEqual(failure.actual, 75.0, places=6)
+
+    def test_bosses_are_not_measured_when_holes_were_asked_for(self):
+        payload = self._features(
+            (20.0, (0.0, 0.0, 0.0), (0.0, 0.0, 1.0), "boss"),
+            (20.0, (60.0, 0.0, 0.0), (0.0, 0.0, 1.0), "boss"),
+        )
+        failure = evaluate(
+            spec_with(FeatureSpacing(diameter=20.0, value=60.0)), BLOCK, self._runner(payload)
+        ).failures()[0]
+        self.assertIn("found 0", failure.detail)

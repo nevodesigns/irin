@@ -554,6 +554,81 @@ class BoltCircle(Assertion):
 
 
 @dataclass(frozen=True)
+class FeatureSpacing(Assertion):
+    """Centre-to-centre distance between the two features of a given size.
+
+    The dimension assemblies are actually specified by. A shock absorber is
+    sold by its eye-to-eye length, a link by its hole centres, a bearing block
+    by its bolt spacing. ``bolt_circle`` covers the radial case and nothing
+    covered the linear one.
+
+    Why this exists when ``distance`` already measures between two references:
+    ``distance`` addresses geometry by selector ref, and a ref belongs to one
+    model's topology tree. An agent's assembly has entirely different refs, so a
+    ref-addressed dimension is checkable on the reference alone and useless in a
+    task. Addressing features by size instead makes the same requirement
+    checkable on any model that satisfies it.
+
+    Exactly two matching features are required. Three holes of one diameter have
+    three pairwise spacings and no single answer, so that is reported as
+    ambiguous rather than resolved by picking one.
+    """
+
+    kind: ClassVar[str] = "feature_spacing"
+    source: ClassVar[str] = "features"
+
+    diameter: float = 0.0
+    value: float = 0.0
+    tolerance: Tolerance = field(default_factory=lambda: Tolerance.symmetric(0.1))
+    #: Which kind of cylinder to measure between.
+    feature: str = "hole"
+    diameter_tolerance: Tolerance = field(default_factory=lambda: Tolerance.symmetric(0.05))
+
+    def __post_init__(self) -> None:
+        if self.diameter <= 0:
+            raise SpecError(f"feature_spacing.diameter: must be positive, got {self.diameter}")
+        if self.value <= 0:
+            raise SpecError(f"feature_spacing.value: must be positive, got {self.value}")
+        if self.feature not in ("hole", "boss"):
+            raise SpecError(
+                f"feature_spacing.feature: expected 'hole' or 'boss', got {self.feature!r}"
+            )
+
+    def to_dict(self) -> dict[str, Any]:
+        out: dict[str, Any] = {
+            "kind": self.kind,
+            "diameter": self.diameter,
+            "value": self.value,
+            "tolerance": self.tolerance.to_dict(),
+        }
+        if self.feature != "hole":
+            out["feature"] = self.feature
+        return out
+
+    def describe(self) -> str:
+        noun = "bores" if self.feature == "hole" else "external cylinders"
+        return f"the two {self.diameter:g} mm {noun} are {self.value:g} mm apart"
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any], path: str) -> "FeatureSpacing":
+        for required in ("diameter", "value"):
+            if required not in data:
+                raise SpecError(f"{path}.{required}: required for feature_spacing")
+        feature = data.get("feature", "hole")
+        if not isinstance(feature, str):
+            raise SpecError(f"{path}.feature: expected 'hole' or 'boss'")
+        return cls(
+            diameter=_require_number(data["diameter"], f"{path}.diameter"),
+            value=_require_number(data["value"], f"{path}.value"),
+            tolerance=Tolerance.from_value(data.get("tolerance", 0.1), path=f"{path}.tolerance"),
+            feature=feature,
+            diameter_tolerance=Tolerance.from_value(
+                data.get("diameter_tolerance", 0.05), path=f"{path}.diameter_tolerance"
+            ),
+        )
+
+
+@dataclass(frozen=True)
 class Distance(Assertion):
     """A measured distance between two selector refs along one axis.
 
@@ -621,6 +696,7 @@ _KINDS: tuple[type[Assertion], ...] = (
     HoleCount,
     BossCount,
     BoltCircle,
+    FeatureSpacing,
     Distance,
 )
 

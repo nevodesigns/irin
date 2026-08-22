@@ -58,8 +58,16 @@ evaluator can pay for each inspection once per spec rather than once per claim.
 | `no_interference` | `interfere` | No part overlaps another beyond a volume floor |
 | `clash_count` | `interfere` | Exactly this many known overlaps, as a measured baseline |
 | `hole_count` | `features` | How many holes, optionally of one diameter and through or blind |
+| `boss_count` | `features` | External cylinders, the exact way to state a round outer diameter |
 | `bolt_circle` | `features` | Holes evenly spaced on a pitch circle of a given diameter |
+| `feature_spacing` | `features` | Centre distance between the two features of a given size |
 | `distance` | `measure` | Distance between two selector refs along one axis |
+
+`distance` addresses geometry by selector ref, and a ref belongs to one model's
+topology tree. That makes it right for checking a model you have, and unusable
+in a task spec: an agent's model has entirely different refs. `feature_spacing`
+states the same kind of requirement by addressing features by size, so it is
+checkable on any model that satisfies it.
 
 ## What is deliberately missing
 

@@ -1,0 +1,41 @@
+{
+  "id": "mechanical-iris-aperture",
+  "prompt": "A mechanical iris aperture: a stack of overlapping leaves driven by a rotating ring, carried between two plates. Twelve 3 mm pivot holes sit evenly on a 124 mm circle and six 5 mm fixing holes on a 130 mm circle. The assembly is about 20 mm deep.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "bolt_circle",
+      "diameter": 124.0,
+      "count": 12,
+      "tolerance": {
+        "symmetric": 0.2
+      },
+      "hole_diameter": 3.0,
+      "hole_tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "bolt_circle",
+      "diameter": 130.0,
+      "count": 6,
+      "tolerance": {
+        "symmetric": 0.2
+      },
+      "hole_diameter": 5.0,
+      "hole_tolerance": {
+        "symmetric": 0.05
+      }
+    },
+    {
+      "kind": "size",
+      "z": 20.1,
+      "tolerance": {
+        "symmetric": 1.0
+      }
+    }
+  ]
+}

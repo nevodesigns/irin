@@ -1,0 +1,29 @@
+{
+  "id": "spiral-staircase",
+  "prompt": "A spiral staircase: a 90 mm round base, a 14 mm central column standing 140 mm tall, twenty treads winding up it, and a handrail following them. Forty-three parts in all, reaching about 137 mm across.",
+  "units": "mm",
+  "assertions": [
+    {
+      "kind": "valid_solid"
+    },
+    {
+      "kind": "part_count",
+      "value": 43
+    },
+    {
+      "kind": "size",
+      "z": 140.0,
+      "tolerance": {
+        "symmetric": 0.1
+      }
+    },
+    {
+      "kind": "hole_count",
+      "value": 20,
+      "diameter": 20.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
+    }
+  ]
+}

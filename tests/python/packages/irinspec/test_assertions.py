@@ -4,6 +4,7 @@ from irinspec import (
     BoltCircle,
     BossCount,
     Bounds,
+    FeatureSpacing,
     ClashCount,
     Distance,
     EdgeCount,
@@ -259,3 +260,34 @@ class BoltCircleTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FeatureSpacingTests(unittest.TestCase):
+    def test_the_dimension_an_assembly_is_specified_by(self):
+        # A shock absorber is sold by its eye-to-eye length.
+        assertion = FeatureSpacing(diameter=12.0, value=340.0)
+        self.assertEqual(assertion_from_dict(assertion.to_dict(), "a[0]"), assertion)
+        self.assertEqual(assertion.describe(), "the two 12 mm bores are 340 mm apart")
+
+    def test_bosses_can_be_measured_between_too(self):
+        assertion = FeatureSpacing(diameter=20.0, value=60.0, feature="boss")
+        self.assertEqual(assertion_from_dict(assertion.to_dict(), "a[0]"), assertion)
+        self.assertIn("external cylinders", assertion.describe())
+
+    def test_a_non_positive_dimension_is_refused(self):
+        with self.assertRaises(SpecError):
+            FeatureSpacing(diameter=12.0, value=0.0)
+        with self.assertRaises(SpecError):
+            FeatureSpacing(diameter=0.0, value=340.0)
+
+    def test_an_unknown_feature_kind_is_refused(self):
+        with self.assertRaises(SpecError):
+            FeatureSpacing(diameter=12.0, value=340.0, feature="slot")
+
+    def test_diameter_and_value_are_both_required(self):
+        for payload in (
+            {"kind": "feature_spacing", "diameter": 12.0},
+            {"kind": "feature_spacing", "value": 340.0},
+        ):
+            with self.assertRaises(SpecError):
+                assertion_from_dict(payload, "a[0]")

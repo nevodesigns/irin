@@ -1,0 +1,97 @@
+# Running the IRIN task benchmark against an agent
+
+This is the procedure for producing a number that means something to somebody
+else. It is short, and every step in it exists because skipping it makes the
+result unquotable.
+
+## What is being measured
+
+Whether an agent can turn an engineering requirement into geometry that
+satisfies it. Not whether it can produce a plausible-looking model, and not
+whether the file loads. Every task is scored by measuring the artifact and
+comparing it to assertions written from the requirement.
+
+## 1. Take the prompts
+
+```bash
+python -m irinbench prompts > tasks.txt          # or --json
+```
+
+That emits the requirements and nothing else. No assertions, no references, no
+tolerances. An agent that saw those would be transcribing an answer rather than
+designing to a requirement, and the resulting figure would measure retrieval.
+
+Record the corpus fingerprint printed at the top. A result without one cannot be
+compared to any other result, because a corpus name does not change when its
+contents do.
+
+## 2. Hand them to the agent
+
+One artifact per task, all in one directory, each named after its task id:
+
+```
+submission/
+  calibration-block.step.py
+  circular-flange.step.py
+  ...
+```
+
+`.step.py` is build123d source, which is what the CAD skill produces. `.step`
+and `.stp` are accepted for an exported solid.
+
+Give the agent whatever tooling you are measuring: the IRIN CAD skill, another
+CAD library, nothing at all. That choice is part of what the number describes,
+so state it when you publish.
+
+## 3. Score it
+
+```bash
+python -m irinbench run --corpus benchmarks/tasks --artifacts submission/ \
+  --out benchmarks/results/<agent>-<date>.json
+```
+
+`--artifacts` has no default on purpose. A task corpus knows its reference
+implementations, and defaulting to those would score the answer key: every task
+would pass, and the run would report a perfect result measuring nothing.
+
+## 4. Measure repair, if you want the more interesting number
+
+```bash
+python -m irinbench repair --session <id> --artifacts submission/
+# hand the briefs in benchmarks/sessions/<id>/round-0-briefs/ back to the agent
+python -m irinbench repair --session <id>
+```
+
+First-pass accuracy says how often an agent is right. The repair curve says
+whether it can use a measurement to become right, which for engineering work
+matters more. Briefs contain the requirement, the failed assertions with their
+measured values, and what already passes. They contain nothing from the
+reference.
+
+## What to publish
+
+State all five, or the number is not reproducible:
+
+- the agent, including model version and any tooling it was given
+- the corpus fingerprint
+- the IRIN version
+- first-pass rate, and the repair curve if you ran one
+- the result JSON
+
+## A conflict of interest worth naming
+
+**The authors of this corpus should not publish the first number for it.**
+
+The prompts here were written by the same author who built the reference
+implementations. Running the benchmark against that author, or against an agent
+with access to this repository, measures recall of a known answer key rather
+than engineering ability, and would produce a figure that looks like a result
+and is not one.
+
+That is why no headline number appears in this repository. The machinery has
+been demonstrated end to end, on a deliberately broken submission, to show the
+loop works. Demonstrating that the loop works and measuring an agent are
+different claims, and only the first one has been made here.
+
+If you run this against your own agent, you are not in that position, and your
+number is worth more than one produced here.

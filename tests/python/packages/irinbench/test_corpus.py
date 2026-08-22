@@ -147,5 +147,69 @@ class CorpusPersistenceTests(unittest.TestCase):
             self.assertEqual(list(manifest["entries"]), ["alpha", "zebra"])
 
 
+
+
+class FingerprintTests(unittest.TestCase):
+    """A published number has to name the requirements that produced it.
+
+    A corpus name cannot do that, because names do not change when content
+    does. Two results both claiming corpus "tasks" could have been scored
+    against entirely different requirements.
+    """
+
+    def test_the_same_specs_hash_the_same_regardless_of_order(self):
+        one = Corpus(name="t", kind=KIND_TASK, root=Path("."),
+                     specs=(a_spec("alpha"), a_spec("zebra")))
+        two = Corpus(name="t", kind=KIND_TASK, root=Path("."),
+                     specs=(a_spec("zebra"), a_spec("alpha")))
+        self.assertEqual(one.fingerprint(), two.fingerprint())
+
+    def test_changing_a_requirement_changes_the_fingerprint(self):
+        from irinspec import Size, Spec, ValidSolid
+
+        before = Corpus(name="t", kind=KIND_TASK, root=Path("."), specs=(a_spec(),))
+        after = Corpus(
+            name="t", kind=KIND_TASK, root=Path("."),
+            specs=(Spec(id="widget", prompt="a 40 x 25 x 8 mm block",
+                        assertions=(ValidSolid(), Size(x=41.0))),),
+        )
+        self.assertNotEqual(before.fingerprint(), after.fingerprint())
+
+    def test_repointing_a_reference_does_not_change_the_fingerprint(self):
+        # References decide whether a task is sound. Specs decide what an agent
+        # is scored on, and only the second belongs in a number's identity.
+        one = Corpus(name="t", kind=KIND_TASK, root=Path("."), specs=(a_spec(),),
+                     references={"widget": "models/a.step.py"})
+        two = Corpus(name="t", kind=KIND_TASK, root=Path("."), specs=(a_spec(),),
+                     references={"widget": "elsewhere/b.step.py"})
+        self.assertEqual(one.fingerprint(), two.fingerprint())
+
+    def test_a_hand_edited_spec_is_caught_on_load(self):
+        # Otherwise a result would carry a fingerprint naming requirements that
+        # are no longer the ones on disk.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "tasks"
+            Corpus(name="tasks", kind=KIND_TASK, root=root, specs=(a_spec(),),
+                   references={"widget": "models/a.step.py"}).save()
+
+            spec_file = root / "specs" / "widget.json"
+            data = json.loads(spec_file.read_text(encoding="utf-8"))
+            data["prompt"] = "something else entirely"
+            spec_file.write_text(json.dumps(data), encoding="utf-8")
+
+            with self.assertRaises(CorpusError) as ctx:
+                Corpus.load(root)
+            self.assertIn("without re-saving", str(ctx.exception))
+
+    def test_saving_records_the_fingerprint_in_the_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "tasks"
+            corpus = Corpus(name="tasks", kind=KIND_TASK, root=root, specs=(a_spec(),),
+                            references={"widget": "models/a.step.py"})
+            corpus.save()
+            manifest = json.loads((root / "corpus.json").read_text(encoding="utf-8"))
+            self.assertEqual(manifest["fingerprint"], corpus.fingerprint())
+            self.assertEqual(Corpus.load(root).fingerprint(), corpus.fingerprint())
+
 if __name__ == "__main__":
     unittest.main()

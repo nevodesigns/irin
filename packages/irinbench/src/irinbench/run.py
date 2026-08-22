@@ -31,6 +31,7 @@ class RunResult:
     corpus_name: str
     corpus_kind: str
     results: tuple[SpecResult, ...]
+    corpus_fingerprint: str = ""
     started_at: str = ""
     duration_s: float = 0.0
     environment: dict[str, Any] = field(default_factory=dict)
@@ -103,7 +104,11 @@ class RunResult:
 
     def to_dict(self) -> dict[str, Any]:
         return {
-            "corpus": {"name": self.corpus_name, "kind": self.corpus_kind},
+            "corpus": {
+                "name": self.corpus_name,
+                "kind": self.corpus_kind,
+                "fingerprint": self.corpus_fingerprint,
+            },
             "started_at": self.started_at,
             "duration_s": round(self.duration_s, 3),
             "environment": self.environment,
@@ -239,6 +244,7 @@ def run_task_corpus(
     return RunResult(
         corpus_name=corpus.name,
         corpus_kind=corpus.kind,
+        corpus_fingerprint=corpus.fingerprint(),
         results=tuple(results),
         started_at=started_at,
         duration_s=time.monotonic() - started,
@@ -267,6 +273,7 @@ def run_corpus(
     return RunResult(
         corpus_name=corpus.name,
         corpus_kind=corpus.kind,
+        corpus_fingerprint=corpus.fingerprint(),
         results=tuple(results),
         started_at=started_at,
         duration_s=time.monotonic() - started,

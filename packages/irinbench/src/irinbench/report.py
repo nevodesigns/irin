@@ -29,6 +29,8 @@ def format_report(run: RunResult, *, max_failures: int = 25) -> str:
     add = lines.append
 
     add(f"IRIN benchmark: {run.corpus_name} ({run.corpus_kind})")
+    if run.corpus_fingerprint:
+        add(f"  corpus {run.corpus_fingerprint[:12]}")
     add(f"  version {run.environment.get('irin_version', 'unknown')}"
         f"  python {run.environment.get('python', '?')}")
     add(f"  {run.started_at}   {run.duration_s:.1f}s")

@@ -209,7 +209,11 @@ class RunTests(unittest.TestCase):
         )
         spec = Spec(id="widget", prompt="baseline", assertions=(ValidSolid(), Size(x=40.0)))
         data = run_corpus(self._corpus(spec), runner).to_dict()
-        self.assertEqual(data["corpus"], {"name": "regression", "kind": "regression"})
+        self.assertEqual(data["corpus"]["name"], "regression")
+        self.assertEqual(data["corpus"]["kind"], "regression")
+        # Every result names the requirements that produced it, so two figures
+        # quoting the same corpus name can be told apart when its content differs.
+        self.assertEqual(data["corpus"]["fingerprint"], self._corpus(spec).fingerprint())
         self.assertIn("irin_version", data["environment"])
         self.assertEqual(data["totals"]["specs"], 1)
         self.assertEqual(data["rates"]["spec_pass_rate"], 1.0)

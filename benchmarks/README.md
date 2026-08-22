@@ -45,9 +45,18 @@ demanding zero clashes would fail assemblies that are exactly right. The
 propeller asserts it, because no blade may intersect another.
 
 ```bash
+python -m irinbench prompts                      # what you hand to the agent
 python -m irinbench verify                       # are the tasks themselves sound?
 python -m irinbench run --corpus benchmarks/tasks --artifacts <dir>
 ```
+
+**[PROTOCOL.md](PROTOCOL.md) is the procedure for running this against your own
+agent and publishing a number somebody else can use.** Read it before quoting a
+figure from here.
+
+`prompts` emits the requirements and nothing else: no assertions, no references,
+no tolerances. An agent that saw those would be transcribing an answer rather
+than designing to a requirement.
 
 `--artifacts` is required and has no default. A task corpus knows only its
 reference implementations, and defaulting to those would score the answer key:
@@ -129,6 +138,23 @@ the spec being less precise than the part:
 In every case the prompt and the assertion were corrected together to describe
 what the part really is. Tuning numbers until a spec passes would defeat the
 purpose; the point is that verification found the imprecision.
+
+### Every result names the corpus that produced it
+
+A corpus has a fingerprint: a content hash over its specs. It is recorded in the
+manifest, carried in every result file, and printed at the top of `prompts`.
+
+Without it, two results both claiming corpus `tasks` could have been scored
+against entirely different requirements and nobody comparing them would know. A
+name cannot serve, because names do not change when content does.
+
+Hashed over the specs alone, not the references. References decide whether a
+task is *sound*; specs decide what an agent is *scored on*, and only the second
+belongs in a number's identity. Editing a spec on disk without re-saving the
+corpus is caught on load, rather than silently producing results that name the
+wrong requirements.
+
+Current: tasks `fbf3dfe06bbb` (28), regression `b38208d40d27` (57).
 
 ## regression
 

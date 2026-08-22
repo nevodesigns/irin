@@ -217,6 +217,7 @@ def _load_round(path: Path) -> RunResult:
     return RunResult(
         corpus_name=data.get("corpus", {}).get("name", ""),
         corpus_kind=data.get("corpus", {}).get("kind", ""),
+        corpus_fingerprint=data.get("corpus", {}).get("fingerprint", ""),
         results=tuple(results),
         started_at=data.get("started_at", ""),
         duration_s=float(data.get("duration_s", 0.0)),

@@ -17,6 +17,7 @@ regression check.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from dataclasses import dataclass, field
@@ -119,6 +120,35 @@ class Corpus:
                 "Binding one here would make every run score the same file."
             )
 
+    def fingerprint(self) -> str:
+        """A content hash of the tasks, so a published number names what it ran.
+
+        Without this, two results both claiming corpus "tasks" could have been
+        scored against entirely different requirements, and nobody comparing
+        them would know. A benchmark other people quote has to be able to say
+        which corpus produced a figure, and a name cannot do that because names
+        do not change when content does.
+
+        Hashed over the specs alone, not the references. The references decide
+        whether a task is *sound*; the specs decide what an agent is *scored
+        on*, and only the second belongs in a number's identity. An operator who
+        re-points a reference at their own copy of a model has not changed the
+        benchmark.
+        """
+        digest = hashlib.sha256()
+        for spec in sorted(self.specs, key=lambda s: s.id):
+            digest.update(spec.id.encode("utf-8"))
+            digest.update(b"\0")
+            digest.update(
+                json.dumps(spec.to_dict(), sort_keys=True, separators=(",", ":")).encode("utf-8")
+            )
+            digest.update(b"\0")
+        return digest.hexdigest()
+
+    @property
+    def short_fingerprint(self) -> str:
+        return self.fingerprint()[:12]
+
     @property
     def spec_dir(self) -> Path:
         return self.root / "specs"
@@ -157,6 +187,7 @@ class Corpus:
         manifest = {
             "name": self.name,
             "kind": self.kind,
+            "fingerprint": self.fingerprint(),
             "entries": dict(sorted(self.entries.items())),
             "references": dict(sorted(self.references.items())),
             "provenance": self.provenance,
@@ -197,7 +228,7 @@ class Corpus:
                 "The manifest and specs/ have drifted apart."
             )
 
-        return cls(
+        corpus = cls(
             name=manifest.get("name", directory.name),
             kind=manifest.get("kind", KIND_REGRESSION),
             root=directory,
@@ -206,3 +237,18 @@ class Corpus:
             specs=tuple(specs),
             provenance=manifest.get("provenance") or {},
         )
+
+        # A recorded fingerprint that no longer matches means a spec was edited
+        # on disk without re-saving the corpus. Loading it anyway would let a
+        # result carry a fingerprint naming requirements that are not the ones
+        # it was scored against, which is the exact failure the fingerprint
+        # exists to prevent.
+        recorded = manifest.get("fingerprint")
+        if recorded and recorded != corpus.fingerprint():
+            raise CorpusError(
+                f"{manifest_path} records fingerprint {recorded[:12]} but the specs on "
+                f"disk hash to {corpus.short_fingerprint}. A spec was edited without "
+                "re-saving the corpus, so any result produced now would carry a "
+                "fingerprint that names the wrong requirements. Re-save the corpus."
+            )
+        return corpus

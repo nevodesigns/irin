@@ -1,6 +1,7 @@
 {
   "name": "regression",
   "kind": "regression",
+  "fingerprint": "b38208d40d27d8b94d257cc74ec13be8db13b45b98484f7d32bbc4799b896712",
   "entries": {
     "basic-shape-mating-test-fixture": "models/step/parts/basic_shape_mating_test_fixture.step.py",
     "cam-follower-roller": "models/step/parts/cam_follower_roller.step.py",

@@ -242,6 +242,67 @@ def cmd_repair(args: argparse.Namespace) -> int:
     return 0 if not session.unrecovered() else 1
 
 
+def cmd_prompts(args: argparse.Namespace) -> int:
+    """Emit the task prompts, and nothing else.
+
+    What an operator hands to the agent being measured. Deliberately carries no
+    assertions and no references: those are the answer key, and an agent that
+    saw them would be transcribing rather than designing.
+
+    The corpus fingerprint goes at the top so a submission can be tied to the
+    exact requirements it was produced against. A result quoted without one
+    cannot be compared to anything.
+    """
+    try:
+        corpus = Corpus.load(Path(args.repo_root) / args.corpus)
+    except CorpusError as exc:
+        _log(f"[irinbench] {exc}")
+        return 2
+
+    if corpus.kind != KIND_TASK:
+        _log(
+            f"[irinbench] prompts are for a task corpus. {corpus.name!r} is "
+            f"{corpus.kind!r}, whose specs describe models that already exist."
+        )
+        return 2
+
+    specs = sorted(corpus.specs, key=lambda spec: spec.id)
+
+    if args.json:
+        print(json.dumps({
+            "corpus": corpus.name,
+            "fingerprint": corpus.fingerprint(),
+            "count": len(specs),
+            "tasks": [
+                {"id": s.id, "prompt": s.prompt, "artifact": f"{s.id}.step.py"}
+                for s in specs
+            ],
+        }, indent=2))
+        return 0
+
+    width = 72
+    out = [
+        f"IRIN task corpus: {corpus.name}",
+        f"corpus {corpus.short_fingerprint}   {len(specs)} tasks   units mm",
+        "",
+        "Produce one CAD artifact per task and put them all in one directory.",
+        "Name each file after its task id: <task-id>.step.py for build123d",
+        "source, or <task-id>.step / <task-id>.stp for an exported solid.",
+        "",
+        "A task with no artifact is scored as a failure, not as inconclusive.",
+        "",
+    ]
+    for spec in specs:
+        out.append("-" * width)
+        out.append(f"{spec.id}    ->  {spec.id}.step.py")
+        out.append("")
+        out.append(spec.prompt)
+        out.append("")
+    out.append("-" * width)
+    print("\n".join(out))
+    return 0
+
+
 def cmd_report(args: argparse.Namespace) -> int:
     path = Path(args.result)
     if not path.exists():
@@ -352,6 +413,23 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_common(repair, corpus_default="benchmarks/tasks")
     repair.set_defaults(handler=cmd_repair)
+
+    prompts = subparsers.add_parser(
+        "prompts",
+        help="Emit the task prompts for an agent, without the answers.",
+        description=(
+            "What you hand to the agent being measured. Carries no assertions and "
+            "no references, because those are the answer key. The corpus "
+            "fingerprint is included so a submission can be tied to the exact "
+            "requirements it was produced against."
+        ),
+    )
+    # Only the two it actually uses. prompts reads specs and never touches the
+    # CAD kernel, so a --timeout or --inspect-launcher here would be noise.
+    prompts.add_argument("--repo-root", default=".", help="Workspace that owns the corpus.")
+    prompts.add_argument("--corpus", default="benchmarks/tasks", help="Corpus directory.")
+    prompts.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
+    prompts.set_defaults(handler=cmd_prompts)
 
     report = subparsers.add_parser("report", help="Summarize a stored result file.")
     report.add_argument("result", help="Path to a result JSON file.")

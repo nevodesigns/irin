@@ -81,6 +81,16 @@ artificially thin and less like real engineering language, and the gap is
 better stated than hidden. Chamfer size, wall thickness and draft angle are the
 current ones.
 
+An unchecked clause can leave a task vacuous, and one was. The vee block asked
+for a 90 degree groove and asserted size, bounds, part count and no holes, all
+of which a plain 60 mm cube satisfies. A stand-in agent returned exactly that
+and passed. It now asserts volume, 192000 mm^3 against a cube's 216000, so the
+groove is checked by the material it removes.
+
+The lesson generalises: when a prompt asks for material to be taken away or
+added and nothing measures it, assert `volume`. It is the only check that sees
+a change a bounding box cannot.
+
 ### Repair sessions
 
 Generating correct geometry first time is one capability. Reading a failure
@@ -162,7 +172,7 @@ belongs in a number's identity. Editing a spec on disk without re-saving the
 corpus is caught on load, rather than silently producing results that name the
 wrong requirements.
 
-Current: tasks `fbf3dfe06bbb` (28), regression `b38208d40d27` (57).
+Current: tasks `74bfef8abe3e` (28), regression `b38208d40d27` (57).
 
 `compare` groups stored results by fingerprint and compares only within a group.
 A run that records no agent falls back to its filename, which is worse than a

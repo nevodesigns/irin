@@ -23,6 +23,7 @@ from irinspec import (
     Bounds,
     FeatureSpacing,
     FilletCount,
+    Volume,
     ClashCount,
     HoleCount,
     Distance,
@@ -82,6 +83,7 @@ class WorkerCommandCoverageTests(unittest.TestCase):
 
         samples = (
             ValidSolid(),
+            Volume(value=1.0),
             Size(x=1.0),
             Bounds(min=(0.0, 0.0, 0.0)),
             PartCount(value=1),

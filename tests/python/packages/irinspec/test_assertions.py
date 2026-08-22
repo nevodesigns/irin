@@ -6,6 +6,7 @@ from irinspec import (
     Bounds,
     FeatureSpacing,
     FilletCount,
+    Volume,
     ClashCount,
     Distance,
     EdgeCount,
@@ -321,3 +322,26 @@ class FilletCountTests(unittest.TestCase):
     def test_value_is_required(self):
         with self.assertRaises(SpecError):
             assertion_from_dict({"kind": "fillet_count", "radius": 2.0}, "a[0]")
+
+
+class VolumeTests(unittest.TestCase):
+    def test_volume_round_trips(self):
+        assertion = Volume(value=192000.0)
+        self.assertEqual(assertion_from_dict(assertion.to_dict(), "a[0]"), assertion)
+        self.assertEqual(assertion.describe(), "192000 mm^3 of material")
+
+    def test_the_default_tolerance_is_relative(self):
+        # Volumes span orders of magnitude across a corpus, and a fixed band
+        # that suits a washer is meaningless on a gearbox.
+        assertion = Volume(value=1000.0)
+        low, high = assertion.tolerance.bounds(1000.0)
+        self.assertAlmostEqual(low, 990.0)
+        self.assertAlmostEqual(high, 1010.0)
+
+    def test_a_non_positive_volume_is_refused(self):
+        with self.assertRaises(SpecError):
+            Volume(value=0.0)
+
+    def test_value_is_required(self):
+        with self.assertRaises(SpecError):
+            assertion_from_dict({"kind": "volume"}, "a[0]")

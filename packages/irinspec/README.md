@@ -50,6 +50,7 @@ evaluator can pay for each inspection once per spec rather than once per claim.
 | Kind | Source | Checks |
 | --- | --- | --- |
 | `valid_solid` | `validate` | Closed, positive-volume, non-self-intersecting solids |
+| `volume` | `validate` | Total material, the measure a bounding box cannot give |
 | `size` | `facts` | Bounding-box extents, any subset of x/y/z |
 | `bounds` | `facts` | Where the part sits, not only how big it is |
 | `part_count` | `facts` | Number of leaf parts in the assembly tree |

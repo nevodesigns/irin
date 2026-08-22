@@ -34,6 +34,7 @@ from irinspec import (
     FeatureSpacing,
     FilletCount,
     HoleCount,
+    Volume,
     Distance,
     EdgeCount,
     FaceCount,
@@ -57,6 +58,9 @@ AXES = ("x", "y", "z")
 
 def inspect_argv(assertion: Assertion, entry: str) -> tuple[str, ...]:
     """The exact inspection that answers this assertion."""
+    if isinstance(assertion, Volume):
+        return ("validate", entry)
+
     if isinstance(assertion, ValidSolid):
         argv = ["validate", entry]
         if assertion.allow_open:
@@ -178,6 +182,36 @@ def _eval_valid_solid(assertion: ValidSolid, response: InspectResponse) -> Asser
         detail=detail,
         expected="every occurrence sound",
         actual=f"{failure_count} of {result.get('occurrenceCount', '?')} occurrences unsound",
+    )
+
+
+def _eval_volume(assertion: Volume, response: InspectResponse) -> AssertionResult:
+    if "volume" not in response.result:
+        raise KeyError("validate returned no volume")
+    actual = float(response.result["volume"])
+    passed, deviation, excess, detail = _eval_scalar_band(
+        assertion,
+        label="volume",
+        nominal=assertion.value,
+        actual=actual,
+        tolerance=assertion.tolerance,
+    )
+    if not passed:
+        low, high = assertion.tolerance.bounds(assertion.value)
+        detail = (
+            f"volume: {actual:g} mm^3 is outside [{low:g}, {high:g}] "
+            f"by {excess:+g} mm^3"
+        )
+    return AssertionResult(
+        kind=assertion.kind,
+        description=assertion.describe(),
+        passed=passed,
+        code=None if passed else FailureCode.DIMENSION_OUT_OF_TOLERANCE,
+        detail=detail,
+        expected=assertion.value,
+        actual=round(actual, 4),
+        deviation=deviation,
+        excess=excess,
     )
 
 
@@ -692,6 +726,7 @@ def _eval_bolt_circle(assertion: BoltCircle, response: InspectResponse) -> Asser
 
 _EVALUATORS = {
     "valid_solid": _eval_valid_solid,
+    "volume": _eval_volume,
     "size": _eval_size,
     "bounds": _eval_bounds,
     "part_count": _eval_count,

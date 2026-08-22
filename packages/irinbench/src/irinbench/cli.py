@@ -27,6 +27,7 @@ from irinbench.repair import (
     write_briefs,
 )
 from irinbench.run import run_corpus, run_task_corpus
+from irinbench.submit import format_submissions, submit_corpus
 
 DEFAULT_ENTRY_ROOTS = ("models/step/parts", "models/step/assemblies")
 
@@ -364,6 +365,44 @@ def cmd_report(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_submit(args: argparse.Namespace) -> int:
+    """Run an agent over the corpus and write one artifact per task."""
+    try:
+        corpus = Corpus.load(Path(args.repo_root) / args.corpus)
+    except CorpusError as exc:
+        _log(f"[irinbench] {exc}")
+        return 2
+
+    out_dir = Path(args.repo_root) / args.out
+    _log(f"[irinbench] running the agent over {len(corpus.specs)} task(s)")
+    _log(f"[irinbench] command: {args.command}")
+
+    def progress(result) -> None:
+        if result.ok:
+            _log(f"[irinbench]   ok      {result.task_id}  ({result.seconds:.1f}s, {result.bytes_written} bytes)")
+        else:
+            _log(f"[irinbench]   nothing {result.task_id}  ({result.seconds:.1f}s)  {result.error}")
+
+    try:
+        results = submit_corpus(
+            corpus,
+            args.command,
+            out_dir,
+            timeout_s=args.agent_timeout,
+            only=args.only or None,
+            on_result=progress,
+        )
+    except CorpusError as exc:
+        _log(f"[irinbench] {exc}")
+        return 2
+
+    print(format_submissions(results, out_dir))
+    _log("")
+    _log("[irinbench] nothing here has been checked. Score it with:")
+    _log(f"[irinbench]   irinbench run --corpus {args.corpus} --artifacts {args.out} --agent \"<name>\"")
+    return 0 if any(r.ok for r in results) else 1
+
+
 def cmd_compare(args: argparse.Namespace) -> int:
     """Put stored results side by side, within a corpus fingerprint."""
     root = Path(args.repo_root) / args.results
@@ -506,6 +545,35 @@ def build_parser() -> argparse.ArgumentParser:
     prompts.add_argument("--corpus", default="benchmarks/tasks", help="Corpus directory.")
     prompts.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
     prompts.set_defaults(handler=cmd_prompts)
+
+    submit = subparsers.add_parser(
+        "submit",
+        help="Run an agent over the task corpus and collect its artifacts.",
+        description=(
+            "The agent is a command, not an integration: it receives one prompt on "
+            "stdin and returns source on stdout. A CLI, a curl to an API, or a shell "
+            "wrapper all satisfy that. Nothing here judges the output; an agent that "
+            "returns prose or nothing produces exactly that, and the run scores it."
+        ),
+    )
+    submit.add_argument("--repo-root", default=".", help="Workspace holding the corpus.")
+    submit.add_argument("--corpus", default="benchmarks/tasks", help="Task corpus directory.")
+    submit.add_argument("--out", required=True, help="Directory to write artifacts into.")
+    submit.add_argument(
+        "--command",
+        required=True,
+        help="Shell command for the agent. Prompt arrives on stdin, source expected on stdout.",
+    )
+    submit.add_argument(
+        "--agent-timeout",
+        type=float,
+        default=300.0,
+        help="Seconds allowed per task before the agent is given up on.",
+    )
+    submit.add_argument(
+        "--only", nargs="*", default=None, help="Run only these task ids."
+    )
+    submit.set_defaults(handler=cmd_submit)
 
     compare = subparsers.add_parser(
         "compare",

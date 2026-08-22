@@ -557,6 +557,56 @@ class BoltCircle(Assertion):
 
 
 @dataclass(frozen=True)
+class Volume(Assertion):
+    """Total material, in cubic millimetres.
+
+    The measure that catches what a bounding box cannot. A 60 mm cube and the
+    same cube with a groove cut down its top face are identical in size, bounds,
+    part count and hole count, and differ only in how much material is left.
+
+    That is not hypothetical. A stand-in agent returned a plain cube for the vee
+    block task and passed every assertion the task had, because the groove that
+    defines a vee block was described in the prompt and checked by nothing. A
+    task any cube satisfies is not a task.
+
+    Tolerance defaults to relative, because volumes span orders of magnitude
+    across a corpus and a fixed band that suits a washer is meaningless on a
+    gearbox.
+    """
+
+    kind: ClassVar[str] = "volume"
+    source: ClassVar[str] = "validate"
+
+    value: float = 0.0
+    tolerance: Tolerance = field(default_factory=lambda: Tolerance.relative_fraction(0.01))
+
+    def __post_init__(self) -> None:
+        if self.value <= 0:
+            raise SpecError(f"volume.value: must be positive, got {self.value}")
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "kind": self.kind,
+            "value": self.value,
+            "tolerance": self.tolerance.to_dict(),
+        }
+
+    def describe(self) -> str:
+        return f"{self.value:g} mm^3 of material"
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any], path: str) -> "Volume":
+        if "value" not in data:
+            raise SpecError(f"{path}.value: required for volume")
+        return cls(
+            value=_require_number(data["value"], f"{path}.value"),
+            tolerance=Tolerance.from_value(
+                data.get("tolerance", {"relative": 0.01}), path=f"{path}.tolerance"
+            ),
+        )
+
+
+@dataclass(frozen=True)
 class FilletCount(Assertion):
     """How many blended edges there are, optionally of one radius.
 
@@ -768,6 +818,7 @@ _KINDS: tuple[type[Assertion], ...] = (
     BoltCircle,
     FeatureSpacing,
     FilletCount,
+    Volume,
     Distance,
 )
 

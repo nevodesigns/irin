@@ -1,7 +1,7 @@
 {
   "name": "tasks",
   "kind": "task",
-  "fingerprint": "fbf3dfe06bbbbc654acb7c1c437eac56c8e907159349d6fe11606ada8afa8cb1",
+  "fingerprint": "74bfef8abe3ef5e9cbd5e7fd1e5e7aa4dd0f91052b7a6f6cff03908ee042f2f7",
   "entries": {},
   "references": {
     "calibration-block": "models/step/parts/rectangular_calibration_block.step.py",

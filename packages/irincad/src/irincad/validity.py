@@ -199,6 +199,7 @@ def inspect_validity(
 
     parts: list[dict[str, object]] = []
     failures = 0
+    total_volume = 0.0
     for occurrence in occurrences:
         result = check_occurrence_shape(
             occurrence.shape,
@@ -206,6 +207,13 @@ def inspect_validity(
             min_volume=min_volume,
             check_self_intersection=check_self_intersection,
         )
+        # Summed for every occurrence, not only the failing ones. The signed
+        # volume is already computed here for the orientation check, and it is
+        # the only measure that catches material added or removed where the
+        # bounding box does not change: a block with a groove cut in it is the
+        # same size as the block.
+        total_volume += sum(float(v) for v in result["volumes"])
+
         reasons = result["reasons"]
         if reasons:
             failures += 1
@@ -222,6 +230,7 @@ def inspect_validity(
     return {
         "ok": failures == 0,
         "entry": target.cad_path,
+        "volume": total_volume,
         "occurrenceCount": len(occurrences),
         "failureCount": failures,
         "parts": parts,

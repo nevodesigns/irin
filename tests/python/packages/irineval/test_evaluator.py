@@ -7,6 +7,7 @@ from irinspec import (
     Bounds,
     FeatureSpacing,
     FilletCount,
+    Volume,
     ClashCount,
     HoleCount,
     Distance,
@@ -90,6 +91,7 @@ class PlanningTests(unittest.TestCase):
 
         samples = {
             "valid_solid": ValidSolid(),
+            "volume": Volume(value=1.0),
             "size": Size(x=1.0),
             "bounds": Bounds(min=(0.0, 0.0, 0.0)),
             "part_count": PartCount(value=1),
@@ -457,3 +459,36 @@ class FeatureSpacingEvaluationTests(unittest.TestCase):
             spec_with(FeatureSpacing(diameter=20.0, value=60.0)), BLOCK, self._runner(payload)
         ).failures()[0]
         self.assertIn("found 0", failure.detail)
+
+
+class VolumeEvaluationTests(unittest.TestCase):
+    """The measure that catches what a bounding box cannot."""
+
+    def _runner(self, volume):
+        payload = {"ok": True, "volume": volume, "occurrenceCount": 1,
+                   "failureCount": 0, "parts": [], "errors": []}
+        return RecordedRunner(responses_from_pairs({("validate", BLOCK): payload}.items()))
+
+    def test_matching_volume_passes(self):
+        spec = spec_with(Volume(value=192000.0))
+        self.assertTrue(evaluate(spec, BLOCK, self._runner(192000.0)).ok)
+
+    def test_a_plain_block_fails_a_grooved_block_requirement(self):
+        # The exact defect this kind was added for: same size, same bounds,
+        # same part count, same hole count, more material.
+        spec = spec_with(Volume(value=192000.0))
+        failure = evaluate(spec, BLOCK, self._runner(216000.0)).failures()[0]
+        self.assertEqual(failure.code, FailureCode.DIMENSION_OUT_OF_TOLERANCE)
+        self.assertIn("mm^3", failure.detail)
+        self.assertAlmostEqual(failure.actual, 216000.0)
+
+    def test_volume_shares_the_validate_call_with_soundness(self):
+        # Both come from `validate`, so a spec asserting each pays once.
+        spec = spec_with(ValidSolid(), Volume(value=192000.0))
+        self.assertEqual(plan(spec, BLOCK), (("validate", BLOCK),))
+
+    def test_a_validate_payload_without_volume_is_undetermined(self):
+        payload = {"ok": True, "occurrenceCount": 1, "failureCount": 0, "parts": [], "errors": []}
+        runner = RecordedRunner(responses_from_pairs({("validate", BLOCK): payload}.items()))
+        failure = evaluate(spec_with(Volume(value=1.0)), BLOCK, runner).failures()[0]
+        self.assertEqual(failure.code, FailureCode.INSPECTION_FAILED)

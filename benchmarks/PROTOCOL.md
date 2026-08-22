@@ -11,6 +11,24 @@ satisfies it. Not whether it can produce a plausible-looking model, and not
 whether the file loads. Every task is scored by measuring the artifact and
 comparing it to assertions written from the requirement.
 
+## 0. Or drive the agent from here
+
+```bash
+python -m irinbench submit --out submission/ --command "<your agent>"
+```
+
+The agent is a command, not an integration: it receives one prompt on stdin and
+returns source on stdout. A CLI, a curl to an API, or a shell wrapper all
+satisfy that, which is what keeps the benchmark runnable against agents IRIN has
+never heard of.
+
+Nothing there judges the output. An agent that returns prose or nothing produces
+exactly that, and the run scores it. Cleaning up a bad submission before
+measuring it would be measuring the cleanup.
+
+The steps below are the same thing done by hand, and are worth reading either
+way.
+
 ## 1. Take the prompts
 
 ```bash

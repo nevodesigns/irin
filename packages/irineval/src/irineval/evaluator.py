@@ -32,6 +32,7 @@ from irinspec import (
     BossCount,
     ClashCount,
     FeatureSpacing,
+    FilletCount,
     HoleCount,
     Distance,
     EdgeCount,
@@ -68,7 +69,9 @@ def inspect_argv(assertion: Assertion, entry: str) -> tuple[str, ...]:
     if isinstance(assertion, (NoInterference, ClashCount)):
         return ("interfere", entry, "--tolerance", _number(assertion.volume_tolerance))
 
-    if isinstance(assertion, (HoleCount, BossCount, BoltCircle, FeatureSpacing)):
+    if isinstance(
+        assertion, (HoleCount, BossCount, BoltCircle, FeatureSpacing, FilletCount)
+    ):
         # Deliberately unfiltered. Every feature assertion in a spec resolves to
         # this one argv and therefore one inspection; the filtering happens in
         # Python against the full feature list. Encoding --kind or --min-diameter
@@ -509,6 +512,56 @@ def _axis_line_distance(
     return math.sqrt(sum(component * component for component in perpendicular))
 
 
+def _eval_fillet_count(assertion: FilletCount, response: InspectResponse) -> AssertionResult:
+    wanted = {"fillet", "round"}
+    if assertion.convex is True:
+        wanted = {"round"}
+    elif assertion.convex is False:
+        wanted = {"fillet"}
+
+    blends = [
+        feature
+        for feature in (response.result.get("features") or [])
+        if feature.get("kind") in wanted
+    ]
+    if assertion.radius is not None:
+        blends = [
+            blend
+            for blend in blends
+            if assertion.tolerance.contains(assertion.radius, float(blend.get("radius", 0.0)))
+        ]
+
+    actual = len(blends)
+    expected = int(assertion.value)
+    passed = actual == expected
+
+    detail = ""
+    if not passed:
+        detail = f"expected {expected}, found {actual}"
+        present = sorted(
+            {
+                round(float(f.get("radius", 0.0)), 3)
+                for f in (response.result.get("features") or [])
+                if f.get("kind") in wanted
+            }
+        )
+        if not present:
+            detail += "; the part has no blended edges of that kind"
+        elif assertion.radius is not None and actual == 0:
+            detail += f"; blend radii present: {present}"
+
+    return AssertionResult(
+        kind=assertion.kind,
+        description=assertion.describe(),
+        passed=passed,
+        code=None if passed else FailureCode.COUNT_MISMATCH,
+        detail=detail,
+        expected=expected,
+        actual=actual,
+        deviation=float(actual - expected),
+    )
+
+
 def _eval_feature_spacing(assertion: FeatureSpacing, response: InspectResponse) -> AssertionResult:
     matching = [
         feature
@@ -649,6 +702,7 @@ _EVALUATORS = {
     "hole_count": _eval_hole_count,
     "boss_count": _eval_boss_count,
     "feature_spacing": _eval_feature_spacing,
+    "fillet_count": _eval_fillet_count,
     "bolt_circle": _eval_bolt_circle,
     "distance": _eval_distance,
 }

@@ -21,8 +21,11 @@ Hole count, hole size and bolt-circle geometry became expressible once
 ``irincad.features`` could recognise cylindrical features, which is what that
 paragraph used to say was missing.
 
-Still absent, for the same reason as before: fillet and chamfer presence, wall
-thickness, and feature-level identity in general.
+Fillet and round presence joined once edge tangency could tell a blend from an
+opening.
+
+Still absent, for the same reason as before: chamfer size, wall thickness, and
+feature-level identity in general.
 """
 
 from __future__ import annotations
@@ -554,6 +557,73 @@ class BoltCircle(Assertion):
 
 
 @dataclass(frozen=True)
+class FilletCount(Assertion):
+    """How many blended edges there are, optionally of one radius.
+
+    Specified by RADIUS, because that is how a fillet is called out on every
+    drawing and in every prompt: "a 2 mm fillet", never "a 4 mm fillet".
+
+    A fillet is concave, with material outside it, and a round is convex. Most
+    requirements say "fillet" for either, so ``convex`` defaults to None and
+    counts both. Set it when the distinction is part of the requirement.
+
+    This kind was on the schema's absent list until edge tangency could tell a
+    blend from an opening. Before that, an L-bracket's 2 mm transition fillet
+    was counted as a 4 mm hole, and the bracket appeared to have five holes when
+    it has four.
+    """
+
+    kind: ClassVar[str] = "fillet_count"
+    source: ClassVar[str] = "features"
+
+    value: int = 0
+    radius: float | None = None
+    tolerance: Tolerance = field(default_factory=lambda: Tolerance.symmetric(0.05))
+    #: None counts both. False is concave only, True convex only.
+    convex: bool | None = None
+
+    def __post_init__(self) -> None:
+        if self.radius is not None and self.radius <= 0:
+            raise SpecError(f"fillet_count.radius: must be positive, got {self.radius}")
+
+    def to_dict(self) -> dict[str, Any]:
+        out: dict[str, Any] = {"kind": self.kind, "value": self.value}
+        if self.radius is not None:
+            out["radius"] = self.radius
+            out["tolerance"] = self.tolerance.to_dict()
+        if self.convex is not None:
+            out["convex"] = self.convex
+        return out
+
+    def describe(self) -> str:
+        if self.convex is True:
+            noun = "round" if self.value == 1 else "rounds"
+        elif self.convex is False:
+            noun = "fillet" if self.value == 1 else "fillets"
+        else:
+            noun = "blended edge" if self.value == 1 else "blended edges"
+        bits = f"exactly {self.value} {noun}"
+        if self.radius is not None:
+            bits += f" of radius {self.radius:g} mm"
+        return bits
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any], path: str) -> "FilletCount":
+        if "value" not in data:
+            raise SpecError(f"{path}.value: required for fillet_count")
+        convex = data.get("convex")
+        if convex is not None:
+            convex = _require_bool(convex, f"{path}.convex")
+        radius = data.get("radius")
+        return cls(
+            value=_require_positive_int(data["value"], f"{path}.value"),
+            radius=None if radius is None else _require_number(radius, f"{path}.radius"),
+            tolerance=Tolerance.from_value(data.get("tolerance", 0.05), path=f"{path}.tolerance"),
+            convex=convex,
+        )
+
+
+@dataclass(frozen=True)
 class FeatureSpacing(Assertion):
     """Centre-to-centre distance between the two features of a given size.
 
@@ -697,6 +767,7 @@ _KINDS: tuple[type[Assertion], ...] = (
     BossCount,
     BoltCircle,
     FeatureSpacing,
+    FilletCount,
     Distance,
 )
 

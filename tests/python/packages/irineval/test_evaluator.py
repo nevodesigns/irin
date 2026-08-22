@@ -6,6 +6,7 @@ from irinspec import (
     BossCount,
     Bounds,
     FeatureSpacing,
+    FilletCount,
     ClashCount,
     HoleCount,
     Distance,
@@ -99,6 +100,7 @@ class PlanningTests(unittest.TestCase):
             "hole_count": HoleCount(value=1),
             "boss_count": BossCount(value=1),
             "feature_spacing": FeatureSpacing(diameter=6.0, value=60.0),
+            "fillet_count": FilletCount(value=1),
             "bolt_circle": BoltCircle(diameter=60.0, count=6),
             "distance": Distance(from_ref="#a", to_ref="#b", axis="x", value=1.0),
         }

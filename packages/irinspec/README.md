@@ -61,6 +61,7 @@ evaluator can pay for each inspection once per spec rather than once per claim.
 | `boss_count` | `features` | External cylinders, the exact way to state a round outer diameter |
 | `bolt_circle` | `features` | Holes evenly spaced on a pitch circle of a given diameter |
 | `feature_spacing` | `features` | Centre distance between the two features of a given size |
+| `fillet_count` | `features` | Blended edges, by radius, concave or convex |
 | `distance` | `measure` | Distance between two selector refs along one axis |
 
 `distance` addresses geometry by selector ref, and a ref belongs to one model's
@@ -71,14 +72,21 @@ checkable on any model that satisfies it.
 
 ## What is deliberately missing
 
-Fillet and chamfer presence, and wall thickness, are not here. Nor is
+Chamfer size and wall thickness are not here. Nor is
 `solid_count`: the only figure the inspection exposes counts leaf occurrences,
 which does not catch a failed boolean leaving two disjoint bodies inside one
 part, so `part_count` is named for what it actually measures.
 
-Hole count and bolt-circle geometry used to be on this list. They left it when
-`irincad.features` learned to recognise cylindrical features, which is the only
+Hole count and bolt-circle geometry used to be on this list, and left it when
+`irincad.features` learned to recognise cylindrical features. `fillet_count`
+left it when edge tangency could tell a blend from an opening. That is the only
 way anything joins the table above.
+
+Because a prompt may still say more than the assertions can check, a task can
+carry an unchecked clause: the calibration block asks for a 2 mm top chamfer and
+nothing measures it. Those clauses stay in the prompts, because removing them
+would make the requirements artificially thin, but an agent that ignored one
+would still score well on that task.
 
 A schema that accepted `{"kind": "fillet_radius", "value": 2.0}` while nothing
 could measure a fillet would produce specs that look rigorous and silently check

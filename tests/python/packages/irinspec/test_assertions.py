@@ -5,6 +5,7 @@ from irinspec import (
     BossCount,
     Bounds,
     FeatureSpacing,
+    FilletCount,
     ClashCount,
     Distance,
     EdgeCount,
@@ -50,8 +51,12 @@ class RegistryTests(unittest.TestCase):
         for measurable in ("hole_count", "bolt_circle"):
             self.assertIn(measurable, SUPPORTED_KINDS)
 
+        # fillet_count joined when edge tangency could tell a blend from an
+        # opening, which also stopped fillets being counted as holes.
+        self.assertIn("fillet_count", SUPPORTED_KINDS)
+
         # Still absent, and still for the original reason: nothing measures them.
-        for unmeasurable in ("fillet_radius", "chamfer_size", "wall_thickness"):
+        for unmeasurable in ("chamfer_size", "wall_thickness", "draft_angle"):
             self.assertNotIn(unmeasurable, SUPPORTED_KINDS)
 
 
@@ -291,3 +296,28 @@ class FeatureSpacingTests(unittest.TestCase):
         ):
             with self.assertRaises(SpecError):
                 assertion_from_dict(payload, "a[0]")
+
+
+class FilletCountTests(unittest.TestCase):
+    def test_a_fillet_is_specified_by_radius(self):
+        # Every drawing calls out "a 2 mm fillet", never "a 4 mm fillet".
+        assertion = FilletCount(value=1, radius=2.0)
+        self.assertEqual(assertion_from_dict(assertion.to_dict(), "a[0]"), assertion)
+        self.assertEqual(assertion.describe(), "exactly 1 blended edge of radius 2 mm")
+
+    def test_concave_and_convex_can_be_distinguished_when_it_matters(self):
+        self.assertIn("fillet", FilletCount(value=1, convex=False).describe())
+        self.assertIn("round", FilletCount(value=1, convex=True).describe())
+
+    def test_both_are_counted_by_default(self):
+        # Most requirements say "fillet" for either.
+        self.assertIsNone(FilletCount(value=2).convex)
+        self.assertIn("blended edges", FilletCount(value=2).describe())
+
+    def test_a_non_positive_radius_is_refused(self):
+        with self.assertRaises(SpecError):
+            FilletCount(value=1, radius=0.0)
+
+    def test_value_is_required(self):
+        with self.assertRaises(SpecError):
+            assertion_from_dict({"kind": "fillet_count", "radius": 2.0}, "a[0]")

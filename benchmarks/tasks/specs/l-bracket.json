@@ -1,6 +1,6 @@
 {
   "id": "l-bracket",
-  "prompt": "An L-bracket from 8 mm plate. The base is 80 mm by 50 mm and the upstand is 80 mm wide and 50 mm tall, so the bracket is 58 mm tall overall. Put two 6 mm through-holes in the base and two more in the upstand, and stiffen the corner with gussets and a fillet.",
+  "prompt": "An L-bracket from 8 mm plate. The base is 80 mm by 50 mm and the upstand is 80 mm wide and 50 mm tall, so the bracket is 58 mm tall overall. Put two 6 mm through-holes in the base and two more in the upstand, stiffen the corner with gussets, and blend the inside corner with a 2 mm fillet.",
   "units": "mm",
   "assertions": [
     {
@@ -27,6 +27,14 @@
         "symmetric": 0.05
       },
       "through": true
+    },
+    {
+      "kind": "fillet_count",
+      "value": 1,
+      "radius": 2.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
     }
   ]
 }

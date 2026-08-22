@@ -63,6 +63,16 @@ THROUGH_CLASSIFIER_TOLERANCE_MM = 1e-7
 KIND_HOLE = "hole"
 KIND_BOSS = "boss"
 
+#: A concave blend: material outside the cylinder, tangent to its neighbours.
+#: What a machinist calls a fillet.
+KIND_FILLET = "fillet"
+
+#: A convex blend: material inside. What a machinist calls a round.
+KIND_ROUND = "round"
+
+#: Blends are not holes or bosses and must never be counted as either.
+BLEND_KINDS = (KIND_FILLET, KIND_ROUND)
+
 
 def _normalize(vector: Sequence[float]) -> tuple[float, float, float]:
     length = math.sqrt(sum(component * component for component in vector))
@@ -170,6 +180,45 @@ class _RawCylinder:
     v_max: float
     angular_span: float
     reversed_face: bool
+    #: How many of this face's edges meet a neighbour smoothly.
+    tangent_edges: int
+
+
+def _tangent_edge_count(face: Any, edge_faces: Any) -> int:
+    """Edges along which this face meets a neighbour with G1 continuity or better."""
+    from OCP.BRep import BRep_Tool
+    from OCP.GeomAbs import GeomAbs_Shape
+    from OCP.TopAbs import TopAbs_ShapeEnum
+    from OCP.TopExp import TopExp_Explorer
+    from OCP.TopoDS import TopoDS
+
+    smooth = {
+        GeomAbs_Shape.GeomAbs_G1,
+        GeomAbs_Shape.GeomAbs_C1,
+        GeomAbs_Shape.GeomAbs_G2,
+        GeomAbs_Shape.GeomAbs_C2,
+        GeomAbs_Shape.GeomAbs_C3,
+        GeomAbs_Shape.GeomAbs_CN,
+    }
+
+    count = 0
+    explorer = TopExp_Explorer(face, TopAbs_ShapeEnum.TopAbs_EDGE)
+    while explorer.More():
+        edge = TopoDS.Edge_s(explorer.Current())
+        index = edge_faces.FindIndex(edge)
+        if index:
+            for neighbour in edge_faces.FindFromIndex(index):
+                other = TopoDS.Face_s(neighbour)
+                if other.IsEqual(face):
+                    continue
+                try:
+                    if BRep_Tool.Continuity_s(edge, face, other) in smooth:
+                        count += 1
+                        break
+                except Exception:  # noqa: BLE001 - continuity unavailable for this pair
+                    pass
+        explorer.Next()
+    return count
 
 
 def _raw_cylinders(wrapped: Any) -> list[_RawCylinder]:
@@ -177,8 +226,17 @@ def _raw_cylinders(wrapped: Any) -> list[_RawCylinder]:
     from OCP.BRepTools import BRepTools
     from OCP.GeomAbs import GeomAbs_SurfaceType
     from OCP.TopAbs import TopAbs_Orientation, TopAbs_ShapeEnum
-    from OCP.TopExp import TopExp_Explorer
+    from OCP.TopExp import TopExp, TopExp_Explorer
     from OCP.TopoDS import TopoDS
+    from OCP.TopTools import TopTools_IndexedDataMapOfShapeListOfShape
+
+    # Built once per shape. Asking which faces share an edge is the only way to
+    # tell a blend from a hole, and rebuilding this per face would make feature
+    # recognition quadratic in a solid's face count.
+    edge_faces = TopTools_IndexedDataMapOfShapeListOfShape()
+    TopExp.MapShapesAndAncestors_s(
+        wrapped, TopAbs_ShapeEnum.TopAbs_EDGE, TopAbs_ShapeEnum.TopAbs_FACE, edge_faces
+    )
 
     out: list[_RawCylinder] = []
     explorer = TopExp_Explorer(wrapped, TopAbs_ShapeEnum.TopAbs_FACE)
@@ -202,10 +260,39 @@ def _raw_cylinders(wrapped: Any) -> list[_RawCylinder]:
                     v_max=float(v_max),
                     angular_span=abs(float(u_max) - float(u_min)),
                     reversed_face=face.Orientation() == TopAbs_Orientation.TopAbs_REVERSED,
+                    tangent_edges=_tangent_edge_count(face, edge_faces),
                 )
             )
         explorer.Next()
     return out
+
+
+def _classify(raw: _RawCylinder) -> str:
+    """Hole, boss, fillet or round.
+
+    Concave or convex comes from face orientation, exactly as before: a
+    ``REVERSED`` cylindrical face has its outward normal pointing at the axis,
+    so the material is outside it.
+
+    Whether it is a *blend* rather than an opening needs two signals together,
+    and each alone is wrong on a real part in this repository.
+
+    Tangency alone fails: a circular flange's 80 mm outer cylinder is tangent to
+    the fillets above and below it, and it is plainly a boss.
+
+    Partial-ness alone fails: a keyed bore is interrupted by its keyway and
+    spans 325 degrees, and it is plainly a hole.
+
+    A blend is both. It wraps a corner rather than closing on itself, and it
+    meets what it blends smoothly. An L-bracket's 2 mm transition fillet spans
+    90 degrees with two tangent edges, and used to be reported as a 4 mm hole,
+    which made the bracket look like it had five holes when it has four.
+    """
+    concave = raw.reversed_face
+    complete = raw.angular_span >= (2 * math.pi) - FULL_TURN_TOLERANCE_RAD
+    if not complete and raw.tangent_edges:
+        return KIND_FILLET if concave else KIND_ROUND
+    return KIND_HOLE if concave else KIND_BOSS
 
 
 def _bbox_span_along(bbox: Sequence[float], direction: Sequence[float]) -> tuple[float, float]:
@@ -286,7 +373,7 @@ def features_of_shape(
         direction = _canonical_direction(raw.direction)
         anchor = _point_on_axis_nearest_origin(raw.location, direction)
         key = (
-            KIND_HOLE if raw.reversed_face else KIND_BOSS,
+            _classify(raw),
             _quantize(raw.radius, RADIUS_TOLERANCE_MM),
             tuple(_quantize(v, AXIS_TOLERANCE_MM) for v in direction),
             tuple(_quantize(v, AXIS_TOLERANCE_MM) for v in anchor),
@@ -371,6 +458,8 @@ def hole_patterns(
     """
     grouped: dict[tuple, list[CylindricalFeature]] = {}
     for feature in features:
+        # Holes only. A fillet running along four parallel corners would
+        # otherwise fit a circle and be announced as a bolt pattern.
         if feature.kind != KIND_HOLE:
             continue
         key = (
@@ -458,8 +547,10 @@ def inspect_features(
     from irincad.step_export_target import _resolve_spec_and_scene
     from irincad.step_targets import resolve_step_target
 
-    if kind not in {"all", KIND_HOLE, KIND_BOSS}:
-        raise ValueError(f"kind must be one of all, {KIND_HOLE}, {KIND_BOSS}")
+    if kind not in {"all", KIND_HOLE, KIND_BOSS, KIND_FILLET, KIND_ROUND}:
+        raise ValueError(
+            "kind must be one of all, " + ", ".join((KIND_HOLE, KIND_BOSS, KIND_FILLET, KIND_ROUND))
+        )
 
     target = resolve_step_target(entry)
     logger = CliLogger("cad")
@@ -509,6 +600,8 @@ def inspect_features(
         "occurrenceCount": len(occurrences),
         "holeCount": len(holes),
         "bossCount": sum(1 for feature in selected if feature.kind == KIND_BOSS),
+        "filletCount": sum(1 for feature in selected if feature.kind == KIND_FILLET),
+        "roundCount": sum(1 for feature in selected if feature.kind == KIND_ROUND),
         "features": [feature.as_dict() for feature in selected],
         "patterns": [pattern.as_dict() for pattern in patterns],
         "errors": [],

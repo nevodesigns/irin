@@ -43,6 +43,17 @@ has failed, and calling that inconclusive would let the worst outcome report as
 the mildest. Runs report the count on its own line, because forty parts built
 badly and none built at all are different results.
 
+### What the prompts say and what is checked
+
+A prompt may contain a requirement the vocabulary cannot yet check. The
+calibration block asks for a 2 mm top chamfer, and nothing measures chamfer
+size, so an agent that omitted it would still pass that task.
+
+Those clauses stay in the prompts. Removing them would make the requirements
+artificially thin and less like real engineering language, and the gap is
+better stated than hidden. Chamfer size, wall thickness and draft angle are the
+current ones.
+
 ### Repair sessions
 
 Generating correct geometry first time is one capability. Reading a failure

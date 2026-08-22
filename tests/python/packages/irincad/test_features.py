@@ -192,3 +192,92 @@ class RecognitionTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+@unittest.skipUnless(HAVE_CAD, "build123d is not installed")
+class BlendClassificationTests(unittest.TestCase):
+    """A fillet is not a hole, and telling them apart needs two signals.
+
+    Each signal alone is wrong on a real part in this repository. A flange's
+    outer cylinder is tangent to its edge fillets and is plainly a boss. A keyed
+    bore is interrupted by its keyway and is plainly a hole. A blend is both
+    partial and tangent.
+    """
+
+    @staticmethod
+    def _features(shape):
+        bbox = shape.bounding_box()
+        return features.features_of_shape(
+            shape.wrapped,
+            bbox=(bbox.min.X, bbox.min.Y, bbox.min.Z, bbox.max.X, bbox.max.Y, bbox.max.Z),
+        )
+
+    def test_a_concave_corner_fillet_is_not_counted_as_a_hole(self):
+        # This is the defect the classifier exists to fix: an L-bracket's 2 mm
+        # transition fillet was reported as a 4 mm hole, so the bracket looked
+        # like it had five holes when it has four.
+        from build123d import fillet as b_fillet
+
+        with BuildPart() as part:
+            Box(60.0, 40.0, 10.0, align=(Align.CENTER, Align.CENTER, Align.MIN))
+            Box(60.0, 10.0, 40.0, align=(Align.CENTER, Align.MIN, Align.MIN))
+        solid = part.part
+        edges = [
+            e for e in solid.edges()
+            if abs(e.length - 60.0) < 1e-6
+        ]
+        solid = b_fillet(edges[:1], radius=2.0) if edges else solid
+
+        found = self._features(solid)
+        self.assertEqual([f for f in found if f.kind == features.KIND_HOLE], [])
+        blends = [f for f in found if f.kind in features.BLEND_KINDS]
+        self.assertTrue(blends, "the filleted edge should be recognised as a blend")
+        self.assertAlmostEqual(blends[0].diameter / 2.0, 2.0, places=6)
+
+    def test_a_full_cylinder_stays_a_hole_even_when_tangent(self):
+        # A flange's outer cylinder is tangent to the fillets above and below it.
+        # Tangency alone must not reclassify it.
+        with BuildPart() as part:
+            Cylinder(radius=20.0, height=10.0, align=(Align.CENTER, Align.CENTER, Align.MIN))
+            with Locations(Location((0.0, 0.0, -1.0))):
+                Cylinder(radius=5.0, height=12.0,
+                         align=(Align.CENTER, Align.CENTER, Align.MIN), mode=Mode.SUBTRACT)
+        found = self._features(part.part)
+        kinds = {f.kind for f in found}
+        self.assertIn(features.KIND_HOLE, kinds)
+        self.assertIn(features.KIND_BOSS, kinds)
+        self.assertNotIn(features.KIND_FILLET, kinds)
+
+    def test_a_partial_cylinder_with_no_tangency_stays_a_hole(self):
+        # A keyed bore spans less than a full turn and is still a bore, because
+        # it meets its keyway walls at sharp edges.
+        with BuildPart() as part:
+            Cylinder(radius=20.0, height=20.0, align=(Align.CENTER, Align.CENTER, Align.MIN))
+            with Locations(Location((0.0, 0.0, -1.0))):
+                Cylinder(radius=8.0, height=22.0,
+                         align=(Align.CENTER, Align.CENTER, Align.MIN), mode=Mode.SUBTRACT)
+            with Locations(Location((0.0, 8.0, -1.0))):
+                Box(4.0, 4.0, 22.0, align=(Align.CENTER, Align.CENTER, Align.MIN),
+                    mode=Mode.SUBTRACT)
+        found = self._features(part.part)
+        bores = [f for f in found if f.kind == features.KIND_HOLE and abs(f.diameter - 16.0) < 0.01]
+        self.assertEqual(len(bores), 1, "a keyed bore is a hole, not a blend")
+        self.assertFalse(bores[0].complete, "and it is genuinely partial")
+
+    def test_blends_never_form_a_hole_pattern(self):
+        # Four fillets on parallel corners would otherwise fit a circle and be
+        # announced as a bolt pattern.
+        blend = features.CylindricalFeature(
+            ref="o1", name="p", kind=features.KIND_FILLET, diameter=4.0,
+            axis=(0.0, 0.0, 1.0), position=(10.0, 0.0, 0.0), depth=30.0,
+            through=False, complete=False, face_count=1,
+        )
+        others = [
+            features.CylindricalFeature(
+                ref="o1", name="p", kind=features.KIND_FILLET, diameter=4.0,
+                axis=(0.0, 0.0, 1.0), position=pos, depth=30.0,
+                through=False, complete=False, face_count=1,
+            )
+            for pos in ((-10.0, 0.0, 0.0), (0.0, 10.0, 0.0), (0.0, -10.0, 0.0))
+        ]
+        self.assertEqual(features.hole_patterns([blend, *others]), [])

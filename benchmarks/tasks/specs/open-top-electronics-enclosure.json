@@ -1,6 +1,6 @@
 {
   "id": "open-top-electronics-enclosure",
-  "prompt": "An open-top electronics enclosure, 100 mm by 70 mm on the outside and 30 mm tall, sitting on the XY plane. Put four 3 mm board-mounting holes in the floor and four 4 mm lid-fixing holes in the corner posts. None of them break through the outside.",
+  "prompt": "An open-top electronics enclosure, 100 mm by 70 mm on the outside and 30 mm tall, sitting on the XY plane. Walls and floor are 3 mm and the outer corners are rounded to a 2 mm radius. Stand four 10 mm bosses up from the floor, each drilled 3 mm and 8 mm deep to take a board screw.",
   "units": "mm",
   "assertions": [
     {
@@ -45,13 +45,20 @@
       "through": false
     },
     {
-      "kind": "hole_count",
+      "kind": "boss_count",
       "value": 4,
-      "diameter": 4.0,
+      "diameter": 10.0,
       "tolerance": {
         "symmetric": 0.05
-      },
-      "through": false
+      }
+    },
+    {
+      "kind": "fillet_count",
+      "value": 4,
+      "radius": 2.0,
+      "tolerance": {
+        "symmetric": 0.05
+      }
     }
   ]
 }

@@ -13,6 +13,7 @@ Conflating them would let a green regression run be reported as evidence that an
 agent builds correct geometry, which it is not.
 """
 
+from irinbench.compare import StoredResult, format_comparison, group_by_corpus, load_results
 from irinbench.corpus import (
     KIND_REGRESSION,
     KIND_TASK,
@@ -36,6 +37,7 @@ from irinbench.verify import VerifyResult, format_verification, verify_corpus
 
 __all__ = [
     "Corpus",
+    "StoredResult",
     "CorpusError",
     "DEFAULT_TOLERANCE_MM",
     "KINDS",
@@ -48,7 +50,10 @@ __all__ = [
     "derive_spec",
     "discover_generators",
     "failure_taxonomy",
+    "format_comparison",
     "format_report",
+    "group_by_corpus",
+    "load_results",
     "format_taxonomy",
     "format_session",
     "format_verification",

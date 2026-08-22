@@ -55,6 +55,9 @@ class RepairSession:
     corpus_root: str
     artifacts_dir: str
     root: Path
+    #: What produced the artifacts. Carried on every round, so a session that
+    #: outlives its terminal still names what it measured.
+    agent: str = ""
     rounds: list[RunResult] = field(default_factory=list)
     started_at: str = ""
 
@@ -155,6 +158,7 @@ class RepairSession:
             "session": self.session_id,
             "corpus": {"name": self.corpus_name, "root": self.corpus_root},
             "artifacts": self.artifacts_dir,
+            "agent": self.agent,
             "started_at": self.started_at,
             "rounds": self.round_count,
             "metrics": self.metrics(),
@@ -175,6 +179,7 @@ class RepairSession:
             corpus_root=payload["corpus"]["root"],
             artifacts_dir=payload["artifacts"],
             root=directory,
+            agent=payload.get("agent", ""),
             started_at=payload.get("started_at", ""),
         )
         # Round results are reloaded as recorded rather than recomputed: a
@@ -322,6 +327,7 @@ def new_session(
     corpus: Corpus,
     artifacts_dir: str | Path,
     root: str | Path,
+    agent: str = "",
 ) -> RepairSession:
     return RepairSession(
         session_id=session_id,
@@ -329,6 +335,7 @@ def new_session(
         corpus_root=str(corpus.root),
         artifacts_dir=str(artifacts_dir),
         root=Path(root),
+        agent=agent,
         started_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
     )
 
@@ -339,6 +346,7 @@ def format_session(session: RepairSession) -> str:
     total = metrics["tasks"] or 1
     lines = [
         f"IRIN repair session: {session.session_id}",
+        f"  agent  {session.agent or 'unnamed'}",
         f"  corpus {session.corpus_name}   {metrics['rounds']} round(s)   "
         f"{metrics['tasks']} task(s)",
         "",

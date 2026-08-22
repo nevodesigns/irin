@@ -17,6 +17,7 @@ from irineval import WorkerRunner, default_inspect_launcher
 
 from irinbench.corpus import KIND_TASK, Corpus, CorpusError, discover_generators
 from irinbench.derive import DEFAULT_TOLERANCE_MM, derive_corpus
+from irinbench.compare import format_comparison, load_results
 from irinbench.report import format_report, format_taxonomy
 from irinbench.verify import format_verification, verify_corpus
 from irinbench.repair import (
@@ -139,6 +140,17 @@ def cmd_run(args: argparse.Namespace) -> int:
         )
         return 2
 
+    if corpus.kind == KIND_TASK and not args.agent.strip():
+        # A task result is a claim about something. A file that cannot name what
+        # produced it is not comparable to any other result, and the omission is
+        # invisible once the terminal scrollback is gone.
+        _log(
+            "[irinbench] --agent is required for a task corpus. Name what produced "
+            "these artifacts, including model version and any tooling it was given, "
+            'for example --agent "gemini-2.5-pro + IRIN cad skill".'
+        )
+        return 2
+
     _log(f"[irinbench] running {len(corpus.specs)} spec(s) from {corpus.name}")
 
     def progress(result) -> None:
@@ -152,10 +164,13 @@ def cmd_run(args: argparse.Namespace) -> int:
                 artifacts_dir,
                 runner,
                 repo_root=args.repo_root,
+                agent=args.agent,
                 on_result=progress,
             )
         else:
-            run = run_corpus(corpus, runner, repo_root=args.repo_root, on_result=progress)
+            run = run_corpus(
+                corpus, runner, repo_root=args.repo_root, agent=args.agent, on_result=progress
+            )
 
     out = Path(args.repo_root) / (
         args.out or f"benchmarks/results/{corpus.name}-{run.started_at.replace(':', '')}.json"
@@ -175,13 +190,18 @@ def cmd_run(args: argparse.Namespace) -> int:
     return 0 if run.passing == run.total else 1
 
 
-def _score_round(args: argparse.Namespace, corpus, artifacts_dir):
+def _score_round(args: argparse.Namespace, corpus, artifacts_dir, agent=""):
     def progress(result) -> None:
         _log(f"[irinbench]   {result.summary_line()}")
 
     with _runner(args, cwd=artifacts_dir) as runner:
         return run_task_corpus(
-            corpus, artifacts_dir, runner, repo_root=args.repo_root, on_result=progress
+            corpus,
+            artifacts_dir,
+            runner,
+            repo_root=args.repo_root,
+            agent=agent,
+            on_result=progress,
         )
 
 
@@ -213,7 +233,7 @@ def cmd_repair(args: argparse.Namespace) -> int:
         except CorpusError as exc:
             _log(f"[irinbench] {exc}")
             return 2
-        session = new_session(args.session, corpus, artifacts_dir, session_root)
+        session = new_session(args.session, corpus, artifacts_dir, session_root, args.agent)
         _log(f"[irinbench] starting session {session.session_id!r}")
 
     try:
@@ -227,7 +247,7 @@ def cmd_repair(args: argparse.Namespace) -> int:
         return 2
 
     index = session.round_count
-    session.rounds.append(_score_round(args, corpus, artifacts_dir))
+    session.rounds.append(_score_round(args, corpus, artifacts_dir, session.agent))
     session.save()
     briefs = write_briefs(corpus, session, index)
 
@@ -344,6 +364,23 @@ def cmd_report(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_compare(args: argparse.Namespace) -> int:
+    """Put stored results side by side, within a corpus fingerprint."""
+    root = Path(args.repo_root) / args.results
+    if not root.is_dir():
+        _log(f"[irinbench] no results directory at {root}")
+        return 2
+
+    paths = sorted(root.glob("*.json"))
+    if not paths:
+        _log(f"[irinbench] no result files under {root}")
+        return 1
+
+    results = load_results(paths)
+    print(format_comparison(results))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="irinbench",
@@ -395,6 +432,15 @@ def build_parser() -> argparse.ArgumentParser:
     run = subparsers.add_parser("run", help="Evaluate a corpus and write a result file.")
     run.add_argument("--out", default=None, help="Result file path.")
     run.add_argument(
+        "--agent",
+        default="",
+        help=(
+            "What produced the artifacts, including model version and any tooling "
+            "it was given. Required for a task corpus: a result that cannot name "
+            "its agent is not comparable to any other result."
+        ),
+    )
+    run.add_argument(
         "--artifacts",
         default=None,
         help=(
@@ -433,6 +479,14 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Directory of the agent's work. Required to start a session.",
     )
+    repair.add_argument(
+        "--agent",
+        default="",
+        help=(
+            "What produced the artifacts. Recorded once when the session starts "
+            "and carried on every round."
+        ),
+    )
     add_common(repair, corpus_default="benchmarks/tasks")
     repair.set_defaults(handler=cmd_repair)
 
@@ -452,6 +506,23 @@ def build_parser() -> argparse.ArgumentParser:
     prompts.add_argument("--corpus", default="benchmarks/tasks", help="Corpus directory.")
     prompts.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
     prompts.set_defaults(handler=cmd_prompts)
+
+    compare = subparsers.add_parser(
+        "compare",
+        help="Put stored results side by side, grouped by corpus fingerprint.",
+        description=(
+            "One result is a measurement; several are a benchmark, but only if they "
+            "were scored against the same requirements. Results are grouped by corpus "
+            "fingerprint and compared only within a group, because a table lining up "
+            "runs against different corpora would manufacture a comparison that does "
+            "not exist."
+        ),
+    )
+    compare.add_argument("--repo-root", default=".", help="Workspace holding the results.")
+    compare.add_argument(
+        "--results", default="benchmarks/results", help="Directory of result JSON files."
+    )
+    compare.set_defaults(handler=cmd_compare)
 
     report = subparsers.add_parser("report", help="Summarize a stored result file.")
     report.add_argument("result", help="Path to a result JSON file.")

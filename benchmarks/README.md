@@ -47,7 +47,8 @@ propeller asserts it, because no blade may intersect another.
 ```bash
 python -m irinbench prompts                      # what you hand to the agent
 python -m irinbench verify                       # are the tasks themselves sound?
-python -m irinbench run --corpus benchmarks/tasks --artifacts <dir>
+python -m irinbench run --corpus benchmarks/tasks --artifacts <dir> --agent "<what produced them>"
+python -m irinbench compare                      # results side by side
 ```
 
 **[PROTOCOL.md](PROTOCOL.md) is the procedure for running this against your own
@@ -162,6 +163,10 @@ corpus is caught on load, rather than silently producing results that name the
 wrong requirements.
 
 Current: tasks `fbf3dfe06bbb` (28), regression `b38208d40d27` (57).
+
+`compare` groups stored results by fingerprint and compares only within a group.
+A run that records no agent falls back to its filename, which is worse than a
+name and far better than a blank row.
 
 ## regression
 

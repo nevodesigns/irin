@@ -4,6 +4,7 @@
     "kind": "regression",
     "fingerprint": "b38208d40d27d8b94d257cc74ec13be8db13b45b98484f7d32bbc4799b896712"
   },
+  "agent": "reference models (no agent)",
   "started_at": "2026-08-22T21:50:15+00:00",
   "duration_s": 860.503,
   "environment": {

@@ -32,6 +32,9 @@ class RunResult:
     corpus_kind: str
     results: tuple[SpecResult, ...]
     corpus_fingerprint: str = ""
+    #: Who or what produced the artifacts. Free text, because the thing being
+    #: measured may be a model, a model plus tooling, or a person.
+    agent: str = ""
     started_at: str = ""
     duration_s: float = 0.0
     environment: dict[str, Any] = field(default_factory=dict)
@@ -109,6 +112,7 @@ class RunResult:
                 "kind": self.corpus_kind,
                 "fingerprint": self.corpus_fingerprint,
             },
+            "agent": self.agent,
             "started_at": self.started_at,
             "duration_s": round(self.duration_s, 3),
             "environment": self.environment,
@@ -134,6 +138,10 @@ class RunResult:
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(json.dumps(self.to_dict(), indent=2) + "\n", encoding="utf-8")
         return p
+
+
+#: What a regression run measured, since no agent was involved.
+DERIVED_AGENT = "reference models (no agent)"
 
 
 def _environment(repo_root: Path) -> dict[str, Any]:
@@ -199,6 +207,7 @@ def run_task_corpus(
     runner: InspectRunner,
     *,
     repo_root: str | Path = ".",
+    agent: str = "",
     on_result: Callable[[SpecResult], None] | None = None,
 ) -> RunResult:
     """Score what an agent produced for each task in a task corpus.
@@ -245,6 +254,7 @@ def run_task_corpus(
         corpus_name=corpus.name,
         corpus_kind=corpus.kind,
         corpus_fingerprint=corpus.fingerprint(),
+        agent=agent or (DERIVED_AGENT if corpus.kind != 'task' else ''),
         results=tuple(results),
         started_at=started_at,
         duration_s=time.monotonic() - started,
@@ -257,6 +267,7 @@ def run_corpus(
     runner: InspectRunner,
     *,
     repo_root: str | Path = ".",
+    agent: str = "",
     on_result: Callable[[SpecResult], None] | None = None,
 ) -> RunResult:
     """Evaluate every spec in a corpus against its bound artifact."""
@@ -274,6 +285,7 @@ def run_corpus(
         corpus_name=corpus.name,
         corpus_kind=corpus.kind,
         corpus_fingerprint=corpus.fingerprint(),
+        agent=agent or (DERIVED_AGENT if corpus.kind != 'task' else ''),
         results=tuple(results),
         started_at=started_at,
         duration_s=time.monotonic() - started,

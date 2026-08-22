@@ -47,8 +47,16 @@ so state it when you publish.
 
 ```bash
 python -m irinbench run --corpus benchmarks/tasks --artifacts submission/ \
+  --agent "gemini-2.5-pro + IRIN cad skill" \
   --out benchmarks/results/<agent>-<date>.json
 ```
+
+`--agent` is required and free text. Name the model version and any tooling it
+was given, because those are different measurements: a model writing build123d
+from memory and the same model with the CAD skill installed are not the same
+system. A result that cannot name what produced it is not comparable to any
+other result, and the omission becomes invisible the moment the terminal
+scrollback is gone.
 
 `--artifacts` has no default on purpose. A task corpus knows its reference
 implementations, and defaulting to those would score the answer key: every task
@@ -67,6 +75,31 @@ whether it can use a measurement to become right, which for engineering work
 matters more. Briefs contain the requirement, the failed assertions with their
 measured values, and what already passes. They contain nothing from the
 reference.
+
+## 5. Compare it to other runs
+
+```bash
+python -m irinbench compare
+```
+
+Results are grouped by corpus fingerprint and compared only within a group.
+Two runs of "the tasks corpus" taken a month apart can describe entirely
+different sets of tasks, and a table lining them up would manufacture a
+comparison that does not exist. Runs with no fingerprint are listed apart as
+unquotable rather than folded in.
+
+## Installing the skill into the agent you are measuring
+
+If you are measuring an agent that supports skills, give it the same tooling a
+user would have:
+
+```bash
+scripts/install/install-skills.sh --agent gemini    # or codex, claude, universal
+```
+
+That symlinks this checkout's skills into the agent's skill directory, so the
+agent gets the CAD workflow, the inspection CLIs and the validation policy.
+State it when you publish: it is part of what the number describes.
 
 ## What to publish
 

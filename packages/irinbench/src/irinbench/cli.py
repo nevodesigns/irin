@@ -311,8 +311,30 @@ def cmd_report(args: argparse.Namespace) -> int:
     data = json.loads(path.read_text(encoding="utf-8"))
     totals = data.get("totals", {})
     rates = data.get("rates", {})
-    print(f"IRIN benchmark: {data.get('corpus', {}).get('name', '?')}")
+    corpus_block = data.get("corpus", {})
+
+    print(f"IRIN benchmark: {corpus_block.get('name', '?')}")
     print(f"  {data.get('started_at', '?')}  {data.get('duration_s', '?')}s")
+
+    # Provenance, stated every time. A stored number quoted without knowing which
+    # corpus produced it is not a result, and the difference is invisible unless
+    # something says so out loud.
+    recorded = corpus_block.get("fingerprint") or ""
+    if not recorded:
+        print("  corpus      UNKNOWN: this result predates corpus fingerprints and")
+        print("              cannot be tied to a set of requirements. Do not quote it.")
+    else:
+        print(f"  corpus      {recorded[:12]}")
+        try:
+            on_disk = Corpus.load(Path(args.repo_root) / args.corpus)
+        except CorpusError:
+            on_disk = None
+        if on_disk is not None:
+            if on_disk.fingerprint() == recorded:
+                print("              matches the corpus in this checkout")
+            else:
+                print(f"              does NOT match this checkout ({on_disk.short_fingerprint});")
+                print("              the two numbers describe different requirements")
     print(f"  specs       {totals.get('specs_passing')} / {totals.get('specs')}"
           f"   {rates.get('spec_pass_rate', 0) * 100:.1f}%")
     print(f"  assertions  {totals.get('assertions_passed')} / {totals.get('assertions')}"
@@ -433,6 +455,14 @@ def build_parser() -> argparse.ArgumentParser:
 
     report = subparsers.add_parser("report", help="Summarize a stored result file.")
     report.add_argument("result", help="Path to a result JSON file.")
+    # report needs a corpus only to answer "does this number describe the
+    # requirements in this checkout?", so it never runs an inspection.
+    report.add_argument("--repo-root", default=".", help="Workspace that owns the corpus.")
+    report.add_argument(
+        "--corpus",
+        default="benchmarks/regression",
+        help="Corpus to compare the result's fingerprint against.",
+    )
     report.set_defaults(handler=cmd_report)
 
     return parser

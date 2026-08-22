@@ -1,27 +1,29 @@
 {
   "corpus": {
     "name": "regression",
-    "kind": "regression"
+    "kind": "regression",
+    "fingerprint": "b38208d40d27d8b94d257cc74ec13be8db13b45b98484f7d32bbc4799b896712"
   },
-  "started_at": "2026-08-21T02:25:27+00:00",
-  "duration_s": 815.662,
+  "started_at": "2026-08-22T21:50:15+00:00",
+  "duration_s": 860.503,
   "environment": {
     "irin_version": "0.4.20",
     "python": "3.12.13",
     "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35"
   },
   "totals": {
-    "specs": 51,
-    "specs_passing": 46,
+    "specs": 57,
+    "missing_artifacts": 0,
+    "specs_passing": 52,
     "specs_with_defects": 2,
     "specs_with_undetermined": 3,
-    "assertions": 306,
-    "assertions_passed": 301,
+    "assertions": 342,
+    "assertions_passed": 337,
     "assertions_undetermined": 3
   },
   "rates": {
-    "spec_pass_rate": 0.901961,
-    "assertion_pass_rate": 0.98366
+    "spec_pass_rate": 0.912281,
+    "assertion_pass_rate": 0.98538
   },
   "results": [
     {
@@ -120,7 +122,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 6.7493
+      "duration_s": 9.9505
     },
     {
       "spec": "cam-follower-roller",
@@ -218,7 +220,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.4025
+      "duration_s": 3.1825
     },
     {
       "spec": "centrifugal-impeller",
@@ -316,7 +318,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 10.9675
+      "duration_s": 10.6267
     },
     {
       "spec": "circular-flange",
@@ -414,7 +416,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.7033
+      "duration_s": 4.0848
     },
     {
       "spec": "clevis-bracket-lightening-cutouts",
@@ -512,7 +514,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 4.8001
+      "duration_s": 4.5493
     },
     {
       "spec": "compact-humanoid",
@@ -610,7 +612,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 24.3556
+      "duration_s": 23.5675
     },
     {
       "spec": "cutaway-turbofan-engine",
@@ -708,7 +710,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 123.8962
+      "duration_s": 122.9708
     },
     {
       "spec": "cylindrical-cap",
@@ -806,7 +808,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 6.951
+      "duration_s": 6.0507
     },
     {
       "spec": "cylindrical-spacer-sleeve",
@@ -904,7 +906,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.9299
+      "duration_s": 3.4946
     },
     {
       "spec": "electronics-enclosure-base",
@@ -1002,7 +1004,105 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 4.2492
+      "duration_s": 3.4295
+    },
+    {
+      "spec": "flanged-shaft-coupling",
+      "entry": "models/step/parts/flanged_shaft_coupling.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/flanged_shaft_coupling.step.py",
+        "refs models/step/parts/flanged_shaft_coupling.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=49.968923000000004, y=49.98446, z=28.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 49.968923000000004,
+            "y": 49.98446,
+            "z": 28.0
+          },
+          "actual": {
+            "x": 49.968923000000004,
+            "y": 49.98446,
+            "z": 28.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-24.968923, -24.99223, 0.0] and max [25.0, 24.99223, 28.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -24.968923,
+              -24.99223,
+              0.0
+            ],
+            "max": [
+              25.0,
+              24.99223,
+              28.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -24.968923,
+              -24.99223,
+              0.0
+            ],
+            "max": [
+              25.0,
+              24.99223,
+              28.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 10 faces",
+          "passed": true,
+          "expected": 10,
+          "actual": 10,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 21 edges",
+          "passed": true,
+          "expected": 21,
+          "actual": 21,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.1802
     },
     {
       "spec": "flying-car",
@@ -1100,7 +1200,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 122.8377
+      "duration_s": 122.7184
     },
     {
       "spec": "flywheel-disk",
@@ -1198,7 +1298,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 6.1436
+      "duration_s": 6.559
     },
     {
       "spec": "gd01-mecha-concept",
@@ -1296,7 +1396,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 22.2493
+      "duration_s": 22.8599
     },
     {
       "spec": "gusset-plate",
@@ -1394,7 +1494,105 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.892
+      "duration_s": 3.6833
+    },
+    {
+      "spec": "headed-drill-bushing",
+      "entry": "models/step/parts/headed_drill_bushing.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/headed_drill_bushing.step.py",
+        "refs models/step/parts/headed_drill_bushing.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=23.985083, y=23.99254, z=24.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 23.985083,
+            "y": 23.99254,
+            "z": 24.0
+          },
+          "actual": {
+            "x": 23.985083,
+            "y": 23.99254,
+            "z": 24.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-11.985083, -11.99627, 0.0] and max [12.0, 11.99627, 24.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -11.985083,
+              -11.99627,
+              0.0
+            ],
+            "max": [
+              12.0,
+              11.99627,
+              24.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -11.985083,
+              -11.99627,
+              0.0
+            ],
+            "max": [
+              12.0,
+              11.99627,
+              24.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 6 faces",
+          "passed": true,
+          "expected": 6,
+          "actual": 6,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 9 edges",
+          "passed": true,
+          "expected": 9,
+          "actual": 9,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 4.1179
     },
     {
       "spec": "keyed-shaft-hub",
@@ -1492,7 +1690,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.7415
+      "duration_s": 4.3431
     },
     {
       "spec": "l-bracket",
@@ -1590,7 +1788,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.4609
+      "duration_s": 3.6034
     },
     {
       "spec": "lunar-mass-driver",
@@ -1688,7 +1886,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 7.875
+      "duration_s": 7.9248
     },
     {
       "spec": "lunar-rover-corner-assembly",
@@ -1786,7 +1984,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 6.9515
+      "duration_s": 7.507
     },
     {
       "spec": "mars-rover-concept",
@@ -1886,7 +2084,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 8.3346
+      "duration_s": 9.1846
     },
     {
       "spec": "mechanical-iris-aperture",
@@ -1984,7 +2182,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 46.6137
+      "duration_s": 52.7051
     },
     {
       "spec": "miniature-spiral-staircase",
@@ -2082,7 +2280,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 4.2215
+      "duration_s": 4.1244
     },
     {
       "spec": "motorcycle-helmet-fidget",
@@ -2180,7 +2378,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.8279
+      "duration_s": 3.6543
     },
     {
       "spec": "motorcycle-seat-fidget",
@@ -2278,7 +2476,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 4.3777
+      "duration_s": 4.0614
     },
     {
       "spec": "motorcycle-shock-absorber",
@@ -2376,7 +2574,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 19.9823
+      "duration_s": 18.7579
     },
     {
       "spec": "motorcycle-shock-fidget",
@@ -2474,7 +2672,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 9.7129
+      "duration_s": 9.2893
     },
     {
       "spec": "motorcycle-wheel-fidget",
@@ -2572,7 +2770,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.6272
+      "duration_s": 3.6297
     },
     {
       "spec": "mounting-plate",
@@ -2670,7 +2868,105 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.7481
+      "duration_s": 4.0849
+    },
+    {
+      "spec": "nema17-motor-mount",
+      "entry": "models/step/parts/nema17_motor_mount.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/nema17_motor_mount.step.py",
+        "refs models/step/parts/nema17_motor_mount.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=60.0, y=60.0, z=6.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 60.0,
+            "y": 60.0,
+            "z": 6.0
+          },
+          "actual": {
+            "x": 60.0,
+            "y": 60.0,
+            "z": 6.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-30.0, -30.0, 0.0] and max [30.0, 30.0, 6.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -30.0,
+              -30.0,
+              0.0
+            ],
+            "max": [
+              30.0,
+              30.0,
+              6.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -30.0,
+              -30.0,
+              0.0
+            ],
+            "max": [
+              30.0,
+              30.0,
+              6.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 15 faces",
+          "passed": true,
+          "expected": 15,
+          "actual": 15,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 39 edges",
+          "passed": true,
+          "expected": 39,
+          "actual": 39,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.327
     },
     {
       "spec": "open-top-electronics-enclosure",
@@ -2768,7 +3064,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.3605
+      "duration_s": 3.6488
     },
     {
       "spec": "pelican-riding-bicycle",
@@ -2868,7 +3164,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 5.4878
+      "duration_s": 5.7837
     },
     {
       "spec": "photo-coffee-cup",
@@ -2966,7 +3262,105 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 10.1059
+      "duration_s": 10.9222
+    },
+    {
+      "spec": "pillow-block",
+      "entry": "models/step/parts/pillow_block.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/pillow_block.step.py",
+        "refs models/step/parts/pillow_block.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=90.0, y=30.0, z=45.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 90.0,
+            "y": 30.0,
+            "z": 45.0
+          },
+          "actual": {
+            "x": 90.0,
+            "y": 30.0,
+            "z": 45.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-45.0, -15.0, 0.0] and max [45.0, 15.0, 45.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -45.0,
+              -15.0,
+              0.0
+            ],
+            "max": [
+              45.0,
+              15.0,
+              45.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -45.0,
+              -15.0,
+              0.0
+            ],
+            "max": [
+              45.0,
+              15.0,
+              45.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 11 faces",
+          "passed": true,
+          "expected": 11,
+          "actual": 11,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 27 edges",
+          "passed": true,
+          "expected": 27,
+          "actual": 27,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.505
     },
     {
       "spec": "planetary-gear-assembly",
@@ -3064,7 +3458,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 6.2366
+      "duration_s": 6.9417
     },
     {
       "spec": "planetary-gear-stage",
@@ -3162,7 +3556,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 6.1973
+      "duration_s": 6.3577
     },
     {
       "spec": "print-in-place-hinge",
@@ -3260,7 +3654,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.4869
+      "duration_s": 3.742
     },
     {
       "spec": "print-in-place-multi-pivot-phone-holder",
@@ -3358,7 +3752,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 4.4147
+      "duration_s": 4.528
     },
     {
       "spec": "pulley-wheel",
@@ -3456,7 +3850,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.512
+      "duration_s": 3.6027
     },
     {
       "spec": "radial-engine-cylinder",
@@ -3554,7 +3948,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 5.1511
+      "duration_s": 4.9412
     },
     {
       "spec": "rectangular-calibration-block",
@@ -3652,7 +4046,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.1281
+      "duration_s": 2.9353
     },
     {
       "spec": "rectangular-clamp-block",
@@ -3750,7 +4144,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.4079
+      "duration_s": 3.1173
     },
     {
       "spec": "research-humanoid",
@@ -3848,7 +4242,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 47.2889
+      "duration_s": 47.1902
     },
     {
       "spec": "retainer-plate",
@@ -3946,7 +4340,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.3482
+      "duration_s": 3.3622
     },
     {
       "spec": "robotic-hand-end-effector",
@@ -4044,7 +4438,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 22.2205
+      "duration_s": 24.2025
     },
     {
       "spec": "sculpted-humanoid",
@@ -4142,7 +4536,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 123.0592
+      "duration_s": 123.8171
     },
     {
       "spec": "shaft-collar",
@@ -4240,7 +4634,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 5.5064
+      "duration_s": 6.3415
     },
     {
       "spec": "six-axis-industrial-robot-arm",
@@ -4338,7 +4732,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 20.0457
+      "duration_s": 23.6142
     },
     {
       "spec": "six-blade-open-propeller",
@@ -4436,7 +4830,105 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 44.017
+      "duration_s": 49.122
+    },
+    {
+      "spec": "six-hole-spacer-ring",
+      "entry": "models/step/parts/six_hole_spacer_ring.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/six_hole_spacer_ring.step.py",
+        "refs models/step/parts/six_hole_spacer_ring.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=79.950277, y=79.975134, z=5.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 79.950277,
+            "y": 79.975134,
+            "z": 5.0
+          },
+          "actual": {
+            "x": 79.950277,
+            "y": 79.975134,
+            "z": 5.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-39.950277, -39.987567, 0.0] and max [40.0, 39.987567, 5.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -39.950277,
+              -39.987567,
+              0.0
+            ],
+            "max": [
+              40.0,
+              39.987567,
+              5.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -39.950277,
+              -39.987567,
+              0.0
+            ],
+            "max": [
+              40.0,
+              39.987567,
+              5.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 10 faces",
+          "passed": true,
+          "expected": 10,
+          "actual": 10,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 24 edges",
+          "passed": true,
+          "expected": 24,
+          "actual": 24,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.7833
     },
     {
       "spec": "small-enclosure-cover",
@@ -4534,7 +5026,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.4883
+      "duration_s": 3.6375
     },
     {
       "spec": "spiral-staircase",
@@ -4632,7 +5124,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.9877
+      "duration_s": 4.6478
     },
     {
       "spec": "spur-gear-blank",
@@ -4730,7 +5222,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.6111
+      "duration_s": 4.0931
     },
     {
       "spec": "square-mounting-block",
@@ -4828,7 +5320,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.1577
+      "duration_s": 3.8517
     },
     {
       "spec": "stepped-shaft-keyway",
@@ -4926,7 +5418,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.1548
+      "duration_s": 3.6997
     },
     {
       "spec": "t-slot-slider-block",
@@ -5024,7 +5516,105 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 3.6839
+      "duration_s": 4.3305
+    },
+    {
+      "spec": "vee-block",
+      "entry": "models/step/parts/vee_block.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate models/step/parts/vee_block.step.py",
+        "refs models/step/parts/vee_block.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=60.0, y=60.0, z=60.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 60.0,
+            "y": 60.0,
+            "z": 60.0
+          },
+          "actual": {
+            "x": 60.0,
+            "y": 60.0,
+            "z": 60.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-30.0, -30.0, 0.0] and max [30.0, 30.0, 60.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -30.0,
+              -30.0,
+              0.0
+            ],
+            "max": [
+              30.0,
+              30.0,
+              60.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -30.0,
+              -30.0,
+              0.0
+            ],
+            "max": [
+              30.0,
+              30.0,
+              60.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "face_count",
+          "description": "exactly 9 faces",
+          "passed": true,
+          "expected": 9,
+          "actual": 9,
+          "deviation": 0.0
+        },
+        {
+          "kind": "edge_count",
+          "description": "exactly 21 edges",
+          "passed": true,
+          "expected": 21,
+          "actual": 21,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.5584
     }
   ]
 }

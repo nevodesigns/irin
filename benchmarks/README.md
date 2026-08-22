@@ -106,7 +106,10 @@ That last list is not padding. A repair that fixes what was reported and breaks
 what was not is a real and common outcome, and a loop counting only recoveries
 would score it as progress. Regressions are tracked and reported per round.
 
-The result is the table this project was built to produce:
+The result is the table this project was built to produce. This one is a shape,
+not a result: it came from a deliberately broken submission against the corpus
+as it stood at 17 tasks, and it demonstrates that the loop works rather than
+measuring anyone's CAD ability.
 
 ```
   first pass                   3    17.6%
@@ -115,6 +118,10 @@ The result is the table this project was built to produce:
 
   final 29.4% (from 17.6% before any feedback)
 ```
+
+See [PROTOCOL.md](PROTOCOL.md) before producing one of these for real, and in
+particular the section on why the authors of this corpus should not publish the
+first number for it.
 
 Sessions live under `benchmarks/sessions/<id>/` and are not committed by
 default: a session is one agent's working history, not a published result.
@@ -128,7 +135,7 @@ a 60 mm bolt circle") or simply wrong about its own geometry, and nothing in the
 schema would object. An agent scored against such a task fails through no fault
 of its own, and the run reports an author's mistake as a model weakness.
 
-All 17 currently verify. Three did not when first written, and each failure was
+All 28 currently verify. Three did not when first written, and each failure was
 the spec being less precise than the part:
 
 - the clevis has two aligned 14 mm bores, one per ear, not one
@@ -167,19 +174,21 @@ agent can build the right thing from a requirement. That needs a `task` corpus,
 whose prompts and assertions are authored from intent rather than read off an
 answer, and nothing can derive one.
 
-### Current baseline: 46 of 51
+### Current baseline: 52 of 57
 
-The corpus grew to 57 when six references were added for new tasks. Re-deriving
-changed no existing baseline: all 51 earlier models measured byte-identical,
-which is worth knowing on its own, because it means the geometry pipeline is
-reproducible and a future difference is real drift rather than noise.
-
-`benchmarks/results/regression-baseline.json`, IRIN 0.4.20, 816 s.
+`benchmarks/results/regression-baseline.json`, IRIN 0.4.20, corpus
+`b38208d40d27`, 861 s.
 
 ```
-  specs         46 / 51    90.2%
-  assertions   301 / 306   98.4%
+  specs         52 / 57    91.2%
+  assertions   337 / 342   98.5%
 ```
+
+The corpus grew from 51 when six references were added for new tasks.
+Re-deriving changed no existing baseline: all 51 earlier models measured
+byte-identical, which is worth knowing on its own, because it means the geometry
+pipeline is reproducible and a future difference is real drift rather than
+noise. All six new models pass.
 
 The five that do not pass are known, and each is a finding rather than noise.
 

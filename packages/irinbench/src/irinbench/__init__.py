@@ -24,7 +24,15 @@ from irinbench.corpus import (
 )
 from irinbench.derive import DEFAULT_TOLERANCE_MM, derive_corpus, derive_spec
 from irinbench.report import failure_taxonomy, format_report, format_taxonomy
-from irinbench.run import RunResult, run_corpus
+from irinbench.repair import (
+    RepairSession,
+    format_session,
+    new_session,
+    repair_brief,
+    write_briefs,
+)
+from irinbench.run import RunResult, run_corpus, run_task_corpus
+from irinbench.verify import VerifyResult, format_verification, verify_corpus
 
 __all__ = [
     "Corpus",
@@ -33,13 +41,22 @@ __all__ = [
     "KINDS",
     "KIND_REGRESSION",
     "KIND_TASK",
+    "RepairSession",
     "RunResult",
+    "VerifyResult",
     "derive_corpus",
     "derive_spec",
     "discover_generators",
     "failure_taxonomy",
     "format_report",
     "format_taxonomy",
+    "format_session",
+    "format_verification",
+    "new_session",
+    "repair_brief",
     "run_corpus",
+    "run_task_corpus",
+    "verify_corpus",
+    "write_briefs",
     "spec_id_for",
 ]

@@ -23,6 +23,12 @@ geometry.
 Derived specs say so in their own prompt and notes, so the two cannot be
 confused later.
 
+## Three things it does
+
+**derive** measures existing models into a regression corpus.
+**verify** checks authored tasks against references that prove them buildable.
+**repair** runs a turn-based session and reports how much feedback helps.
+
 ## Use
 
 ```bash

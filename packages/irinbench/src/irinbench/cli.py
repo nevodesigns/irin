@@ -19,6 +19,12 @@ from irinbench.corpus import KIND_TASK, Corpus, CorpusError, discover_generators
 from irinbench.derive import DEFAULT_TOLERANCE_MM, derive_corpus
 from irinbench.report import format_report, format_taxonomy
 from irinbench.verify import format_verification, verify_corpus
+from irinbench.repair import (
+    RepairSession,
+    format_session,
+    new_session,
+    write_briefs,
+)
 from irinbench.run import run_corpus, run_task_corpus
 
 DEFAULT_ENTRY_ROOTS = ("models/step/parts", "models/step/assemblies")
@@ -169,6 +175,73 @@ def cmd_run(args: argparse.Namespace) -> int:
     return 0 if run.passing == run.total else 1
 
 
+def _score_round(args: argparse.Namespace, corpus, artifacts_dir):
+    def progress(result) -> None:
+        _log(f"[irinbench]   {result.summary_line()}")
+
+    with _runner(args, cwd=artifacts_dir) as runner:
+        return run_task_corpus(
+            corpus, artifacts_dir, runner, repo_root=args.repo_root, on_result=progress
+        )
+
+
+def cmd_repair(args: argparse.Namespace) -> int:
+    """Score a round of a repair session and write the briefs for the next one."""
+    sessions_root = Path(args.repo_root) / args.sessions
+    session_root = sessions_root / args.session
+
+    if session_root.exists():
+        try:
+            session = RepairSession.load(session_root)
+        except CorpusError as exc:
+            _log(f"[irinbench] {exc}")
+            return 2
+        corpus_root = Path(session.corpus_root)
+        artifacts_dir = Path(session.artifacts_dir)
+        _log(f"[irinbench] continuing session {session.session_id!r} at round {session.round_count}")
+    else:
+        if not args.artifacts:
+            _log(
+                "[irinbench] a new session needs --artifacts: the directory holding "
+                "what the agent produced."
+            )
+            return 2
+        corpus_root = Path(args.repo_root) / args.corpus
+        artifacts_dir = (Path(args.repo_root) / args.artifacts).resolve()
+        try:
+            corpus = Corpus.load(corpus_root)
+        except CorpusError as exc:
+            _log(f"[irinbench] {exc}")
+            return 2
+        session = new_session(args.session, corpus, artifacts_dir, session_root)
+        _log(f"[irinbench] starting session {session.session_id!r}")
+
+    try:
+        corpus = Corpus.load(corpus_root)
+    except CorpusError as exc:
+        _log(f"[irinbench] {exc}")
+        return 2
+
+    if corpus.kind != KIND_TASK:
+        _log(f"[irinbench] repair sessions run against a task corpus, not {corpus.kind}")
+        return 2
+
+    index = session.round_count
+    session.rounds.append(_score_round(args, corpus, artifacts_dir))
+    session.save()
+    briefs = write_briefs(corpus, session, index)
+
+    _log(f"[irinbench] wrote round {index} to {session.round_path(index)}")
+    if briefs:
+        _log(f"[irinbench] wrote {len(briefs)} repair brief(s) to {session.brief_dir(index)}")
+        _log("[irinbench] revise the artifacts, then run this command again to score the next round.")
+    else:
+        _log("[irinbench] every task passes; nothing left to repair.")
+
+    print(format_session(session))
+    return 0 if not session.unrecovered() else 1
+
+
 def cmd_report(args: argparse.Namespace) -> int:
     path = Path(args.result)
     if not path.exists():
@@ -257,6 +330,28 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_common(verify, corpus_default="benchmarks/tasks")
     verify.set_defaults(handler=cmd_verify)
+
+    repair = subparsers.add_parser(
+        "repair",
+        help="Score a round of a repair session and write briefs for the next.",
+        description=(
+            "Turn based. IRIN scores what the agent produced, writes one brief per "
+            "failing task, and stops. Revise the artifacts, then run the same command "
+            "again to score the next round. Briefs never contain anything from the "
+            "reference implementation."
+        ),
+    )
+    repair.add_argument("--session", required=True, help="Session id; names its directory.")
+    repair.add_argument(
+        "--sessions", default="benchmarks/sessions", help="Where sessions are kept."
+    )
+    repair.add_argument(
+        "--artifacts",
+        default=None,
+        help="Directory of the agent's work. Required to start a session.",
+    )
+    add_common(repair, corpus_default="benchmarks/tasks")
+    repair.set_defaults(handler=cmd_repair)
 
     report = subparsers.add_parser("report", help="Summarize a stored result file.")
     report.add_argument("result", help="Path to a result JSON file.")

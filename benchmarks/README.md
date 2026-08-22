@@ -32,6 +32,45 @@ has failed, and calling that inconclusive would let the worst outcome report as
 the mildest. Runs report the count on its own line, because forty parts built
 badly and none built at all are different results.
 
+### Repair sessions
+
+Generating correct geometry first time is one capability. Reading a failure
+report and fixing the thing is a different one, and for engineering work it is
+the more important of the two.
+
+```bash
+python -m irinbench repair --session <id> --artifacts <dir>   # round 0
+# revise the artifacts using the briefs, then:
+python -m irinbench repair --session <id>                     # round 1, 2, ...
+```
+
+Turn based, because IRIN cannot invoke arbitrary agents and tying the benchmark
+to whichever one it happened to support would make the number less portable, not
+more. IRIN scores, writes one brief per failing task, and stops. The operator's
+agent revises. IRIN scores again.
+
+A brief carries the original requirement, the assertions that failed with their
+measured values, and the assertions that already pass and must keep passing. It
+carries **nothing** from the reference implementation, because leaking it would
+turn repair into transcription.
+
+That last list is not padding. A repair that fixes what was reported and breaks
+what was not is a real and common outcome, and a loop counting only recoveries
+would score it as progress. Regressions are tracked and reported per round.
+
+The result is the table this project was built to produce:
+
+```
+  first pass                   3    17.6%
+  recovered after 1 repair     2    11.8%
+  unrecovered                 12    70.6%
+
+  final 29.4% (from 17.6% before any feedback)
+```
+
+Sessions live under `benchmarks/sessions/<id>/` and are not committed by
+default: a session is one agent's working history, not a published result.
+
 ### Verification
 
 Every task carries a reference implementation it was **not** derived from, and

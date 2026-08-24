@@ -157,6 +157,38 @@ In every case the prompt and the assertion were corrected together to describe
 what the part really is. Tuning numbers until a spec passes would defeat the
 purpose; the point is that verification found the imprecision.
 
+### Are the tasks strong enough to be worth failing?
+
+```bash
+python -m irinbench probe
+```
+
+`verify` proves a task is satisfiable and cannot see the opposite failure: a
+task whose assertions are loose enough that wrong answers pass. The reference
+passes either way, so verification is blind to it.
+
+`probe` asks the other half. Every task is given the most charitable wrong
+answer available, a sound solid with the reference's own bounding size and no
+features at all, and must reject it. A task that passes is checking extents and
+calling them a requirement.
+
+All 28 reject it, and the report names which assertion did the rejecting, so an
+author can see what is carrying each task:
+
+```
+  ok    nema17-motor-mount   rejected by bolt_circle, fillet_count, hole_count
+  ok    pillow-block         rejected by feature_spacing, hole_count
+  ok    vee-block            rejected by volume
+  ok    stepped-shaft-keyway rejected by boss_count
+```
+
+That last one is worth noticing. `stepped-shaft-keyway` is held up by a single
+assertion, so it is the thinnest task in the corpus and the first to strengthen.
+
+This exists because the vee block was vacuous and nothing caught it. A stand-in
+agent returned a plain cube and passed a task asking for a 90 degree groove. The
+accident that found it is not a method; this is.
+
 ### Every result names the corpus that produced it
 
 A corpus has a fingerprint: a content hash over its specs. It is recorded in the

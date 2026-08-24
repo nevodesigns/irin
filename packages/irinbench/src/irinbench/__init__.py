@@ -33,12 +33,15 @@ from irinbench.repair import (
     write_briefs,
 )
 from irinbench.run import RunResult, run_corpus, run_task_corpus
+from irinbench.probe import ProbeReport, ProbeResult, format_probe, probe_corpus
 from irinbench.submit import Submission, format_submissions, strip_fences, submit_corpus
 from irinbench.verify import VerifyResult, format_verification, verify_corpus
 
 __all__ = [
     "Corpus",
     "StoredResult",
+    "ProbeReport",
+    "ProbeResult",
     "Submission",
     "CorpusError",
     "DEFAULT_TOLERANCE_MM",
@@ -61,7 +64,9 @@ __all__ = [
     "format_verification",
     "new_session",
     "repair_brief",
+    "format_probe",
     "format_submissions",
+    "probe_corpus",
     "run_corpus",
     "strip_fences",
     "submit_corpus",

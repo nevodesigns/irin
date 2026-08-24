@@ -4,6 +4,17 @@ This is the procedure for producing a number that means something to somebody
 else. It is short, and every step in it exists because skipping it makes the
 result unquotable.
 
+## Before trusting the corpus
+
+```bash
+python -m irinbench verify    # is every task satisfiable?
+python -m irinbench probe     # does every task reject a wrong answer?
+```
+
+Both halves matter. A task nothing can satisfy fails an agent through no fault
+of its own; a task anything satisfies measures nothing. The corpus currently
+passes both.
+
 ## What is being measured
 
 Whether an agent can turn an engineering requirement into geometry that

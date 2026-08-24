@@ -27,6 +27,7 @@ from irinbench.repair import (
     write_briefs,
 )
 from irinbench.run import run_corpus, run_task_corpus
+from irinbench.probe import format_probe, probe_corpus
 from irinbench.submit import format_submissions, submit_corpus
 
 DEFAULT_ENTRY_ROOTS = ("models/step/parts", "models/step/assemblies")
@@ -365,6 +366,44 @@ def cmd_report(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_probe(args: argparse.Namespace) -> int:
+    """Give every task a plain box and report which ones fail to reject it."""
+    try:
+        corpus = Corpus.load(Path(args.repo_root) / args.corpus)
+    except CorpusError as exc:
+        _log(f"[irinbench] {exc}")
+        return 2
+
+    _log(f"[irinbench] probing {len(corpus.specs)} task(s) with a plain box")
+
+    def progress(result) -> None:
+        _log(f"[irinbench]   {result.summary_line()}")
+
+    def runner_for(directory):
+        return WorkerRunner(
+            cwd=directory,
+            inspect_launcher=args.inspect_launcher or default_inspect_launcher(args.repo_root),
+            python_executable=args.python,
+            timeout_s=args.timeout,
+        )
+
+    try:
+        with _runner(args) as reference_runner:
+            report = probe_corpus(
+                corpus,
+                runner_for,
+                reference_runner,
+                only=args.only or None,
+                on_result=progress,
+            )
+    except CorpusError as exc:
+        _log(f"[irinbench] {exc}")
+        return 2
+
+    print(format_probe(report))
+    return 0 if report.ok else 1
+
+
 def cmd_submit(args: argparse.Namespace) -> int:
     """Run an agent over the corpus and write one artifact per task."""
     try:
@@ -545,6 +584,21 @@ def build_parser() -> argparse.ArgumentParser:
     prompts.add_argument("--corpus", default="benchmarks/tasks", help="Corpus directory.")
     prompts.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
     prompts.set_defaults(handler=cmd_prompts)
+
+    probe = subparsers.add_parser(
+        "probe",
+        help="Check that each task rejects a plain box of the right size.",
+        description=(
+            "verify proves a task is satisfiable; this asks the other half. Every "
+            "task is given the most charitable wrong answer there is, a sound solid "
+            "with the reference's own bounding size and no features, and must reject "
+            "it. A task that passes is checking extents rather than the requirement "
+            "its prompt states."
+        ),
+    )
+    probe.add_argument("--only", nargs="*", default=None, help="Probe only these task ids.")
+    add_common(probe, corpus_default="benchmarks/tasks")
+    probe.set_defaults(handler=cmd_probe)
 
     submit = subparsers.add_parser(
         "submit",

@@ -773,8 +773,15 @@ def evaluate(
         except EvalError as exc:
             # Record the failure against the argv so every assertion depending on
             # it reports the same cause, instead of the first one swallowing it.
+            #
+            # Tagged as ours. An EvalError is raised by the runner, never by the
+            # CAD CLI: a timeout, a dead worker, an unparseable reply. Those are
+            # genuinely undetermined. An error the CLI itself reports is about
+            # the model, and must not be filed under the same heading.
             responses[argv] = InspectResponse(
-                ok=False, exit_code=1, result={"errors": [{"message": str(exc)}]}
+                ok=False,
+                exit_code=1,
+                result={"errors": [{"message": str(exc)}], "__irin_transport_error__": True},
             )
 
     results: list[AssertionResult] = []
@@ -791,11 +798,18 @@ def evaluate(
         # `errors` is the discriminator: populated means the command could not
         # answer the question, empty means it answered and the answer is bad.
         if response.error_messages():
-            code = (
-                FailureCode.SELECTOR_UNRESOLVED
-                if _selector_problem(response)
-                else FailureCode.INSPECTION_FAILED
-            )
+            if _selector_problem(response):
+                code = FailureCode.SELECTOR_UNRESOLVED
+            elif response.result.get("__irin_transport_error__"):
+                # IRIN could not ask. Undetermined.
+                code = FailureCode.INSPECTION_FAILED
+            else:
+                # The CAD CLI answered, and its answer is that this artifact
+                # cannot be built. The agent shipped source that does not run,
+                # which is a defect of the artifact. Filing it as undetermined
+                # would report an agent's broken output as IRIN's own outage and
+                # quietly flatter every model measured.
+                code = FailureCode.ARTIFACT_BROKEN
             results.append(_undetermined(assertion, code, response.first_error()))
             continue
 

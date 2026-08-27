@@ -91,6 +91,25 @@ The lesson generalises: when a prompt asks for material to be taken away or
 added and nothing measures it, assert `volume`. It is the only check that sees
 a change a bounding box cannot.
 
+### Partial runs and agents that cannot be reached
+
+A rate-limited API makes an interrupted run ordinary rather than exceptional.
+Two things keep that from being reported as model failure.
+
+`submit` separates an agent that **answered with nothing** from one that could
+not be **asked at all**. An adapter exits 75 for a rate limit, an expired key or
+a network failure, and those tasks are listed under NEVER ASKED with a warning
+against scoring the submission as it stands.
+
+`run --only <ids>` scores the tasks that were actually attempted, and marks the
+result partial. A partial result records how many tasks the corpus holds, prints
+a PARTIAL banner, and is labelled as such in `compare`, so it can never be read
+as a full run.
+
+Both exist because the first real agent run hit a free-tier quota two thirds of
+the way through. Without them, eight tasks the model never saw would have scored
+as eight failures by the model.
+
 ### Repair sessions
 
 Generating correct geometry first time is one capability. Reading a failure

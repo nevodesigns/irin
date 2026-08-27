@@ -29,6 +29,19 @@ from typing import Callable, Sequence
 
 from irinbench.corpus import KIND_TASK, Corpus, CorpusError
 
+#: An adapter exits with this when it could not ask the question at all: a rate
+#: limit, an expired key, a network failure. Distinct from answering with
+#: nothing, and the distinction is load-bearing.
+#:
+#: The first real agent run made the case. A free-tier key ran out of quota two
+#: thirds of the way through the corpus, and eight tasks came back empty. Scored
+#: as missing artifacts they would have read as eight failures by the model,
+#: when the truth was that the model was never asked. A benchmark that cannot
+#: tell those apart reports its own outage as somebody else's weakness.
+#:
+#: 75 is EX_TEMPFAIL, which is what it means.
+UNREACHABLE_EXIT = 75
+
 #: Agents very often wrap code in markdown fences even when told not to. That is
 #: a formatting habit rather than a modelling failure, so it is stripped instead
 #: of being scored as broken Python.
@@ -45,10 +58,17 @@ class Submission:
     exit_code: int
     bytes_written: int
     error: str = ""
+    #: The agent could not be asked, as opposed to answering with nothing.
+    unreachable: bool = False
 
     @property
     def ok(self) -> bool:
         return self.path is not None and self.bytes_written > 0
+
+    @property
+    def answered_empty(self) -> bool:
+        """Asked, and gave nothing back. A real result."""
+        return not self.ok and not self.unreachable
 
 
 def strip_fences(text: str) -> str:
@@ -106,6 +126,7 @@ def submit_corpus(
 
         elapsed = time.monotonic() - started
         source = strip_fences(stdout).strip()
+        unreachable = code == UNREACHABLE_EXIT
 
         path: Path | None = None
         written = 0
@@ -113,6 +134,8 @@ def submit_corpus(
             path = directory / f"{spec.id}.step.py"
             path.write_text(source + "\n", encoding="utf-8")
             written = len(source)
+        elif unreachable:
+            error = error or "agent could not be reached"
         elif not error:
             # Ran, returned nothing. Recorded as such rather than as a crash:
             # an agent that answers with silence has still answered.
@@ -125,6 +148,7 @@ def submit_corpus(
             exit_code=code,
             bytes_written=written,
             error=error,
+            unreachable=unreachable,
         )
         results.append(result)
         if on_result:
@@ -135,7 +159,8 @@ def submit_corpus(
 
 def format_submissions(results: Sequence[Submission], out_dir: str | Path) -> str:
     produced = [r for r in results if r.ok]
-    empty = [r for r in results if not r.ok]
+    empty = [r for r in results if r.answered_empty]
+    unreachable = [r for r in results if r.unreachable]
     total_seconds = sum(r.seconds for r in results)
 
     lines = [
@@ -143,12 +168,25 @@ def format_submissions(results: Sequence[Submission], out_dir: str | Path) -> st
         f"  {len(produced)} of {len(results)} task(s) produced an artifact"
         f"   {total_seconds:.0f}s total",
     ]
+
     if empty:
         lines.append("")
-        lines.append("  nothing written for:")
+        lines.append("  asked, answered with nothing:")
         for r in empty:
             lines.append(f"    {r.task_id}: {r.error or 'empty output'}")
         lines.append("")
         lines.append("  These are left missing on purpose. The run scores them as")
         lines.append("  artifact_missing, which is a failure and not an error.")
+
+    if unreachable:
+        lines.append("")
+        lines.append(f"  NEVER ASKED ({len(unreachable)}):")
+        for r in unreachable:
+            lines.append(f"    {r.task_id}: {r.error}")
+        lines.append("")
+        lines.append("  The agent could not be reached for these, so nothing about the")
+        lines.append("  model was measured. Scoring this submission would report the")
+        lines.append("  outage as failures by the agent. Finish these before quoting a")
+        lines.append("  number, or state that the corpus was only partly attempted.")
+
     return "\n".join(lines)

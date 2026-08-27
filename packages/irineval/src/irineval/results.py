@@ -29,6 +29,12 @@ class FailureCode(str, Enum):
     """
 
     GEOMETRY_INVALID = "geometry_invalid"
+
+    #: The source exists but does not produce geometry: it raised, or the kernel
+    #: refused what it built. A defect, not an unknown. The agent shipped
+    #: something that does not run, which is a failure of the artifact and not of
+    #: the tooling asked to measure it.
+    ARTIFACT_BROKEN = "artifact_broken"
     DIMENSION_OUT_OF_TOLERANCE = "dimension_out_of_tolerance"
     COUNT_MISMATCH = "count_mismatch"
     INTERFERENCE = "interference"
@@ -49,6 +55,7 @@ class FailureCode(str, Enum):
 DEFECT_CODES = frozenset(
     {
         FailureCode.GEOMETRY_INVALID,
+        FailureCode.ARTIFACT_BROKEN,
         FailureCode.DIMENSION_OUT_OF_TOLERANCE,
         FailureCode.COUNT_MISMATCH,
         FailureCode.INTERFERENCE,

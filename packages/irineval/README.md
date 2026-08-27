@@ -52,6 +52,17 @@ check.
 | defect | The assertion was checked and the artifact is wrong |
 | undetermined | IRIN could not establish the answer |
 
+The line between the last two runs by **origin**, not by whether an error
+occurred. An error the CAD CLI reports is about the model: source that raises,
+or geometry the kernel refuses, is `artifact_broken`, a defect. An error raised
+by IRIN's own runner, a timeout or a dead worker, is `inspection_failed` and
+undetermined.
+
+That distinction was wrong in the first version and the first real agent run
+found it. Seven of twenty submissions would not build, and every one was filed
+as a tooling failure, which reported the agent's broken output as IRIN's own
+outage and flattered the result.
+
 Undetermined is never counted as a pass and never counted as a model failure. An
 inspection that crashed, a selector that did not resolve, and a dimension that is
 genuinely 0.4 mm oversize are three different situations, and collapsing them

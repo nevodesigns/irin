@@ -34,6 +34,8 @@ class StoredResult:
     assertions_passed: int
     assertions_undetermined: int
     irin_version: str
+    corpus_tasks: int = 0
+    partial: bool = False
 
     @property
     def spec_rate(self) -> float:
@@ -45,7 +47,8 @@ class StoredResult:
 
     @property
     def label(self) -> str:
-        return self.agent or self.path.stem
+        name = self.agent or self.path.stem
+        return f"{name} (partial)" if self.partial else name
 
     @classmethod
     def load(cls, path: str | Path) -> "StoredResult":
@@ -73,6 +76,8 @@ class StoredResult:
             assertions_passed=int(totals.get("assertions_passed", 0)),
             assertions_undetermined=int(totals.get("assertions_undetermined", 0)),
             irin_version=data.get("environment", {}).get("irin_version", "?"),
+            corpus_tasks=int(corpus.get("tasks", 0)),
+            partial=bool(data.get("partial", False)),
         )
 
 

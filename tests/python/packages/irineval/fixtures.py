@@ -193,10 +193,17 @@ CLASHING_INTERFERE = {
     "errors": [],
 }
 
-INSPECTION_CRASHED = {
+#: The CAD CLI answered, and its answer is that the source does not run. The
+#: agent shipped something broken, which is a defect of the artifact.
+ARTIFACT_WILL_NOT_BUILD = {
     "ok": False,
     "errors": [{"message": "generation failed: ValueError: bad radius"}],
 }
+
+#: Kept under the old name so existing tests read naturally; it is the same
+#: payload, and the point of the rename is that it was never a crashed
+#: inspection at all.
+INSPECTION_CRASHED = ARTIFACT_WILL_NOT_BUILD
 
 
 # `inspect features models/step/parts/rectangular_calibration_block.step.py`

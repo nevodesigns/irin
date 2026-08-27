@@ -32,6 +32,9 @@ class RunResult:
     corpus_kind: str
     results: tuple[SpecResult, ...]
     corpus_fingerprint: str = ""
+    #: How many tasks the corpus holds. When this exceeds the number scored, the
+    #: run attempted only part of the corpus and is not comparable to a full one.
+    corpus_task_count: int = 0
     #: Who or what produced the artifacts. Free text, because the thing being
     #: measured may be a model, a model plus tooling, or a person.
     agent: str = ""
@@ -44,6 +47,17 @@ class RunResult:
     @property
     def total(self) -> int:
         return len(self.results)
+
+    @property
+    def partial(self) -> bool:
+        """Scored fewer tasks than the corpus holds.
+
+        A rate-limited API makes this ordinary rather than exceptional, and a
+        partial run is a real measurement of the tasks it covered. It is simply
+        not the same measurement as a full one, so it is marked rather than
+        averaged in.
+        """
+        return bool(self.corpus_task_count) and self.total < self.corpus_task_count
 
     @property
     def passing(self) -> int:
@@ -111,7 +125,9 @@ class RunResult:
                 "name": self.corpus_name,
                 "kind": self.corpus_kind,
                 "fingerprint": self.corpus_fingerprint,
+                "tasks": self.corpus_task_count,
             },
+            "partial": self.partial,
             "agent": self.agent,
             "started_at": self.started_at,
             "duration_s": round(self.duration_s, 3),
@@ -208,6 +224,7 @@ def run_task_corpus(
     *,
     repo_root: str | Path = ".",
     agent: str = "",
+    only: Sequence[str] | None = None,
     on_result: Callable[[SpecResult], None] | None = None,
 ) -> RunResult:
     """Score what an agent produced for each task in a task corpus.
@@ -239,7 +256,10 @@ def run_task_corpus(
     started_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
     results: list[SpecResult] = []
+    wanted = set(only) if only else None
     for spec in corpus.specs:
+        if wanted is not None and spec.id not in wanted:
+            continue
         artifact = resolve_artifact(artifacts_dir, spec.id)
         if artifact is None:
             expected = str(Path(artifacts_dir) / f"{spec.id}{ARTIFACT_SUFFIXES[0]}")
@@ -254,6 +274,7 @@ def run_task_corpus(
         corpus_name=corpus.name,
         corpus_kind=corpus.kind,
         corpus_fingerprint=corpus.fingerprint(),
+        corpus_task_count=len(corpus.specs),
         agent=agent or (DERIVED_AGENT if corpus.kind != 'task' else ''),
         results=tuple(results),
         started_at=started_at,
@@ -268,6 +289,7 @@ def run_corpus(
     *,
     repo_root: str | Path = ".",
     agent: str = "",
+    only: Sequence[str] | None = None,
     on_result: Callable[[SpecResult], None] | None = None,
 ) -> RunResult:
     """Evaluate every spec in a corpus against its bound artifact."""
@@ -275,7 +297,10 @@ def run_corpus(
     started_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
     results: list[SpecResult] = []
+    wanted = set(only) if only else None
     for spec in corpus.specs:
+        if wanted is not None and spec.id not in wanted:
+            continue
         result = evaluate(spec, corpus.entry_for(spec), runner)
         results.append(result)
         if on_result:
@@ -285,6 +310,7 @@ def run_corpus(
         corpus_name=corpus.name,
         corpus_kind=corpus.kind,
         corpus_fingerprint=corpus.fingerprint(),
+        corpus_task_count=len(corpus.specs),
         agent=agent or (DERIVED_AGENT if corpus.kind != 'task' else ''),
         results=tuple(results),
         started_at=started_at,

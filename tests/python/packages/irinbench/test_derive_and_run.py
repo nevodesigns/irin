@@ -218,20 +218,24 @@ class RunTests(unittest.TestCase):
         self.assertEqual(data["totals"]["specs"], 1)
         self.assertEqual(data["rates"]["spec_pass_rate"], 1.0)
 
-    def test_a_broken_inspection_is_counted_apart_from_a_defect(self):
+    def test_source_that_will_not_build_counts_as_a_defect(self):
+        # The CLI answered: this artifact cannot be built. That is the model's
+        # output being broken, not IRIN failing to measure it.
         runner = RecordedRunner(
             responses_from_pairs(
                 {
                     ("refs", WIDGET, "--facts"): WIDGET_FACTS,
-                    ("validate", WIDGET): {"ok": False, "errors": [{"message": "boom"}]},
+                    ("validate", WIDGET): {
+                        "ok": False,
+                        "errors": [{"message": "generation failed: ValueError: bad radius"}],
+                    },
                 }.items()
             )
         )
         spec = Spec(id="widget", prompt="baseline", assertions=(ValidSolid(), Size(x=40.0)))
         run = run_corpus(self._corpus(spec), runner)
-        self.assertEqual(run.with_defects, 0)
-        self.assertEqual(run.with_undetermined, 1)
-        self.assertEqual(run.assertions_undetermined, 1)
+        self.assertEqual(run.with_defects, 1)
+        self.assertEqual(run.with_undetermined, 0)
 
 
 class ReportTests(unittest.TestCase):
@@ -285,3 +289,57 @@ class ReportTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PartialRunTests(unittest.TestCase):
+    """Scoring part of a corpus, and saying so.
+
+    A rate-limited API makes this ordinary. The first real agent run stopped two
+    thirds of the way through when a free-tier key ran out, and the eight tasks
+    never asked would have scored as eight failures by the model.
+    """
+
+    def _corpus(self, *specs) -> Corpus:
+        # A regression corpus, because run_corpus scores models that exist.
+        return Corpus(
+            name="regression",
+            kind=KIND_REGRESSION,
+            root=Path("."),
+            entries={s.id: WIDGET for s in specs},
+            specs=specs,
+        )
+
+    def _runner(self):
+        return RecordedRunner(
+            responses_from_pairs(
+                {("refs", WIDGET, "--facts"): WIDGET_FACTS,
+                 ("validate", WIDGET): VALIDATE_OK}.items()
+            )
+        )
+
+    def test_a_full_run_is_not_marked_partial(self):
+        spec = Spec(id="widget", prompt="p", assertions=(Size(x=40.0),))
+        run = run_corpus(self._corpus(spec), self._runner())
+        self.assertFalse(run.partial)
+
+    def test_scoring_a_subset_marks_the_result_partial(self):
+        one = Spec(id="widget", prompt="p", assertions=(Size(x=40.0),))
+        two = Spec(id="other", prompt="p", assertions=(Size(x=40.0),))
+        run = run_corpus(self._corpus(one, two), self._runner(), only=["widget"])
+        self.assertEqual(run.total, 1)
+        self.assertEqual(run.corpus_task_count, 2)
+        self.assertTrue(run.partial)
+
+    def test_the_result_file_records_how_many_the_corpus_holds(self):
+        one = Spec(id="widget", prompt="p", assertions=(Size(x=40.0),))
+        two = Spec(id="other", prompt="p", assertions=(Size(x=40.0),))
+        data = run_corpus(self._corpus(one, two), self._runner(), only=["widget"]).to_dict()
+        self.assertEqual(data["corpus"]["tasks"], 2)
+        self.assertTrue(data["partial"])
+
+    def test_a_partial_run_says_so_in_its_report(self):
+        one = Spec(id="widget", prompt="p", assertions=(Size(x=40.0),))
+        two = Spec(id="other", prompt="p", assertions=(Size(x=40.0),))
+        text = format_report(run_corpus(self._corpus(one, two), self._runner(), only=["widget"]))
+        self.assertIn("PARTIAL", text)
+        self.assertIn("not comparable", text)

@@ -204,16 +204,17 @@ class FailingEvaluationTests(unittest.TestCase):
 
 
 class UndeterminedTests(unittest.TestCase):
-    def test_a_crashed_inspection_is_undetermined_not_a_defect(self):
-        # Scoring tooling breakage as model error makes the number move for the
-        # wrong reasons.
-        runner = block_runner({("validate", BLOCK): fixtures.INSPECTION_CRASHED})
+    def test_source_that_will_not_build_is_a_defect_not_an_unknown(self):
+        # The CLI answered: this artifact cannot be built. The agent shipped
+        # source that does not run. Filing that as undetermined would report an
+        # agent's broken output as IRIN's own outage and flatter every model.
+        runner = block_runner({("validate", BLOCK): fixtures.ARTIFACT_WILL_NOT_BUILD})
         result = evaluate(spec_with(ValidSolid()), BLOCK, runner)
         failure = result.failures()[0]
-        self.assertEqual(failure.code, FailureCode.INSPECTION_FAILED)
-        self.assertTrue(failure.undetermined)
-        self.assertEqual(result.defect_count, 0)
-        self.assertEqual(result.undetermined_count, 1)
+        self.assertEqual(failure.code, FailureCode.ARTIFACT_BROKEN)
+        self.assertFalse(failure.undetermined)
+        self.assertEqual(result.defect_count, 1)
+        self.assertEqual(result.undetermined_count, 0)
         self.assertIn("bad radius", failure.detail)
 
     def test_an_unresolved_selector_is_its_own_state(self):
@@ -224,8 +225,8 @@ class UndeterminedTests(unittest.TestCase):
         self.assertEqual(failure.code, FailureCode.SELECTOR_UNRESOLVED)
         self.assertIn("did not resolve", failure.detail)
 
-    def test_undetermined_never_counts_as_a_pass(self):
-        runner = block_runner({("validate", BLOCK): fixtures.INSPECTION_CRASHED})
+    def test_a_broken_artifact_never_counts_as_a_pass(self):
+        runner = block_runner({("validate", BLOCK): fixtures.ARTIFACT_WILL_NOT_BUILD})
         result = evaluate(spec_with(ValidSolid(), Size(x=100.0)), BLOCK, runner)
         self.assertFalse(result.ok)
         self.assertEqual(result.passed_count, 1)
@@ -238,10 +239,24 @@ class UndeterminedTests(unittest.TestCase):
         self.assertEqual(failure.code, FailureCode.INSPECTION_FAILED)
         self.assertIn("unexpected inspect output", failure.detail)
 
-    def test_one_broken_inspection_is_reported_against_every_assertion_using_it(self):
-        runner = block_runner({("refs", BLOCK, "--facts"): fixtures.INSPECTION_CRASHED})
+    def test_one_failure_is_reported_against_every_assertion_using_it(self):
+        runner = block_runner({("refs", BLOCK, "--facts"): fixtures.ARTIFACT_WILL_NOT_BUILD})
         result = evaluate(spec_with(Size(x=100.0), PartCount(value=1)), BLOCK, runner)
+        self.assertEqual(result.defect_count, 2)
+
+    def test_a_transport_failure_really_is_undetermined(self):
+        # The other half of the distinction. A timeout or a dead worker is IRIN
+        # failing to ask, and must not be scored against the artifact.
+        from irineval import EvalError
+
+        class DeadRunner:
+            def run(self, argv):
+                raise EvalError("inspect exceeded 120s; the worker was restarted")
+
+        result = evaluate(spec_with(ValidSolid(), Size(x=100.0)), BLOCK, DeadRunner())
         self.assertEqual(result.undetermined_count, 2)
+        self.assertEqual(result.defect_count, 0)
+        self.assertEqual(result.failures()[0].code, FailureCode.INSPECTION_FAILED)
 
 
 class AssemblyTests(unittest.TestCase):
@@ -359,8 +374,15 @@ class ReportingTests(unittest.TestCase):
         self.assertFalse(data["ok"])
 
     def test_the_summary_line_flags_undetermined_separately(self):
-        runner = block_runner({("validate", BLOCK): fixtures.INSPECTION_CRASHED})
-        line = evaluate(spec_with(ValidSolid(), Size(x=100.0)), BLOCK, runner).summary_line()
+        # Only a real transport failure is undetermined now; a build failure is
+        # a defect and reads as an ordinary miss.
+        from irineval import EvalError
+
+        class DeadRunner:
+            def run(self, argv):
+                raise EvalError("inspect exceeded 120s")
+
+        line = evaluate(spec_with(ValidSolid(), Size(x=100.0)), BLOCK, DeadRunner()).summary_line()
         self.assertIn("FAIL", line)
         self.assertIn("undetermined", line)
 

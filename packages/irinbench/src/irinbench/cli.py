@@ -167,11 +167,17 @@ def cmd_run(args: argparse.Namespace) -> int:
                 runner,
                 repo_root=args.repo_root,
                 agent=args.agent,
+                only=args.only or None,
                 on_result=progress,
             )
         else:
             run = run_corpus(
-                corpus, runner, repo_root=args.repo_root, agent=args.agent, on_result=progress
+                corpus,
+                runner,
+                repo_root=args.repo_root,
+                agent=args.agent,
+                only=args.only or None,
+                on_result=progress,
             )
 
     out = Path(args.repo_root) / (
@@ -528,6 +534,16 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     run.add_argument("--json", action="store_true", help="Print totals as JSON instead of a report.")
+    run.add_argument(
+        "--only",
+        nargs="*",
+        default=None,
+        help=(
+            "Score only these task ids. The result is marked partial and is not "
+            "comparable to a full run. Use when a submission covers part of the "
+            "corpus, for instance because a rate limit stopped it."
+        ),
+    )
     add_common(run, corpus_default="benchmarks/regression")
     run.set_defaults(handler=cmd_run)
 

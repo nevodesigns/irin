@@ -172,11 +172,15 @@ class RealEvaluationTests(unittest.TestCase):
         self.assertEqual(failure.code, FailureCode.SELECTOR_UNRESOLVED)
         self.assertEqual(result.defect_count, 0)
 
-    def test_a_missing_model_is_undetermined_for_every_assertion(self):
+    def test_a_model_that_is_not_there_is_a_defect_not_an_unknown(self):
+        # The CLI answered, and its answer is about the artifact: there is
+        # nothing to measure. IRIN's own machinery worked fine, so calling this
+        # undetermined would attribute the absence to the wrong party.
         spec = self._spec(ValidSolid(), Size(x=40.0))
         result = evaluate(spec, "models/absent.step.py", self.runner)
-        self.assertEqual(result.undetermined_count, 2)
-        self.assertEqual(result.defect_count, 0)
+        self.assertEqual(result.defect_count, 2)
+        self.assertEqual(result.undetermined_count, 0)
+        self.assertEqual(result.failures()[0].code, FailureCode.ARTIFACT_BROKEN)
 
     def test_the_recorded_facts_fixture_still_matches_the_live_shape(self):
         # Guards the unit tests: if the CLI changes these field names, the

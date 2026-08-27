@@ -91,6 +91,30 @@ The lesson generalises: when a prompt asks for material to be taken away or
 added and nothing measures it, assert `volume`. It is the only check that sees
 a change a bounding box cannot.
 
+### Published results
+
+```bash
+python -m irinbench compare
+```
+
+| agent | specs | assertions | note |
+| --- | --- | --- | --- |
+| qwen2.5-3b-instruct q4_K_M, local, no CAD skill | 0 / 28 | 0 / 149 | complete run |
+
+One result so far, and it is a floor rather than a contest. A 3B general model
+run locally through llama.cpp produced source for all 28 tasks and not one of
+them built: the taxonomy is 149 `artifact_broken` and zero undetermined. It
+writes `Cube` where build123d has `Box`, calls `.add()` on a builder, and
+returns the wrong thing from `gen_step()`. It does not know the library.
+
+That is worth having for three reasons. It establishes the bottom of the scale.
+It is a complete, uncontaminated run, which no API-tier result has managed yet.
+And it proves the harness stays upright on input that is wrong in every case,
+scoring 28 tasks in 1.2 seconds without a single undetermined assertion.
+
+The authors of this corpus have not published a result for it and should not.
+See [PROTOCOL.md](PROTOCOL.md).
+
 ### Partial runs and agents that cannot be reached
 
 A rate-limited API makes an interrupted run ordinary rather than exceptional.

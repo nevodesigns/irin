@@ -97,20 +97,24 @@ a change a bounding box cannot.
 python -m irinbench compare
 ```
 
-| agent | specs | assertions | note |
-| --- | --- | --- | --- |
-| qwen2.5-3b-instruct q4_K_M, local, no CAD skill | 0 / 28 | 0 / 149 | complete run |
+| agent | specs | assertions |
+| --- | --- | --- |
+| openai/gpt-oss-120b via Groq, no CAD skill | 3 / 28 (10.7%) | 20 / 149 (13.4%) |
+| qwen2.5-3b-instruct q4_K_M, local, no CAD skill | 0 / 28 | 0 / 149 |
 
-One result so far, and it is a floor rather than a contest. A 3B general model
-run locally through llama.cpp produced source for all 28 tasks and not one of
-them built: the taxonomy is 149 `artifact_broken` and zero undetermined. It
-writes `Cube` where build123d has `Box`, calls `.add()` on a builder, and
-returns the wrong thing from `gen_step()`. It does not know the library.
+Both are complete runs with no CAD skill installed, so they measure what a model
+knows about build123d unaided. Neither is flattering, and that is the point of
+having a scale that starts at the bottom.
 
-That is worth having for three reasons. It establishes the bottom of the scale.
-It is a complete, uncontaminated run, which no API-tier result has managed yet.
-And it proves the harness stays upright on input that is wrong in every case,
-scoring 28 tasks in 1.2 seconds without a single undetermined assertion.
+The 3B local model does not know the library at all: it writes `Cube` where
+build123d has `Box`, calls `.add()` on a builder, and returns the wrong thing
+from `gen_step()`. gpt-oss-120b writes recognisable build123d and still fails
+most tasks on real API mistakes, such as subtracting a shape from a builder.
+
+**The first version of both numbers was wrong**, and finding out why was worth
+more than the numbers. gpt-oss-120b originally scored 0/28 rather than 3/28,
+because one malformed file in the submission was hiding the other twenty-seven.
+See the note under `submit`.
 
 The authors of this corpus have not published a result for it and should not.
 See [PROTOCOL.md](PROTOCOL.md).

@@ -6,9 +6,9 @@
     "tasks": 28
   },
   "partial": false,
-  "agent": "qwen2.5-3b-instruct q4_K_M (llama.cpp, local, no CAD skill)",
-  "started_at": "2026-08-28T16:30:42+00:00",
-  "duration_s": 1.533,
+  "agent": "openai/gpt-oss-120b via Groq (no CAD skill)",
+  "started_at": "2026-08-28T16:30:30+00:00",
+  "duration_s": 11.364,
   "environment": {
     "irin_version": "0.4.20",
     "python": "3.12.13",
@@ -17,16 +17,16 @@
   "totals": {
     "specs": 28,
     "missing_artifacts": 0,
-    "specs_passing": 0,
-    "specs_with_defects": 28,
+    "specs_passing": 3,
+    "specs_with_defects": 25,
     "specs_with_undetermined": 0,
     "assertions": 149,
-    "assertions_passed": 0,
+    "assertions_passed": 20,
     "assertions_undetermined": 0
   },
   "rates": {
-    "spec_pass_rate": 0.0,
-    "assertion_pass_rate": 0.0
+    "spec_pass_rate": 0.107143,
+    "assertion_pass_rate": 0.134228
   },
   "results": [
     {
@@ -51,38 +51,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "BuildPart is a builder of Shapes and can't be combined. The object being constructed is accessible via the 'part' attribute."
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: BuildPart is a builder of Shapes and can't be combined. The object being constructed is accessible via the 'part' attribute..\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=100.0, y=60.0, z=20.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: BuildPart is a builder of Shapes and can't be combined. The object being constructed is accessible via the 'part' attribute..\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "bounds",
           "description": "bounding box corner min [-50.0, -30.0, 0.0] and max [50.0, 30.0, 20.0] (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: BuildPart is a builder of Shapes and can't be combined. The object being constructed is accessible via the 'part' attribute..\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 8 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "BuildPart is a builder of Shapes and can't be combined. The object being constructed is accessible via the 'part' attribute."
         }
       ],
-      "duration_s": 0.9991
+      "duration_s": 4.3804
     },
     {
       "spec": "circular-flange",
@@ -106,52 +106,52 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "'Location' object has no attribute 'rotate'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for circular-flange: 'Location' object has no attribute 'rotate'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 80 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "'Location' object has no attribute 'rotate'"
         },
         {
           "kind": "size",
           "description": "bounding box z=10.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for circular-flange: 'Location' object has no attribute 'rotate'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 30 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "'Location' object has no attribute 'rotate'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 6 holes of 6 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "'Location' object has no attribute 'rotate'"
         },
         {
           "kind": "bolt_circle",
           "description": "6 holes on a 60 mm bolt circle, each 6 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "'Location' object has no attribute 'rotate'"
         }
       ],
-      "duration_s": 0.0199
+      "duration_s": 0.2178
     },
     {
       "spec": "clevis-bracket",
@@ -175,48 +175,48 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Hole.__init__() got an unexpected keyword argument 'diameter'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for clevis-bracket: Hole.__init__() got an unexpected keyword argument 'diameter'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=120.0, y=60.0, z=52.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for clevis-bracket: Hole.__init__() got an unexpected keyword argument 'diameter'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 2 holes of 14 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Hole.__init__() got an unexpected keyword argument 'diameter'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 7 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Hole.__init__() got an unexpected keyword argument 'diameter'"
         }
       ],
-      "duration_s": 0.0204
+      "duration_s": 0.2039
     },
     {
       "spec": "cylindrical-spacer-sleeve",
       "entry": "cylindrical-spacer-sleeve.step.py",
-      "ok": false,
-      "score": 0.0,
+      "ok": true,
+      "score": 1.0,
       "counts": {
         "total": 5,
-        "passed": 0,
-        "defects": 5,
+        "passed": 5,
+        "defects": 0,
         "undetermined": 0
       },
       "inspections": [
@@ -228,40 +228,49 @@
         {
           "kind": "valid_solid",
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 30 mm",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
         },
         {
           "kind": "size",
           "description": "bounding box z=28.0 (mm)",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": {
+            "z": 28.0
+          },
+          "actual": {
+            "z": 28.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 10 mm, through",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
         }
       ],
-      "duration_s": 0.0192
+      "duration_s": 0.2856
     },
     {
       "spec": "flanged-shaft-coupling",
@@ -285,52 +294,52 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'diameter'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for flanged-shaft-coupling: Cylinder.__init__() got an unexpected keyword argument 'diameter'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=28.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for flanged-shaft-coupling: Cylinder.__init__() got an unexpected keyword argument 'diameter'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 50 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'diameter'"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 30 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'diameter'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 12 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'diameter'"
         },
         {
           "kind": "bolt_circle",
           "description": "4 holes on a 38 mm bolt circle, each 5.5 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'diameter'"
         }
       ],
-      "duration_s": 0.0197
+      "duration_s": 0.1728
     },
     {
       "spec": "flywheel-disk",
@@ -354,55 +363,55 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Unexpected keyword arguments: z"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for flywheel-disk: Unexpected keyword arguments: z.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 90 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Unexpected keyword arguments: z"
         },
         {
           "kind": "size",
           "description": "bounding box z=12.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for flywheel-disk: Unexpected keyword arguments: z.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 18 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Unexpected keyword arguments: z"
         },
         {
           "kind": "bolt_circle",
           "description": "6 holes on a 50 mm bolt circle, each 10 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Unexpected keyword arguments: z"
         }
       ],
-      "duration_s": 0.0184
+      "duration_s": 0.3066
     },
     {
       "spec": "headed-drill-bushing",
       "entry": "headed-drill-bushing.step.py",
-      "ok": false,
-      "score": 0.0,
+      "ok": true,
+      "score": 1.0,
       "counts": {
         "total": 6,
-        "passed": 0,
-        "defects": 6,
+        "passed": 6,
+        "defects": 0,
         "undetermined": 0
       },
       "inspections": [
@@ -414,47 +423,57 @@
         {
           "kind": "valid_solid",
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
         },
         {
           "kind": "size",
           "description": "bounding box z=24.0 (mm)",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": {
+            "z": 24.0
+          },
+          "actual": {
+            "z": 24.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 24 mm",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 16 mm",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 8 mm, through",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
         }
       ],
-      "duration_s": 0.0192
+      "duration_s": 0.468
     },
     {
       "spec": "keyed-shaft-hub",
@@ -478,45 +497,45 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "chamfer() missing 1 required positional argument: 'objects'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for keyed-shaft-hub: chamfer() missing 1 required positional argument: 'objects'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 54 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "chamfer() missing 1 required positional argument: 'objects'"
         },
         {
           "kind": "size",
           "description": "bounding box z=22.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for keyed-shaft-hub: chamfer() missing 1 required positional argument: 'objects'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 20 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "chamfer() missing 1 required positional argument: 'objects'"
         },
         {
           "kind": "bolt_circle",
           "description": "4 holes on a 39 mm bolt circle, each 5.5 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "chamfer() missing 1 required positional argument: 'objects'"
         }
       ],
-      "duration_s": 0.0179
+      "duration_s": 0.2045
     },
     {
       "spec": "l-bracket",
@@ -540,38 +559,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x7d9df2ac9e30>, <OCP.OCP.gp.gp_Vec object at 0x7d9df05ebeb0>, Vector(0.0174532925199, 0, 0)"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for l-bracket: SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x7d9df21cc030>, <OCP.OCP.gp.gp_Vec object at 0x7d9df060c870>, Vector(0.0174532925199, 0, 0).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=80.0, y=50.0, z=58.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for l-bracket: SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x7d9df21cc030>, <OCP.OCP.gp.gp_Vec object at 0x7d9df060c870>, Vector(0.0174532925199, 0, 0).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 6 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x7d9df072fbf0>, <OCP.OCP.gp.gp_Vec object at 0x7d9df07244b0>, Vector(0.0174532925199, 0, 0)"
         },
         {
           "kind": "fillet_count",
           "description": "exactly 1 blended edge of radius 2 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x7d9df072fbf0>, <OCP.OCP.gp.gp_Vec object at 0x7d9df07244b0>, Vector(0.0174532925199, 0, 0)"
         }
       ],
-      "duration_s": 0.0178
+      "duration_s": 0.2769
     },
     {
       "spec": "mechanical-iris-aperture",
@@ -595,31 +614,31 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "CAD STEP ref not found for 'mechanical-iris-aperture'."
         },
         {
           "kind": "bolt_circle",
           "description": "12 holes on a 124 mm bolt circle, each 3 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "CAD STEP ref not found for 'mechanical-iris-aperture'."
         },
         {
           "kind": "bolt_circle",
           "description": "6 holes on a 130 mm bolt circle, each 5 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "CAD STEP ref not found for 'mechanical-iris-aperture'."
         },
         {
           "kind": "size",
           "description": "bounding box z=20.1 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "CAD STEP ref not found for 'mechanical-iris-aperture'."
         }
       ],
-      "duration_s": 0.0196
+      "duration_s": 0.1558
     },
     {
       "spec": "motorcycle-shock-absorber",
@@ -643,48 +662,48 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "cannot import name 'Sweep' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "part_count",
           "description": "exactly 11 parts",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for motorcycle-shock-absorber: cannot import name 'Sweep' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=370.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for motorcycle-shock-absorber: cannot import name 'Sweep' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 2 holes of 12 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "cannot import name 'Sweep' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "feature_spacing",
           "description": "the two 12 mm bores are 340 mm apart",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "cannot import name 'Sweep' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         }
       ],
-      "duration_s": 0.0192
+      "duration_s": 0.1786
     },
     {
       "spec": "mounting-plate",
       "entry": "mounting-plate.step.py",
       "ok": false,
-      "score": 0.0,
+      "score": 0.666667,
       "counts": {
         "total": 6,
-        "passed": 0,
-        "defects": 6,
+        "passed": 4,
+        "defects": 2,
         "undetermined": 0
       },
       "inspections": [
@@ -696,47 +715,65 @@
         {
           "kind": "valid_solid",
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
         },
         {
           "kind": "size",
           "description": "bounding box x=100.0, y=70.0, z=8.0 (mm)",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 8.0
+          },
+          "actual": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 8.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 28 mm, through",
           "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "code": "count_mismatch",
+          "detail": "expected 1, found 0; the part has no holes at all",
+          "expected": 1,
+          "actual": 0,
+          "deviation": -1.0
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 5.5 mm, through",
           "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "code": "count_mismatch",
+          "detail": "expected 4, found 0; the part has no holes at all",
+          "expected": 4,
+          "actual": 0,
+          "deviation": -4.0
         },
         {
           "kind": "fillet_count",
           "description": "exactly 4 blended edges of radius 5 mm",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": 4,
+          "actual": 4,
+          "deviation": 0.0
         }
       ],
-      "duration_s": 0.0175
+      "duration_s": 0.4461
     },
     {
       "spec": "nema17-motor-mount",
@@ -760,52 +797,52 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "RectangleRounded.__init__() got an unexpected keyword argument 'center'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for nema17-motor-mount: RectangleRounded.__init__() got an unexpected keyword argument 'center'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=60.0, y=60.0, z=6.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for nema17-motor-mount: RectangleRounded.__init__() got an unexpected keyword argument 'center'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 22 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "RectangleRounded.__init__() got an unexpected keyword argument 'center'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 3.4 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "RectangleRounded.__init__() got an unexpected keyword argument 'center'"
         },
         {
           "kind": "bolt_circle",
           "description": "4 holes on a 43.841 mm bolt circle, each 3.4 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "RectangleRounded.__init__() got an unexpected keyword argument 'center'"
         },
         {
           "kind": "fillet_count",
           "description": "exactly 4 blended edges of radius 4 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "RectangleRounded.__init__() got an unexpected keyword argument 'center'"
         }
       ],
-      "duration_s": 0.0172
+      "duration_s": 0.1802
     },
     {
       "spec": "open-top-electronics-enclosure",
@@ -829,52 +866,52 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "cannot import name 'Fillet' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for open-top-electronics-enclosure: cannot import name 'Fillet' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=100.0, y=70.0, z=30.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for open-top-electronics-enclosure: cannot import name 'Fillet' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "bounds",
           "description": "bounding box corner min [-50.0, -35.0, 0.0] and max [50.0, 35.0, 30.0] (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for open-top-electronics-enclosure: cannot import name 'Fillet' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 3 mm, blind",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "cannot import name 'Fillet' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "boss_count",
           "description": "exactly 4 external cylinders of 10 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "cannot import name 'Fillet' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "fillet_count",
           "description": "exactly 4 blended edges of radius 2 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "cannot import name 'Fillet' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         }
       ],
-      "duration_s": 0.0174
+      "duration_s": 0.294
     },
     {
       "spec": "pillow-block",
@@ -898,55 +935,55 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'location'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for pillow-block: Cylinder.__init__() got an unexpected keyword argument 'location'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=90.0, y=30.0, z=45.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for pillow-block: Cylinder.__init__() got an unexpected keyword argument 'location'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 25 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'location'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 2 holes of 7 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'location'"
         },
         {
           "kind": "feature_spacing",
           "description": "the two 7 mm bores are 70 mm apart",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'location'"
         }
       ],
-      "duration_s": 0.0216
+      "duration_s": 0.1859
     },
     {
       "spec": "planetary-gear-stage",
       "entry": "planetary-gear-stage.step.py",
       "ok": false,
-      "score": 0.0,
+      "score": 0.2,
       "counts": {
         "total": 5,
-        "passed": 0,
-        "defects": 5,
+        "passed": 1,
+        "defects": 4,
         "undetermined": 0
       },
       "inspections": [
@@ -959,39 +996,54 @@
           "kind": "valid_solid",
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "code": "geometry_invalid",
+          "detail": "o1: selfIntersecting",
+          "expected": "every occurrence sound",
+          "actual": "1 of 1 occurrences unsound"
         },
         {
           "kind": "part_count",
           "description": "exactly 9 parts",
           "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "code": "count_mismatch",
+          "detail": "expected 9, found 1",
+          "expected": 9,
+          "actual": 1,
+          "deviation": -8.0
         },
         {
           "kind": "size",
           "description": "bounding box z=14.0 (mm)",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": {
+            "z": 14.0
+          },
+          "actual": {
+            "z": 14.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 10 mm",
           "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "code": "count_mismatch",
+          "detail": "expected 1, found 0; hole diameters present: [6.8, 200.0]",
+          "expected": 1,
+          "actual": 0,
+          "deviation": -1.0
         },
         {
           "kind": "bolt_circle",
           "description": "3 holes on a 84 mm bolt circle, each 6.8 mm",
           "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "code": "count_mismatch",
+          "detail": "found instead: 3 x d=6.8 on 168.0 mm (uniform)",
+          "expected": 84.0
         }
       ],
-      "duration_s": 0.0174
+      "duration_s": 0.9789
     },
     {
       "spec": "pulley-wheel",
@@ -1015,38 +1067,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine'])"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for pulley-wheel: BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine']).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=24.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for pulley-wheel: BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine']).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 2 external cylinders of 70 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine'])"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 10 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine'])"
         }
       ],
-      "duration_s": 0.0186
+      "duration_s": 0.2185
     },
     {
       "spec": "radial-engine-cylinder",
@@ -1070,24 +1122,24 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "cannot import name 'PolarArray' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for radial-engine-cylinder: cannot import name 'PolarArray' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "bolt_circle",
           "description": "6 holes on a 56 mm bolt circle, each 5 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "cannot import name 'PolarArray' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         }
       ],
-      "duration_s": 0.0171
+      "duration_s": 0.1832
     },
     {
       "spec": "retainer-plate",
@@ -1111,38 +1163,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "BuildPart doesn't have a Rectangle object or operation (Rectangle applies to ['BuildSketch'])"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for retainer-plate: BuildPart doesn't have a Rectangle object or operation (Rectangle applies to ['BuildSketch']).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=82.0, y=34.0, z=6.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for retainer-plate: BuildPart doesn't have a Rectangle object or operation (Rectangle applies to ['BuildSketch']).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 2 holes of 7 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "BuildPart doesn't have a Rectangle object or operation (Rectangle applies to ['BuildSketch'])"
         },
         {
           "kind": "hole_count",
           "description": "exactly 2 holes of 10 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "BuildPart doesn't have a Rectangle object or operation (Rectangle applies to ['BuildSketch'])"
         }
       ],
-      "duration_s": 0.0598
+      "duration_s": 0.1763
     },
     {
       "spec": "shaft-collar",
@@ -1166,45 +1218,45 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'centered'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for shaft-collar: Cylinder.__init__() got an unexpected keyword argument 'centered'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 42 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'centered'"
         },
         {
           "kind": "size",
           "description": "bounding box z=16.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for shaft-collar: Cylinder.__init__() got an unexpected keyword argument 'centered'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 20 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'centered'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 5 mm, blind",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'centered'"
         }
       ],
-      "duration_s": 0.0166
+      "duration_s": 0.1764
     },
     {
       "spec": "six-blade-propeller",
@@ -1228,31 +1280,31 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "name 'translate' is not defined"
         },
         {
           "kind": "part_count",
           "description": "exactly 7 parts",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for six-blade-propeller: name 'translate' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=30.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for six-blade-propeller: name 'translate' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "no_interference",
           "description": "no part overlaps another by more than 1.0 mm^3",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "name 'translate' is not defined"
         }
       ],
-      "duration_s": 0.0172
+      "duration_s": 0.1835
     },
     {
       "spec": "six-hole-spacer-ring",
@@ -1276,45 +1328,45 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "name 'cut' is not defined"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for six-hole-spacer-ring: name 'cut' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=5.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for six-hole-spacer-ring: name 'cut' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 80 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "name 'cut' is not defined"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 50 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "name 'cut' is not defined"
         },
         {
           "kind": "bolt_circle",
           "description": "6 holes on a 65 mm bolt circle, each 6 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "name 'cut' is not defined"
         }
       ],
-      "duration_s": 0.0168
+      "duration_s": 0.1984
     },
     {
       "spec": "spiral-staircase",
@@ -1338,31 +1390,31 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "name 'translate' is not defined"
         },
         {
           "kind": "part_count",
           "description": "exactly 43 parts",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for spiral-staircase: name 'translate' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=140.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for spiral-staircase: name 'translate' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 20 holes of 20 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "name 'translate' is not defined"
         }
       ],
-      "duration_s": 0.0178
+      "duration_s": 0.1921
     },
     {
       "spec": "spur-gear-blank",
@@ -1386,38 +1438,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "BuildPart doesn't have a Circle object or operation (Circle applies to ['BuildSketch'])"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for spur-gear-blank: BuildPart doesn't have a Circle object or operation (Circle applies to ['BuildSketch']).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=16.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for spur-gear-blank: BuildPart doesn't have a Circle object or operation (Circle applies to ['BuildSketch']).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 2 external cylinders of 34 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "BuildPart doesn't have a Circle object or operation (Circle applies to ['BuildSketch'])"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 18 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "BuildPart doesn't have a Circle object or operation (Circle applies to ['BuildSketch'])"
         }
       ],
-      "duration_s": 0.0165
+      "duration_s": 0.1771
     },
     {
       "spec": "square-mounting-block",
@@ -1441,38 +1493,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "'BuildPart' has no attribute 'hole'. Did you intend '<BuildPart>.part.hole'?"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for square-mounting-block: 'BuildPart' has no attribute 'hole'. Did you intend '<BuildPart>.part.hole'?.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=48.0, y=48.0, z=28.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for square-mounting-block: 'BuildPart' has no attribute 'hole'. Did you intend '<BuildPart>.part.hole'?.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 12 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "'BuildPart' has no attribute 'hole'. Did you intend '<BuildPart>.part.hole'?"
         },
         {
           "kind": "hole_count",
           "description": "exactly 2 holes of 5.5 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "'BuildPart' has no attribute 'hole'. Did you intend '<BuildPart>.part.hole'?"
         }
       ],
-      "duration_s": 0.0167
+      "duration_s": 0.1788
     },
     {
       "spec": "stepped-shaft-keyway",
@@ -1496,48 +1548,48 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "'tuple' object has no attribute 'wrapped'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for stepped-shaft-keyway: 'tuple' object has no attribute 'wrapped'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=120.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for stepped-shaft-keyway: 'tuple' object has no attribute 'wrapped'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 30 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "'tuple' object has no attribute 'wrapped'"
         },
         {
           "kind": "boss_count",
           "description": "exactly 2 external cylinders of 20 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "'tuple' object has no attribute 'wrapped'"
         }
       ],
-      "duration_s": 0.017
+      "duration_s": 0.1771
     },
     {
       "spec": "t-slot-slider-block",
       "entry": "t-slot-slider-block.step.py",
-      "ok": false,
-      "score": 0.0,
+      "ok": true,
+      "score": 1.0,
       "counts": {
         "total": 4,
-        "passed": 0,
-        "defects": 4,
+        "passed": 4,
+        "defects": 0,
         "undetermined": 0
       },
       "inspections": [
@@ -1549,33 +1601,45 @@
         {
           "kind": "valid_solid",
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
         },
         {
           "kind": "size",
           "description": "bounding box x=80.0, y=36.0, z=18.0 (mm)",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": {
+            "x": 80.0,
+            "y": 36.0,
+            "z": 18.0
+          },
+          "actual": {
+            "x": 80.0,
+            "y": 36.0,
+            "z": 18.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 4.5 mm, through",
-          "passed": false,
-          "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "passed": true,
+          "expected": 4,
+          "actual": 4,
+          "deviation": 0.0
         }
       ],
-      "duration_s": 0.0176
+      "duration_s": 0.3892
     },
     {
       "spec": "vee-block",
@@ -1599,38 +1663,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "type object 'Solid' has no attribute 'box'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for vee-block: type object 'Solid' has no attribute 'box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=60.0, y=60.0, z=60.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "Failed to regenerate GLB/topology artifact for vee-block: type object 'Solid' has no attribute 'box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 0 holes",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "type object 'Solid' has no attribute 'box'"
         },
         {
           "kind": "volume",
           "description": "192000 mm^3 of material",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to parse clevis-bracket.step.py"
+          "detail": "type object 'Solid' has no attribute 'box'"
         }
       ],
-      "duration_s": 0.0167
+      "duration_s": 0.1746
     }
   ]
 }

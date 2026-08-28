@@ -7,6 +7,7 @@ prove nothing about the only thing it does.
 
 import math
 import unittest
+from pathlib import Path
 
 try:
     from build123d import Align, Box, BuildPart, Cylinder, Location, Locations, Mode
@@ -281,3 +282,54 @@ class BlendClassificationTests(unittest.TestCase):
             for pos in ((-10.0, 0.0, 0.0), (0.0, 10.0, 0.0), (0.0, -10.0, 0.0))
         ]
         self.assertEqual(features.hole_patterns([blend, *others]), [])
+
+
+@unittest.skipUnless(HAVE_CAD, "build123d is not installed")
+class DiscoveryResilienceTests(unittest.TestCase):
+    """One malformed generator must not take its siblings down with it.
+
+    Found by a benchmark submission. A directory of otherwise valid models plus
+    one file whose gen_step() returned from inside a `with` block reported every
+    model as broken, each carrying the malformed file's error. The guard in
+    `_iter_python_sources` existed and caught only CadSourceError, while the
+    metadata parser raises bare ValueError, so the guard never fired.
+
+    The numbers that produced looked like a model that could do nothing.
+    """
+
+    def test_looking_up_one_target_survives_a_malformed_sibling(self):
+        """Lookup is resilient; enumeration is not, and both are right.
+
+        `iter_cad_sources` answers "what is in this tree", and a malformed
+        generator is part of that answer, so it raises and the author sees it.
+        A lookup answers "where is THIS target", and a different file being
+        broken is not an answer to that question.
+        """
+        import tempfile
+        from irincad import catalog
+
+        good = (
+            "from build123d import Align, Box, BuildPart\n\n"
+            "def gen_step():\n"
+            "    with BuildPart() as part:\n"
+            "        Box(40.0, 25.0, 8.0, align=(Align.CENTER, Align.CENTER, Align.MIN))\n"
+            "    return part.part\n"
+        )
+        # Valid Python, and the natural way to write it, but the metadata parser
+        # only inspects top-level statements so this return is invisible to it.
+        malformed = good.replace("    return part.part", "        return part.part")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "good.step.py").write_text(good, encoding="utf-8")
+            (root / "bad.step.py").write_text(malformed, encoding="utf-8")
+
+            found = catalog.find_source_by_path(root / "good.step.py", root)
+            self.assertIsNotNone(
+                found, "the valid generator was hidden by its malformed sibling"
+            )
+            self.assertEqual(Path(found.script_path).name, "good.step.py")
+
+            # Enumeration stays strict: the author is told the tree is broken.
+            with self.assertRaises((ValueError, catalog.CadSourceError)):
+                catalog.iter_cad_sources(root)

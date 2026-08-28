@@ -176,16 +176,60 @@ def source_by_cad_ref(root: Path | None = None) -> dict[str, CadSource]:
     return {source.cad_ref: source for source in iter_cad_sources(root)}
 
 
+def _sources_for_lookup(root: Path | None) -> tuple[CadSource, ...]:
+    """Discovery for "where is this one target", tolerant of unrelated breakage.
+
+    Enumeration and lookup ask different questions. `iter_cad_sources` answers
+    "what is in this tree", and a malformed generator is part of that answer, so
+    it raises and the author sees it. A lookup answers "where is THIS target",
+    and a different file being malformed is not an answer to that question.
+
+    Without the distinction, resolving one model scanned the directory, hit the
+    worst file in it, and reported that file's error for the target the caller
+    actually asked about. A directory of valid models plus one malformed sibling
+    reported every model as broken. On a benchmark submission that meant a
+    single bad file scored zero across the board, and the numbers read as a
+    model that could do nothing rather than a parser that gave up.
+    """
+    try:
+        return iter_cad_sources(root)
+    except (CadSourceError, ValueError) as exc:
+        print(f"[irincad] partial discovery, one or more sources are invalid: {exc}", file=sys.stderr)
+
+    sources: list[CadSource] = []
+    resolved_root = (Path.cwd() if root is None else Path(root)).resolve()
+    for script_path in _iter_paths(resolved_root, "*.py"):
+        if not _looks_like_generator_script(script_path):
+            continue
+        try:
+            source = _read_python_source(script_path)
+        except (CadSourceError, ValueError):
+            continue
+        if source is not None:
+            sources.append(source)
+    generated = {s.step_path.resolve() for s in sources if s.step_path is not None}
+    try:
+        sources.extend(_iter_step_sources(resolved_root, excluded_step_paths=generated))
+    except (CadSourceError, ValueError):
+        pass
+    return tuple(sources)
+
+
 def find_source_by_cad_ref(cad_ref: str, root: Path | None = None) -> CadSource | None:
     normalized = normalize_cad_ref(cad_ref)
-    return source_by_cad_ref(root).get(normalized or "")
+    if not normalized:
+        return None
+    for source in _sources_for_lookup(root):
+        if source.cad_ref == normalized:
+            return source
+    return None
 
 
 def find_source_by_source_ref(source_ref: str, root: Path | None = None) -> CadSource | None:
     normalized = normalize_source_ref(source_ref)
     if not normalized:
         return None
-    for source in iter_cad_sources(root):
+    for source in _sources_for_lookup(root):
         if source.source_ref == normalized:
             return source
     return None
@@ -193,7 +237,7 @@ def find_source_by_source_ref(source_ref: str, root: Path | None = None) -> CadS
 
 def find_source_by_path(path: Path, root: Path | None = None) -> CadSource | None:
     resolved_path = path.resolve()
-    for source in iter_cad_sources(root):
+    for source in _sources_for_lookup(root):
         paths = [
             source.source_path,
             source.step_path,

@@ -96,9 +96,6 @@ free tier allows 50 model requests a day, which is under two full passes of this
 28-task corpus. Plan a sweep of several models around that, or the later ones
 score nothing for a reason that has nothing to do with them.
 
-The steps below are the same thing done by hand, and are worth reading either
-way.
-
 ## 1. Take the prompts
 
 ```bash
@@ -150,7 +147,38 @@ scrollback is gone.
 implementations, and defaulting to those would score the answer key: every task
 would pass, and the run would report a perfect result measuring nothing.
 
-## 4. Measure repair, if you want the more interesting number
+## 4. Audit the result before you quote it
+
+```bash
+python -m irinbench audit benchmarks/results/<file>.json
+```
+
+This does not check whether a score is good. It checks whether the result looks
+like it came from measuring every task separately, which is a different question
+with a checkable answer.
+
+Every scoring bug this project has shipped was caught by someone finding a
+number surprising and going digging. That is not a detection mechanism, because
+it needs the number to be surprising. The worst case here was a 3B model scoring
+0/28 through a bug that fabricated all 149 of its failure reasons, and 0/28 is
+what a 3B model scoring honestly would have got. Nothing about it looked wrong.
+It came to light only because a larger model was broken by the same bug into a
+number that did look wrong.
+
+A harness that breaks tends to break identically everywhere, so it leaves a
+signature in how the failures are distributed even when the total is plausible.
+`audit` looks for that signature: one reason reported as every reason, too few
+distinct reasons for the number of failing specs, and a subset scored as though
+it were the whole corpus.
+
+Findings are suspicions, not verdicts. A model can genuinely fail every task the
+same way, and each finding says what would settle it. Confirm before discarding
+a number, and confirm before publishing one.
+
+The steps below are the same thing done by hand, and are worth reading either
+way.
+
+## 5. Measure repair, if you want the more interesting number
 
 ```bash
 python -m irinbench repair --session <id> --artifacts submission/
@@ -164,7 +192,7 @@ matters more. Briefs contain the requirement, the failed assertions with their
 measured values, and what already passes. They contain nothing from the
 reference.
 
-## 5. Compare it to other runs
+## 6. Compare it to other runs
 
 ```bash
 python -m irinbench compare

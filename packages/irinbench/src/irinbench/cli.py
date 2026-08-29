@@ -16,6 +16,7 @@ from pathlib import Path
 from irineval import WorkerRunner, default_inspect_launcher
 
 from irinbench.corpus import KIND_TASK, Corpus, CorpusError, discover_generators
+from irinbench.audit import audit_result, format_audit, load_result
 from irinbench.extract import extract_source
 from irinbench.derive import DEFAULT_TOLERANCE_MM, derive_corpus
 from irinbench.compare import format_comparison, load_results
@@ -339,6 +340,36 @@ def cmd_prompts(args: argparse.Namespace) -> int:
     out.append("-" * width)
     print("\n".join(out))
     return 0
+
+
+def cmd_audit(args: argparse.Namespace) -> int:
+    """Check stored results for the shape of a harness fault.
+
+    Not a check on whether a score is good. Every scoring bug here was caught by
+    someone finding a number surprising, and the worst one landed on a number
+    that was not.
+    """
+    paths = [Path(p) for p in args.results]
+    missing = [p for p in paths if not p.exists()]
+    if missing:
+        for path in missing:
+            _log(f"[irinbench] no such result file: {path}")
+        return 2
+
+    suspicious = 0
+    for path in paths:
+        try:
+            data = load_result(path)
+        except (ValueError, json.JSONDecodeError) as exc:
+            _log(f"[irinbench] {path.name}: {exc}")
+            return 2
+        findings = audit_result(data)
+        if findings:
+            suspicious += 1
+        print(format_audit(path, findings))
+        print()
+
+    return 1 if suspicious else 0
 
 
 def cmd_extract(args: argparse.Namespace) -> int:
@@ -737,6 +768,19 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     extract.set_defaults(handler=cmd_extract)
+
+    audit = subparsers.add_parser(
+        "audit",
+        help="Check stored results for the shape of a harness fault.",
+        description=(
+            "Looks at how a result's failures are distributed, not at whether the "
+            "score is good. A harness that breaks tends to break identically "
+            "everywhere, which leaves a signature even when the total looks "
+            "plausible. Exits 1 when something is worth confirming."
+        ),
+    )
+    audit.add_argument("results", nargs="+", help="Result JSON files to check.")
+    audit.set_defaults(handler=cmd_audit)
 
     return parser
 

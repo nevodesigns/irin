@@ -116,5 +116,58 @@ class EmptyTests(unittest.TestCase):
         self.assertEqual(extract_source("   \n\n  "), "")
 
 
+
+class DeclaredReasoningTests(unittest.TestCase):
+    """A model that writes <think> has told you where its answer is not.
+
+    This must run before anything else looks for code. A model reasoning about
+    build123d writes build123d inside the block: it drafts an import,
+    reconsiders, and writes a different one below. Searching the whole reply for
+    the first column-zero import finds the draft it threw away.
+    """
+
+    def test_the_answer_after_a_think_block_wins_over_the_draft_inside_it(self):
+        reply = (
+            "<think>\n"
+            "I should probably write:\n"
+            "from build123d import Cylinder\n"
+            "def gen_step(): return Cylinder(5, 10)\n"
+            "No, wait. The task wants a box.\n"
+            "</think>\n"
+            "\n"
+            f"{CODE}"
+        )
+        out = extract_source(reply)
+        self.assertEqual(out, CODE)
+        self.assertNotIn("Cylinder", out)
+        self.assertNotIn("</think>", out)
+
+    def test_a_fenced_answer_after_a_think_block(self):
+        self.assertEqual(
+            extract_source(f"<think>\nsome deliberation\n</think>\n```python\n{CODE}\n```"),
+            CODE,
+        )
+
+    def test_the_last_close_wins_when_there_are_several(self):
+        reply = f"<think>a</think>\nhmm\n<think>b</think>\n{CODE}"
+        self.assertEqual(extract_source(reply), CODE)
+
+    def test_an_unclosed_block_means_it_never_stopped_thinking(self):
+        # Cut off at the budget mid-thought. There is no answer after it, and
+        # handing back half a thought would score deliberation as an attempt.
+        self.assertEqual(
+            extract_source("<think>\nThe base is 40 mm. Let me reconsider the ears"),
+            "",
+        )
+
+    def test_the_alternative_spellings(self):
+        for tag in ("thinking", "reasoning"):
+            with self.subTest(tag=tag):
+                self.assertEqual(extract_source(f"<{tag}>x</{tag}>\n{CODE}"), CODE)
+
+    def test_a_reply_with_no_tags_is_untouched(self):
+        self.assertEqual(extract_source(CODE), CODE)
+
+
 if __name__ == "__main__":
     unittest.main()

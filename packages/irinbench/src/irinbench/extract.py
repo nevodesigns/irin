@@ -31,6 +31,10 @@ _FENCE = re.compile(r"^[ \t]*```[^\n]*$", re.MULTILINE)
 _PAIRED = re.compile(r"```[ \t]*(?:python|py)?[ \t]*\n(.*?)^[ \t]*```", re.DOTALL | re.MULTILINE)
 #: A line that can only be the start of Python source, at column zero.
 _CODE_START = re.compile(r"^(?:import[ \t]|from[ \t]+\S+[ \t]+import\b)", re.MULTILINE)
+#: Reasoning channels a model marks off explicitly. Everything a model puts
+#: inside one of these is by its own declaration not the answer.
+_THINK_CLOSE = re.compile(r"</(?:think|thinking|reasoning)>", re.IGNORECASE)
+_THINK_OPEN = re.compile(r"<(?:think|thinking|reasoning)>", re.IGNORECASE)
 
 
 def extract_source(raw: str) -> str:
@@ -47,7 +51,7 @@ def extract_source(raw: str) -> str:
        lines of deliberation and then a correct generator; the whole reply was
        written to disk and the task scored zero.
     """
-    text = raw.strip()
+    text = _drop_declared_reasoning(raw.strip())
     if not text:
         return ""
 
@@ -72,6 +76,30 @@ def extract_source(raw: str) -> str:
         return after if len(after) > len(before) else before
 
     return _strip_leading_prose(text)
+
+
+def _drop_declared_reasoning(text: str) -> str:
+    """Remove a reasoning channel the model marked off itself.
+
+    A model that writes ``<think>`` has told you where its answer is not. This
+    has to run before anything else looks for code, because a model reasoning
+    about build123d writes build123d inside the block: it drafts an import,
+    reconsiders, and writes a different one below. Searching the whole reply for
+    the first import at column zero finds the draft it discarded, and returns
+    that plus the rest of the deliberation.
+
+    An unclosed tag means the reply was cut off while still thinking. There is
+    no answer after it, so the whole thing is reasoning and the caller should
+    see it as such rather than be handed half a thought.
+    """
+    closes = list(_THINK_CLOSE.finditer(text))
+    if closes:
+        # The last close, not the first: nested or repeated blocks both end
+        # before the answer starts.
+        return text[closes[-1].end() :].strip()
+    if _THINK_OPEN.search(text):
+        return ""
+    return text
 
 
 def _looks_like_source(text: str) -> bool:

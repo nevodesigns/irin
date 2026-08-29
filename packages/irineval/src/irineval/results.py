@@ -16,6 +16,7 @@ fastest way to make a number meaningless.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
@@ -72,6 +73,29 @@ UNDETERMINED_CODES = frozenset(
 )
 
 
+_ADDRESS = re.compile(r"0x[0-9a-fA-F]{6,}")
+
+
+def _stable_detail(detail: str) -> str:
+    """Strip the parts of an error message that change between identical runs.
+
+    OCP renders its C++ objects with their memory address, so a failure detail
+    reads ``<OCP.gp_Trsf object at 0x7d9df072fbf0>``. The address is different on
+    every run of the same code against the same model, which means two results
+    that agree on every measurement still differ byte for byte.
+
+    That matters more than it sounds. A stored result is meant to be diffable: an
+    author re-scoring a submission wants the diff to show what changed about the
+    answer, and a diff full of addresses hides a real change inside noise. It
+    also breaks the claim the regression corpus rests on, that re-deriving an
+    unchanged model reproduces its baseline exactly.
+
+    The address carries no information for the reader. The type and the call that
+    failed carry all of it, and both survive.
+    """
+    return _ADDRESS.sub("0x...", detail)
+
+
 @dataclass(frozen=True)
 class AssertionResult:
     """One assertion, checked."""
@@ -87,6 +111,10 @@ class AssertionResult:
     deviation: float | None = None
     #: Signed distance outside the tolerance band. Zero when inside it.
     excess: float | None = None
+
+    def __post_init__(self) -> None:
+        if self.detail:
+            object.__setattr__(self, "detail", _stable_detail(self.detail))
 
     @property
     def undetermined(self) -> bool:

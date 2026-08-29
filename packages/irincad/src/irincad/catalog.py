@@ -193,7 +193,14 @@ def _sources_for_lookup(root: Path | None) -> tuple[CadSource, ...]:
     """
     try:
         return iter_cad_sources(root)
-    except (CadSourceError, ValueError) as exc:
+    except Exception as exc:  # noqa: BLE001 - see below
+        # Deliberately every exception, not a curated list. This walk reads
+        # arbitrary third-party files, and the failure modes are open-ended:
+        # CadSourceError for an invalid source, ValueError for malformed
+        # metadata, RuntimeError for a file that will not even parse. Two
+        # separate poisoning bugs were shipped by naming types here and missing
+        # one, so the rule is stated by intent instead: nothing wrong with some
+        # other file may decide the answer to "where is this target".
         print(f"[irincad] partial discovery, one or more sources are invalid: {exc}", file=sys.stderr)
 
     sources: list[CadSource] = []
@@ -203,14 +210,14 @@ def _sources_for_lookup(root: Path | None) -> tuple[CadSource, ...]:
             continue
         try:
             source = _read_python_source(script_path)
-        except (CadSourceError, ValueError):
+        except Exception:  # noqa: BLE001 - one unreadable file must not hide the rest
             continue
         if source is not None:
             sources.append(source)
     generated = {s.step_path.resolve() for s in sources if s.step_path is not None}
     try:
         sources.extend(_iter_step_sources(resolved_root, excluded_step_paths=generated))
-    except (CadSourceError, ValueError):
+    except Exception:  # noqa: BLE001 - same rule for the STEP half of the walk
         pass
     return tuple(sources)
 

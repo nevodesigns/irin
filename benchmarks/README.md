@@ -99,22 +99,44 @@ python -m irinbench compare
 
 | agent | specs | assertions |
 | --- | --- | --- |
+| nvidia/nemotron-3-super-120b-a12b via OpenRouter, no CAD skill | 4 / 28 (14.3%) | 38 / 149 (25.5%) |
 | openai/gpt-oss-120b via Groq, no CAD skill | 3 / 28 (10.7%) | 20 / 149 (13.4%) |
 | qwen2.5-3b-instruct q4_K_M, local, no CAD skill | 0 / 28 | 0 / 149 |
 
-Both are complete runs with no CAD skill installed, so they measure what a model
-knows about build123d unaided. Neither is flattering, and that is the point of
+All three are complete runs with no CAD skill installed, so they measure what a
+model knows about build123d unaided. None is flattering, and that is the point of
 having a scale that starts at the bottom.
 
-The 3B local model does not know the library at all: it writes `Cube` where
-build123d has `Box`, calls `.add()` on a builder, and returns the wrong thing
-from `gen_step()`. gpt-oss-120b writes recognisable build123d and still fails
-most tasks on real API mistakes, such as subtracting a shape from a builder.
+The 3B local model does not know the library at all: it writes `make_box` where
+build123d has `Box`, passes `size=` to `Box`, and tries to import a private
+module. The two 120B models write recognisable build123d and still fail most
+tasks on real API mistakes: `Cylinder(diameter=...)` where the parameter is
+`radius`, `.rotate()` on a `Location`, `.z` on a `Vector`.
 
-**The first version of both numbers was wrong**, and finding out why was worth
-more than the numbers. gpt-oss-120b originally scored 0/28 rather than 3/28,
-because one malformed file in the submission was hiding the other twenty-seven.
-See the note under `submit`.
+Every one of the three is held up by the same thing, and it is not reasoning
+about geometry. It is knowing the actual signatures of a library. That gap is
+what a CAD skill closes, and measuring the unaided floor first is what makes the
+aided number mean something later.
+
+Nemotron also failed three tasks by returning prose instead of code. It wrote out
+its reasoning, the file did not parse, and those three score as defects. That is
+its own result and not an adapter fault: the same adapter carried its other
+twenty-five answers.
+
+**The first version of every number here was scored against a bug**, and finding
+out why was worth more than the numbers. One malformed file in a submission was
+hiding all the others, so gpt-oss-120b first scored 0/28 rather than 3/28, and
+Nemotron 0/28 rather than 4/28.
+
+The local model is the case worth studying. It was poisoned in exactly the same
+way, and its number did not move: 0/28 before, 0/28 after. Every one of its 149
+assertions had carried the same fabricated reason, and the total those reasons
+added up to happened to be right. Had that been the only run, nothing about the
+output would have looked wrong, and the bug would still be here.
+
+A wrong number announces itself eventually. A right number reached the wrong way
+does not, which is why the fix is enforced by tests rather than by having
+noticed. See the note under `submit`.
 
 The authors of this corpus have not published a result for it and should not.
 See [PROTOCOL.md](PROTOCOL.md).
@@ -137,6 +159,38 @@ as a full run.
 Both exist because the first real agent run hit a free-tier quota two thirds of
 the way through. Without them, eight tasks the model never saw would have scored
 as eight failures by the model.
+
+### One bad file may not speak for the directory
+
+A submission is a directory of files written by something that does not always
+write code. Nemotron returned its reasoning as prose for three tasks. A local
+model produced a file with an unmatched bracket. This is normal and the scoring
+must survive it.
+
+It did not, twice. Discovery walks the whole directory to resolve one target, and
+a single unreadable file aborted the walk, so every task in the submission came
+back as "ref not found". Both 120B models first scored 0/28 that way, and both
+numbers looked plausible enough to publish.
+
+The first fix named the exception types it had seen. The second bad file raised a
+different one and the bug came back unchanged. So the guard is no longer a list
+of types:
+
+```python
+except Exception:  # noqa: BLE001
+    # nothing wrong with some other file may decide the answer to
+    # "where is this target"
+```
+
+Enumeration stays strict. Asking "what is in this tree" must still fail loudly on
+a tree that is broken, because that question is asked by an author about their own
+work. Resolving one known path is the resilient half, and only that half. Both
+directions are held by tests.
+
+The general rule, which cost two shipped bugs to learn: **a benchmark's own
+robustness is part of the measurement.** A scoring harness that is fragile in the
+presence of bad input does not report a low score. It reports zero, for everyone,
+and zero looks exactly like a model that cannot do the task.
 
 ### Repair sessions
 

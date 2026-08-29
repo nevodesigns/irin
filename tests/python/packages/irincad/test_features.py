@@ -333,3 +333,42 @@ class DiscoveryResilienceTests(unittest.TestCase):
             # Enumeration stays strict: the author is told the tree is broken.
             with self.assertRaises((ValueError, catalog.CadSourceError)):
                 catalog.iter_cad_sources(root)
+
+    def test_a_sibling_that_will_not_even_parse_is_survivable_too(self):
+        """The second poisoning bug, shipped by naming exception types.
+
+        The first fix caught CadSourceError and ValueError. A file that is not
+        valid Python raises RuntimeError from the parser, escaped both, and
+        poisoned every lookup in the directory exactly as before. A model that
+        leaked its chain of thought instead of code produced one, and one was
+        enough to report all twenty-eight tasks as broken.
+
+        The guard now catches everything, because the failure modes of reading
+        arbitrary third-party files are open-ended and two attempts at naming
+        them both missed one.
+        """
+        import tempfile
+
+        from irincad import catalog
+
+        good = "\n".join(
+            [
+                "from build123d import Align, Box, BuildPart",
+                "",
+                "def gen_step():",
+                "    with BuildPart() as part:",
+                "        Box(40.0, 25.0, 8.0, align=(Align.CENTER, Align.CENTER, Align.MIN))",
+                "    return part.part",
+                "",
+            ]
+        )
+        prose = "We need to think. Let's assume the base is 10 mm, and it isn't code.\n"
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "good.step.py").write_text(good, encoding="utf-8")
+            (root / "prose.step.py").write_text(prose, encoding="utf-8")
+
+            found = catalog.find_source_by_path(root / "good.step.py", root)
+
+        self.assertIsNotNone(found, "an unparseable sibling hid a valid generator")

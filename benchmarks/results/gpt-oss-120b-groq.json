@@ -7,8 +7,8 @@
   },
   "partial": false,
   "agent": "openai/gpt-oss-120b via Groq (no CAD skill)",
-  "started_at": "2026-08-28T16:30:30+00:00",
-  "duration_s": 11.364,
+  "started_at": "2026-08-29T06:15:08+00:00",
+  "duration_s": 11.145,
   "environment": {
     "irin_version": "0.4.20",
     "python": "3.12.13",
@@ -82,7 +82,7 @@
           "detail": "BuildPart is a builder of Shapes and can't be combined. The object being constructed is accessible via the 'part' attribute."
         }
       ],
-      "duration_s": 4.3804
+      "duration_s": 5.3569
     },
     {
       "spec": "circular-flange",
@@ -151,7 +151,7 @@
           "detail": "'Location' object has no attribute 'rotate'"
         }
       ],
-      "duration_s": 0.2178
+      "duration_s": 0.1908
     },
     {
       "spec": "clevis-bracket",
@@ -206,7 +206,7 @@
           "detail": "Hole.__init__() got an unexpected keyword argument 'diameter'"
         }
       ],
-      "duration_s": 0.2039
+      "duration_s": 0.1791
     },
     {
       "spec": "cylindrical-spacer-sleeve",
@@ -270,7 +270,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 0.2856
+      "duration_s": 0.1905
     },
     {
       "spec": "flanged-shaft-coupling",
@@ -339,7 +339,7 @@
           "detail": "Cylinder.__init__() got an unexpected keyword argument 'diameter'"
         }
       ],
-      "duration_s": 0.1728
+      "duration_s": 0.1632
     },
     {
       "spec": "flywheel-disk",
@@ -401,7 +401,7 @@
           "detail": "Unexpected keyword arguments: z"
         }
       ],
-      "duration_s": 0.3066
+      "duration_s": 0.27
     },
     {
       "spec": "headed-drill-bushing",
@@ -473,7 +473,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 0.468
+      "duration_s": 0.2856
     },
     {
       "spec": "keyed-shaft-hub",
@@ -535,7 +535,7 @@
           "detail": "chamfer() missing 1 required positional argument: 'objects'"
         }
       ],
-      "duration_s": 0.2045
+      "duration_s": 0.1985
     },
     {
       "spec": "l-bracket",
@@ -559,38 +559,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x7d9df2ac9e30>, <OCP.OCP.gp.gp_Vec object at 0x7d9df05ebeb0>, Vector(0.0174532925199, 0, 0)"
+          "detail": "SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x...>, <OCP.OCP.gp.gp_Vec object at 0x...>, Vector(0.0174532925199, 0, 0)"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for l-bracket: SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x7d9df21cc030>, <OCP.OCP.gp.gp_Vec object at 0x7d9df060c870>, Vector(0.0174532925199, 0, 0).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for l-bracket: SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x...>, <OCP.OCP.gp.gp_Vec object at 0x...>, Vector(0.0174532925199, 0, 0).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=80.0, y=50.0, z=58.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for l-bracket: SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x7d9df21cc030>, <OCP.OCP.gp.gp_Vec object at 0x7d9df060c870>, Vector(0.0174532925199, 0, 0).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for l-bracket: SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x...>, <OCP.OCP.gp.gp_Vec object at 0x...>, Vector(0.0174532925199, 0, 0).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 6 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x7d9df072fbf0>, <OCP.OCP.gp.gp_Vec object at 0x7d9df07244b0>, Vector(0.0174532925199, 0, 0)"
+          "detail": "SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x...>, <OCP.OCP.gp.gp_Vec object at 0x...>, Vector(0.0174532925199, 0, 0)"
         },
         {
           "kind": "fillet_count",
           "description": "exactly 1 blended edge of radius 2 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x7d9df072fbf0>, <OCP.OCP.gp.gp_Vec object at 0x7d9df07244b0>, Vector(0.0174532925199, 0, 0)"
+          "detail": "SetRotation(): incompatible function arguments. The following argument types are supported:\n    1. (self: OCP.OCP.gp.gp_Trsf, theA1: OCP.OCP.gp.gp_Ax1, theAng: float) -> None\n    2. (self: OCP.OCP.gp.gp_Trsf, theR: OCP.OCP.gp.gp_Quaternion) -> None\n\nInvoked with: <OCP.OCP.gp.gp_Trsf object at 0x...>, <OCP.OCP.gp.gp_Vec object at 0x...>, Vector(0.0174532925199, 0, 0)"
         }
       ],
-      "duration_s": 0.2769
+      "duration_s": 0.2617
     },
     {
       "spec": "mechanical-iris-aperture",
@@ -638,7 +638,7 @@
           "detail": "CAD STEP ref not found for 'mechanical-iris-aperture'."
         }
       ],
-      "duration_s": 0.1558
+      "duration_s": 0.1485
     },
     {
       "spec": "motorcycle-shock-absorber",
@@ -693,7 +693,7 @@
           "detail": "cannot import name 'Sweep' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         }
       ],
-      "duration_s": 0.1786
+      "duration_s": 0.1645
     },
     {
       "spec": "mounting-plate",
@@ -773,7 +773,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 0.4461
+      "duration_s": 0.2907
     },
     {
       "spec": "nema17-motor-mount",
@@ -842,7 +842,7 @@
           "detail": "RectangleRounded.__init__() got an unexpected keyword argument 'center'"
         }
       ],
-      "duration_s": 0.1802
+      "duration_s": 0.1692
     },
     {
       "spec": "open-top-electronics-enclosure",
@@ -911,7 +911,7 @@
           "detail": "cannot import name 'Fillet' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         }
       ],
-      "duration_s": 0.294
+      "duration_s": 0.167
     },
     {
       "spec": "pillow-block",
@@ -973,7 +973,7 @@
           "detail": "Cylinder.__init__() got an unexpected keyword argument 'location'"
         }
       ],
-      "duration_s": 0.1859
+      "duration_s": 0.2609
     },
     {
       "spec": "planetary-gear-stage",
@@ -1043,7 +1043,7 @@
           "expected": 84.0
         }
       ],
-      "duration_s": 0.9789
+      "duration_s": 0.4501
     },
     {
       "spec": "pulley-wheel",
@@ -1098,7 +1098,7 @@
           "detail": "BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine'])"
         }
       ],
-      "duration_s": 0.2185
+      "duration_s": 0.2226
     },
     {
       "spec": "radial-engine-cylinder",
@@ -1139,7 +1139,7 @@
           "detail": "cannot import name 'PolarArray' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         }
       ],
-      "duration_s": 0.1832
+      "duration_s": 0.2061
     },
     {
       "spec": "retainer-plate",
@@ -1194,7 +1194,7 @@
           "detail": "BuildPart doesn't have a Rectangle object or operation (Rectangle applies to ['BuildSketch'])"
         }
       ],
-      "duration_s": 0.1763
+      "duration_s": 0.2061
     },
     {
       "spec": "shaft-collar",
@@ -1256,7 +1256,7 @@
           "detail": "Cylinder.__init__() got an unexpected keyword argument 'centered'"
         }
       ],
-      "duration_s": 0.1764
+      "duration_s": 0.2023
     },
     {
       "spec": "six-blade-propeller",
@@ -1304,7 +1304,7 @@
           "detail": "name 'translate' is not defined"
         }
       ],
-      "duration_s": 0.1835
+      "duration_s": 0.1836
     },
     {
       "spec": "six-hole-spacer-ring",
@@ -1366,7 +1366,7 @@
           "detail": "name 'cut' is not defined"
         }
       ],
-      "duration_s": 0.1984
+      "duration_s": 0.2053
     },
     {
       "spec": "spiral-staircase",
@@ -1414,7 +1414,7 @@
           "detail": "name 'translate' is not defined"
         }
       ],
-      "duration_s": 0.1921
+      "duration_s": 0.1645
     },
     {
       "spec": "spur-gear-blank",
@@ -1469,7 +1469,7 @@
           "detail": "BuildPart doesn't have a Circle object or operation (Circle applies to ['BuildSketch'])"
         }
       ],
-      "duration_s": 0.1771
+      "duration_s": 0.1555
     },
     {
       "spec": "square-mounting-block",
@@ -1524,7 +1524,7 @@
           "detail": "'BuildPart' has no attribute 'hole'. Did you intend '<BuildPart>.part.hole'?"
         }
       ],
-      "duration_s": 0.1788
+      "duration_s": 0.1671
     },
     {
       "spec": "stepped-shaft-keyway",
@@ -1579,7 +1579,7 @@
           "detail": "'tuple' object has no attribute 'wrapped'"
         }
       ],
-      "duration_s": 0.1771
+      "duration_s": 0.2116
     },
     {
       "spec": "t-slot-slider-block",
@@ -1639,7 +1639,7 @@
           "deviation": 0.0
         }
       ],
-      "duration_s": 0.3892
+      "duration_s": 0.2903
     },
     {
       "spec": "vee-block",
@@ -1694,7 +1694,7 @@
           "detail": "type object 'Solid' has no attribute 'box'"
         }
       ],
-      "duration_s": 0.1746
+      "duration_s": 0.1801
     }
   ]
 }

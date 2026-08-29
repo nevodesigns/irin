@@ -72,6 +72,30 @@ Give reasoning models a real token budget. A truncated part is indistinguishable
 from an incompetent one in the result file, and the difference is yours to
 remove, not the model's.
 
+### And check what the provider is actually rating
+
+A budget generous enough for a reasoning model can be larger than the provider
+allows per minute, and the request is then rejected before the model ever sees
+it. Groq's free tier meters **tokens**, 8000 a minute against 1000 requests, so a
+`max_tokens` of 12000 failed every call as too large while the request counter
+sat at 971 remaining. Twelve of twenty-eight tasks were never asked, and the
+cause was a number chosen to be helpful.
+
+Read the limit off the response headers rather than assuming which one binds:
+
+```bash
+curl -sD - -o /dev/null https://<provider>/chat/completions ... | grep -i ratelimit
+```
+
+Pace to the metered resource. If the cap is 8000 tokens a minute and a reply may
+use 6000, the corpus takes about one request every 45 seconds, and a run that
+tries to go faster spends its budget on rejections.
+
+Daily caps are a separate thing again and cannot be paced around. OpenRouter's
+free tier allows 50 model requests a day, which is under two full passes of this
+28-task corpus. Plan a sweep of several models around that, or the later ones
+score nothing for a reason that has nothing to do with them.
+
 The steps below are the same thing done by hand, and are worth reading either
 way.
 

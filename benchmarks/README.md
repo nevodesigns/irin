@@ -100,7 +100,7 @@ python -m irinbench compare
 | agent | specs | assertions |
 | --- | --- | --- |
 | gemini-2.5-flash, no CAD skill (PARTIAL, 21 of 28) | 8 / 21 (38.1%) | 66 / 115 (57.4%) |
-| nvidia/nemotron-3-super-120b-a12b via OpenRouter, no CAD skill | 4 / 28 (14.3%) | 38 / 149 (25.5%) |
+| nvidia/nemotron-3-super-120b-a12b via OpenRouter, no CAD skill | 7 / 28 (25.0%) | 61 / 149 (40.9%) |
 | openai/gpt-oss-120b via Groq, no CAD skill | 3 / 28 (10.7%) | 20 / 149 (13.4%) |
 | qwen2.5-3b-instruct q4_K_M, local, no CAD skill | 0 / 28 | 0 / 149 |
 
@@ -126,25 +126,41 @@ the two 120B models on the tasks it attempted, and its failures are the same
 kind, just fewer. That gap is what a CAD skill closes, and measuring the unaided
 floor first is what makes the aided number mean something later.
 
-Nemotron also failed three tasks by returning prose instead of code. It wrote out
-its reasoning, the file did not parse, and those three score as defects. That is
-its own result and not an adapter fault: the same adapter carried its other
-twenty-five answers.
+Nemotron fails two tasks by never writing code at all. It reasons about the
+clevis bracket and the L bracket at length, runs out of budget, and stops. Those
+score as defects, and they are its own result rather than an adapter fault: the
+decode step recovers reasoning-then-code everywhere the code exists, and in
+these two replies it does not exist.
 
-**The first version of every number here was scored against a bug**, and finding
-out why was worth more than the numbers. One malformed file in a submission was
-hiding all the others, so gpt-oss-120b first scored 0/28 rather than 3/28, and
-Nemotron 0/28 rather than 4/28.
+### Every number here was wrong before it was right
 
-The local model is the case worth studying. It was poisoned in exactly the same
-way, and its number did not move: 0/28 before, 0/28 after. Every one of its 149
-assertions had carried the same fabricated reason, and the total those reasons
-added up to happened to be right. Had that been the only run, nothing about the
-output would have looked wrong, and the bug would still be here.
+Not one of these figures survived contact with its own harness. Nemotron went
+0/28, then 4/28, then 7/28 without the model changing at all:
+
+```
+  0 / 28   one unreadable file was hiding the other 27
+  4 / 28   discovery fixed; the file itself was still mis-decoded
+  7 / 28   decoding fixed: an unbalanced fence, and reasoning written out as code
+```
+
+Two bugs, both in this repository, both costing the model points it had earned.
+gpt-oss-120b moved 0/28 to 3/28 for the first reason alone.
+
+The local model is the case worth studying. It was hit by exactly the same bug
+and its number did not move: 0/28 before, 0/28 after. All 149 of its assertions
+had carried the same fabricated reason, and the total those reasons summed to
+was right anyway. Had it been the only run, nothing in the output would have
+looked wrong, and the bug would still be here.
 
 A wrong number announces itself eventually. A right number reached the wrong way
-does not, which is why the fix is enforced by tests rather than by having
-noticed. See the note under `submit`.
+does not. That is why both fixes are pinned by tests rather than by anyone
+having noticed, and why the decode step now ships as `irinbench extract` instead
+of living in whatever adapter each person writes. See the note under `submit`,
+and the adapter section of [PROTOCOL.md](PROTOCOL.md).
+
+**A benchmark's own robustness is part of the measurement.** A harness that is
+fragile against bad input does not report a low score. It reports zero, for
+everyone, and zero looks exactly like a model that cannot do the task.
 
 The authors of this corpus have not published a result for it and should not.
 See [PROTOCOL.md](PROTOCOL.md).

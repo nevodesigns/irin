@@ -101,6 +101,7 @@ python -m irinbench compare
 | --- | --- | --- |
 | gemini-2.5-flash, no CAD skill (PARTIAL, 21 of 28) | 8 / 21 (38.1%) | 66 / 115 (57.4%) |
 | nvidia/nemotron-3-super-120b-a12b via OpenRouter, no CAD skill | 7 / 28 (25.0%) | 61 / 149 (40.9%) |
+| nvidia/nemotron-3-ultra-550b-a55b via OpenRouter (PARTIAL, 22 of 28) | 4 / 22 (18.2%) | 37 / 116 (31.9%) |
 | openai/gpt-oss-120b via Groq, no CAD skill | 3 / 28 (10.7%) | 20 / 149 (13.4%) |
 | qwen2.5-3b-instruct q4_K_M, local, no CAD skill | 0 / 28 | 0 / 149 |
 
@@ -108,14 +109,26 @@ None has a CAD skill installed, so these measure what a model knows about
 build123d unaided. None is flattering, and that is the point of having a scale
 that starts at the bottom.
 
-**The Gemini row is partial and is not comparable to the others.** It answered 21
-of 28 before its quota ran out, and the seven it never saw are the alphabetical
-tail, not a random sample. It is listed because 8 of 21 is worth knowing, not
-because 38.1% can be set beside 14.3%.
+**The two partial rows are not comparable to the full ones.** Gemini answered 21
+of 28 before its quota ran out; the 550B model was refused six requests by the
+free tier. Those tasks were never put to either model, so they are excluded
+rather than counted as failures, and the percentage is over a smaller and
+differently chosen set. They are listed because the numbers are worth knowing,
+not because they can be set beside a complete run.
 
-The 3B local model does not know the library at all: it writes `make_box` where
-build123d has `Box`, passes `size=` to `Box`, and tries to import a private
-module. The larger models write recognisable build123d and still fail on real API
+**The 550B model scores below its 120B sibling**, on assertions as well as
+specs, and assertion rate is the fairer of the two here because it does not
+depend on which tasks each was asked. It is one observation on one corpus with
+no CAD skill in play, so it is not a claim about scale in general. What it does
+show is that the thing being measured is not something a bigger model gets for
+free: knowing that `Cylinder` takes `radius` and not `diameter` is recall of a
+specific library, and there is no reason parameter count should supply it.
+
+The 3B local model does not know the library at all. Across 28 tasks it
+produced 45 distinct failures and invented most of the API it used: `make_box`,
+`create_part`, `create_context`, a private `_b3d` import, `center=` on `Box`.
+Its 0/28 is now measured on clean artifacts, with no fence markers and no
+echoed prompt, so it stands as a real floor rather than an adapter's. The larger models write recognisable build123d and still fail on real API
 mistakes: `Cylinder(diameter=...)` where the parameter is `radius`, `.rotate()`
 on a `Location`, `.z` on a `Vector`, `Polyline` inside a `BuildSketch` where it
 belongs to `BuildLine`.

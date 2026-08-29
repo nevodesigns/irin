@@ -7,8 +7,8 @@
   },
   "partial": false,
   "agent": "qwen2.5-3b-instruct q4_K_M (llama.cpp, local, no CAD skill)",
-  "started_at": "2026-08-29T06:15:34+00:00",
-  "duration_s": 7.439,
+  "started_at": "2026-08-29T07:35:43+00:00",
+  "duration_s": 7.817,
   "environment": {
     "irin_version": "0.4.20",
     "python": "3.12.13",
@@ -51,38 +51,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'create_block'"
+          "detail": "name 'build123d' is not defined"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: module 'build123d' has no attribute 'create_block'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: name 'build123d' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=100.0, y=60.0, z=20.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: module 'build123d' has no attribute 'create_block'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: name 'build123d' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "bounds",
           "description": "bounding box corner min [-50.0, -30.0, 0.0] and max [50.0, 30.0, 20.0] (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: module 'build123d' has no attribute 'create_block'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: name 'build123d' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 8 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'create_block'"
+          "detail": "name 'build123d' is not defined"
         }
       ],
-      "duration_s": 4.3958
+      "duration_s": 3.8453
     },
     {
       "spec": "circular-flange",
@@ -151,7 +151,7 @@
           "detail": "CAD STEP ref not found for 'circular-flange'."
         }
       ],
-      "duration_s": 0.0954
+      "duration_s": 0.1214
     },
     {
       "spec": "clevis-bracket",
@@ -175,38 +175,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'clevis-bracket'."
+          "detail": "cannot import name 'make_cylinder' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'clevis-bracket'."
+          "detail": "Failed to regenerate GLB/topology artifact for clevis-bracket: cannot import name 'make_cylinder' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=120.0, y=60.0, z=52.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'clevis-bracket'."
+          "detail": "Failed to regenerate GLB/topology artifact for clevis-bracket: cannot import name 'make_cylinder' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 2 holes of 14 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'clevis-bracket'."
+          "detail": "cannot import name 'make_cylinder' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 7 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'clevis-bracket'."
+          "detail": "cannot import name 'make_cylinder' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         }
       ],
-      "duration_s": 0.0979
+      "duration_s": 0.1495
     },
     {
       "spec": "cylindrical-spacer-sleeve",
@@ -230,38 +230,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'create_part'"
+          "detail": "type object 'Part' has no attribute 'make_cylinder'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for cylindrical-spacer-sleeve: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for cylindrical-spacer-sleeve: type object 'Part' has no attribute 'make_cylinder'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 30 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'create_part'"
+          "detail": "type object 'Part' has no attribute 'make_cylinder'"
         },
         {
           "kind": "size",
           "description": "bounding box z=28.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for cylindrical-spacer-sleeve: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for cylindrical-spacer-sleeve: type object 'Part' has no attribute 'make_cylinder'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 10 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'create_part'"
+          "detail": "type object 'Part' has no attribute 'make_cylinder'"
         }
       ],
-      "duration_s": 0.1219
+      "duration_s": 0.1528
     },
     {
       "spec": "flanged-shaft-coupling",
@@ -285,52 +285,52 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+          "detail": "Box.__init__() got an unexpected keyword argument 'center'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+          "detail": "Failed to regenerate GLB/topology artifact for flanged-shaft-coupling: Box.__init__() got an unexpected keyword argument 'center'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=28.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+          "detail": "Failed to regenerate GLB/topology artifact for flanged-shaft-coupling: Box.__init__() got an unexpected keyword argument 'center'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 50 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+          "detail": "Box.__init__() got an unexpected keyword argument 'center'"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 30 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+          "detail": "Box.__init__() got an unexpected keyword argument 'center'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 12 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+          "detail": "Box.__init__() got an unexpected keyword argument 'center'"
         },
         {
           "kind": "bolt_circle",
           "description": "4 holes on a 38 mm bolt circle, each 5.5 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+          "detail": "Box.__init__() got an unexpected keyword argument 'center'"
         }
       ],
-      "duration_s": 0.0951
+      "duration_s": 0.15
     },
     {
       "spec": "flywheel-disk",
@@ -354,45 +354,45 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_box'"
+          "detail": "module 'build123d' has no attribute 'create_context'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for flywheel-disk: module 'build123d' has no attribute 'make_box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for flywheel-disk: module 'build123d' has no attribute 'create_context'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 90 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_box'"
+          "detail": "module 'build123d' has no attribute 'create_context'"
         },
         {
           "kind": "size",
           "description": "bounding box z=12.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for flywheel-disk: module 'build123d' has no attribute 'make_box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for flywheel-disk: module 'build123d' has no attribute 'create_context'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 18 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_box'"
+          "detail": "module 'build123d' has no attribute 'create_context'"
         },
         {
           "kind": "bolt_circle",
           "description": "6 holes on a 50 mm bolt circle, each 10 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_box'"
+          "detail": "module 'build123d' has no attribute 'create_context'"
         }
       ],
-      "duration_s": 0.1225
+      "duration_s": 0.1475
     },
     {
       "spec": "headed-drill-bushing",
@@ -416,45 +416,45 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "name 'cylinder' is not defined"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for headed-drill-bushing: name 'cylinder' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for headed-drill-bushing: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=24.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for headed-drill-bushing: name 'cylinder' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for headed-drill-bushing: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 24 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "name 'cylinder' is not defined"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 16 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "name 'cylinder' is not defined"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 8 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "name 'cylinder' is not defined"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         }
       ],
-      "duration_s": 0.1266
+      "duration_s": 0.1555
     },
     {
       "spec": "keyed-shaft-hub",
@@ -478,45 +478,45 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+          "detail": "cannot import name '_b3d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for keyed-shaft-hub: cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for keyed-shaft-hub: cannot import name '_b3d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 54 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+          "detail": "cannot import name '_b3d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "size",
           "description": "bounding box z=22.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for keyed-shaft-hub: cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for keyed-shaft-hub: cannot import name '_b3d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 20 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+          "detail": "cannot import name '_b3d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "bolt_circle",
           "description": "4 holes on a 39 mm bolt circle, each 5.5 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+          "detail": "cannot import name '_b3d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         }
       ],
-      "duration_s": 0.122
+      "duration_s": 0.1545
     },
     {
       "spec": "l-bracket",
@@ -540,38 +540,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'l-bracket'."
+          "detail": "cannot import name 'sketches' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'l-bracket'."
+          "detail": "Failed to regenerate GLB/topology artifact for l-bracket: cannot import name 'sketches' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=80.0, y=50.0, z=58.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'l-bracket'."
+          "detail": "Failed to regenerate GLB/topology artifact for l-bracket: cannot import name 'sketches' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 6 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'l-bracket'."
+          "detail": "cannot import name 'sketches' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         },
         {
           "kind": "fillet_count",
           "description": "exactly 1 blended edge of radius 2 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'l-bracket'."
+          "detail": "cannot import name 'sketches' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
         }
       ],
-      "duration_s": 0.097
+      "duration_s": 0.1529
     },
     {
       "spec": "mechanical-iris-aperture",
@@ -595,31 +595,31 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_circle'"
+          "detail": "CAD STEP ref not found for 'mechanical-iris-aperture'."
         },
         {
           "kind": "bolt_circle",
           "description": "12 holes on a 124 mm bolt circle, each 3 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_circle'"
+          "detail": "CAD STEP ref not found for 'mechanical-iris-aperture'."
         },
         {
           "kind": "bolt_circle",
           "description": "6 holes on a 130 mm bolt circle, each 5 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_circle'"
+          "detail": "CAD STEP ref not found for 'mechanical-iris-aperture'."
         },
         {
           "kind": "size",
           "description": "bounding box z=20.1 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for mechanical-iris-aperture: module 'build123d' has no attribute 'make_circle'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "CAD STEP ref not found for 'mechanical-iris-aperture'."
         }
       ],
-      "duration_s": 0.1183
+      "duration_s": 0.1265
     },
     {
       "spec": "motorcycle-shock-absorber",
@@ -674,7 +674,7 @@
           "detail": "CAD STEP ref not found for 'motorcycle-shock-absorber'."
         }
       ],
-      "duration_s": 0.0982
+      "duration_s": 0.1321
     },
     {
       "spec": "mounting-plate",
@@ -698,45 +698,45 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'create_part'"
+          "detail": "module 'build123d' has no attribute 'make_box'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for mounting-plate: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for mounting-plate: module 'build123d' has no attribute 'make_box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=100.0, y=70.0, z=8.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for mounting-plate: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for mounting-plate: module 'build123d' has no attribute 'make_box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 28 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'create_part'"
+          "detail": "module 'build123d' has no attribute 'make_box'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 5.5 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'create_part'"
+          "detail": "module 'build123d' has no attribute 'make_box'"
         },
         {
           "kind": "fillet_count",
           "description": "exactly 4 blended edges of radius 5 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'create_part'"
+          "detail": "module 'build123d' has no attribute 'make_box'"
         }
       ],
-      "duration_s": 0.1212
+      "duration_s": 0.1558
     },
     {
       "spec": "nema17-motor-mount",
@@ -760,52 +760,52 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_box'"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for nema17-motor-mount: module 'build123d' has no attribute 'make_box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for nema17-motor-mount: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=60.0, y=60.0, z=6.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for nema17-motor-mount: module 'build123d' has no attribute 'make_box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for nema17-motor-mount: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 22 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_box'"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 3.4 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_box'"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         },
         {
           "kind": "bolt_circle",
           "description": "4 holes on a 43.841 mm bolt circle, each 3.4 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_box'"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         },
         {
           "kind": "fillet_count",
           "description": "exactly 4 blended edges of radius 4 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_box'"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         }
       ],
-      "duration_s": 0.1297
+      "duration_s": 0.1468
     },
     {
       "spec": "open-top-electronics-enclosure",
@@ -829,52 +829,52 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'open-top-electronics-enclosure'."
+          "detail": "'str' object has no attribute 'faces'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'open-top-electronics-enclosure'."
+          "detail": "Failed to regenerate GLB/topology artifact for open-top-electronics-enclosure: 'str' object has no attribute 'faces'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=100.0, y=70.0, z=30.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'open-top-electronics-enclosure'."
+          "detail": "Failed to regenerate GLB/topology artifact for open-top-electronics-enclosure: 'str' object has no attribute 'faces'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "bounds",
           "description": "bounding box corner min [-50.0, -35.0, 0.0] and max [50.0, 35.0, 30.0] (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'open-top-electronics-enclosure'."
+          "detail": "Failed to regenerate GLB/topology artifact for open-top-electronics-enclosure: 'str' object has no attribute 'faces'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 3 mm, blind",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'open-top-electronics-enclosure'."
+          "detail": "'str' object has no attribute 'faces'"
         },
         {
           "kind": "boss_count",
           "description": "exactly 4 external cylinders of 10 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'open-top-electronics-enclosure'."
+          "detail": "'str' object has no attribute 'faces'"
         },
         {
           "kind": "fillet_count",
           "description": "exactly 4 blended edges of radius 2 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'open-top-electronics-enclosure'."
+          "detail": "'str' object has no attribute 'faces'"
         }
       ],
-      "duration_s": 0.094
+      "duration_s": 0.1514
     },
     {
       "spec": "pillow-block",
@@ -936,7 +936,7 @@
           "detail": "Box.__init__() got an unexpected keyword argument 'size'"
         }
       ],
-      "duration_s": 0.131
+      "duration_s": 0.1526
     },
     {
       "spec": "planetary-gear-stage",
@@ -960,38 +960,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'planetary-gear-stage'."
+          "detail": "module 'build123d' has no attribute 'make_cylinder'"
         },
         {
           "kind": "part_count",
           "description": "exactly 9 parts",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'planetary-gear-stage'."
+          "detail": "Failed to regenerate GLB/topology artifact for planetary-gear-stage: module 'build123d' has no attribute 'make_cylinder'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=14.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'planetary-gear-stage'."
+          "detail": "Failed to regenerate GLB/topology artifact for planetary-gear-stage: module 'build123d' has no attribute 'make_cylinder'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 10 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'planetary-gear-stage'."
+          "detail": "module 'build123d' has no attribute 'make_cylinder'"
         },
         {
           "kind": "bolt_circle",
           "description": "3 holes on a 84 mm bolt circle, each 6.8 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'planetary-gear-stage'."
+          "detail": "module 'build123d' has no attribute 'make_cylinder'"
         }
       ],
-      "duration_s": 0.1033
+      "duration_s": 0.1512
     },
     {
       "spec": "pulley-wheel",
@@ -1015,38 +1015,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'pulley-wheel'."
+          "detail": "module 'build123d' has no attribute 'create_part'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'pulley-wheel'."
+          "detail": "Failed to regenerate GLB/topology artifact for pulley-wheel: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=24.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'pulley-wheel'."
+          "detail": "Failed to regenerate GLB/topology artifact for pulley-wheel: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 2 external cylinders of 70 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'pulley-wheel'."
+          "detail": "module 'build123d' has no attribute 'create_part'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 10 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'pulley-wheel'."
+          "detail": "module 'build123d' has no attribute 'create_part'"
         }
       ],
-      "duration_s": 0.0943
+      "duration_s": 0.1488
     },
     {
       "spec": "radial-engine-cylinder",
@@ -1070,24 +1070,24 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'radial-engine-cylinder'."
+          "detail": "'Part' object has no attribute 'union'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'radial-engine-cylinder'."
+          "detail": "Failed to regenerate GLB/topology artifact for radial-engine-cylinder: 'Part' object has no attribute 'union'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "bolt_circle",
           "description": "6 holes on a 56 mm bolt circle, each 5 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "CAD STEP ref not found for 'radial-engine-cylinder'."
+          "detail": "'Part' object has no attribute 'union'"
         }
       ],
-      "duration_s": 0.0974
+      "duration_s": 0.1538
     },
     {
       "spec": "retainer-plate",
@@ -1111,38 +1111,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_plate'"
+          "detail": "module 'build123d' has no attribute 'start_part'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for retainer-plate: module 'build123d' has no attribute 'make_plate'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for retainer-plate: module 'build123d' has no attribute 'start_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=82.0, y=34.0, z=6.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for retainer-plate: module 'build123d' has no attribute 'make_plate'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for retainer-plate: module 'build123d' has no attribute 'start_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 2 holes of 7 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_plate'"
+          "detail": "module 'build123d' has no attribute 'start_part'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 2 holes of 10 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_plate'"
+          "detail": "module 'build123d' has no attribute 'start_part'"
         }
       ],
-      "duration_s": 0.1145
+      "duration_s": 0.1474
     },
     {
       "spec": "shaft-collar",
@@ -1204,7 +1204,7 @@
           "detail": "Cylinder.__init__() got an unexpected keyword argument 'diameter'"
         }
       ],
-      "duration_s": 0.1187
+      "duration_s": 0.1427
     },
     {
       "spec": "six-blade-propeller",
@@ -1228,31 +1228,31 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Box.__init__() got an unexpected keyword argument 'size'"
+          "detail": "module 'build123d' has no attribute 'make_box'"
         },
         {
           "kind": "part_count",
           "description": "exactly 7 parts",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for six-blade-propeller: Box.__init__() got an unexpected keyword argument 'size'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for six-blade-propeller: module 'build123d' has no attribute 'make_box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=30.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for six-blade-propeller: Box.__init__() got an unexpected keyword argument 'size'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for six-blade-propeller: module 'build123d' has no attribute 'make_box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "no_interference",
           "description": "no part overlaps another by more than 1.0 mm^3",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Box.__init__() got an unexpected keyword argument 'size'"
+          "detail": "module 'build123d' has no attribute 'make_box'"
         }
       ],
-      "duration_s": 0.1248
+      "duration_s": 0.1448
     },
     {
       "spec": "six-hole-spacer-ring",
@@ -1276,45 +1276,45 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+          "detail": "CAD STEP ref not found for 'six-hole-spacer-ring'."
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for six-hole-spacer-ring: cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "CAD STEP ref not found for 'six-hole-spacer-ring'."
         },
         {
           "kind": "size",
           "description": "bounding box z=5.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for six-hole-spacer-ring: cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "CAD STEP ref not found for 'six-hole-spacer-ring'."
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 80 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+          "detail": "CAD STEP ref not found for 'six-hole-spacer-ring'."
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 50 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+          "detail": "CAD STEP ref not found for 'six-hole-spacer-ring'."
         },
         {
           "kind": "bolt_circle",
           "description": "6 holes on a 65 mm bolt circle, each 6 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "cannot import name '_build123d' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+          "detail": "CAD STEP ref not found for 'six-hole-spacer-ring'."
         }
       ],
-      "duration_s": 0.1155
+      "duration_s": 0.1205
     },
     {
       "spec": "spiral-staircase",
@@ -1338,31 +1338,31 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "'Circle' object has no attribute 'with_center'"
+          "detail": "Can't instantiate abstract class Builder without an implementation for abstract methods '_add_to_pending', '_obj'"
         },
         {
           "kind": "part_count",
           "description": "exactly 43 parts",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for spiral-staircase: 'Circle' object has no attribute 'with_center'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for spiral-staircase: Can't instantiate abstract class Builder without an implementation for abstract methods '_add_to_pending', '_obj'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=140.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for spiral-staircase: 'Circle' object has no attribute 'with_center'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for spiral-staircase: Can't instantiate abstract class Builder without an implementation for abstract methods '_add_to_pending', '_obj'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 20 holes of 20 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "'Circle' object has no attribute 'with_center'"
+          "detail": "Can't instantiate abstract class Builder without an implementation for abstract methods '_add_to_pending', '_obj'"
         }
       ],
-      "duration_s": 0.1198
+      "duration_s": 0.1465
     },
     {
       "spec": "spur-gear-blank",
@@ -1386,38 +1386,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_cylinder'"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for spur-gear-blank: module 'build123d' has no attribute 'make_cylinder'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for spur-gear-blank: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box z=16.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for spur-gear-blank: module 'build123d' has no attribute 'make_cylinder'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for spur-gear-blank: module 'build123d' has no attribute 'create_part'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 2 external cylinders of 34 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_cylinder'"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 18 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "module 'build123d' has no attribute 'make_cylinder'"
+          "detail": "module 'build123d' has no attribute 'create_part'"
         }
       ],
-      "duration_s": 0.1174
+      "duration_s": 0.1474
     },
     {
       "spec": "square-mounting-block",
@@ -1441,38 +1441,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Box.__init__() got an unexpected keyword argument 'size'"
+          "detail": "Box.__init__() got an unexpected keyword argument 'center'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for square-mounting-block: Box.__init__() got an unexpected keyword argument 'size'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for square-mounting-block: Box.__init__() got an unexpected keyword argument 'center'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=48.0, y=48.0, z=28.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for square-mounting-block: Box.__init__() got an unexpected keyword argument 'size'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for square-mounting-block: Box.__init__() got an unexpected keyword argument 'center'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 1 hole of 12 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Box.__init__() got an unexpected keyword argument 'size'"
+          "detail": "Box.__init__() got an unexpected keyword argument 'center'"
         },
         {
           "kind": "hole_count",
           "description": "exactly 2 holes of 5.5 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Box.__init__() got an unexpected keyword argument 'size'"
+          "detail": "Box.__init__() got an unexpected keyword argument 'center'"
         }
       ],
-      "duration_s": 0.1139
+      "duration_s": 0.1479
     },
     {
       "spec": "stepped-shaft-keyway",
@@ -1496,38 +1496,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "'Part' object does not support the context manager protocol"
+          "detail": "'module' object is not callable"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for stepped-shaft-keyway: 'Part' object does not support the context manager protocol.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for stepped-shaft-keyway: 'module' object is not callable.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=120.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for stepped-shaft-keyway: 'Part' object does not support the context manager protocol.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for stepped-shaft-keyway: 'module' object is not callable.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "boss_count",
           "description": "exactly 1 external cylinder of 30 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "'Part' object does not support the context manager protocol"
+          "detail": "'module' object is not callable"
         },
         {
           "kind": "boss_count",
           "description": "exactly 2 external cylinders of 20 mm",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "'Part' object does not support the context manager protocol"
+          "detail": "'module' object is not callable"
         }
       ],
-      "duration_s": 0.114
+      "duration_s": 0.1482
     },
     {
       "spec": "t-slot-slider-block",
@@ -1551,31 +1551,31 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "cannot import name 'make_box' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+          "detail": "Can't instantiate abstract class Builder without an implementation for abstract methods '_add_to_pending', '_obj'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for t-slot-slider-block: cannot import name 'make_box' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for t-slot-slider-block: Can't instantiate abstract class Builder without an implementation for abstract methods '_add_to_pending', '_obj'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=80.0, y=36.0, z=18.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for t-slot-slider-block: cannot import name 'make_box' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for t-slot-slider-block: Can't instantiate abstract class Builder without an implementation for abstract methods '_add_to_pending', '_obj'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 4 holes of 4.5 mm, through",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "cannot import name 'make_box' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+          "detail": "Can't instantiate abstract class Builder without an implementation for abstract methods '_add_to_pending', '_obj'"
         }
       ],
-      "duration_s": 0.1193
+      "duration_s": 0.1602
     },
     {
       "spec": "vee-block",
@@ -1599,38 +1599,38 @@
           "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?"
+          "detail": "module 'build123d' has no attribute 'make_box'"
         },
         {
           "kind": "part_count",
           "description": "exactly 1 part",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for vee-block: 'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for vee-block: module 'build123d' has no attribute 'make_box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "size",
           "description": "bounding box x=60.0, y=60.0, z=60.0 (mm)",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "Failed to regenerate GLB/topology artifact for vee-block: 'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+          "detail": "Failed to regenerate GLB/topology artifact for vee-block: module 'build123d' has no attribute 'make_box'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
         },
         {
           "kind": "hole_count",
           "description": "exactly 0 holes",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?"
+          "detail": "module 'build123d' has no attribute 'make_box'"
         },
         {
           "kind": "volume",
           "description": "192000 mm^3 of material",
           "passed": false,
           "code": "artifact_broken",
-          "detail": "'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?"
+          "detail": "module 'build123d' has no attribute 'make_box'"
         }
       ],
-      "duration_s": 0.1167
+      "duration_s": 0.16
     }
   ]
 }

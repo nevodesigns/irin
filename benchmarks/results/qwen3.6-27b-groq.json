@@ -1,0 +1,322 @@
+{
+  "corpus": {
+    "name": "tasks",
+    "kind": "task",
+    "fingerprint": "74bfef8abe3ef5e9cbd5e7fd1e5e7aa4dd0f91052b7a6f6cff03908ee042f2f7",
+    "tasks": 28
+  },
+  "partial": true,
+  "agent": "qwen/qwen3.6-27b via Groq (no CAD skill)",
+  "started_at": "2026-08-29T09:33:09+00:00",
+  "duration_s": 4.152,
+  "environment": {
+    "irin_version": "0.4.20",
+    "python": "3.12.13",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35"
+  },
+  "totals": {
+    "specs": 5,
+    "missing_artifacts": 0,
+    "specs_passing": 0,
+    "specs_with_defects": 5,
+    "specs_with_undetermined": 0,
+    "assertions": 27,
+    "assertions_passed": 0,
+    "assertions_undetermined": 0
+  },
+  "rates": {
+    "spec_pass_rate": 0.0,
+    "assertion_pass_rate": 0.0
+  },
+  "results": [
+    {
+      "spec": "cylindrical-spacer-sleeve",
+      "entry": "cylindrical-spacer-sleeve.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 5,
+        "passed": 0,
+        "defects": 5,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate cylindrical-spacer-sleeve.step.py",
+        "refs cylindrical-spacer-sleeve.step.py --facts",
+        "features cylindrical-spacer-sleeve.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'cylinder' is not defined"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for cylindrical-spacer-sleeve: name 'cylinder' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 30 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'cylinder' is not defined"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=28.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for cylindrical-spacer-sleeve: name 'cylinder' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 10 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'cylinder' is not defined"
+        }
+      ],
+      "duration_s": 3.8762
+    },
+    {
+      "spec": "headed-drill-bushing",
+      "entry": "headed-drill-bushing.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate headed-drill-bushing.step.py",
+        "refs headed-drill-bushing.step.py --facts",
+        "features headed-drill-bushing.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'position'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for headed-drill-bushing: Cylinder.__init__() got an unexpected keyword argument 'position'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=24.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for headed-drill-bushing: Cylinder.__init__() got an unexpected keyword argument 'position'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 24 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'position'"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 16 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'position'"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 8 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'position'"
+        }
+      ],
+      "duration_s": 0.0685
+    },
+    {
+      "spec": "retainer-plate",
+      "entry": "retainer-plate.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 5,
+        "passed": 0,
+        "defects": 5,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate retainer-plate.step.py",
+        "refs retainer-plate.step.py --facts",
+        "features retainer-plate.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'build_part' is not defined"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for retainer-plate: name 'build_part' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=82.0, y=34.0, z=6.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for retainer-plate: name 'build_part' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 7 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'build_part' is not defined"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 10 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'build_part' is not defined"
+        }
+      ],
+      "duration_s": 0.0615
+    },
+    {
+      "spec": "six-hole-spacer-ring",
+      "entry": "six-hole-spacer-ring.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate six-hole-spacer-ring.step.py",
+        "refs six-hole-spacer-ring.step.py --facts",
+        "features six-hole-spacer-ring.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "unsupported operand type(s) for *: 'Location' and 'float'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for six-hole-spacer-ring: unsupported operand type(s) for *: 'Location' and 'float'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=5.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for six-hole-spacer-ring: unsupported operand type(s) for *: 'Location' and 'float'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 80 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "unsupported operand type(s) for *: 'Location' and 'float'"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 50 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "unsupported operand type(s) for *: 'Location' and 'float'"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "6 holes on a 65 mm bolt circle, each 6 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "unsupported operand type(s) for *: 'Location' and 'float'"
+        }
+      ],
+      "duration_s": 0.0841
+    },
+    {
+      "spec": "spur-gear-blank",
+      "entry": "spur-gear-blank.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 5,
+        "passed": 0,
+        "defects": 5,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate spur-gear-blank.step.py",
+        "refs spur-gear-blank.step.py --facts",
+        "features spur-gear-blank.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'pos'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for spur-gear-blank: Cylinder.__init__() got an unexpected keyword argument 'pos'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=16.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for spur-gear-blank: Cylinder.__init__() got an unexpected keyword argument 'pos'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 2 external cylinders of 34 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'pos'"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 18 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'pos'"
+        }
+      ],
+      "duration_s": 0.0609
+    }
+  ]
+}

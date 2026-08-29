@@ -111,6 +111,13 @@ None has a CAD skill installed, so these measure what a model knows about
 build123d unaided. None is flattering, and that is the point of having a scale
 that starts at the bottom.
 
+A seventh run is not in the table. qwen3.6-27b got five of twenty-eight tasks
+past the same token cap, scored 0 of 5, and that is not a measurement of
+anything. The result file is kept and `audit` flags it as a thin sample, because
+the honest thing is to record that the run happened rather than to quote a
+percentage over a fifth of the corpus, chosen by a rate limiter rather than by
+design.
+
 **The two partial rows are not comparable to the full ones.** Gemini answered 21
 of 28 before its quota ran out; the 550B model was refused six requests by the
 free tier. Those tasks were never put to either model, so they are excluded

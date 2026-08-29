@@ -43,6 +43,11 @@ _UNIFORM_DETAIL_RATIO = 0.6
 #: the specs that failed. Well under one reason per four specs is worth a look.
 _MIN_DISTINCT_RATIO = 0.25
 
+#: A partial run covering less of the corpus than this is not a measurement.
+#: Half is not a statistical threshold, it is the point past which the sample is
+#: mostly whatever survived rather than whatever was asked.
+_MIN_COVERAGE = 0.5
+
 
 @dataclass(frozen=True)
 class Finding:
@@ -73,6 +78,7 @@ def audit_result(data: dict[str, Any]) -> tuple[Finding, ...]:
     findings.extend(_check_uniform_failure_reason(results))
     findings.extend(_check_reason_diversity(results))
     findings.extend(_check_unmarked_partial(data, results))
+    findings.extend(_check_thin_sample(data, results))
     return tuple(findings)
 
 
@@ -174,6 +180,46 @@ def _check_unmarked_partial(
             "partial, so it reads as a complete run that went badly.",
             "re-run with --only naming the tasks actually attempted, which marks "
             "the result partial and records the corpus size",
+        )
+    ]
+
+
+
+def _check_thin_sample(
+    data: dict[str, Any], results: list[dict[str, Any]]
+) -> list[Finding]:
+    """Is the run too small a slice of the corpus to mean anything?
+
+    ``partial`` says a result is incomplete. It does not say it is uninformative,
+    and those are different warnings. A run over five of twenty-eight tasks
+    prints an honest "0 / 5, 0.0%" that can still be read and quoted as though a
+    model had been measured.
+
+    Size is only half of it. The tasks that got through were not sampled, they
+    are whatever survived: the ones a rate limiter happened to allow, which
+    correlates with corpus order and with how long each reply was. So a thin
+    partial is biased as well as small, and the bias runs in an unknown
+    direction. Neither problem is fixed by noting the percentage is over a
+    smaller denominator.
+    """
+    corpus = data.get("corpus") or {}
+    held = corpus.get("tasks")
+    scored = len(results)
+    if not isinstance(held, int) or held <= 0:
+        return []
+    coverage = scored / held
+    if coverage >= _MIN_COVERAGE:
+        return []
+
+    return [
+        Finding(
+            "thin-sample",
+            f"only {scored} of {held} tasks were scored ({coverage:.0%} of the "
+            "corpus). That is too little to characterise an agent, and the tasks "
+            "that got through were not chosen, they are whatever survived, so the "
+            "sample is skewed as well as small.",
+            "finish the remaining tasks and re-score. Until then treat this as "
+            "evidence the run happened, not as a result",
         )
     ]
 

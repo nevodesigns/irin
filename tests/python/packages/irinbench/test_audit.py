@@ -127,5 +127,47 @@ class EmptyTests(unittest.TestCase):
         self.assertIn("empty", codes(result([])))
 
 
+class ThinSampleTests(unittest.TestCase):
+    """Partial says incomplete. It does not say uninformative.
+
+    The real one: a token-metered free tier let five of twenty-eight tasks
+    through. The result printed an honest "0 / 5, 0.0%", which reads and quotes
+    exactly like a measurement.
+    """
+
+    def _run(self, scored: int, held: int = 28) -> dict:
+        reasons = ["a", "b", "c", "d", "e", "f", "g"]
+        return result(
+            [spec(f"task{i}", reasons[i % 7]) for i in range(scored)],
+            held=held,
+            partial=scored < held,
+        )
+
+    def test_a_fifth_of_the_corpus_is_flagged(self):
+        self.assertIn("thin-sample", codes(self._run(5)))
+
+    def test_being_correctly_marked_partial_does_not_excuse_it(self):
+        # The two findings answer different questions, so honesty about the
+        # denominator must not silence the point that the number cannot be used.
+        data = self._run(5)
+        self.assertTrue(data["partial"])
+        self.assertIn("thin-sample", codes(data))
+
+    def test_a_substantial_partial_is_left_alone(self):
+        # 23 of 28 is worth reading, and saying otherwise would make the check
+        # noise on the ordinary case of a run that lost a few tasks.
+        self.assertNotIn("thin-sample", codes(self._run(23)))
+
+    def test_a_full_run_is_left_alone(self):
+        self.assertNotIn("thin-sample", codes(self._run(28)))
+
+    def test_the_finding_gives_the_coverage_and_what_to_do(self):
+        finding = next(f for f in audit_result(self._run(5)) if f.code == "thin-sample")
+        self.assertIn("5 of 28", finding.detail)
+        # The bias matters as much as the size, and the wording must say so.
+        self.assertIn("survived", finding.detail)
+        self.assertIn("re-score", finding.confirm)
+
+
 if __name__ == "__main__":
     unittest.main()

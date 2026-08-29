@@ -99,6 +99,7 @@ python -m irinbench compare
 
 | agent | specs | assertions |
 | --- | --- | --- |
+| gemini-3.6-flash, no CAD skill (PARTIAL, 19 of 28) | 8 / 19 (42.1%) | 57 / 105 (54.3%) |
 | gemini-2.5-flash, no CAD skill (PARTIAL, 21 of 28) | 8 / 21 (38.1%) | 66 / 115 (57.4%) |
 | nvidia/nemotron-3-super-120b-a12b via OpenRouter, no CAD skill | 7 / 28 (25.0%) | 61 / 149 (40.9%) |
 | nvidia/nemotron-3-ultra-550b-a55b via OpenRouter (PARTIAL, 22 of 28) | 4 / 22 (18.2%) | 37 / 116 (31.9%) |
@@ -153,6 +154,12 @@ echoed prompt, so it stands as a real floor rather than an adapter's. The larger
 mistakes: `Cylinder(diameter=...)` where the parameter is `radius`, `.rotate()`
 on a `Location`, `.z` on a `Vector`, `Polyline` inside a `BuildSketch` where it
 belongs to `BuildLine`.
+
+The two Gemini rows are a year apart and land in the same place: 8 specs each,
+42.1% against 38.1%, on overlapping but not identical subsets. Neither is
+complete, so the gap is not worth reading as progress. What is worth reading is
+that a generation of model development moved this number very little, while the
+failures stayed the same kind.
 
 One mistake shows up at the top of the failure list for four separate models
 from three vendors: passing the wrong keyword to `Cylinder`. build123d wants

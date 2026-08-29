@@ -9,7 +9,12 @@ from __future__ import annotations
 
 import unittest
 
-from irinbench.transport import NEVER_ASKED, error_message, was_never_asked
+from irinbench.transport import (
+    NEVER_ASKED,
+    as_payload,
+    error_message,
+    was_never_asked,
+)
 
 
 class EnvelopeTests(unittest.TestCase):
@@ -89,6 +94,42 @@ class ClassificationTests(unittest.TestCase):
     def test_the_exit_code_is_the_conventional_one(self):
         # EX_TEMPFAIL. `submit` keys its NEVER ASKED list on exactly this.
         self.assertEqual(NEVER_ASKED, 75)
+
+
+class ArrayEnvelopeTests(unittest.TestCase):
+    """Google returns a top-level JSON array for errors.
+
+    Its successful replies are the ordinary object every other provider sends,
+    so an adapter written against the documented shape works perfectly until the
+    first rate limit and then crashes on a list where it expected a dict. Nine
+    tasks of a real run died this way, each in under five seconds.
+    """
+
+    def test_an_error_wrapped_in_an_array(self):
+        decoded = [{"error": {"code": 429, "message": "Resource exhausted"}}]
+        payload = as_payload(decoded)
+        self.assertEqual(error_message(payload), "Resource exhausted")
+        self.assertTrue(was_never_asked(error_message(payload)))
+
+    def test_an_ordinary_object_is_untouched(self):
+        decoded = {"choices": [{"message": {"content": "code"}}]}
+        self.assertIs(as_payload(decoded), decoded)
+
+    def test_an_array_of_replies_takes_the_first(self):
+        decoded = [{"choices": [{"message": {"content": "code"}}]}, {"choices": []}]
+        self.assertIsNone(error_message(as_payload(decoded)))
+
+    def test_an_empty_array_is_an_empty_payload(self):
+        # Nothing usable arrived. Reads downstream as no choices and no error.
+        self.assertEqual(as_payload([]), {})
+
+    def test_a_bare_scalar_is_an_empty_payload(self):
+        for decoded in ("just a string", 7, None, True):
+            with self.subTest(decoded=decoded):
+                self.assertEqual(as_payload(decoded), {})
+
+    def test_an_array_of_scalars_is_an_empty_payload(self):
+        self.assertEqual(as_payload(["nope", 1]), {})
 
 
 if __name__ == "__main__":

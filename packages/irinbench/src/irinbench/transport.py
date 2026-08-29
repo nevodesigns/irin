@@ -19,7 +19,7 @@ from __future__ import annotations
 
 from typing import Any
 
-__all__ = ["NEVER_ASKED", "error_message", "was_never_asked"]
+__all__ = ["NEVER_ASKED", "as_payload", "error_message", "was_never_asked"]
 
 #: Exit status meaning "the question never reached the model". `submit` lists
 #: these under NEVER ASKED rather than recording an empty artifact. 75 is
@@ -33,6 +33,12 @@ _NEVER_ASKED_MARKERS = (
     "rate_limit",
     "too many requests",
     "quota",
+    # Google's wording for a quota, and the gRPC status behind it. Neither
+    # contains the word "quota", so a marker list written from OpenAI's
+    # vocabulary alone reads a rate limit as a model that answered.
+    "resource exhausted",
+    "resource_exhausted",
+    "exhausted",
     "overloaded",
     "unavailable",
     "capacity",
@@ -48,6 +54,29 @@ _NEVER_ASKED_MARKERS = (
     "authentication",
     "permission",
 )
+
+
+
+def as_payload(decoded: Any) -> dict[str, Any]:
+    """Normalise a decoded JSON body to the object the rest of this expects.
+
+    Google returns a top-level JSON *array* for errors, one element holding the
+    error object, while its successful replies are the ordinary object every
+    other provider sends. An adapter written against the documented shape
+    therefore works perfectly until the first rate limit, then crashes on a list
+    where it expected a dict.
+
+    Anything that is not an object and not a one-element array of one is
+    reported as an empty payload, which reads downstream as a reply with no
+    choices and no error: nothing usable arrived.
+    """
+    if isinstance(decoded, dict):
+        return decoded
+    if isinstance(decoded, list):
+        for item in decoded:
+            if isinstance(item, dict):
+                return item
+    return {}
 
 
 def error_message(payload: dict[str, Any]) -> str | None:

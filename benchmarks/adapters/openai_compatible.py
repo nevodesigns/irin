@@ -75,6 +75,7 @@ _extract = _load("extract")
 _transport = _load("transport")
 
 extract_source = _extract.extract_source
+as_payload = _transport.as_payload
 error_message = _transport.error_message
 was_never_asked = _transport.was_never_asked
 NEVER_ASKED = _transport.NEVER_ASKED
@@ -128,12 +129,12 @@ def _post(base: str, key: str, body: dict) -> dict | None:
     timeout = float(os.environ.get("IRIN_API_TIMEOUT", "240"))
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
-            return json.loads(response.read().decode("utf-8"))
+            return as_payload(json.loads(response.read().decode("utf-8")))
     except urllib.error.HTTPError as exc:
         # A refusal still has a body, and the body says whether it was about
         # reachability or about the request itself. Read it before deciding.
         try:
-            return json.loads(exc.read().decode("utf-8"))
+            return as_payload(json.loads(exc.read().decode("utf-8")))
         except Exception:
             print(f"HTTP {exc.code}", file=sys.stderr)
             return None

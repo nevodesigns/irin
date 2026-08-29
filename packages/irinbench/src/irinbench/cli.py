@@ -26,7 +26,7 @@ from irinbench.repair import (
     new_session,
     write_briefs,
 )
-from irinbench.run import run_corpus, run_task_corpus
+from irinbench.run import reject_unknown_ids, run_corpus, run_task_corpus
 from irinbench.probe import format_probe, probe_corpus
 from irinbench.submit import format_submissions, submit_corpus
 
@@ -157,6 +157,15 @@ def cmd_run(args: argparse.Namespace) -> int:
 
     def progress(result) -> None:
         _log(f"[irinbench]   {result.summary_line()}")
+
+    # Check the id filter before a worker is started. It is a pure argument
+    # check, and a typo in it should cost one line of output rather than a
+    # kernel import, a traceback, and no result.
+    try:
+        reject_unknown_ids(corpus, set(args.only) if args.only else None)
+    except CorpusError as exc:
+        _log(f"[irinbench] {exc}")
+        return 2
 
     artifacts_dir = (Path(args.repo_root) / args.artifacts).resolve() if args.artifacts else None
     with _runner(args, cwd=artifacts_dir if corpus.kind == KIND_TASK else None) as runner:
@@ -353,8 +362,19 @@ def cmd_report(args: argparse.Namespace) -> int:
         print("              cannot be tied to a set of requirements. Do not quote it.")
     else:
         print(f"  corpus      {recorded[:12]}")
+        # Compare against the corpus this result was scored on, not against a
+        # fixed default. Reporting a `tasks` result while the default pointed at
+        # `regression` printed "does NOT match this checkout" for a result that
+        # matched perfectly well: the warning that exists to catch a stale number
+        # was firing on every sound one, which is the fastest way to teach an
+        # author to ignore it. An explicit --corpus still wins, because comparing
+        # a result against a named corpus on purpose is a real thing to want.
+        corpus_dir = args.corpus
+        if corpus_dir is None:
+            named = corpus_block.get("name")
+            corpus_dir = f"benchmarks/{named}" if named else "benchmarks/regression"
         try:
-            on_disk = Corpus.load(Path(args.repo_root) / args.corpus)
+            on_disk = Corpus.load(Path(args.repo_root) / corpus_dir)
         except CorpusError:
             on_disk = None
         if on_disk is not None:
@@ -363,6 +383,15 @@ def cmd_report(args: argparse.Namespace) -> int:
             else:
                 print(f"              does NOT match this checkout ({on_disk.short_fingerprint});")
                 print("              the two numbers describe different requirements")
+    # A partial result says so here as loudly as it does in `run` and `compare`.
+    # Without this line a report of 8 of 21 reads as a whole run that went badly,
+    # when in fact seven tasks were never attempted and the agent has not been
+    # measured on them at all.
+    if data.get("partial"):
+        held = corpus_block.get("tasks")
+        attempted = totals.get("specs")
+        print(f"  PARTIAL     {attempted} of {held} tasks attempted;"
+              " not comparable to a full run")
     print(f"  specs       {totals.get('specs_passing')} / {totals.get('specs')}"
           f"   {rates.get('spec_pass_rate', 0) * 100:.1f}%")
     print(f"  assertions  {totals.get('assertions_passed')} / {totals.get('assertions')}"
@@ -669,8 +698,11 @@ def build_parser() -> argparse.ArgumentParser:
     report.add_argument("--repo-root", default=".", help="Workspace that owns the corpus.")
     report.add_argument(
         "--corpus",
-        default="benchmarks/regression",
-        help="Corpus to compare the result's fingerprint against.",
+        default=None,
+        help=(
+            "Corpus to compare the result's fingerprint against. "
+            "Defaults to the one the result names."
+        ),
     )
     report.set_defaults(handler=cmd_report)
 

@@ -1,0 +1,1478 @@
+{
+  "corpus": {
+    "name": "tasks",
+    "kind": "task",
+    "fingerprint": "74bfef8abe3ef5e9cbd5e7fd1e5e7aa4dd0f91052b7a6f6cff03908ee042f2f7",
+    "tasks": 28
+  },
+  "partial": true,
+  "agent": "gemini-2.5-flash via API (no CAD skill)",
+  "started_at": "2026-08-29T06:27:22+00:00",
+  "duration_s": 21.587,
+  "environment": {
+    "irin_version": "0.4.20",
+    "python": "3.12.13",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35"
+  },
+  "totals": {
+    "specs": 21,
+    "missing_artifacts": 0,
+    "specs_passing": 8,
+    "specs_with_defects": 13,
+    "specs_with_undetermined": 0,
+    "assertions": 115,
+    "assertions_passed": 66,
+    "assertions_undetermined": 0
+  },
+  "rates": {
+    "spec_pass_rate": 0.380952,
+    "assertion_pass_rate": 0.573913
+  },
+  "results": [
+    {
+      "spec": "calibration-block",
+      "entry": "calibration-block.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 5,
+        "passed": 5,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate calibration-block.step.py",
+        "refs calibration-block.step.py --facts",
+        "features calibration-block.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=100.0, y=60.0, z=20.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 100.0,
+            "y": 60.0,
+            "z": 20.0
+          },
+          "actual": {
+            "x": 100.0,
+            "y": 60.0,
+            "z": 20.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-50.0, -30.0, 0.0] and max [50.0, 30.0, 20.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -50.0,
+              -30.0,
+              0.0
+            ],
+            "max": [
+              50.0,
+              30.0,
+              20.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -50.0,
+              -30.0,
+              0.0
+            ],
+            "max": [
+              50.0,
+              30.0,
+              20.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 4 holes of 8 mm, through",
+          "passed": true,
+          "expected": 4,
+          "actual": 4,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 3.4069
+    },
+    {
+      "spec": "circular-flange",
+      "entry": "circular-flange.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 7,
+        "passed": 0,
+        "defects": 7,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate circular-flange.step.py",
+        "refs circular-flange.step.py --facts",
+        "features circular-flange.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Shape could not be reduced to a circle"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for circular-flange: Shape could not be reduced to a circle.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 80 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Shape could not be reduced to a circle"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=10.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for circular-flange: Shape could not be reduced to a circle.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 30 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Shape could not be reduced to a circle"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 6 holes of 6 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Shape could not be reduced to a circle"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "6 holes on a 60 mm bolt circle, each 6 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Shape could not be reduced to a circle"
+        }
+      ],
+      "duration_s": 0.1868
+    },
+    {
+      "spec": "clevis-bracket",
+      "entry": "clevis-bracket.step.py",
+      "ok": false,
+      "score": 0.8,
+      "counts": {
+        "total": 5,
+        "passed": 4,
+        "defects": 1,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate clevis-bracket.step.py",
+        "refs clevis-bracket.step.py --facts",
+        "features clevis-bracket.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=120.0, y=60.0, z=52.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 120.0,
+            "y": 60.0,
+            "z": 52.0
+          },
+          "actual": {
+            "x": 120.0,
+            "y": 60.0,
+            "z": 52.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 14 mm, through",
+          "passed": true,
+          "expected": 2,
+          "actual": 2,
+          "deviation": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 4 holes of 7 mm, through",
+          "passed": false,
+          "code": "count_mismatch",
+          "detail": "expected 4, found 0; hole diameters present: [11.0, 14.0, 32.0]",
+          "expected": 4,
+          "actual": 0,
+          "deviation": -4.0
+        }
+      ],
+      "duration_s": 0.6466
+    },
+    {
+      "spec": "cylindrical-spacer-sleeve",
+      "entry": "cylindrical-spacer-sleeve.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 5,
+        "passed": 5,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate cylindrical-spacer-sleeve.step.py",
+        "refs cylindrical-spacer-sleeve.step.py --facts",
+        "features cylindrical-spacer-sleeve.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 30 mm",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=28.0 (mm)",
+          "passed": true,
+          "expected": {
+            "z": 28.0
+          },
+          "actual": {
+            "z": 28.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 10 mm, through",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 0.1686
+    },
+    {
+      "spec": "flanged-shaft-coupling",
+      "entry": "flanged-shaft-coupling.step.py",
+      "ok": false,
+      "score": 0.857143,
+      "counts": {
+        "total": 7,
+        "passed": 6,
+        "defects": 1,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate flanged-shaft-coupling.step.py",
+        "refs flanged-shaft-coupling.step.py --facts",
+        "features flanged-shaft-coupling.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=28.0 (mm)",
+          "passed": true,
+          "expected": {
+            "z": 28.0
+          },
+          "actual": {
+            "z": 28.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 50 mm",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 30 mm",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 12 mm, through",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "4 holes on a 38 mm bolt circle, each 5.5 mm",
+          "passed": false,
+          "code": "count_mismatch",
+          "detail": "no circular hole pattern found",
+          "expected": 38.0
+        }
+      ],
+      "duration_s": 0.2538
+    },
+    {
+      "spec": "flywheel-disk",
+      "entry": "flywheel-disk.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate flywheel-disk.step.py",
+        "refs flywheel-disk.step.py --facts",
+        "features flywheel-disk.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'Vector' object has no attribute 'z'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for flywheel-disk: 'Vector' object has no attribute 'z'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 90 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'Vector' object has no attribute 'z'"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=12.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for flywheel-disk: 'Vector' object has no attribute 'z'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 18 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'Vector' object has no attribute 'z'"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "6 holes on a 50 mm bolt circle, each 10 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'Vector' object has no attribute 'z'"
+        }
+      ],
+      "duration_s": 0.1773
+    },
+    {
+      "spec": "headed-drill-bushing",
+      "entry": "headed-drill-bushing.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate headed-drill-bushing.step.py",
+        "refs headed-drill-bushing.step.py --facts",
+        "features headed-drill-bushing.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine'])"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for headed-drill-bushing: BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine']).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=24.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for headed-drill-bushing: BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine']).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 24 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine'])"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 16 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine'])"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 8 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine'])"
+        }
+      ],
+      "duration_s": 0.1431
+    },
+    {
+      "spec": "keyed-shaft-hub",
+      "entry": "keyed-shaft-hub.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate keyed-shaft-hub.step.py",
+        "refs keyed-shaft-hub.step.py --facts",
+        "features keyed-shaft-hub.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Locations doesn't accept type <class 'build123d.build_common.PolarLocations'>"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for keyed-shaft-hub: Locations doesn't accept type <class 'build123d.build_common.PolarLocations'>.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 54 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Locations doesn't accept type <class 'build123d.build_common.PolarLocations'>"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=22.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for keyed-shaft-hub: Locations doesn't accept type <class 'build123d.build_common.PolarLocations'>.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 20 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Locations doesn't accept type <class 'build123d.build_common.PolarLocations'>"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "4 holes on a 39 mm bolt circle, each 5.5 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Locations doesn't accept type <class 'build123d.build_common.PolarLocations'>"
+        }
+      ],
+      "duration_s": 0.2247
+    },
+    {
+      "spec": "l-bracket",
+      "entry": "l-bracket.step.py",
+      "ok": false,
+      "score": 0.6,
+      "counts": {
+        "total": 5,
+        "passed": 3,
+        "defects": 2,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate l-bracket.step.py",
+        "refs l-bracket.step.py --facts",
+        "features l-bracket.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=80.0, y=50.0, z=58.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 80.0,
+            "y": 50.0,
+            "z": 58.0
+          },
+          "actual": {
+            "x": 80.0,
+            "y": 50.0,
+            "z": 58.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 4 holes of 6 mm, through",
+          "passed": false,
+          "code": "count_mismatch",
+          "detail": "expected 4, found 3",
+          "expected": 4,
+          "actual": 3,
+          "deviation": -1.0
+        },
+        {
+          "kind": "fillet_count",
+          "description": "exactly 1 blended edge of radius 2 mm",
+          "passed": false,
+          "code": "count_mismatch",
+          "detail": "expected 1, found 3",
+          "expected": 1,
+          "actual": 3,
+          "deviation": 2.0
+        }
+      ],
+      "duration_s": 0.5657
+    },
+    {
+      "spec": "mechanical-iris-aperture",
+      "entry": "mechanical-iris-aperture.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 4,
+        "passed": 0,
+        "defects": 4,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate mechanical-iris-aperture.step.py",
+        "features mechanical-iris-aperture.step.py",
+        "refs mechanical-iris-aperture.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'Extrude' is not defined"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "12 holes on a 124 mm bolt circle, each 3 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'Extrude' is not defined"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "6 holes on a 130 mm bolt circle, each 5 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'Extrude' is not defined"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=20.1 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for mechanical-iris-aperture: name 'Extrude' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        }
+      ],
+      "duration_s": 0.2288
+    },
+    {
+      "spec": "motorcycle-shock-absorber",
+      "entry": "motorcycle-shock-absorber.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 5,
+        "passed": 0,
+        "defects": 5,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate motorcycle-shock-absorber.step.py",
+        "refs motorcycle-shock-absorber.step.py --facts",
+        "features motorcycle-shock-absorber.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'BuildSketches' is not defined"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 11 parts",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for motorcycle-shock-absorber: name 'BuildSketches' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=370.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for motorcycle-shock-absorber: name 'BuildSketches' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 12 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'BuildSketches' is not defined"
+        },
+        {
+          "kind": "feature_spacing",
+          "description": "the two 12 mm bores are 340 mm apart",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'BuildSketches' is not defined"
+        }
+      ],
+      "duration_s": 0.1558
+    },
+    {
+      "spec": "mounting-plate",
+      "entry": "mounting-plate.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate mounting-plate.step.py",
+        "refs mounting-plate.step.py --facts",
+        "features mounting-plate.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=100.0, y=70.0, z=8.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 8.0
+          },
+          "actual": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 8.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 28 mm, through",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 4 holes of 5.5 mm, through",
+          "passed": true,
+          "expected": 4,
+          "actual": 4,
+          "deviation": 0.0
+        },
+        {
+          "kind": "fillet_count",
+          "description": "exactly 4 blended edges of radius 5 mm",
+          "passed": true,
+          "expected": 4,
+          "actual": 4,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 0.2971
+    },
+    {
+      "spec": "nema17-motor-mount",
+      "entry": "nema17-motor-mount.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 7,
+        "passed": 7,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate nema17-motor-mount.step.py",
+        "refs nema17-motor-mount.step.py --facts",
+        "features nema17-motor-mount.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=60.0, y=60.0, z=6.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 60.0,
+            "y": 60.0,
+            "z": 6.0
+          },
+          "actual": {
+            "x": 60.0,
+            "y": 60.0,
+            "z": 6.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 22 mm, through",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 4 holes of 3.4 mm, through",
+          "passed": true,
+          "expected": 4,
+          "actual": 4,
+          "deviation": 0.0
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "4 holes on a 43.841 mm bolt circle, each 3.4 mm",
+          "passed": true,
+          "expected": 43.841,
+          "actual": 43.8406
+        },
+        {
+          "kind": "fillet_count",
+          "description": "exactly 4 blended edges of radius 4 mm",
+          "passed": true,
+          "expected": 4,
+          "actual": 4,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 0.3005
+    },
+    {
+      "spec": "open-top-electronics-enclosure",
+      "entry": "open-top-electronics-enclosure.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 7,
+        "passed": 7,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate open-top-electronics-enclosure.step.py",
+        "refs open-top-electronics-enclosure.step.py --facts",
+        "features open-top-electronics-enclosure.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=100.0, y=70.0, z=30.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 30.0
+          },
+          "actual": {
+            "x": 100.0,
+            "y": 70.0,
+            "z": 30.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-50.0, -35.0, 0.0] and max [50.0, 35.0, 30.0] (mm)",
+          "passed": true,
+          "expected": {
+            "min": [
+              -50.0,
+              -35.0,
+              0.0
+            ],
+            "max": [
+              50.0,
+              35.0,
+              30.0
+            ]
+          },
+          "actual": {
+            "min": [
+              -50.0,
+              -35.0,
+              0.0
+            ],
+            "max": [
+              50.0,
+              35.0,
+              30.0
+            ]
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 4 holes of 3 mm, blind",
+          "passed": true,
+          "expected": 4,
+          "actual": 4,
+          "deviation": 0.0
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 4 external cylinders of 10 mm",
+          "passed": true,
+          "expected": 4,
+          "actual": 4,
+          "deviation": 0.0
+        },
+        {
+          "kind": "fillet_count",
+          "description": "exactly 4 blended edges of radius 2 mm",
+          "passed": true,
+          "expected": 4,
+          "actual": 4,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 0.5175
+    },
+    {
+      "spec": "pillow-block",
+      "entry": "pillow-block.step.py",
+      "ok": false,
+      "score": 0.833333,
+      "counts": {
+        "total": 6,
+        "passed": 5,
+        "defects": 1,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate pillow-block.step.py",
+        "refs pillow-block.step.py --facts",
+        "features pillow-block.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=90.0, y=30.0, z=45.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 90.0,
+            "y": 30.0,
+            "z": 45.0
+          },
+          "actual": {
+            "x": 90.0,
+            "y": 30.0,
+            "z": 45.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 25 mm, through",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 7 mm, through",
+          "passed": false,
+          "code": "count_mismatch",
+          "detail": "expected 2, found 0; hole diameters present: [7.0, 25.0]",
+          "expected": 2,
+          "actual": 0,
+          "deviation": -2.0
+        },
+        {
+          "kind": "feature_spacing",
+          "description": "the two 7 mm bores are 70 mm apart",
+          "passed": true,
+          "expected": 70.0,
+          "actual": 70.0,
+          "deviation": 0.0,
+          "excess": 0.0
+        }
+      ],
+      "duration_s": 0.5584
+    },
+    {
+      "spec": "planetary-gear-stage",
+      "entry": "planetary-gear-stage.step.py",
+      "ok": false,
+      "score": 0.6,
+      "counts": {
+        "total": 5,
+        "passed": 3,
+        "defects": 2,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate planetary-gear-stage.step.py",
+        "refs planetary-gear-stage.step.py --facts",
+        "features planetary-gear-stage.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 9 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 9 parts",
+          "passed": true,
+          "expected": 9,
+          "actual": 9,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=14.0 (mm)",
+          "passed": true,
+          "expected": {
+            "z": 14.0
+          },
+          "actual": {
+            "z": 14.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 10 mm",
+          "passed": false,
+          "code": "count_mismatch",
+          "detail": "expected 1, found 2",
+          "expected": 1,
+          "actual": 2,
+          "deviation": 1.0
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "3 holes on a 84 mm bolt circle, each 6.8 mm",
+          "passed": false,
+          "code": "count_mismatch",
+          "detail": "found instead: 6 x d=6.8 on 84.0 mm (not evenly spaced)",
+          "expected": 84.0
+        }
+      ],
+      "duration_s": 11.344
+    },
+    {
+      "spec": "pulley-wheel",
+      "entry": "pulley-wheel.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 5,
+        "passed": 0,
+        "defects": 5,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate pulley-wheel.step.py",
+        "refs pulley-wheel.step.py --facts",
+        "features pulley-wheel.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine'])"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for pulley-wheel: BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine']).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=24.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for pulley-wheel: BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine']).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 2 external cylinders of 70 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine'])"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 10 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "BuildSketch doesn't have a Polyline object or operation (Polyline applies to ['BuildLine'])"
+        }
+      ],
+      "duration_s": 0.1488
+    },
+    {
+      "spec": "radial-engine-cylinder",
+      "entry": "radial-engine-cylinder.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 3,
+        "passed": 3,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate radial-engine-cylinder.step.py",
+        "refs radial-engine-cylinder.step.py --facts",
+        "features radial-engine-cylinder.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "6 holes on a 56 mm bolt circle, each 5 mm",
+          "passed": true,
+          "expected": 56.0,
+          "actual": 56.0
+        }
+      ],
+      "duration_s": 1.3187
+    },
+    {
+      "spec": "retainer-plate",
+      "entry": "retainer-plate.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 5,
+        "passed": 5,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate retainer-plate.step.py",
+        "refs retainer-plate.step.py --facts",
+        "features retainer-plate.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=82.0, y=34.0, z=6.0 (mm)",
+          "passed": true,
+          "expected": {
+            "x": 82.0,
+            "y": 34.0,
+            "z": 6.0
+          },
+          "actual": {
+            "x": 82.0,
+            "y": 34.0,
+            "z": 6.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 7 mm, through",
+          "passed": true,
+          "expected": 2,
+          "actual": 2,
+          "deviation": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 10 mm, through",
+          "passed": true,
+          "expected": 2,
+          "actual": 2,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 0.3014
+    },
+    {
+      "spec": "shaft-collar",
+      "entry": "shaft-collar.step.py",
+      "ok": true,
+      "score": 1.0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "defects": 0,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate shaft-collar.step.py",
+        "refs shaft-collar.step.py --facts",
+        "features shaft-collar.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": true,
+          "expected": "every occurrence sound",
+          "actual": "0 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 42 mm",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=16.0 (mm)",
+          "passed": true,
+          "expected": {
+            "z": 16.0
+          },
+          "actual": {
+            "z": 16.0
+          },
+          "deviation": 0.0,
+          "excess": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 20 mm, through",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 5 mm, blind",
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 0.2727
+    },
+    {
+      "spec": "six-blade-propeller",
+      "entry": "six-blade-propeller.step.py",
+      "ok": false,
+      "score": 0.25,
+      "counts": {
+        "total": 4,
+        "passed": 1,
+        "defects": 3,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate six-blade-propeller.step.py",
+        "refs six-blade-propeller.step.py --facts",
+        "interfere six-blade-propeller.step.py --tolerance 1"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "geometry_invalid",
+          "detail": "o1: nonPositiveVolume",
+          "expected": "every occurrence sound",
+          "actual": "1 of 1 occurrences unsound"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 7 parts",
+          "passed": false,
+          "code": "count_mismatch",
+          "detail": "expected 7, found 1",
+          "expected": 7,
+          "actual": 1,
+          "deviation": -6.0
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=30.0 (mm)",
+          "passed": false,
+          "code": "dimension_out_of_tolerance",
+          "detail": "z: 0 is outside [29.9, 30.1] by -29.9 mm",
+          "expected": {
+            "z": 30.0
+          },
+          "actual": {
+            "z": 0.0
+          },
+          "deviation": -30.0,
+          "excess": -29.9
+        },
+        {
+          "kind": "no_interference",
+          "description": "no part overlaps another by more than 1.0 mm^3",
+          "passed": true,
+          "expected": 0,
+          "actual": 0,
+          "deviation": 0.0
+        }
+      ],
+      "duration_s": 0.3678
+    }
+  ]
+}

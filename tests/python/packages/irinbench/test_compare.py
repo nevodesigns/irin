@@ -146,3 +146,65 @@ class ReadingTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class GroupHeaderTests(unittest.TestCase):
+    """The header describes the corpus, not whichever result sorted first.
+
+    Rows are sorted best first. A partial run that scored well therefore sat at
+    the head of its group, and the group announced "21 task(s) each" for a
+    corpus of 28: wrong about every row in it, including the partial one, whose
+    own row said 21 for a different reason.
+    """
+
+    def _result(self, label, *, specs, passing, partial, corpus_tasks=28):
+        from irinbench.compare import StoredResult
+
+        return StoredResult(
+            path=Path(f"{label}.json"),
+            corpus_name="tasks",
+            corpus_kind="task",
+            fingerprint="f" * 64,
+            agent=label,
+            started_at="2026-08-29T06:00:00+00:00",
+            specs=specs,
+            specs_passing=passing,
+            assertions=specs * 5,
+            assertions_passed=passing * 5,
+            assertions_undetermined=0,
+            irin_version="0.4.20",
+            corpus_tasks=corpus_tasks,
+            partial=partial,
+        )
+
+    def test_the_header_states_the_corpus_size_not_a_partial_count(self):
+        from irinbench.compare import format_comparison
+
+        out = format_comparison([
+            self._result("fast partial", specs=21, passing=8, partial=True),
+            self._result("full run", specs=28, passing=4, partial=False),
+        ])
+
+        self.assertIn("28 task(s) in the corpus", out)
+        self.assertNotIn("21 task(s)", out)
+
+    def test_each_is_claimed_only_when_it_is_true(self):
+        from irinbench.compare import format_comparison
+
+        mixed = format_comparison([
+            self._result("partial", specs=21, passing=8, partial=True),
+            self._result("full", specs=28, passing=4, partial=False),
+        ])
+        self.assertNotIn("each", mixed)
+
+        uniform = format_comparison([
+            self._result("a", specs=28, passing=4, partial=False),
+            self._result("b", specs=28, passing=3, partial=False),
+        ])
+        self.assertIn("each", uniform)
+
+    def test_a_partial_row_is_labelled(self):
+        from irinbench.compare import format_comparison
+
+        out = format_comparison([self._result("gem", specs=21, passing=8, partial=True)])
+        self.assertIn("(partial)", out)

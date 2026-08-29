@@ -217,6 +217,27 @@ def _missing_artifact_result(spec, expected: str) -> SpecResult:
     )
 
 
+
+def reject_unknown_ids(corpus: Corpus, wanted: set[str] | None) -> None:
+    """A filter that selects nothing is a mistake, never an instruction.
+
+    ``--only`` takes a space-separated list, so a comma-separated one arrives as
+    one token naming no task. The run then wrote a well-formed result file
+    reporting 0 of 28 attempted, which reads as an answer rather than as the
+    typo it was. An empty result that looks like a result is worse than an
+    error, because it can be filed, quoted and compared.
+    """
+    if wanted is None:
+        return
+    unknown = sorted(wanted - {spec.id for spec in corpus.specs})
+    if unknown:
+        raise CorpusError(
+            f"no task in corpus {corpus.name!r} is named "
+            f"{', '.join(repr(u) for u in unknown)}. "
+            "--only takes a space-separated list of task ids."
+        )
+
+
 def run_task_corpus(
     corpus: Corpus,
     artifacts_dir: str | Path,
@@ -257,6 +278,8 @@ def run_task_corpus(
 
     results: list[SpecResult] = []
     wanted = set(only) if only else None
+    reject_unknown_ids(corpus, wanted)
+
     for spec in corpus.specs:
         if wanted is not None and spec.id not in wanted:
             continue
@@ -298,6 +321,8 @@ def run_corpus(
 
     results: list[SpecResult] = []
     wanted = set(only) if only else None
+    reject_unknown_ids(corpus, wanted)
+
     for spec in corpus.specs:
         if wanted is not None and spec.id not in wanted:
             continue

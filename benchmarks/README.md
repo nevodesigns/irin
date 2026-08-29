@@ -99,24 +99,32 @@ python -m irinbench compare
 
 | agent | specs | assertions |
 | --- | --- | --- |
+| gemini-2.5-flash, no CAD skill (PARTIAL, 21 of 28) | 8 / 21 (38.1%) | 66 / 115 (57.4%) |
 | nvidia/nemotron-3-super-120b-a12b via OpenRouter, no CAD skill | 4 / 28 (14.3%) | 38 / 149 (25.5%) |
 | openai/gpt-oss-120b via Groq, no CAD skill | 3 / 28 (10.7%) | 20 / 149 (13.4%) |
 | qwen2.5-3b-instruct q4_K_M, local, no CAD skill | 0 / 28 | 0 / 149 |
 
-All three are complete runs with no CAD skill installed, so they measure what a
-model knows about build123d unaided. None is flattering, and that is the point of
-having a scale that starts at the bottom.
+None has a CAD skill installed, so these measure what a model knows about
+build123d unaided. None is flattering, and that is the point of having a scale
+that starts at the bottom.
+
+**The Gemini row is partial and is not comparable to the others.** It answered 21
+of 28 before its quota ran out, and the seven it never saw are the alphabetical
+tail, not a random sample. It is listed because 8 of 21 is worth knowing, not
+because 38.1% can be set beside 14.3%.
 
 The 3B local model does not know the library at all: it writes `make_box` where
 build123d has `Box`, passes `size=` to `Box`, and tries to import a private
-module. The two 120B models write recognisable build123d and still fail most
-tasks on real API mistakes: `Cylinder(diameter=...)` where the parameter is
-`radius`, `.rotate()` on a `Location`, `.z` on a `Vector`.
+module. The larger models write recognisable build123d and still fail on real API
+mistakes: `Cylinder(diameter=...)` where the parameter is `radius`, `.rotate()`
+on a `Location`, `.z` on a `Vector`, `Polyline` inside a `BuildSketch` where it
+belongs to `BuildLine`.
 
-Every one of the three is held up by the same thing, and it is not reasoning
-about geometry. It is knowing the actual signatures of a library. That gap is
-what a CAD skill closes, and measuring the unaided floor first is what makes the
-aided number mean something later.
+Every one of them is held up by the same thing, and it is not reasoning about
+geometry. It is knowing the actual signatures of a library. Gemini is ahead of
+the two 120B models on the tasks it attempted, and its failures are the same
+kind, just fewer. That gap is what a CAD skill closes, and measuring the unaided
+floor first is what makes the aided number mean something later.
 
 Nemotron also failed three tasks by returning prose instead of code. It wrote out
 its reasoning, the file did not parse, and those three score as defects. That is

@@ -116,7 +116,14 @@ def format_comparison(results: Iterable[StoredResult]) -> str:
     for fingerprint, items in sorted(groups.items(), key=lambda kv: -len(kv[1])):
         head = items[0]
         lines.append(f"corpus {head.corpus_name} ({head.corpus_kind})  {fingerprint[:12]}")
-        lines.append(f"  {len(items)} result(s), {head.specs} task(s) each")
+        # The corpus size, not the first result's attempted count. Results are
+        # sorted best first, so a partial run that scored well sat at the head
+        # and made the group announce "21 task(s) each" for a corpus of 28,
+        # which was wrong about every row including its own.
+        size = max((r.corpus_tasks for r in items), default=0) or head.specs
+        counts = {r.specs for r in items}
+        suffix = " each" if len(counts) == 1 else ""
+        lines.append(f"  {len(items)} result(s), {size} task(s) in the corpus{suffix}")
         lines.append("")
         width = max(len(r.label) for r in items)
         lines.append(

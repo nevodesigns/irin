@@ -372,3 +372,91 @@ class DiscoveryResilienceTests(unittest.TestCase):
             found = catalog.find_source_by_path(root / "good.step.py", root)
 
         self.assertIsNotNone(found, "an unparseable sibling hid a valid generator")
+
+
+class ShadowedGeneratorTests(unittest.TestCase):
+    """A name defined twice binds to the last definition.
+
+    A model wrote one attempt at gen_step, changed its mind in a comment, and
+    wrote a second complete one below it. Python imports that file and runs the
+    second function. IRIN validated the first, found no return in it, and
+    rejected the whole file as "gen_step() must return one value" when the
+    gen_step that actually runs returns exactly one value.
+
+    Static analysis that disagrees with the interpreter is wrong twice: it
+    refuses a working file, and the error names a cause that is not there.
+    """
+
+    def _metadata(self, source: str):
+        import tempfile
+
+        from irincad import metadata
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "part.step.py"
+            path.write_text(source, encoding="utf-8")
+            return metadata.parse_generator_metadata(path)
+
+    def test_the_later_definition_is_the_one_analysed(self):
+        source = "\n".join(
+            [
+                "from build123d import Box",
+                "",
+                "def gen_step():",
+                "    # a first attempt, abandoned",
+                "    pass",
+                "",
+                "def gen_step():",
+                "    return Box(40, 25, 8)",
+                "",
+            ]
+        )
+        result = self._metadata(source)
+        self.assertIsNotNone(result, "a file Python runs happily was rejected")
+
+    def test_a_broken_later_definition_is_still_rejected(self):
+        # The rule is "analyse what runs", not "accept anything". If the
+        # definition that binds is bad, the file is bad.
+        source = "\n".join(
+            [
+                "from build123d import Box",
+                "",
+                "def gen_step():",
+                "    return Box(40, 25, 8)",
+                "",
+                "def gen_step():",
+                "    pass",
+                "",
+            ]
+        )
+        with self.assertRaises(ValueError):
+            self._metadata(source)
+
+    def test_a_generator_is_named_once_however_often_it_is_defined(self):
+        source = "\n".join(
+            [
+                "from build123d import Box",
+                "",
+                "def gen_step():",
+                "    pass",
+                "",
+                "def gen_step():",
+                "    return Box(1, 1, 1)",
+                "",
+            ]
+        )
+        result = self._metadata(source)
+        self.assertEqual(result.generator_names, ("gen_step",))
+
+    def test_a_single_definition_is_unaffected(self):
+        source = "\n".join(
+            [
+                "from build123d import Box",
+                "",
+                "def gen_step():",
+                "    return Box(40, 25, 8)",
+                "",
+            ]
+        )
+        result = self._metadata(source)
+        self.assertEqual(result.generator_names, ("gen_step",))

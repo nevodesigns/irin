@@ -96,6 +96,19 @@ def parse_generator_metadata(script_path: Path) -> GeneratorMetadata | None:
     has_gen_step = False
     has_gen_dxf = False
     generator_names: list[str] = []
+
+    # A name defined twice at module level binds to the last definition, so that
+    # is the one to analyse. Validating every occurrence means rejecting a file
+    # on the strength of code Python will never run: a model that wrote one
+    # attempt, changed its mind and wrote a second complete gen_step below it
+    # produced a file that imports and runs correctly, and IRIN refused it for a
+    # missing return in the draft. Static analysis that disagrees with the
+    # interpreter is wrong twice, because the error also names the wrong cause.
+    effective: dict[str, ast.FunctionDef] = {}
+    for node in tree.body:
+        if isinstance(node, ast.FunctionDef) and node.name in {"gen_step", "gen_dxf"}:
+            effective[node.name] = node
+
     for node in tree.body:
         target: ast.expr | None = None
         value: ast.AST | None = None
@@ -110,6 +123,10 @@ def parse_generator_metadata(script_path: Path) -> GeneratorMetadata | None:
                 display_name = value.value.strip()
 
         if not isinstance(node, ast.FunctionDef) or node.name not in {"gen_step", "gen_dxf"}:
+            continue
+        if effective[node.name] is not node:
+            # A shadowed definition. Skipped, not reported: the file is valid
+            # and this code is unreachable.
             continue
         generator_names.append(node.name)
 

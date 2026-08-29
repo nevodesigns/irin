@@ -1,0 +1,1258 @@
+{
+  "corpus": {
+    "name": "tasks",
+    "kind": "task",
+    "fingerprint": "74bfef8abe3ef5e9cbd5e7fd1e5e7aa4dd0f91052b7a6f6cff03908ee042f2f7",
+    "tasks": 28
+  },
+  "partial": true,
+  "agent": "openai/gpt-oss-20b via Groq (no CAD skill)",
+  "started_at": "2026-08-29T08:39:31+00:00",
+  "duration_s": 6.247,
+  "environment": {
+    "irin_version": "0.4.20",
+    "python": "3.12.13",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35"
+  },
+  "totals": {
+    "specs": 21,
+    "missing_artifacts": 0,
+    "specs_passing": 0,
+    "specs_with_defects": 21,
+    "specs_with_undetermined": 0,
+    "assertions": 115,
+    "assertions_passed": 0,
+    "assertions_undetermined": 0
+  },
+  "rates": {
+    "spec_pass_rate": 0.0,
+    "assertion_pass_rate": 0.0
+  },
+  "results": [
+    {
+      "spec": "calibration-block",
+      "entry": "calibration-block.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 5,
+        "passed": 0,
+        "defects": 5,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate calibration-block.step.py",
+        "refs calibration-block.step.py --facts",
+        "features calibration-block.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'BuildPart' has no attribute 'cut'. Did you intend '<BuildPart>.part.cut'?"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: 'BuildPart' has no attribute 'cut'. Did you intend '<BuildPart>.part.cut'?.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=100.0, y=60.0, z=20.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: 'BuildPart' has no attribute 'cut'. Did you intend '<BuildPart>.part.cut'?.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-50.0, -30.0, 0.0] and max [50.0, 30.0, 20.0] (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for calibration-block: 'BuildPart' has no attribute 'cut'. Did you intend '<BuildPart>.part.cut'?.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 4 holes of 8 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'BuildPart' has no attribute 'cut'. Did you intend '<BuildPart>.part.cut'?"
+        }
+      ],
+      "duration_s": 3.454
+    },
+    {
+      "spec": "circular-flange",
+      "entry": "circular-flange.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 7,
+        "passed": 0,
+        "defects": 7,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate circular-flange.step.py",
+        "refs circular-flange.step.py --facts",
+        "features circular-flange.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Mixin3D.fillet() missing 1 required positional argument: 'edge_list'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for circular-flange: Mixin3D.fillet() missing 1 required positional argument: 'edge_list'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 80 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Mixin3D.fillet() missing 1 required positional argument: 'edge_list'"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=10.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for circular-flange: Mixin3D.fillet() missing 1 required positional argument: 'edge_list'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 30 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Mixin3D.fillet() missing 1 required positional argument: 'edge_list'"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 6 holes of 6 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Mixin3D.fillet() missing 1 required positional argument: 'edge_list'"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "6 holes on a 60 mm bolt circle, each 6 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Mixin3D.fillet() missing 1 required positional argument: 'edge_list'"
+        }
+      ],
+      "duration_s": 0.4844
+    },
+    {
+      "spec": "clevis-bracket",
+      "entry": "clevis-bracket.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 5,
+        "passed": 0,
+        "defects": 5,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate clevis-bracket.step.py",
+        "refs clevis-bracket.step.py --facts",
+        "features clevis-bracket.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Solid.make_box() got an unexpected keyword argument 'size'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for clevis-bracket: Solid.make_box() got an unexpected keyword argument 'size'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=120.0, y=60.0, z=52.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for clevis-bracket: Solid.make_box() got an unexpected keyword argument 'size'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 14 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Solid.make_box() got an unexpected keyword argument 'size'"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 4 holes of 7 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Solid.make_box() got an unexpected keyword argument 'size'"
+        }
+      ],
+      "duration_s": 0.1228
+    },
+    {
+      "spec": "cylindrical-spacer-sleeve",
+      "entry": "cylindrical-spacer-sleeve.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 5,
+        "passed": 0,
+        "defects": 5,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate cylindrical-spacer-sleeve.step.py",
+        "refs cylindrical-spacer-sleeve.step.py --facts",
+        "features cylindrical-spacer-sleeve.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'r'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for cylindrical-spacer-sleeve: Cylinder.__init__() got an unexpected keyword argument 'r'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 30 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'r'"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=28.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for cylindrical-spacer-sleeve: Cylinder.__init__() got an unexpected keyword argument 'r'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 10 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'r'"
+        }
+      ],
+      "duration_s": 0.1231
+    },
+    {
+      "spec": "flanged-shaft-coupling",
+      "entry": "flanged-shaft-coupling.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 7,
+        "passed": 0,
+        "defects": 7,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate flanged-shaft-coupling.step.py",
+        "refs flanged-shaft-coupling.step.py --facts",
+        "features flanged-shaft-coupling.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=28.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 50 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 30 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 12 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "4 holes on a 38 mm bolt circle, each 5.5 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "CAD STEP ref not found for 'flanged-shaft-coupling'."
+        }
+      ],
+      "duration_s": 0.0975
+    },
+    {
+      "spec": "flywheel-disk",
+      "entry": "flywheel-disk.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate flywheel-disk.step.py",
+        "refs flywheel-disk.step.py --facts",
+        "features flywheel-disk.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'translate' is not defined"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for flywheel-disk: name 'translate' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 90 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'translate' is not defined"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=12.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for flywheel-disk: name 'translate' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 18 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'translate' is not defined"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "6 holes on a 50 mm bolt circle, each 10 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'translate' is not defined"
+        }
+      ],
+      "duration_s": 0.1371
+    },
+    {
+      "spec": "headed-drill-bushing",
+      "entry": "headed-drill-bushing.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate headed-drill-bushing.step.py",
+        "refs headed-drill-bushing.step.py --facts",
+        "features headed-drill-bushing.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'tuple' object has no attribute 'wrapped'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for headed-drill-bushing: 'tuple' object has no attribute 'wrapped'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=24.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for headed-drill-bushing: 'tuple' object has no attribute 'wrapped'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 24 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'tuple' object has no attribute 'wrapped'"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 16 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'tuple' object has no attribute 'wrapped'"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 8 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'tuple' object has no attribute 'wrapped'"
+        }
+      ],
+      "duration_s": 0.1233
+    },
+    {
+      "spec": "keyed-shaft-hub",
+      "entry": "keyed-shaft-hub.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate keyed-shaft-hub.step.py",
+        "refs keyed-shaft-hub.step.py --facts",
+        "features keyed-shaft-hub.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'd'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for keyed-shaft-hub: Cylinder.__init__() got an unexpected keyword argument 'd'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 54 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'd'"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=22.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for keyed-shaft-hub: Cylinder.__init__() got an unexpected keyword argument 'd'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 20 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'd'"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "4 holes on a 39 mm bolt circle, each 5.5 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'd'"
+        }
+      ],
+      "duration_s": 0.1199
+    },
+    {
+      "spec": "mechanical-iris-aperture",
+      "entry": "mechanical-iris-aperture.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 4,
+        "passed": 0,
+        "defects": 4,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate mechanical-iris-aperture.step.py",
+        "features mechanical-iris-aperture.step.py",
+        "refs mechanical-iris-aperture.step.py --facts"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'Part' object has no attribute 'add'"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "12 holes on a 124 mm bolt circle, each 3 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'Part' object has no attribute 'add'"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "6 holes on a 130 mm bolt circle, each 5 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'Part' object has no attribute 'add'"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=20.1 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for mechanical-iris-aperture: 'Part' object has no attribute 'add'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        }
+      ],
+      "duration_s": 0.1207
+    },
+    {
+      "spec": "motorcycle-shock-absorber",
+      "entry": "motorcycle-shock-absorber.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 5,
+        "passed": 0,
+        "defects": 5,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate motorcycle-shock-absorber.step.py",
+        "refs motorcycle-shock-absorber.step.py --facts",
+        "features motorcycle-shock-absorber.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'helix' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 11 parts",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for motorcycle-shock-absorber: cannot import name 'helix' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=370.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for motorcycle-shock-absorber: cannot import name 'helix' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 12 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'helix' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        },
+        {
+          "kind": "feature_spacing",
+          "description": "the two 12 mm bores are 340 mm apart",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'helix' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        }
+      ],
+      "duration_s": 0.1204
+    },
+    {
+      "spec": "mounting-plate",
+      "entry": "mounting-plate.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate mounting-plate.step.py",
+        "refs mounting-plate.step.py --facts",
+        "features mounting-plate.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'Rect' is not defined"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for mounting-plate: name 'Rect' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=100.0, y=70.0, z=8.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for mounting-plate: name 'Rect' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 28 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'Rect' is not defined"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 4 holes of 5.5 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'Rect' is not defined"
+        },
+        {
+          "kind": "fillet_count",
+          "description": "exactly 4 blended edges of radius 5 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'Rect' is not defined"
+        }
+      ],
+      "duration_s": 0.1198
+    },
+    {
+      "spec": "nema17-motor-mount",
+      "entry": "nema17-motor-mount.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 7,
+        "passed": 0,
+        "defects": 7,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate nema17-motor-mount.step.py",
+        "refs nema17-motor-mount.step.py --facts",
+        "features nema17-motor-mount.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'function' object has no attribute 'filter_by_position'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for nema17-motor-mount: 'function' object has no attribute 'filter_by_position'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=60.0, y=60.0, z=6.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for nema17-motor-mount: 'function' object has no attribute 'filter_by_position'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 22 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'function' object has no attribute 'filter_by_position'"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 4 holes of 3.4 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'function' object has no attribute 'filter_by_position'"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "4 holes on a 43.841 mm bolt circle, each 3.4 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'function' object has no attribute 'filter_by_position'"
+        },
+        {
+          "kind": "fillet_count",
+          "description": "exactly 4 blended edges of radius 4 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'function' object has no attribute 'filter_by_position'"
+        }
+      ],
+      "duration_s": 0.1223
+    },
+    {
+      "spec": "open-top-electronics-enclosure",
+      "entry": "open-top-electronics-enclosure.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 7,
+        "passed": 0,
+        "defects": 7,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate open-top-electronics-enclosure.step.py",
+        "refs open-top-electronics-enclosure.step.py --facts",
+        "features open-top-electronics-enclosure.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for open-top-electronics-enclosure: 'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=100.0, y=70.0, z=30.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for open-top-electronics-enclosure: 'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "bounds",
+          "description": "bounding box corner min [-50.0, -35.0, 0.0] and max [50.0, 35.0, 30.0] (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for open-top-electronics-enclosure: 'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 4 holes of 3 mm, blind",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 4 external cylinders of 10 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?"
+        },
+        {
+          "kind": "fillet_count",
+          "description": "exactly 4 blended edges of radius 2 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'BuildPart' has no attribute 'add'. Did you intend '<BuildPart>.part.add'?"
+        }
+      ],
+      "duration_s": 0.1239
+    },
+    {
+      "spec": "pillow-block",
+      "entry": "pillow-block.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate pillow-block.step.py",
+        "refs pillow-block.step.py --facts",
+        "features pillow-block.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'function' object has no attribute 'cuboid'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for pillow-block: 'function' object has no attribute 'cuboid'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=90.0, y=30.0, z=45.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for pillow-block: 'function' object has no attribute 'cuboid'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 25 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'function' object has no attribute 'cuboid'"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 7 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'function' object has no attribute 'cuboid'"
+        },
+        {
+          "kind": "feature_spacing",
+          "description": "the two 7 mm bores are 70 mm apart",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'function' object has no attribute 'cuboid'"
+        }
+      ],
+      "duration_s": 0.1215
+    },
+    {
+      "spec": "planetary-gear-stage",
+      "entry": "planetary-gear-stage.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 5,
+        "passed": 0,
+        "defects": 5,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate planetary-gear-stage.step.py",
+        "refs planetary-gear-stage.step.py --facts",
+        "features planetary-gear-stage.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'Assembly' is not defined"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 9 parts",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for planetary-gear-stage: name 'Assembly' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=14.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for planetary-gear-stage: name 'Assembly' is not defined.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 10 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'Assembly' is not defined"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "3 holes on a 84 mm bolt circle, each 6.8 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "name 'Assembly' is not defined"
+        }
+      ],
+      "duration_s": 0.1225
+    },
+    {
+      "spec": "radial-engine-cylinder",
+      "entry": "radial-engine-cylinder.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 3,
+        "passed": 0,
+        "defects": 3,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate radial-engine-cylinder.step.py",
+        "refs radial-engine-cylinder.step.py --facts",
+        "features radial-engine-cylinder.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'tuple' object has no attribute 'wrapped'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for radial-engine-cylinder: 'tuple' object has no attribute 'wrapped'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "6 holes on a 56 mm bolt circle, each 5 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'tuple' object has no attribute 'wrapped'"
+        }
+      ],
+      "duration_s": 0.1231
+    },
+    {
+      "spec": "retainer-plate",
+      "entry": "retainer-plate.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 5,
+        "passed": 0,
+        "defects": 5,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate retainer-plate.step.py",
+        "refs retainer-plate.step.py --facts",
+        "features retainer-plate.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'center'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for retainer-plate: Cylinder.__init__() got an unexpected keyword argument 'center'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box x=82.0, y=34.0, z=6.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for retainer-plate: Cylinder.__init__() got an unexpected keyword argument 'center'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 7 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'center'"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 2 holes of 10 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Cylinder.__init__() got an unexpected keyword argument 'center'"
+        }
+      ],
+      "duration_s": 0.1281
+    },
+    {
+      "spec": "shaft-collar",
+      "entry": "shaft-collar.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate shaft-collar.step.py",
+        "refs shaft-collar.step.py --facts",
+        "features shaft-collar.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'rotate' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for shaft-collar: cannot import name 'rotate' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 42 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'rotate' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=16.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for shaft-collar: cannot import name 'rotate' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 20 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'rotate' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 5 mm, blind",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'rotate' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        }
+      ],
+      "duration_s": 0.1195
+    },
+    {
+      "spec": "six-blade-propeller",
+      "entry": "six-blade-propeller.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 4,
+        "passed": 0,
+        "defects": 4,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate six-blade-propeller.step.py",
+        "refs six-blade-propeller.step.py --facts",
+        "interfere six-blade-propeller.step.py --tolerance 1"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'Part' object has no attribute 'add'"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 7 parts",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for six-blade-propeller: 'Part' object has no attribute 'add'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=30.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for six-blade-propeller: 'Part' object has no attribute 'add'.\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "no_interference",
+          "description": "no part overlaps another by more than 1.0 mm^3",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "'Part' object has no attribute 'add'"
+        }
+      ],
+      "duration_s": 0.1196
+    },
+    {
+      "spec": "six-hole-spacer-ring",
+      "entry": "six-hole-spacer-ring.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 6,
+        "passed": 0,
+        "defects": 6,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate six-hole-spacer-ring.step.py",
+        "refs six-hole-spacer-ring.step.py --facts",
+        "features six-hole-spacer-ring.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'union' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 1 part",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for six-hole-spacer-ring: cannot import name 'union' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=5.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for six-hole-spacer-ring: cannot import name 'union' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "boss_count",
+          "description": "exactly 1 external cylinder of 80 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'union' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 1 hole of 50 mm, through",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'union' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        },
+        {
+          "kind": "bolt_circle",
+          "description": "6 holes on a 65 mm bolt circle, each 6 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'union' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        }
+      ],
+      "duration_s": 0.1206
+    },
+    {
+      "spec": "spiral-staircase",
+      "entry": "spiral-staircase.step.py",
+      "ok": false,
+      "score": 0.0,
+      "counts": {
+        "total": 4,
+        "passed": 0,
+        "defects": 4,
+        "undetermined": 0
+      },
+      "inspections": [
+        "validate spiral-staircase.step.py",
+        "refs spiral-staircase.step.py --facts",
+        "features spiral-staircase.step.py"
+      ],
+      "assertions": [
+        {
+          "kind": "valid_solid",
+          "description": "geometry is a closed, positive-volume, non-self-intersecting solid",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'PathMode' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        },
+        {
+          "kind": "part_count",
+          "description": "exactly 43 parts",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for spiral-staircase: cannot import name 'PathMode' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "size",
+          "description": "bounding box z=140.0 (mm)",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "Failed to regenerate GLB/topology artifact for spiral-staircase: cannot import name 'PathMode' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py).\nRegenerate STEP artifacts with the following command using the CAD skill:"
+        },
+        {
+          "kind": "hole_count",
+          "description": "exactly 20 holes of 20 mm",
+          "passed": false,
+          "code": "artifact_broken",
+          "detail": "cannot import name 'PathMode' from 'build123d' (/home/nwokolo/projects/text-to-cad/.venv/lib/python3.12/site-packages/build123d/__init__.py)"
+        }
+      ],
+      "duration_s": 0.1202
+    }
+  ]
+}

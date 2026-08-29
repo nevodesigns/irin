@@ -103,6 +103,8 @@ python -m irinbench compare
 | nvidia/nemotron-3-super-120b-a12b via OpenRouter, no CAD skill | 7 / 28 (25.0%) | 61 / 149 (40.9%) |
 | nvidia/nemotron-3-ultra-550b-a55b via OpenRouter (PARTIAL, 22 of 28) | 4 / 22 (18.2%) | 37 / 116 (31.9%) |
 | openai/gpt-oss-120b via Groq, no CAD skill | 3 / 28 (10.7%) | 20 / 149 (13.4%) |
+| qwen/qwen3.8-27b via Groq (PARTIAL, 23 of 28) | 0 / 23 | 4 / 123 (3.3%) |
+| openai/gpt-oss-20b via Groq (PARTIAL, 21 of 28) | 0 / 21 | 0 / 115 |
 | qwen2.5-3b-instruct q4_K_M, local, no CAD skill | 0 / 28 | 0 / 149 |
 
 None has a CAD skill installed, so these measure what a model knows about
@@ -132,6 +134,18 @@ echoed prompt, so it stands as a real floor rather than an adapter's. The larger
 mistakes: `Cylinder(diameter=...)` where the parameter is `radius`, `.rotate()`
 on a `Location`, `.z` on a `Vector`, `Polyline` inside a `BuildSketch` where it
 belongs to `BuildLine`.
+
+One mistake shows up at the top of the failure list for four separate models
+from three vendors: passing the wrong keyword to `Cylinder`. build123d wants
+`radius`, and models reach for `diameter` or `r`. gpt-oss-20b, gpt-oss-120b and
+qwen3.8-27b each lose more assertions to that single argument name than to
+anything else.
+
+That is the clearest evidence here that the corpus is measuring what it set out
+to. A model failing on `Cylinder(diameter=...)` has understood the requirement,
+chosen the right primitive, and got the parameter name wrong. It is not
+confused about the engineering. It is missing one fact about one library, which
+is exactly the kind of gap a skill supplies and a larger model does not.
 
 Every one of them is held up by the same thing, and it is not reasoning about
 geometry. It is knowing the actual signatures of a library. Gemini is ahead of

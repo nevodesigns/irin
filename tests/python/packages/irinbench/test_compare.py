@@ -32,15 +32,20 @@ def write_result(
     assertions_passed=35,
     undetermined=0,
     name="tasks",
+    corpus_tasks=None,
+    partial=False,
 ) -> Path:
     corpus = {"name": name, "kind": "task"}
     if fingerprint is not None:
         corpus["fingerprint"] = fingerprint
+    if corpus_tasks is not None:
+        corpus["tasks"] = corpus_tasks
     path.write_text(
         json.dumps(
             {
                 "corpus": corpus,
                 "agent": agent,
+                "partial": partial,
                 "started_at": "2026-08-22T00:00:00+00:00",
                 "duration_s": 10.0,
                 "environment": {"irin_version": "0.4.20"},
@@ -144,9 +149,6 @@ class ReadingTests(unittest.TestCase):
         self.assertIn("no results", format_comparison([]))
 
 
-if __name__ == "__main__":
-    unittest.main()
-
 
 class GroupHeaderTests(unittest.TestCase):
     """The header describes the corpus, not whichever result sorted first.
@@ -208,3 +210,89 @@ class GroupHeaderTests(unittest.TestCase):
 
         out = format_comparison([self._result("gem", specs=21, passing=8, partial=True)])
         self.assertIn("(partial)", out)
+
+
+class ThinResultTests(unittest.TestCase):
+    """A run covering too little of the corpus is not a comparable row.
+
+    The real one: a token-metered free tier let five of twenty-eight tasks
+    through. `compare` printed "0 / 5   0.0%" in the same column of percentages
+    as the complete runs, labelled only "(partial)". A rate printed in a column
+    of rates is read as one, however it is labelled.
+    """
+
+    def _table(self, tmp: Path) -> str:
+        write_result(
+            tmp / "full.json",
+            agent="complete model",
+            fingerprint="abc123",
+            specs=28,
+            passing=7,
+            corpus_tasks=28,
+        )
+        write_result(
+            tmp / "thin.json",
+            agent="throttled model",
+            fingerprint="abc123",
+            specs=5,
+            passing=0,
+            assertions=27,
+            assertions_passed=0,
+            corpus_tasks=28,
+            partial=True,
+        )
+        return format_comparison(load_results(tmp.glob("*.json")))
+
+    def test_a_thin_run_is_moved_out_of_the_ranked_table(self):
+        with tempfile.TemporaryDirectory() as d:
+            table = self._table(Path(d))
+        self.assertIn("too thin to compare", table)
+        # Listed, because deleting it would hide that the attempt was made.
+        self.assertIn("throttled model", table)
+
+    def test_a_thin_run_is_not_given_a_percentage(self):
+        with tempfile.TemporaryDirectory() as d:
+            table = self._table(Path(d))
+        thin_line = next(
+            line for line in table.splitlines() if "throttled model" in line
+        )
+        self.assertNotIn("%", thin_line)
+        self.assertIn("5 of 28 tasks", thin_line)
+
+    def test_the_substantial_run_keeps_its_row(self):
+        with tempfile.TemporaryDirectory() as d:
+            table = self._table(Path(d))
+        full_line = next(line for line in table.splitlines() if "complete model" in line)
+        self.assertIn("25.0%", full_line)
+
+    def test_a_partial_covering_most_of_the_corpus_stays_comparable(self):
+        # 23 of 28 is worth reading. Demoting it would make the rule noise on
+        # the ordinary case of a run that lost a few tasks.
+        with tempfile.TemporaryDirectory() as d:
+            tmp = Path(d)
+            write_result(
+                tmp / "most.json",
+                agent="mostly complete",
+                fingerprint="abc123",
+                specs=23,
+                passing=0,
+                corpus_tasks=28,
+                partial=True,
+            )
+            table = format_comparison(load_results(tmp.glob("*.json")))
+        self.assertNotIn("too thin", table)
+        self.assertIn("(partial)", table)
+
+    def test_a_result_that_does_not_record_corpus_size_is_not_demoted(self):
+        # Older results predate the field. Absence of evidence is not thinness.
+        with tempfile.TemporaryDirectory() as d:
+            tmp = Path(d)
+            write_result(
+                tmp / "old.json", agent="legacy", fingerprint="abc123", specs=5, passing=0
+            )
+            table = format_comparison(load_results(tmp.glob("*.json")))
+        self.assertNotIn("too thin", table)
+
+
+if __name__ == "__main__":
+    unittest.main()

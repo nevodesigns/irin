@@ -128,6 +128,27 @@ Give the agent whatever tooling you are measuring: the IRIN CAD skill, another
 CAD library, nothing at all. That choice is part of what the number describes,
 so state it when you publish.
 
+For an agent behind an HTTP API, `benchmarks/adapters/` has a working adapter
+for any OpenAI-compatible endpoint, which covers Groq, OpenRouter, Cerebras,
+Together and most others:
+
+```bash
+export IRIN_API_BASE=https://api.groq.com/openai/v1
+export IRIN_API_KEY_FILE=~/.groq-key
+export IRIN_API_MODEL=openai/gpt-oss-120b
+
+python -m irinbench submit --corpus benchmarks/tasks --out ./submission \
+    --command benchmarks/adapters/openai_compatible.py
+```
+
+It ships because every adopter has to write this and it is where the bugs live.
+Three versions of it here each published a number that was too low: an
+unbalanced code fence that turned valid source into a SyntaxError, a model whose
+reasoning was written to disk as though it were code, and a billing wall in an
+error envelope the adapter did not read. Read
+[adapters/README.md](adapters/README.md) before writing your own, and import
+`irinbench.extract` and `irinbench.transport` rather than reimplementing them.
+
 ## 3. Score it
 
 ```bash

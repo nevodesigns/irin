@@ -18,6 +18,12 @@ from pathlib import Path
 from typing import Any, Iterable
 
 
+#: Coverage below which a run is reported separately rather than compared.
+#: Matches `audit`'s thin-sample threshold: half is not a statistical line,
+#: it is the point past which the sample is mostly whatever survived.
+_THIN_COVERAGE = 0.5
+
+
 @dataclass(frozen=True)
 class StoredResult:
     """One result file, read for comparison rather than re-scored."""
@@ -46,8 +52,24 @@ class StoredResult:
         return self.assertions_passed / self.assertions if self.assertions else 0.0
 
     @property
+    def thin(self) -> bool:
+        """Is this too small a slice of the corpus to compare against?
+
+        `partial` says a run is incomplete. It does not say the number cannot be
+        used, and those are different warnings. A run over five of twenty-eight
+        tasks prints an honest "0 / 5, 0.0%" that sits in the table looking
+        exactly like a measurement, and the tasks that got through were not
+        sampled, they are whatever survived a rate limiter.
+        """
+        if not self.corpus_tasks:
+            return False
+        return self.specs / self.corpus_tasks < _THIN_COVERAGE
+
+    @property
     def label(self) -> str:
         name = self.agent or self.path.stem
+        if self.thin:
+            return f"{name} (TOO THIN)"
         return f"{name} (partial)" if self.partial else name
 
     @classmethod
@@ -129,13 +151,29 @@ def format_comparison(results: Iterable[StoredResult]) -> str:
         lines.append(
             f"  {'agent':<{width}}   {'specs':>11}  {'':<6}  {'assertions':>11}  {'':<6}  undet"
         )
-        for r in items:
+        comparable = [r for r in items if not r.thin]
+        thin = [r for r in items if r.thin]
+
+        for r in comparable:
             lines.append(
                 f"  {r.label:<{width}}   "
                 f"{r.specs_passing:>4} / {r.specs:<4}  {r.spec_rate * 100:5.1f}%  "
                 f"{r.assertions_passed:>4} / {r.assertions:<4}  {r.assertion_rate * 100:5.1f}%  "
                 f"{r.assertions_undetermined:>5}"
             )
+
+        if thin:
+            # Below the table and without percentages. A rate printed in a
+            # column of rates gets read as one, however it is labelled, and
+            # these cover too little of the corpus to be read that way.
+            lines.append("")
+            lines.append("  too thin to compare, listed so the attempt is on record:")
+            for r in thin:
+                covered = f"{r.specs} of {r.corpus_tasks} tasks"
+                lines.append(
+                    f"    {r.agent or r.path.stem}   {covered}, "
+                    f"{r.specs_passing} passing"
+                )
         lines.append("")
 
     if len(groups) > 1:

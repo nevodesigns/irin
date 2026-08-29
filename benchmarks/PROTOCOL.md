@@ -138,7 +138,7 @@ export IRIN_API_KEY_FILE=~/.groq-key
 export IRIN_API_MODEL=openai/gpt-oss-120b
 
 python -m irinbench submit --corpus benchmarks/tasks --out ./submission \
-    --command benchmarks/adapters/openai_compatible.py
+    --command "$PWD/benchmarks/adapters/openai_compatible.py"
 ```
 
 It ships because every adopter has to write this and it is where the bugs live.

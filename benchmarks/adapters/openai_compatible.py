@@ -33,6 +33,7 @@ all, so an outage is recorded as an outage rather than as a failure by the model
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import os
 import sys
@@ -41,10 +42,42 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packages" / "irinbench" / "src"))
+_IRINBENCH = (
+    Path(__file__).resolve().parents[2] / "packages" / "irinbench" / "src" / "irinbench"
+)
 
-from irinbench.extract import extract_source  # noqa: E402
-from irinbench.transport import NEVER_ASKED, error_message, was_never_asked  # noqa: E402
+
+def _load(module: str):
+    """Load one irinbench module without importing the package.
+
+    `import irinbench.extract` runs the package __init__, which pulls in the
+    corpus loader and through it irinspec, and neither is needed to decode a
+    chat reply. That chain is also why the adapter has to be careful about which
+    interpreter runs it: a bare `python3` on PATH may be any environment at all,
+    and this one only needs the standard library.
+
+    Loading the two leaf modules by path keeps the adapter runnable under any
+    Python 3 with nothing installed, which is what an adapter should be.
+    """
+    path = _IRINBENCH / f"{module}.py"
+    if not path.exists():
+        sys.exit(
+            f"cannot find {path}. Run this from an IRIN checkout, or copy "
+            f"irinbench/{module}.py next to this script."
+        )
+    spec = importlib.util.spec_from_file_location(f"_irin_{module}", path)
+    loaded = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(loaded)
+    return loaded
+
+
+_extract = _load("extract")
+_transport = _load("transport")
+
+extract_source = _extract.extract_source
+error_message = _transport.error_message
+was_never_asked = _transport.was_never_asked
+NEVER_ASKED = _transport.NEVER_ASKED
 
 #: Some providers reject the default urllib agent string at the edge.
 USER_AGENT = "irinbench/1.0 (+https://github.com/nevodesigns/irin)"

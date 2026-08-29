@@ -111,8 +111,20 @@ None has a CAD skill installed, so these measure what a model knows about
 build123d unaided. None is flattering, and that is the point of having a scale
 that starts at the bottom.
 
-A seventh run is not in the table. qwen3.6-27b got five of twenty-eight tasks
-past the same token cap, scored 0 of 5, and that is not a measurement of
+The Gemini row is partial and will stay that way. Its seven missing tasks were
+lost to a quota, and by the time the quota reset the model had been withdrawn:
+`gemini-2.5-flash` is no longer served to new API keys. The run cannot be
+finished, by anyone, ever.
+
+That is worth stating as a general fact about this kind of benchmark rather than
+as a footnote about one row. A result is a measurement of a model at a moment,
+and the model is the part that expires. An unfinished run is not a task you can
+come back to at your convenience: the window in which it can be completed is
+the vendor's to close, and they close it without notice. Finish a run in one
+sitting where the quota allows it.
+
+A further run is not in the table at all. qwen3.6-27b got five of twenty-eight
+tasks past the same token cap, scored 0 of 5, and that is not a measurement of
 anything. The result file is kept and `audit` flags it as a thin sample, because
 the honest thing is to record that the run happened rather than to quote a
 percentage over a fifth of the corpus, chosen by a rate limiter rather than by

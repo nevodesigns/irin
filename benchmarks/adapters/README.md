@@ -14,7 +14,7 @@ export IRIN_API_KEY_FILE=~/.groq-key
 export IRIN_API_MODEL=openai/gpt-oss-120b
 
 python -m irinbench submit --corpus benchmarks/tasks --out ./submission \
-    --command benchmarks/adapters/openai_compatible.py
+    --command "$PWD/benchmarks/adapters/openai_compatible.py"
 ```
 
 Groq, OpenRouter, Cerebras, Together and most other providers speak the same
@@ -32,8 +32,19 @@ change between them.
 | `IRIN_API_TIMEOUT` | seconds to wait for a reply, default 240 |
 | `IRIN_REASONING_EFFORT` | passed through to models that accept it |
 
-Standard library only. Reading the key from a file is preferred because an
-environment variable is visible to anything that can list processes.
+Standard library only, and it must stay that way. `submit` runs the command
+through a shell, so the interpreter is whatever `/usr/bin/env python3` finds on
+your PATH, which is very often not the environment IRIN is installed into. The
+adapter loads `extract` and `transport` by file path for the same reason:
+importing the `irinbench` package would pull in the corpus loader and through it
+`irinspec`, and neither is needed to decode a chat reply.
+
+**Give `--command` an absolute path.** The command runs with its working
+directory set to the submission folder, so a relative path resolves against that
+and the shell cannot find it.
+
+Reading the key from a file is preferred because an environment variable is
+visible to anything that can list processes.
 
 ## Why this is not a trivial script
 

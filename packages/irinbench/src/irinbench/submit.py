@@ -71,6 +71,48 @@ class Submission:
         return not self.ok and not self.unreachable
 
 
+
+#: The shell's exit code for a command it could not find or execute.
+_NOT_EXECUTABLE = 127
+
+
+def _command_failure(code: int, stderr: str) -> str:
+    """Explain a command that failed, rather than calling it an empty answer.
+
+    The command runs with its working directory set to the submission folder, so
+    a relative --command path resolves against that rather than against wherever
+    the operator typed it. The shell then exits 127, nothing arrives on stdout,
+    and the run recorded "agent produced no output" for all twenty-eight tasks
+    in 0.0 seconds each.
+
+    That reads as a model that answered nothing, which is a real and expected
+    outcome, so the run looks like a bad model rather than a command that never
+    started. Discarding stderr was what made it hard to see: the shell had said
+    exactly what was wrong every single time.
+    """
+    if code in (0, UNREACHABLE_EXIT):
+        # 0 is an agent that ran and chose to answer with nothing, which is its
+        # result. UNREACHABLE_EXIT is the agent reporting it never reached the
+        # model, which submit lists under NEVER ASKED. Neither is a command
+        # that failed, and calling either one an error here would report the
+        # same fact twice under two different names.
+        return ""
+
+    detail = (stderr or "").strip().splitlines()
+    tail = detail[-1][:200] if detail else ""
+
+    if code == _NOT_EXECUTABLE:
+        return (
+            "the command could not be run"
+            + (f": {tail}" if tail else "")
+            + ". It runs with the working directory set to the submission "
+            "folder, so give --command an absolute path"
+        )
+    if tail:
+        return f"agent exited {code}: {tail}"
+    return f"agent exited {code}"
+
+
 def strip_fences(text: str) -> str:
     """Remove a single wrapping markdown fence, if the whole reply is one."""
     match = _FENCE.match(text)
@@ -118,7 +160,8 @@ def submit_corpus(
                 timeout=timeout_s,
                 cwd=str(directory),
             )
-            stdout, code, error = completed.stdout, completed.returncode, ""
+            stdout, code = completed.stdout, completed.returncode
+            error = _command_failure(code, completed.stderr)
         except subprocess.TimeoutExpired:
             stdout, code, error = "", 124, f"agent exceeded {timeout_s:g}s"
         except OSError as exc:

@@ -16,6 +16,7 @@ from pathlib import Path
 from irineval import WorkerRunner, default_inspect_launcher
 
 from irinbench.corpus import KIND_TASK, Corpus, CorpusError, discover_generators
+from irinbench.extract import extract_source
 from irinbench.derive import DEFAULT_TOLERANCE_MM, derive_corpus
 from irinbench.compare import format_comparison, load_results
 from irinbench.report import format_report, format_taxonomy
@@ -338,6 +339,24 @@ def cmd_prompts(args: argparse.Namespace) -> int:
     out.append("-" * width)
     print("\n".join(out))
     return 0
+
+
+def cmd_extract(args: argparse.Namespace) -> int:
+    """Decode one chat reply on stdin into source on stdout.
+
+    Exists as a command so an adapter can pipe through it rather than
+    reimplement it. Every adopter has to decode a reply into a file, and this
+    repository got that wrong three times against real models, each time
+    publishing a number that was too low without looking wrong.
+    """
+    source = extract_source(sys.stdin.read())
+    sys.stdout.write(source)
+    if source and not source.endswith("\n"):
+        sys.stdout.write("\n")
+    # Silence is a real answer, and the caller has to be able to tell. A model
+    # that spent its budget thinking and wrote nothing has not answered, which
+    # is a different fact from the request never having been made.
+    return 0 if source else 1
 
 
 def cmd_report(args: argparse.Namespace) -> int:
@@ -705,6 +724,19 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     report.set_defaults(handler=cmd_report)
+
+    extract = subparsers.add_parser(
+        "extract",
+        help="Decode a chat reply on stdin into CAD source on stdout.",
+        description=(
+            "Reads one model reply on stdin and writes the source it contains to "
+            "stdout. Handles markdown fences, including unbalanced ones left by a "
+            "truncated reply, and reasoning emitted before the answer. Exits 1 "
+            "when the reply contains no source, which is a real result and not an "
+            "error: pipe an adapter through this rather than writing it again."
+        ),
+    )
+    extract.set_defaults(handler=cmd_extract)
 
     return parser
 

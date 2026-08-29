@@ -37,6 +37,41 @@ Nothing there judges the output. An agent that returns prose or nothing produces
 exactly that, and the run scores it. Cleaning up a bad submission before
 measuring it would be measuring the cleanup.
 
+### Decoding the reply is the adapter's job, and it is where the bugs are
+
+A chat model does not return a file. It returns a reply, and the source is
+somewhere inside it. Getting that wrong is the single most likely way to publish
+a number that is too low, and it does not look like a bug from the outside: it
+looks like a model that cannot write build123d.
+
+```bash
+your-agent | python -m irinbench extract
+```
+
+This repository got that step wrong three times against real models, and each
+one cost a published figure:
+
+- A reply cut off at the token cap kept its opening fence and lost its closing
+  one. The stray ` ``` ` went into the file and made valid source a syntax error.
+- Another arrived with a closing fence and no opening one, with the same result.
+- One model wrote fifty-four lines of reasoning and then a correct generator.
+  The whole reply was written out, and the task scored zero.
+
+The rule that resolves all three: **framing is yours, content is the model's.**
+A markdown fence, a prompt your local runner echoed back, reasoning emitted
+before the answer, none of those are the model's attempt at the requirement.
+Writing them into the artifact scores your transport instead of its engineering.
+
+The line is drawn at whether source is present, never at whether it is any good.
+`extract` never repairs, completes or tidies code, and a reply holding no source
+stays a failure: it exits 1 and writes nothing. A model that spent its whole
+budget thinking and never wrote code has not answered, and must score as not
+having answered.
+
+Give reasoning models a real token budget. A truncated part is indistinguishable
+from an incompetent one in the result file, and the difference is yours to
+remove, not the model's.
+
 The steps below are the same thing done by hand, and are worth reading either
 way.
 

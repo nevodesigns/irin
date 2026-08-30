@@ -100,6 +100,7 @@ python -m irinbench compare
 | agent | specs | assertions |
 | --- | --- | --- |
 | gemini-3.6-flash, no CAD skill (PARTIAL, 19 of 28) | 8 / 19 (42.1%) | 57 / 105 (54.3%) |
+| gemini-3.6-flash, CAD skill refs in context (PARTIAL, same 19) | 7 / 19 (36.8%) | 56 / 105 (53.3%) |
 | gemini-2.5-flash, no CAD skill (PARTIAL, 21 of 28) | 8 / 21 (38.1%) | 66 / 115 (57.4%) |
 | nvidia/nemotron-3-super-120b-a12b via OpenRouter, no CAD skill | 7 / 28 (25.0%) | 61 / 149 (40.9%) |
 | nvidia/nemotron-3-ultra-550b-a55b via OpenRouter (PARTIAL, 22 of 28) | 4 / 22 (18.2%) | 37 / 116 (31.9%) |
@@ -184,6 +185,43 @@ clevis bracket and the L bracket at length, runs out of budget, and stops. Those
 score as defects, and they are its own result rather than an adapter fault: the
 decode step recovers reasoning-then-code everywhere the code exists, and in
 these two replies it does not exist.
+
+### Putting the skill's documentation in front of a model changed nothing
+
+The first controlled pair on this corpus: one model, one set of nineteen tasks,
+one adapter, and the only difference is roughly 13,000 tokens of the CAD skill's
+reference documentation ahead of each prompt. This is not an agent with the
+skill installed, which could run `inspect` and fix what it built. It is one shot
+with the manual open, which measures what the written guidance is worth alone.
+
+It is worth nothing here, and slightly less than nothing: 7 of 19 against 8.
+
+The net is not the interesting part, because it is smaller than the churn. Two
+tasks were gained, three were lost, five kept. A single pair of runs against a
+model sampling at its default temperature cannot separate a small effect from
+run-to-run variance, and this corpus at 19 tasks does not have the resolution to
+try. Repeat runs at one setting would be needed to say anything about an effect
+this size, and none have been done.
+
+What is diagnosable is why it could not have helped. This model's largest single
+failure, by some margin, is `Locations doesn't accept type PolarLocations`. The
+three references sent name `Cylinder` four times and `Locations` not once. The
+documentation does not cover the API the model actually gets wrong.
+
+So the honest reading is narrow. Reference text did not close the gap for this
+model, because the text and the gap are about different things. It says nothing
+about what an installed skill does, and nothing yet about whether documentation
+that addressed the real failure would help.
+
+**The benchmark found a hole in the product.** `PolarLocations` is how bolt
+circles are placed, several tasks in this corpus need them, and the modelling
+reference is silent. That gap was invisible until something was scored against
+it, which is the whole argument for having a corpus authored from intent.
+
+Filling it is deliberately not done here. Editing the reference material to move
+a number this repository publishes is the conflict of interest
+[PROTOCOL.md](PROTOCOL.md) warns about, and doing it in the same change that
+reports the finding would make the finding unreadable.
 
 ### Every number here was wrong before it was right
 

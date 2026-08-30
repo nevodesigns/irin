@@ -94,6 +94,44 @@ Requirement:
 """
 
 
+def _skill_context() -> str:
+    """Load reference documents named by IRIN_SKILL_FILES, if any.
+
+    This puts a skill's written guidance in front of the model. It is worth
+    being exact about what that measures, because it is not the same thing as
+    an agent with the skill installed.
+
+    An installed skill can run the inspect CLI, look at what it built, and fix
+    it. This is one shot with the documentation in context and no feedback of
+    any kind. It therefore measures what the *written* guidance is worth on its
+    own, which is the smaller half of what a skill does, and a result from it
+    must be labelled that way rather than as "with the CAD skill".
+
+    Files are separated by os.pathsep, so the same setting works on Windows.
+    """
+    raw = os.environ.get("IRIN_SKILL_FILES", "").strip()
+    if not raw:
+        return ""
+
+    parts = []
+    for entry in raw.split(os.pathsep):
+        entry = entry.strip()
+        if not entry:
+            continue
+        path = Path(entry).expanduser()
+        if not path.exists():
+            sys.exit(f"IRIN_SKILL_FILES names a file that is not there: {path}")
+        parts.append(f"--- {path.name} ---\n{path.read_text(encoding='utf-8')}")
+
+    if not parts:
+        return ""
+    return (
+        "Reference documentation for the library you are about to use.\n"
+        "It is authoritative: where it disagrees with your recollection of the\n"
+        "API, it is right.\n\n" + "\n\n".join(parts) + "\n\n"
+    )
+
+
 def _require(name: str) -> str:
     value = os.environ.get(name, "").strip()
     if not value:
@@ -152,7 +190,9 @@ def main() -> int:
     body: dict = {
         "model": model,
         "max_tokens": int(os.environ.get("IRIN_API_MAX_TOKENS", "4000")),
-        "messages": [{"role": "user", "content": INSTRUCTION + prompt}],
+        "messages": [
+            {"role": "user", "content": _skill_context() + INSTRUCTION + prompt}
+        ],
     }
     # Reasoning models spend the budget thinking and return empty content when
     # the effort is high and the cap is modest. Ignored by models without it.

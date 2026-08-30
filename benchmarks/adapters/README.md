@@ -46,6 +46,32 @@ and the shell cannot find it.
 Reading the key from a file is preferred because an environment variable is
 visible to anything that can list processes.
 
+## Measuring a model with reference documentation in front of it
+
+`IRIN_SKILL_FILES` names files, separated by the platform path separator, whose
+contents are put in front of the task prompt:
+
+```bash
+export IRIN_SKILL_FILES="$PWD/skills/cad/SKILL.md:$PWD/skills/cad/references/build123d-modeling.md"
+```
+
+**This is not the same as an agent with the skill installed, and a result from
+it must not be labelled as though it were.** An installed skill can run the
+inspect CLI, look at what it built, and fix it. This is one shot with the
+documentation in context and no feedback of any kind, so it measures what the
+*written* guidance is worth on its own. That is the smaller half of what a skill
+does, and the honest label says so: "skill references in context, single shot".
+
+The number it produces is still worth having, because it isolates one variable.
+Every unaided result on this corpus fails on the same thing, knowing a library's
+actual signatures, and reference text is the cheapest possible fix for that. If
+putting the documentation in front of the model does not move the number, the
+gap is not what it appears to be.
+
+Mind the token cost. The three CAD references come to roughly 13,000 tokens per
+request, which is over the per-minute allowance of some free tiers regardless of
+how slowly you pace the run. Groq's 8,000 TPM refuses it outright.
+
 ## Why this is not a trivial script
 
 Three versions of this file in this repository each published a number that was

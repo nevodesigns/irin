@@ -169,5 +169,55 @@ class DeclaredReasoningTests(unittest.TestCase):
         self.assertEqual(extract_source(CODE), CODE)
 
 
+class TrailingProseTests(unittest.TestCase):
+    """Commentary a model appended after it had finished the code.
+
+    Real: nemotron-3-ultra, l-bracket, 13,514 bytes. The first fifty lines were
+    a complete generator; the rest was the model talking to itself about the
+    generator it had just written. No fence to cut on, and the prose sits after
+    the code, so neither the fence rules nor the leading-prose rule touch it.
+    """
+
+    def test_prose_after_the_code_is_dropped(self):
+        reply = f"{CODE}\n\nOne issue: the gussets we created as extruded\ntriangles may not fuse."
+        self.assertEqual(extract_source(reply), CODE)
+
+    def test_a_genuine_syntax_error_is_not_repaired_by_truncation(self):
+        # The dangerous version of this rule. Truncating any unparseable reply
+        # at its longest valid prefix turns a model's own broken code into a
+        # shorter working file, and scores the truncation instead of the model.
+        broken = (
+            "from build123d import Box\n"
+            "\n"
+            "def gen_step():\n"
+            "    return Box(40, 25, 8)\n"
+            "\n"
+            "def helper(:\n"
+            "    pass\n"
+        )
+        self.assertEqual(extract_source(broken), broken.strip())
+
+    def test_code_after_prose_after_code_is_kept_whole(self):
+        # If what follows the parsing prefix is source, it is the model's
+        # answer, however broken. Dropping it would discard real work.
+        reply = (
+            f"{CODE}\n"
+            "\n"
+            "Actually, let me redo that.\n"
+            "\n"
+            "from build123d import Cylinder\n"
+            "def gen_step():\n"
+            "    return Cylinder(\n"
+        )
+        self.assertIn("Cylinder", extract_source(reply))
+
+    def test_a_reply_that_already_parses_is_untouched(self):
+        self.assertEqual(extract_source(CODE), CODE)
+
+    def test_prose_with_no_generator_is_left_alone(self):
+        prose = "I considered a few approaches and none of them worked out."
+        self.assertEqual(extract_source(prose), prose)
+
+
 if __name__ == "__main__":
     unittest.main()

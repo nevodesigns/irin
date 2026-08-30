@@ -23,6 +23,7 @@ tidies code, because that would measure the repair.
 
 from __future__ import annotations
 
+import ast
 import re
 
 __all__ = ["extract_source"]
@@ -75,7 +76,7 @@ def extract_source(raw: str) -> str:
         # nothing, so a genuinely odd reply is still scored on its content.
         return after if len(after) > len(before) else before
 
-    return _strip_leading_prose(text)
+    return _drop_trailing_prose(_strip_leading_prose(text))
 
 
 def _drop_declared_reasoning(text: str) -> str:
@@ -99,6 +100,79 @@ def _drop_declared_reasoning(text: str) -> str:
         return text[closes[-1].end() :].strip()
     if _THINK_OPEN.search(text):
         return ""
+    return text
+
+
+
+def _parses(text: str) -> bool:
+    try:
+        ast.parse(text)
+    except (SyntaxError, ValueError):
+        return False
+    return True
+
+
+
+#: A line that opens a block of Python. Matched against the first non-empty line
+#: of what would be discarded, never against the body: deliberation about code
+#: quotes code, so "the gussets at x=0 and x=80" contains an assignment and a
+#: call and is still a sentence. Where a passage *starts* separates the two
+#: reliably, because prose starts with words and code starts with statements.
+_CODE_OPENER = re.compile(
+    r"^[ \t]*(?:def |class |import |from |@\w|return\b|with |for |while |if |try:|"
+    r"[A-Za-z_][\w.\[\]]*\s*=[^=]|[A-Za-z_][\w.]*\()"
+)
+
+
+def _opens_like_code(text: str) -> bool:
+    """Does this passage begin as code rather than as a sentence?"""
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        return bool(_CODE_OPENER.match(line))
+    return False
+
+
+def _drop_trailing_prose(text: str) -> str:
+    """Drop commentary a model appended after it had finished the code.
+
+    A model wrote a complete generator, then kept going: "One issue: the gussets
+    we created as extruded triangles...". Thirteen kilobytes, of which the first
+    fifty lines were the answer and the rest was the model talking to itself
+    about the answer. There is no fence to cut on and the prose sits *after* the
+    code, so neither the fence rules nor the leading-prose rule touch it.
+
+    The cut has to be conservative, because the obvious version of it repairs
+    code. Truncating any unparseable reply at its longest valid prefix would
+    turn a model's genuine syntax error into a shorter, working file and score
+    the truncation rather than the model. So two conditions both have to hold:
+    the prefix must parse and still define gen_step, and what is being removed
+    must not look like source. Prose is framing. Code, however broken, is the
+    model's answer and stays.
+    """
+    if _parses(text) or "def gen_step" not in text:
+        return text
+
+    lines = text.splitlines()
+    for cut in range(len(lines) - 1, 0, -1):
+        prefix = "\n".join(lines[:cut])
+        if "def gen_step" not in prefix:
+            # Cut back past the answer itself. Nothing here to recover.
+            return text
+        if not _parses(prefix):
+            continue
+        # The longest parsing prefix. Whatever follows it decides: prose is
+        # framing to drop, source is the model's own broken code to keep.
+        tail = "\n".join(lines[cut:])
+        if "def gen_step" in tail:
+            # A second attempt at the answer, not commentary about the first.
+            # Returning the earlier one because the later one does not compile
+            # would hand back work the model itself superseded, which is the
+            # same repair this rule exists to avoid.
+            return text
+        if _opens_like_code(tail):
+            return text
+        return prefix.rstrip()
     return text
 
 

@@ -89,6 +89,61 @@ Typical flow:
 curves/paths → sketches/profiles → solids/features → labels → STEP
 ```
 
+## Location contexts place features; `Locations` does not wrap them
+
+`PolarLocations` and `GridLocations` are context managers in their own right.
+Enter one directly. They are not arguments to `Locations`:
+
+```python
+# Wrong. Raises: Locations doesn't accept type <class '...PolarLocations'>
+with Locations(PolarLocations(30, 6)):
+    Cylinder(radius=3, height=20, mode=Mode.SUBTRACT)
+
+# Right. Six holes on a 60 mm bolt circle.
+with PolarLocations(30, 6):
+    Cylinder(radius=3, height=20, mode=Mode.SUBTRACT)
+```
+
+`Locations(*pts)` takes explicit places: points, `Vertex`, `Location`, `Face`,
+`Plane`, `Axis`. It is for positions you name yourself, and it is the right tool
+only when there is no pattern to describe:
+
+```python
+with Locations((20, 0), (-20, 0)):
+    Cylinder(radius=3, height=20, mode=Mode.SUBTRACT)
+```
+
+The signatures, which is where the mistakes come from:
+
+| context | signature |
+| --- | --- |
+| `PolarLocations` | `(radius, count, start_angle=0.0, angular_range=360.0, rotate=True, endpoint=False)` |
+| `GridLocations` | `(x_spacing, y_spacing, x_count, y_count)` |
+| `Locations` | `(*pts)` |
+
+`PolarLocations` takes a **radius**, not a diameter. A drawing calls it a
+60 mm bolt circle or PCD; the code takes 30. Getting this wrong produces a part
+that is valid, plausible and twice the size it should be, which no soundness
+check will catch.
+
+`endpoint=False` is the default and is what you want for a full circle: six
+holes over 360 degrees are placed at 0, 60, 120, 180, 240, 300, with nothing
+duplicated at 360. Set `endpoint=True` only for a partial arc that must include
+both ends.
+
+Nesting composes rather than replaces. Each inner location is placed relative to
+every outer one, so this cuts eight holes, two at each of four positions:
+
+```python
+with PolarLocations(40, 4):
+    with Locations((5, 0), (-5, 0)):
+        Cylinder(radius=2, height=20, mode=Mode.SUBTRACT)
+```
+
+Cut a pattern in one operation inside the location context rather than looping
+and cutting repeatedly. That is the same rule as the overshoot guidance above:
+repeated boolean operations against the same target are slower and fail more.
+
 ## Selection practices
 
 Avoid fragile topology order when possible. Select by:
